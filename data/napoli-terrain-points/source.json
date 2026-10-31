@@ -1,0 +1,73 @@
+{
+  "provider": "Regione Campania — Sistema Informativo Territoriale",
+  "dataset": "CTR2020_v2 — Punti, layer 2; ground/road elevation classes only",
+  "source_year": 2020,
+  "publication_reference": "Decreto Dirigenziale n. 18 del 23.07.2025",
+  "retrieved_at": "2026-10-31T22:23:59.403Z",
+  "license": "CC-BY-4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "license_declaration": "https://sit.regione.campania.it/carta-tecnica-regionale",
+  "publication_url": "https://www.territorio.regione.campania.it/news-blog/cartografie-digitali-della-regione-campania",
+  "attribution": "Regione Campania — Dati pubblicati dal Servizio SIT, cartografia 2020",
+  "layer_url": "https://geomaps.regione.campania.it/federated/rest/services/DG5009/CTR2020_v2/MapServer/2",
+  "metadata_url": "https://geomaps.regione.campania.it/federated/rest/services/DG5009/CTR2020_v2/MapServer/2?f=pjson",
+  "query_url": "https://geomaps.regione.campania.it/federated/rest/services/DG5009/CTR2020_v2/MapServer/2/query?f=pjson&where=TIPO+IN+%28%2716110000%27%2C%2716110300%27%29&geometry=%7B%22xmin%22%3A14.241%2C%22ymin%22%3A40.826%2C%22xmax%22%3A14.266%2C%22ymax%22%3A40.842%2C%22spatialReference%22%3A%7B%22wkid%22%3A4326%7D%7D&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&outFields=OBJECTID%2CTIPO%2CDescr&outSR=4326&returnGeometry=true&returnZ=true&returnM=false&orderByFields=OBJECTID+ASC&resultOffset=0&resultRecordCount=250",
+  "query_parameters": {
+    "f": "pjson",
+    "where": "TIPO IN ('16110000','16110300')",
+    "geometry": "{\"xmin\":14.241,\"ymin\":40.826,\"xmax\":14.266,\"ymax\":40.842,\"spatialReference\":{\"wkid\":4326}}",
+    "geometryType": "esriGeometryEnvelope",
+    "inSR": "4326",
+    "spatialRel": "esriSpatialRelIntersects",
+    "outFields": "OBJECTID,TIPO,Descr",
+    "outSR": "4326",
+    "returnGeometry": "true",
+    "returnZ": "true",
+    "returnM": "false",
+    "orderByFields": "OBJECTID ASC",
+    "resultOffset": "0",
+    "resultRecordCount": "250"
+  },
+  "bbox_wgs84": {
+    "west": 14.241,
+    "south": 40.826,
+    "east": 14.266,
+    "north": 40.842
+  },
+  "class_labels": {
+    "16110000": "Quota Al Suolo",
+    "16110300": "Punto Quota Su Viabilità"
+  },
+  "maximum_rows": 250,
+  "feature_count": 68,
+  "rawCount": 69,
+  "selectedCount": 68,
+  "excludedOutOfBounds": 1,
+  "postProcessing": "strict geographic bbox filtering",
+  "raw_response_file": "points.raw.json",
+  "selected_response_file": "points.selected.json",
+  "truncated": false,
+  "pagination_performed": false,
+  "requests_performed": 2,
+  "horizontal_crs": {
+    "query_result": "EPSG:4326",
+    "original_layer": {
+      "wkid": 102100,
+      "latestWkid": 3857,
+      "xyTolerance": 0.001,
+      "zTolerance": 0.001,
+      "mTolerance": 0.001,
+      "falseX": -20037700,
+      "falseY": -30241100,
+      "xyUnits": 148923141.92838538,
+      "falseZ": -100000,
+      "zUnits": 10000,
+      "falseM": -100000,
+      "mUnits": 10000
+    }
+  },
+  "vertical_reference": null,
+  "vertical_units": null,
+  "vertical_warning": "Finite Z values are preserved as returned. Vertical datum and units are not verified. No vertical transformation or gameplay-terrain activation is performed.",
+  "status": "Research elevation points only. This is not a raster DTM, a complete terrain, or a photorealistic city model."
+}

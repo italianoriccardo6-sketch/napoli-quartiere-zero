@@ -1,0 +1,863 @@
+{
+ "displayFieldName": "TIPO",
+ "hasZ": true,
+ "fieldAliases": {
+  "OBJECTID": "OBJECTID",
+  "TIPO": "TIPO",
+  "Descr": "Descr"
+ },
+ "geometryType": "esriGeometryPoint",
+ "spatialReference": {
+  "wkid": 4326,
+  "latestWkid": 4326
+ },
+ "fields": [
+  {
+   "name": "OBJECTID",
+   "type": "esriFieldTypeOID",
+   "alias": "OBJECTID"
+  },
+  {
+   "name": "TIPO",
+   "type": "esriFieldTypeString",
+   "alias": "TIPO",
+   "length": 20
+  },
+  {
+   "name": "Descr",
+   "type": "esriFieldTypeString",
+   "alias": "Descr",
+   "length": 200
+  }
+ ],
+ "features": [
+  {
+   "attributes": {
+    "OBJECTID": 3048597,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.250559133245154,
+    "y": 40.841264041280475,
+    "z": 17.570000000006985
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048598,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.250375425093447,
+    "y": 40.839077685780509,
+    "z": 17.190000000002328
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048600,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.250723599314036,
+    "y": 40.834313793072816,
+    "z": 16.610000000000582
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048601,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.250780808839519,
+    "y": 40.84054021691199,
+    "z": 15.919999999998254
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048603,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.251809810607563,
+    "y": 40.839928470320402,
+    "z": 12.220000000001164
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048605,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.251805203867836,
+    "y": 40.83329664053548,
+    "z": 10.839999999996508
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048606,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.252066570283755,
+    "y": 40.837585524489242,
+    "z": 10.529999999998836
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048608,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.249673225972069,
+    "y": 40.833201817313885,
+    "z": 9.3500000000058208
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048609,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.250543948242459,
+    "y": 40.833016139117191,
+    "z": 8.8300000000017462
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048610,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.253465143588766,
+    "y": 40.839742361483722,
+    "z": 8.1799999999930151
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048613,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.263624296848361,
+    "y": 40.834094873438978,
+    "z": 3.1300000000046566
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048617,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.263798405064584,
+    "y": 40.84203931614352,
+    "z": 2.1399999999994179
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048628,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.254686882033356,
+    "y": 40.839264971008049,
+    "z": 6.1100000000005821
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048629,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.249525183642497,
+    "y": 40.831059380218846,
+    "z": 5.8699999999953434
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048630,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.250093162454483,
+    "y": 40.832121199117452,
+    "z": 5.8399999999965075
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048631,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.251126536351656,
+    "y": 40.831834959005739,
+    "z": 5.7299999999959255
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048632,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.254162157591399,
+    "y": 40.84104767970635,
+    "z": 5.4400000000023283
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048634,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.249933953022621,
+    "y": 40.82985311255068,
+    "z": 5.3699999999953434
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048637,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.255542777624685,
+    "y": 40.839985222375667,
+    "z": 3.9499999999970896
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048638,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.253630012059689,
+    "y": 40.837739144912426,
+    "z": 4.0299999999988358
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048639,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.25562261735308,
+    "y": 40.841157907649603,
+    "z": 3.5500000000029104
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048641,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.257693608612339,
+    "y": 40.841087564816782,
+    "z": 3.5
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048642,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.255659032331053,
+    "y": 40.84184503128683,
+    "z": 3.2599999999947613
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048643,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.256685524988033,
+    "y": 40.841423842336674,
+    "z": 3.2599999999947613
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048644,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.255010094681579,
+    "y": 40.833834282916484,
+    "z": 3.2599999999947613
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048646,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.251624903670248,
+    "y": 40.835183358479625,
+    "z": 3.2599999999947613
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048647,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.253637089784922,
+    "y": 40.836941048081059,
+    "z": 2.8800000000046566
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048648,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.254967593712122,
+    "y": 40.838202624357898,
+    "z": 2.8800000000046566
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048649,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.25683058008098,
+    "y": 40.838967831812631,
+    "z": 2.8800000000046566
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048652,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.260742082451141,
+    "y": 40.841221808465527,
+    "z": 2.6699999999982538
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048655,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.261479595565536,
+    "y": 40.837932077472921,
+    "z": 1.9700000000011642
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048658,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.252170269497356,
+    "y": 40.834065891603686,
+    "z": 1.6600000000034925
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048659,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.249763482682306,
+    "y": 40.826616278819081,
+    "z": 1.6199999999953434
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048662,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.249363065758972,
+    "y": 40.83446358604715,
+    "z": 29.649999999994179
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3048665,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.25155968040851,
+    "y": 40.837754486220682,
+    "z": 11.5
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049607,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.24302113126882,
+    "y": 40.836299141421385,
+    "z": 39.039999999993597
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049610,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248504317663976,
+    "y": 40.833775970309645,
+    "z": 30.009999999994761
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049612,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248726973571861,
+    "y": 40.841495629190767,
+    "z": 25.595000000001164
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049613,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.247427390683683,
+    "y": 40.841821459014206,
+    "z": 33.330000000001746
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049619,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.247499163939869,
+    "y": 40.836350049733483,
+    "z": 24
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049620,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248402630441914,
+    "y": 40.839226819979437,
+    "z": 23.259999999994761
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049622,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248547444908457,
+    "y": 40.835781967975308,
+    "z": 20.479999999995925
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049623,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.243813356994453,
+    "y": 40.833462282543969,
+    "z": 20.259999999994761
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049624,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248759745510974,
+    "y": 40.837291443837088,
+    "z": 19.839999999996508
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049626,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241713656956962,
+    "y": 40.835557632753776,
+    "z": 16.630000000004657
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049629,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241905560148616,
+    "y": 40.834457529245313,
+    "z": 10.020000000004075
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049630,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.245189542329852,
+    "y": 40.830510508363162,
+    "z": 9
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049633,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248917576710515,
+    "y": 40.832385244346156,
+    "z": 6.6600000000034925
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049634,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248599229462206,
+    "y": 40.830456006544395,
+    "z": 6.3200000000069849
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049635,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.243730597761795,
+    "y": 40.832072827116164,
+    "z": 5.7599999999947613
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049636,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.243703488987306,
+    "y": 40.831254237397161,
+    "z": 5.3899999999994179
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049638,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241229894698989,
+    "y": 40.831565719715471,
+    "z": 5.0399999999935972
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049639,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.245085853453512,
+    "y": 40.829948787359555,
+    "z": 5.0700000000069849
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049640,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.247301992685451,
+    "y": 40.829881372604845,
+    "z": 4.8099999999976717
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049641,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241658310785416,
+    "y": 40.832446854370296,
+    "z": 5.0399999999935972
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049642,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.247780807029599,
+    "y": 40.829877288929914,
+    "z": 4.8399999999965075
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049645,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.247796575649554,
+    "y": 40.82905915949064,
+    "z": 2.2799999999988358
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049646,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248374522346936,
+    "y": 40.828363694872557,
+    "z": 1.6900000000023283
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049647,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.248794131517247,
+    "y": 40.829485360459287,
+    "z": 0.77999999999883585
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049655,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241843138538352,
+    "y": 40.839600191578882,
+    "z": 82.5
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049657,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241951855055069,
+    "y": 40.837932816035014,
+    "z": 63.279999999998836
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049658,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241412579035709,
+    "y": 40.84163289303379,
+    "z": 158.91000000000349
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049659,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.242084467233543,
+    "y": 40.837153561845497,
+    "z": 56.600000000005821
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049662,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.242491159017042,
+    "y": 40.841674392668359,
+    "z": 150.7899999999936
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049663,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.242267097550096,
+    "y": 40.838671772337939,
+    "z": 70.139999999999418
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049664,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.241459029271432,
+    "y": 40.8411699880009,
+    "z": 139.58000000000175
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049665,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.243396423976582,
+    "y": 40.840188988459026,
+    "z": 81.470000000001164
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049666,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.245692556069926,
+    "y": 40.831217984202929,
+    "z": 30.009999999994761
+   }
+  },
+  {
+   "attributes": {
+    "OBJECTID": 3049726,
+    "TIPO": "16110000",
+    "Descr": "quota al suolo"
+   },
+   "geometry": {
+    "x": 14.243172799216362,
+    "y": 40.835771254517716,
+    "z": 21.5
+   }
+  }
+ ]
+}

@@ -1,0 +1,72 @@
+{
+  "status": "validated_research_points_only",
+  "usable_as_terrain": false,
+  "maximum_rows": 250,
+  "bbox_wgs84": {
+    "west": 14.241,
+    "south": 40.826,
+    "east": 14.266,
+    "north": 40.842
+  },
+  "returned_horizontal_crs": {
+    "wkid": 4326,
+    "latestWkid": 4326
+  },
+  "returned_finite_xy_extent": {
+    "xmin": 14.24122989469899,
+    "xmax": 14.263798405064584,
+    "ymin": 40.82661627881908,
+    "ymax": 40.84203931614352
+  },
+  "first_three_points": [
+    {
+      "geometry": {
+        "x": 14.250559133245154,
+        "y": 40.841264041280475,
+        "z": 17.570000000006985
+      },
+      "attributes": {
+        "OBJECTID": 3048597,
+        "TIPO": "16110000",
+        "Descr": "quota al suolo"
+      }
+    },
+    {
+      "geometry": {
+        "x": 14.250375425093447,
+        "y": 40.83907768578051,
+        "z": 17.19000000000233
+      },
+      "attributes": {
+        "OBJECTID": 3048598,
+        "TIPO": "16110000",
+        "Descr": "quota al suolo"
+      }
+    },
+    {
+      "geometry": {
+        "x": 14.250723599314036,
+        "y": 40.834313793072816,
+        "z": 16.610000000000582
+      },
+      "attributes": {
+        "OBJECTID": 3048600,
+        "TIPO": "16110000",
+        "Descr": "quota al suolo"
+      }
+    }
+  ],
+  "feature_count": 69,
+  "rawCount": 69,
+  "selectedCount": 68,
+  "excludedOutOfBounds": 1,
+  "postProcessing": "strict geographic bbox filtering",
+  "selected_finite_xy_extent": {
+    "xmin": 14.24122989469899,
+    "xmax": 14.263624296848361,
+    "ymin": 40.82661627881908,
+    "ymax": 40.84184503128683
+  },
+  "vertical_reference_verified": false,
+  "vertical_units_verified": false
+}
