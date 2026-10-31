@@ -1,10 +1,1 @@
-[out:json][timeout:25];
-(
-  way[building](40.8264,14.2462,40.8306,14.2506);
-  relation[building](40.8264,14.2462,40.8306,14.2506);
-  way[highway](40.8264,14.2462,40.8306,14.2506);
-  way[natural=coastline](40.8264,14.2462,40.8306,14.2506);
-);
-out body;
->;
-out skel qt;
+[out:json][timeout:25];(way[building](40.826,14.241,40.842,14.266);relation[building](40.826,14.241,40.842,14.266);way[highway](40.826,14.241,40.842,14.266);way[natural=coastline](40.826,14.241,40.842,14.266);way[man_made=pier](40.826,14.241,40.842,14.266);way[historic=castle](40.826,14.241,40.842,14.266);relation[historic=castle](40.826,14.241,40.842,14.266););out body;>;out skel qt;
