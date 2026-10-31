@@ -15,32 +15,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Inspect official DTM vertical metadata
-        run: |
-          mkdir -p work/ctr-vertical
-          node --input-type=module <<'NODE'
-          import {writeFile} from 'node:fs/promises';
-          const base='https://geomaps.regione.campania.it';
-          const raster=base+'/server/rest/services/DG5009/CTR2020_DTM5K_tif/ImageServer';
-          const item=base+'/portal/sharing/rest/content/items/aaff40e0c82d4239bfaf2a776c735b67';
-          let n=0;
-          async function get(url){
-            const id=++n;
-            try{
-              const r=await fetch(url,{signal:AbortSignal.timeout(20000)});
-              if(!r.ok)throw Error('HTTP '+r.status);
-              const parts=[];let size=0;for await(const part of r.body){size+=part.length;if(size>1024*1024)throw Error('Metadata exceeds 1MiB');parts.push(part);}
-              const content=Buffer.concat(parts).toString('utf8');
-              await writeFile('work/ctr-vertical/metadata-'+id+'.txt',url+'\n'+content);
-              console.log('CTR_DTM_RAW='+JSON.stringify({url,content}));
-              return content;
-            }catch(error){console.log('CTR_DTM_RAW='+JSON.stringify({url,error:error.message}));}
-          }
-          for(const url of [item+'?f=pjson',item+'/info/metadata/metadata.xml',raster+'/info/keyProperties?f=pjson',raster+'/info/metadata',raster+'/info?f=pjson',base+'/server/services/DG5009/CTR2020_DTM5K_tif/ImageServer/WCSServer?SERVICE=WCS&REQUEST=GetCapabilities&VERSION=1.0.0',base+'/server/services/DG5009/CTR2020_DTM5K_tif/ImageServer/WCSServer?SERVICE=WCS&REQUEST=DescribeCoverage&VERSION=1.0.0&COVERAGE=CTR2020_DTM5K_tif'])await get(url);
-          NODE
+      - name: Install pinned isolated GeoTIFF parser
+        run: npm install --prefix work/ctr-deps --ignore-scripts --no-audit --no-fund geotiff@2.1.3
+      - name: Acquire bounded official raw float32 DTM crop
+        run: node scripts/fetch-city-dtm.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ctr-vertical-metadata
-          path: work/ctr-vertical/
+          name: ctr-dtm-raw-crop
+          path: data/napoli-dtm-2020/
           retention-days: 7
