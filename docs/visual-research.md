@@ -1,0 +1,29 @@
+# Riferimenti visivi e asset reali di Napoli
+
+Questa ricerca distingue una geometria georeferenziata da un rilievo fotografico: sagome OSM estruse, facciate sintetiche e texture realistiche non costituiscono una copia fotografica della città. Nessun modello elencato di seguito è stato integrato o approvato per la distribuzione.
+
+## Riferimento GTA
+
+La [galleria ufficiale GTA VI](https://www.rockstargames.com/VI/media/screenshots) è il riferimento editoriale. Il materiale [An Extended Look](https://www.rockstargames.com/VI/an-extended-look) è descritto da Rockstar come ripreso nel gioco su PS5. [GTA V Enhanced](https://www.rockstargames.com/newswire/article/7551a7k917554a/free-upgrade-for-grand-theft-auto-v-on-pc-now-available) documenta illuminazione globale, ombre, riflessi e occlusione ambientale con ray tracing. Questi riferimenti non attestano che il prototipo abbia tecniche, asset o qualità equivalenti. Non è stata eseguita un'analisi visiva dei fotogrammi tramite i tool disponibili: il lettore web ha restituito segnaposto immagine, non pixel visionabili.
+
+## Castel dell'Ovo: candidati da verificare
+
+| Candidato e fonte primaria | Dato verificato | Dati ancora mancanti | Stato |
+| --- | --- | --- | --- |
+| [Clodian01 — Castel dell'Ovo, Naples - ITA](https://sketchfab.com/3d-models/castel-dellovo-naples-ita-cc63ef6207f9493c9a90778a3a3d84b1) | Pagina indicizzata come modello scaricabile; UID `cc63ef6207f9493c9a90778a3a3d84b1` | Licenza esatta, provenienza delle immagini/geometrie, formato e dimensione del download; il nome non prova che sia fotogrammetria | Non approvato; pagina/API non leggibili dal ricercatore (403 o URL non accessibile) |
+| [SENSIET — Castel dell'Ovo,castle,napoli,scan,map](https://sketchfab.com/3d-models/castel-dellovocastlenapoliscanmap-dde27b393d3548fe951ce5045c4e6298) | Titolo, autore e UID `dde27b393d3548fe951ce5045c4e6298` individuati | Licenza, effettiva scaricabilità, provenienza, formato e dimensione del download | Non approvato; non dedurre il diritto d'uso dalla presenza di un viewer |
+
+[Sketchfab documenta](https://sketchfab.com/developers/download-api/guidelines) l'autenticazione dell'utente per la Download API e l'obbligo di conservare attribuzione e licenza con il modello. Una licenza permissiva eventualmente rilevata nei metadati non autorizza a estrarre i file del viewer né risolve eventuali diritti delle fonti sottostanti. Non sono stati richiesti account o credenziali, né aggirati vincoli di accesso.
+
+`Ricerca metadati modelli Napoli` è un workflow GitHub separato: legge soltanto i due endpoint pubblici di metadati, con timeout e limite di 512 KiB per risposta, e conserva l'esito in un artifact. Non richiede token Sketchfab e non scarica modelli. `approvedForDistribution` resta sempre falso: un esito HTTP positivo non è una verifica di licenza o di qualità. Il workflow permette di acquisire in modo riproducibile nome, autore, conteggio facce, licenza dichiarata e descrizione, se il server li rende disponibili al runner. Formato e dimensione dei file rimangono sconosciuti finché non è ottenuto un download autorizzato.
+
+## Altri dataset verificati e limiti
+
+- [UR-MAT v3, Zenodo](https://zenodo.org/records/18911512): include una scena dello stadio Maradona e distribuisce `glb_v3.zip`, 6,1 GB, MD5 `9920c8177cba320e2ad11b0cca664b10`. Il [README dell'autrice](https://github.com/dera8/UR-MAT) dichiara CC BY 4.0 per dati e strumenti. È una ricostruzione sintetica georeferenziata basata anche su OSM2World, non un rilievo fotografico di Santa Lucia o Borgo Marinari. Non è stato scaricato e non è una prova di copertura fotografica di Napoli.
+- [MIC_Buildings_1](https://zenodo.org/records/21728247): il catalogo descrive mesh GLB e nuvole E57 di edifici e siti culturali italiani, ma i file sono esplicitamente **restricted**. Non è una fonte immediatamente scaricabile per il gioco; copertura di Napoli e diritti di redistribuzione non verificati.
+- I modelli delle [catacombe di San Gennaro](https://sketchfab.com/3d-models/san-gennaro-catacomb-tomb-and-fresco-napoli-1-b673c2a0e5fc4414a8527be0820ca1e3) di Global Digital Heritage descrivono vera fotogrammetria/laser scanning ma la pagina dichiara CC BY-NC. Sono interni estranei all'area del gioco e non vengono adottati come generica risorsa commerciale.
+- [Real-World Textured Things, CNR-ISTI](https://texturedmesh.isti.cnr.it/download) distribuisce mesh OBJ e texture PNG in archivi da più GB. Non è stata verificata la presenza del castello o di un isolato di Napoli; non è stato scaricato un archivio estraneo al perimetro richiesto.
+
+## Decisione attuale
+
+Non è stato ottenuto un rilievo texturizzato di Castel dell'Ovo/Santa Lucia con provenienza e licenza di ridistribuzione entrambe verificate. I modelli procedurali devono perciò restare indicati come approssimazioni. La ricerca dei due candidati non costituisce una promessa di disponibilità. Il prossimo asset valido deve avere file originali accessibili, attribuzione verificata, diritti compatibili con self-hosting e repository pubblico, scala/orientamento controllati e qualità adeguata alla visione a livello strada. Nessuna estrazione da Google Earth/Maps/Street View, né uso di una fotografia piana come sostituto della geometria.

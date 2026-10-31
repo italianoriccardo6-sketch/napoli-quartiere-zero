@@ -90,6 +90,36 @@ try{createContext=require('gl') as ContextFactory;}
 catch(error){throw new Error('Headless WebGL unavailable. Install a matching native gl binding and provide Mesa/Xvfb; no image was generated.',{cause:error});}
 const gl=createContext(width,height,{preserveDrawingBuffer:true,antialias:false,depth:true,stencil:true,alpha:false});
 if(!gl)throw Error('A genuine WebGL context could not be created. On Linux run with DISPLAY supplied by Xvfb and Mesa; no image was generated.');
+let phase='engine initialization',tracing=true;
+const traceGL=process.argv.includes('--trace-gl'),glCallErrors:Array<{phase:string;call:string;code:number;args:unknown[];stack:string|undefined}>=[];
+const rawGetError=gl.getError.bind(gl);
+if(traceGL){
+  const wrapped=new WeakSet<object>();
+  const summarize=(value:unknown)=>typeof value==='number'?'0x'+value.toString(16):typeof value==='string'||typeof value==='boolean'||value==null?value:ArrayBuffer.isView(value)?{type:value.constructor.name,bytes:value.byteLength}:{type:(value as object).constructor?.name??'object'};
+  const wrap=(target:object,label:string)=>{
+    if(wrapped.has(target))return;wrapped.add(target);
+    const names=new Set<string>();for(let proto:object|null=target;proto&&proto!==Object.prototype;proto=Object.getPrototypeOf(proto))for(const name of Object.getOwnPropertyNames(proto))names.add(name);
+    const api=target as Record<string,unknown>;
+    for(const name of names){
+      if(name==='constructor'||name==='getError'||name.startsWith('_')||typeof api[name]!=='function')continue;
+      const original=api[name] as (...args:unknown[])=>unknown;
+      api[name]=(...args:unknown[])=>{
+        const result=original.apply(target,args);
+        if(tracing){
+          for(let i=0;i<16;i++){
+            const code=rawGetError();if(code===gl.NO_ERROR)break;
+            const entry={phase,call:label+'.'+name,code,args:args.map(summarize),stack:new Error('GL error observed immediately after call').stack};
+            if(glCallErrors.length<100)glCallErrors.push(entry);
+            if(glCallErrors.length<=20)console.error('GL_CALL_ERROR '+JSON.stringify(entry));
+          }
+        }
+        if(name==='getExtension'&&result&&typeof result==='object'&&!String(args[0]).startsWith('STACKGL_'))wrap(result,'extension '+args[0]);
+        return result;
+      };
+    }
+  };
+  wrap(gl,'gl');
+}
 
 // Babylon 9's shared Engine initialization still registers canvas events even
 // when given a native context. Supply only an inert EventTarget and dimensions;
@@ -135,6 +165,7 @@ const started=performance.now();
 let world:ReturnType<typeof createCityWorld>|undefined;
 let detailedCity:ReturnType<typeof createDetailedCity>|undefined;
 let mode='actual-city-source';
+let failedCandidate:string|undefined;
 try{
   if(process.argv.includes('--smoke')){
     mode='adapter-smoke-test-only';
@@ -146,6 +177,7 @@ try{
   }else{
     const map=JSON.parse(await readFile('public/data/map.json','utf8')) as CityMapData;
     if(!map.city||map.provenance!=='osm')throw Error('The active real-city source was not present; no substitute scene is permitted.');
+    phase='city construction and photographic asset loading';
     if(usePBR&&useDetail){
       detailedCity=createDetailedCity(scene,map,map.city);world=detailedCity;await detailedCity.ready;mode='actual-runtime-detailed-city-source';
     }else{
@@ -158,6 +190,7 @@ try{
         addStreetDetail(scene,map,map.city,{materials});
       }
     }
+    phase='character and vehicle construction and glTF asset loading';
     const player=createCharacter(scene),vehicle=useCar?createCar(scene):createScooter(scene),camera=createCamera(scene);
     if('ready' in vehicle)await vehicle.ready;
     const size={radius:'radius' in vehicle?vehicle.radius:.93,halfLength:'halfLength' in vehicle?vehicle.halfLength:1.1};
@@ -185,6 +218,7 @@ try{
   const deadline=performance.now()+45000;
   let frames=0;
   while(performance.now()<deadline){
+    phase='frame '+(frames+1)+' scene render and shader compilation';
     world?.sea.setFloat('time',0);
     engine.beginFrame();scene.render();engine.endFrame();frames++;
     if(errors.length)throw Error('Actual scene shader compilation failed: '+errors.join('\n'));
@@ -192,22 +226,25 @@ try{
     await new Promise(resolve=>setTimeout(resolve,50));
   }
   if(!scene.isReady(true)||!engine.areAllEffectsReady())throw Error('Actual scene/material compilation did not become ready within45seconds.');
+  phase='framebuffer capture';
   engine.flushFramebuffer();gl.finish();
   const bottomUp=new Uint8Array(width*height*4);gl.readPixels(0,0,width,height,gl.RGBA,gl.UNSIGNED_BYTE,bottomUp);
   const glErrors:number[]=[];for(let i=0;i<16;i++){const error=gl.getError();if(error===gl.NO_ERROR)break;glErrors.push(error);}
-  if(glErrors.length)throw Error('WebGL reported errors after rendering: '+glErrors.join(','));
   const canvas=new Canvas(width,height),context=canvas.getContext('2d'),image=context.createImageData(width,height);
   for(let y=0;y<height;y++)image.data.set(bottomUp.subarray((height-1-y)*width*4,(height-y)*width*4),y*width*4);
   context.putImageData(image,0,0);
   let low=Infinity,high=-Infinity;for(let i=0;i<bottomUp.length;i+=4){const value=bottomUp[i]+bottomUp[i+1]+bottomUp[i+2];low=Math.min(low,value);high=Math.max(high,value);}
   if(high-low<10)throw Error('The rendered output has no meaningful colour variation; no misleading blank frame was saved.');
-  await mkdir(dirname(output),{recursive:true});await writeFile(output,await canvas.encode('png'));
+  const observedErrors=[...new Set([...glErrors,...glCallErrors.map(e=>e.code)])];
+  const capturePath=observedErrors.length?output.replace(/\.png$/i,'.failed.png'):output;
+  await mkdir(dirname(output),{recursive:true});await writeFile(capturePath,await canvas.encode('png'));
+  if(observedErrors.length){failedCandidate=capturePath;throw Error('WebGL validation failed with '+observedErrors.join(',')+'. Actual framebuffer saved only as an unvalidated failed candidate: '+capturePath);}
   const debug=gl.getExtension('WEBGL_debug_renderer_info');
   const report={mode,view:arg('--view')??'initial',sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,driverRenderer:gl.getParameter(gl.RENDERER),driverVendor:gl.getParameter(gl.VENDOR),unmaskedRenderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):null,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
   await writeFile(output.replace(/\.png$/i,'.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }catch(error){
   await mkdir(dirname(output),{recursive:true});
-  const failure={mode,output,success:false,error:error instanceof Error?error.message:String(error),stack:error instanceof Error?error.stack:null,shaderErrors:errors,sourceSceneMetadata:scene.metadata};
+  const failure={mode,output,success:false,failedCandidate,error:error instanceof Error?error.message:String(error),stack:error instanceof Error?error.stack:null,shaderErrors:errors,glCallErrors,sourceSceneMetadata:scene.metadata};
   await writeFile(output.replace(/\.png$/i,'.error.json'),JSON.stringify(failure,null,2)+'\n');
   throw error;
-}finally{scene.dispose();engine.dispose();gl.getExtension('STACKGL_destroy_context')?.destroy();}
+}finally{tracing=false;scene.dispose();engine.dispose();gl.getExtension('STACKGL_destroy_context')?.destroy();}
