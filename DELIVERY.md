@@ -2,11 +2,11 @@
 
 ## Anteprima Netlify
 
-https://fanciful-pastelito-a97807.netlify.app
+URL finale fornito nella risposta della chat. Lo ZIP è scaricabile da `/napoli-quartiere-zero.zip` sulla stessa anteprima.
 
 Password: `My-Drop-Site`.
 
-Deploy: `6ae66102d330304cb757b2b8`. Stato `ready` confermato tramite il connettore Netlify. Creato su un nuovo sito temporaneo; nessun sito preesistente è stato sovrascritto. È un caricamento anonimo, non collegato all’account o al repository GitHub. Va rivendicato entro circa le **23:43 del 31 ottobre 2026, ora di Parigi**. Il link riservato per rivendicarlo è fornito nella risposta della chat, non salvato nel codice. I deploy anonimi non applicano tutte le regole del progetto Netlify: la configurazione netlify.toml è pronta per un successivo deploy autenticato.
+Stato `ready` verificato tramite Netlify prima della consegna. Creato su un nuovo sito temporaneo; nessun sito preesistente è stato sovrascritto. È un caricamento anonimo, non collegato all’account o al repository GitHub. Va rivendicato entro circa le **23:50 del 31 ottobre 2026, ora di Parigi**. Il link riservato per rivendicarlo è fornito nella risposta della chat, non salvato nel codice. I deploy anonimi non applicano tutte le regole del progetto Netlify: la configurazione netlify.toml è pronta per un successivo deploy autenticato.
 
 ## Contenuto
 
