@@ -1,0 +1,37 @@
+name: Acquisisci modello auto con licenza verificata
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/vehicle-assets.yml
+permissions:
+  contents: write
+concurrency:
+  group: napoli-vehicle-assets
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Scarica versione ufficiale fissata e documenti di licenza
+        run: node scripts/fetch-vehicle-assets.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-car-concept-${{ github.run_id }}
+          path: public/assets/vehicles/car-concept/
+          retention-days: 30
+      - name: Conserva gli asset in un ramo separato
+        env:
+          ASSET_BRANCH: data/vehicle-assets-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$ASSET_BRANCH"
+          git add public/assets/vehicles/car-concept/
+          git commit -m 'Add pinned licensed CarConcept PBR vehicle and attribution'
+          git push origin "HEAD:refs/heads/$ASSET_BRANCH"

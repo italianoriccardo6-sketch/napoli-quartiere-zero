@@ -1,0 +1,41 @@
+name: Acquisisci materiali PBR fotografici e cielo HDR
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/visual-assets.yml
+permissions:
+  contents: write
+concurrency:
+  group: napoli-visual-assets
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Scarica una selezione CC0 limitata e verifica gli hash
+        run: node scripts/fetch-visual-assets.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-visual-assets-${{ github.run_id }}
+          path: |
+            public/assets/materials/
+            public/assets/environment/
+            public/assets/visual-manifest.json
+            public/assets/VISUAL-ASSETS-LICENSE.txt
+          retention-days: 30
+      - name: Conserva gli asset verificati in un ramo dati separato
+        env:
+          ASSET_BRANCH: data/visual-assets-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$ASSET_BRANCH"
+          git add public/assets/materials/ public/assets/environment/ public/assets/visual-manifest.json public/assets/VISUAL-ASSETS-LICENSE.txt
+          git commit -m 'Add verified CC0 photographic PBR maps and daylight HDR with provenance'
+          git push origin "HEAD:refs/heads/$ASSET_BRANCH"
