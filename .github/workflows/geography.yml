@@ -1,0 +1,54 @@
+name: Estrai geografia reale di Napoli
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/geography.yml
+permissions:
+  contents: write
+concurrency:
+  group: napoli-geography
+  cancel-in-progress: false
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Estrazione limitata dal servizio pubblico Overpass
+        env:
+          OSM_BBOX: '40.8260,14.2410,40.8420,14.2660'
+          OSM_OUTPUT: data/napoli-centro.osm.json
+        run: node scripts/fetch-osm.mjs
+      - name: Avvisi di licenza dei dati
+        run: |
+          cat > data/OSM-LICENSE.md <<'NOTICE'
+          # Estratto OpenStreetMap
+          © OpenStreetMap contributors — https://www.openstreetmap.org/copyright
+          Dati sotto Open Database License (ODbL) 1.0: https://opendatacommons.org/licenses/odbl/1-0/
+          Fonte, data, perimetro e query riproducibile: source.json e query.overpassql.
+          Nessuna licenza MIT del codice si applica a questo estratto.
+          La pubblicazione o distribuzione di una banca dati derivata richiede il rispetto degli obblighi ODbL.
+          NOTICE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-osm-${{ github.run_id }}
+          path: |
+            data/napoli-centro.osm.json
+            data/source.json
+            data/query.overpassql
+            data/OSM-LICENSE.md
+          retention-days: 30
+      - name: Conserva l'estratto in un ramo dati separato
+        env:
+          DATA_BRANCH: data/napoli-osm-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$DATA_BRANCH"
+          git add data/napoli-centro.osm.json data/source.json data/query.overpassql data/OSM-LICENSE.md
+          git commit -m 'Add bounded real Naples OSM extract with provenance and ODbL notice'
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"
