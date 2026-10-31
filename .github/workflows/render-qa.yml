@@ -2,8 +2,12 @@ name: Render reale Babylon con WebGL software
 on:
   workflow_dispatch:
   push:
+    branches: [main]
     paths:
       - .github/workflows/render-qa.yml
+      - scripts/render-qa.ts
+      - src/**
+      - public/**
 permissions:
   contents: write
 concurrency:
