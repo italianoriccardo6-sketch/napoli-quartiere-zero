@@ -1,0 +1,48 @@
+name: Estrai arredi reali delle strade di Napoli
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/street-furniture.yml
+      - scripts/fetch-street-furniture.mjs
+permissions:
+  contents: write
+concurrency:
+  group: napoli-street-furniture
+  cancel-in-progress: false
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Nodi arredi nel piccolo perimetro OSM
+        run: node scripts/fetch-street-furniture.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-furniture-${{ github.run_id }}
+          path: |
+            data/napoli-furniture/
+            public/data/furniture.json
+          if-no-files-found: error
+          retention-days: 30
+      - name: Esporta solo dati e provenienza nel ramo dedicato
+        env:
+          DATA_BRANCH: data/napoli-furniture-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          DATA_EXPORT="$(mktemp -d)"
+          mkdir -p "$DATA_EXPORT/data" "$DATA_EXPORT/public/data"
+          cp -R data/napoli-furniture "$DATA_EXPORT/data/"
+          cp public/data/furniture.json "$DATA_EXPORT/public/data/furniture.json"
+          git switch --orphan "$DATA_BRANCH"
+          mkdir -p data public/data
+          cp -R "$DATA_EXPORT/data/napoli-furniture" data/
+          cp "$DATA_EXPORT/public/data/furniture.json" public/data/furniture.json
+          git add data/napoli-furniture/ public/data/furniture.json
+          git commit -m 'Add measured Naples street furniture nodes with ODbL provenance and hashes'
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"
