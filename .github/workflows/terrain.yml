@@ -1,0 +1,37 @@
+name: Estrai punti quotati ufficiali di Napoli
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/terrain.yml
+permissions:
+  contents: write
+concurrency:
+  group: napoli-terrain-points
+  cancel-in-progress: false
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Metadati e query piccola dal servizio ufficiale Regione Campania
+        run: node scripts/fetch-terrain.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-terrain-${{ github.run_id }}
+          path: data/napoli-terrain-points/
+          retention-days: 30
+      - name: Conserva i punti di ricerca in un ramo dati separato
+        env:
+          DATA_BRANCH: data/napoli-terrain-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$DATA_BRANCH"
+          git add data/napoli-terrain-points/
+          git commit -m 'Add bounded official Naples ground elevation points with provenance and vertical uncertainty'
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"
