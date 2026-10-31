@@ -1,0 +1,48 @@
+{
+  "mode": "actual-city-source",
+  "output": "/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-current.png",
+  "width": 1024,
+  "height": 576,
+  "webGLVersion": 1,
+  "driverRenderer": "ANGLE",
+  "driverVendor": "stack-gl",
+  "unmaskedRenderer": null,
+  "softwareRequested": true,
+  "features": {
+    "photographicPBR": false,
+    "facadeAndStreetDetail": false,
+    "importedCar": false,
+    "HDRRadiancePrefilter": false
+  },
+  "assetsRead": [],
+  "meshCount": 398,
+  "materialCount": 19,
+  "frames": 3,
+  "renderWallMs": 1928,
+  "shaderErrors": [],
+  "webGLErrors": [],
+  "sourceSceneMetadata": {
+    "cityWorld": {
+      "provenance": "osm",
+      "footprints": 1803,
+      "invalidFootprints": 0,
+      "buildingChunks": 360,
+      "renderedRoads": 1520,
+      "bounds": [
+        -640.1679145129254,
+        -209.514413621575,
+        1465.6475937532923,
+        1547.3409220264557
+      ],
+      "terrainElevation": "flat-estimate",
+      "representation": "OSM footprint extrusions; procedural surface detail, not photorealism"
+    }
+  },
+  "limitations": [
+    "Direct Node WebGL, not browser UI automation or macOS validation.",
+    "WebGL1 adapter: browser WebGL2 feature output and performance may differ.",
+    "HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.",
+    "No FPS claim; renderWallMs includes scene construction, compilation and capture.",
+    "No HTML HUD is included: this captures the actual 3D engine scene only."
+  ]
+}
