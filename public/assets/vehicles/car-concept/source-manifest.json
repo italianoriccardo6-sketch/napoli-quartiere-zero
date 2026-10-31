@@ -1,0 +1,155 @@
+{
+  "version": 1,
+  "asset": "CarConcept",
+  "repository": "https://github.com/KhronosGroup/glTF-Sample-Assets",
+  "revision": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+  "retrieved_at": "2026-10-31T22:43:23.207Z",
+  "source_readme": "https://github.com/KhronosGroup/glTF-Sample-Assets/blob/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/README.md",
+  "license": "CC-BY-4.0",
+  "author": "Eric Chadwick",
+  "copyright": "© 2024 Darmstadt Graphics Group GmbH",
+  "trademark_notice": "LicenseRef-LegalMark-Khronos.txt",
+  "scene": "CarConcept.gltf",
+  "downloaded_bytes": 9981068,
+  "maximum_download_bytes": 12582912,
+  "files": [
+    {
+      "path": "CarConcept.gltf",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/CarConcept.gltf",
+      "bytes": 334313,
+      "sha256": "6d968487ee7ea0f53f8df690b5778412ab0d78fa50f7a4e2b684013780d88f2d"
+    },
+    {
+      "path": "CarConcept.data.bin",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/CarConcept.data.bin",
+      "bytes": 8670516,
+      "sha256": "5cd6ceb6a502dc3c79863c2f11c06f6aa7474e53367bb212b3e3c3f1e7611d20"
+    },
+    {
+      "path": "Mechanical_N.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Mechanical_N.webp",
+      "bytes": 223440,
+      "sha256": "020ebe88f3876916a3e69673bf87158f7277a16ab5ea0ee3907bdb79f4f7af48"
+    },
+    {
+      "path": "Mechanical_ORM.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Mechanical_ORM.webp",
+      "bytes": 9514,
+      "sha256": "d1f1e5c59781b79db7e84da5e9b1fbb284b21efc7a539574ee0ebe1ce104421e"
+    },
+    {
+      "path": "Occlusion.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Occlusion.webp",
+      "bytes": 294098,
+      "sha256": "7fe3e166951f7bdb6d4e8388c0d5714dbba50e5cc275de1915e6eab8d6d5cb47"
+    },
+    {
+      "path": "Khronos_C.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Khronos_C.webp",
+      "bytes": 3414,
+      "sha256": "b4f81a98ffa615095fd32d35c6710ee8057dbb14809bbd3eefebbaf7dc2239c5"
+    },
+    {
+      "path": "Hex_N.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Hex_N.webp",
+      "bytes": 3142,
+      "sha256": "bcde9a997f7a79e1908c1d212564a2263a6b95a3bca12cbd1f437e1f57c5fd8f"
+    },
+    {
+      "path": "Rib_N.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Rib_N.webp",
+      "bytes": 92,
+      "sha256": "c959f3710698cf6dff847297e2d6d97daf594672eec01f2c4856a18e6b4fa03f"
+    },
+    {
+      "path": "Dash_E.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Dash_E.webp",
+      "bytes": 9764,
+      "sha256": "fd17ffdd3e6b638d16c934ece4cf63bf6e7300c55af92bb3b2153a3d3ee83145"
+    },
+    {
+      "path": "Powdercoat_N.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Powdercoat_N.webp",
+      "bytes": 36868,
+      "sha256": "5528b60f02ad913071304a868c387bab78f87d09b246459a892307132a335ae9"
+    },
+    {
+      "path": "Dot_C.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Dot_C.webp",
+      "bytes": 268,
+      "sha256": "ad468ff4a4cee31f595847eeda50fb23432c1b52be1991e0543cb6bd1ac84e85"
+    },
+    {
+      "path": "Dot_N.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Dot_N.webp",
+      "bytes": 6438,
+      "sha256": "7eb4771f6a73b483a6940f6c89ae7225243163af394b229f8405c5ec717e3d18"
+    },
+    {
+      "path": "Tireside_C.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Tireside_C.webp",
+      "bytes": 5538,
+      "sha256": "913effce24c0f5a9c0a5fa91bc8addb5f640efe6b858f2327e93abc2299d28b6"
+    },
+    {
+      "path": "Tireside_N.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Tireside_N.webp",
+      "bytes": 286764,
+      "sha256": "8b8dd254dbb7dc5202cd99e4ae9dbf890d8de3dcd79e77f12af923f29753c57a"
+    },
+    {
+      "path": "Tiretread_N.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Tiretread_N.webp",
+      "bytes": 37136,
+      "sha256": "734af0dc6949c29e6da80657638b2b2d7ab5e265373b85bc131224931de1da52"
+    },
+    {
+      "path": "Thickness.webp",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/glTF-WEBP/Thickness.webp",
+      "bytes": 25758,
+      "sha256": "3c7e018cd11a1239619be11d0acd08289c06fc5f75d6632e81c96911eaff412e"
+    },
+    {
+      "path": "SOURCE-README.md",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/Models/CarConcept/README.md",
+      "bytes": 20382,
+      "sha256": "af5f76ead54a5039288924f37081d6e1fcd5ccc5b2628faedb926325a73099cd"
+    },
+    {
+      "path": "LICENSE-CC-BY-4.0.txt",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/LICENSES/CC-BY-4.0.txt",
+      "bytes": 13034,
+      "sha256": "c8041334a99cb48852b2139253cbde5f8ac87e27f124aed51223e0d5bf0080eb"
+    },
+    {
+      "path": "LicenseRef-LegalMark-Khronos.txt",
+      "url": "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Assets/8f492390ddc7a2ae221a1369ef560589cf8c70fb/LICENSES/LicenseRef-LegalMark-Khronos.txt",
+      "bytes": 589,
+      "sha256": "2ea9821de870cf8d3faaa115ffc47f56632bf9f98d54d2ac1ce61592040b765c"
+    }
+  ],
+  "extensions_used": [
+    "EXT_texture_webp",
+    "KHR_materials_clearcoat",
+    "KHR_materials_emissive_strength",
+    "KHR_materials_iridescence",
+    "KHR_materials_transmission",
+    "KHR_materials_variants",
+    "KHR_texture_transform"
+  ],
+  "extensions_required": [
+    "EXT_texture_webp"
+  ],
+  "meshes": 97,
+  "nodes": 101,
+  "materials": 29,
+  "wheel_nodes": [
+    "WheelFrontL",
+    "WheelFrontR",
+    "WheelRearL",
+    "WheelRearR"
+  ],
+  "logo_mesh": "License Plate",
+  "modification": "None during acquisition",
+  "verification": "Pinned source, license, dependency paths and buffer byte lengths verified. Not a visual/GPU quality certificate."
+}
