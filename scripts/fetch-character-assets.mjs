@@ -8,6 +8,7 @@ const asset='zpepqtthci',clips=['cy69g7t2a0','vb5npv0n6u'];
 const origin='https://vibeassets.io';
 const output='public/assets/characters/civilian';
 const limit=6*1024*1024;
+const expectedGlbSha256='940444190abb1f3731675678277e9c3f27be1783966987f0a02ccd9fd1405193';
 let downloaded=0;
 const files=new Map(),sources=[];
 async function get(name,url,maxBytes){
@@ -24,16 +25,17 @@ function glbJson(bytes){
 }
 async function main(){
   for(const id of [asset,...clips]){
-    const page=await get(`source-${id}.html`,`${origin}/a/${id}`,350*1024);
+    const page=await get(`source-${id}.html.txt`,`${origin}/a/${id}`,350*1024);
     const text=page.toString('utf8');
     if(!/CC0[,\s<]/i.test(text)||!/public domain/i.test(text)||!text.includes(id))throw Error('Expected individual CC0 dedication is missing');
     if(id!==asset&&!/Generated with Meshy/i.test(text))throw Error('Motion provenance differs from reviewed source');
   }
   const docs=await get('source-agent.md',`${origin}/agent.md`,100*1024);
   if(!docs.toString('utf8').includes('combined=1'))throw Error('Documented combined-download route is missing');
-  const license=await get('LICENSE-CC0-1.0.html','https://creativecommons.org/publicdomain/zero/1.0/legalcode.en',100*1024);
+  const license=await get('LICENSE-CC0-1.0.html.txt','https://creativecommons.org/publicdomain/zero/1.0/legalcode.en',100*1024);
   if(!/CC0 1.0 Universal/i.test(license.toString('utf8')))throw Error('CC0 legal text missing');
   const bytes=await get('civilian.glb',`${origin}/download/${asset}?combined=1`,4*1024*1024);
+  if(createHash('sha256').update(bytes).digest('hex')!==expectedGlbSha256)throw Error('Character binary differs from the reviewed model/motion revision');
   const gltf=glbJson(bytes);
   if(gltf.asset?.version!=='2.0'||!gltf.skins?.length||!gltf.meshes?.length||!gltf.animations||gltf.animations.length!==2)throw Error('Expected rigged character with exactly two reviewed motions');
   if((gltf.buffers??[]).some(x=>x.uri)||(gltf.images??[]).some(x=>x.uri&&!x.uri.startsWith('data:')))throw Error('Character must be self-contained');
@@ -41,6 +43,7 @@ async function main(){
   const animations=gltf.animations.map((x,i)=>({index:i,name:x.name??`animation${i}`,channels:x.channels?.length??0}));
   const manifest={version:1,asset:'CamperCivilian',license:'CC0-1.0',scene:'civilian.glb',source:`${origin}/a/${asset}`,source_asset_id:asset,
     clip_sources:clips.map(id=>`${origin}/a/${id}`),source_rig:'24 joints · cb3e6af4',retrieved_at:new Date().toISOString(),downloaded_bytes:downloaded,maximum_download_bytes:limit,
+    expected_glb_sha256:expectedGlbSha256,
     origin:'Model and motions generated with Meshy and released CC0 by the source uploader. Mixamo-style bone names describe rig compatibility, not an Adobe asset source.',
     files:sources,animations,skins:gltf.skins.map(s=>({name:s.name,joints:s.joints.length})),meshes:gltf.meshes.length,materials:gltf.materials?.length??0,
     nodes:(gltf.nodes??[]).map(n=>n.name).filter(Boolean),extensions_required:gltf.extensionsRequired??[],

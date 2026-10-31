@@ -1,5 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFileSync} from 'node:fs';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';import {Scene} from '@babylonjs/core/scene';import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
+import {VertexData} from '@babylonjs/core/Meshes/mesh.vertexData';
 import {buildStreetDetailGeometry,joinedStreetSections,addStreetDetail} from '../src/street-detail';import type {CityRuntime,CityMapData} from '../src/city-data';import {inside,segmentDistance,type MapData,type Point} from '../src/geo';
 const route:Point[]=[[-30,0],[30,0]];
 function fixture(){
@@ -16,7 +17,7 @@ test('strada: marciapiedi e cordoli rialzati, vernice bianca separata, sorgente 
  const {map,detail}=fixture(),original=JSON.stringify({map,detail}),plan=buildStreetDetailGeometry(map,detail);
  assert.ok(plan.stats.sidewalkSpans>0);assert.ok(plan.stats.curbSpans>0);assert.ok(plan.stats.paintStrips>0);assert.equal(plan.stats.collisionGeometryAdded,false);assert.ok(plan.stats.meshCount<20);
  assert.equal(JSON.stringify({map,detail}),original);
- for(const b of plan.batches.filter(b=>b.surface!=='curb'))for(let i=0;i<b.indices.length;i+=3){const [a,c,d]=b.indices.slice(i,i+3).map(n=>[b.positions[n*3],b.positions[n*3+1],b.positions[n*3+2]]);assert.ok((c[2]-a[2])*(d[0]-a[0])-(c[0]-a[0])*(d[2]-a[2])>=-1e-8,'superficie superiore illuminata verso alto');}
+ for(const b of plan.batches.filter(b=>b.surface!=='curb')){const normals:number[]=[];VertexData.ComputeNormals(b.positions,b.indices,normals);for(let i=1;i<normals.length;i+=3)assert.ok(normals[i]>.99,'normali Babylon della superficie superiore verso alto');}
  for(const b of plan.batches){assert.ok(b.positions.every(Number.isFinite));assert.equal(b.uvs.length,b.positions.length/3*2);assert.ok(b.indices.every(i=>i>=0&&i<b.positions.length/3));if(b.surface==='pavement')for(let i=1;i<b.positions.length;i+=3)assert.ok(Math.abs(b.positions[i]-.125)<1e-8);if(b.surface==='curb')assert.ok(b.positions.filter((_,i)=>i%3===1).some(y=>y===.12));}
  assert.deepEqual(plan,buildStreetDetailGeometry(map,detail));
 });

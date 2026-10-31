@@ -1,0 +1,68 @@
+name: Aggiorna asfalto e pavimentazione fotografica CC0
+on:
+  workflow_dispatch:
+    inputs:
+      asphalt_resolution:
+        description: Risoluzione richiesta soltanto per l'asfalto
+        default: 2k
+        type: choice
+        options: [2k, 1k]
+  push:
+    paths:
+      - .github/workflows/visual-assets-upgrade.yml
+permissions:
+  contents: write
+concurrency:
+  group: napoli-visual-assets-upgrade
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verifica il pacchetto corrente e aggiorna soltanto sei mappe
+        env:
+          ASPHALT_RESOLUTION: ${{ inputs.asphalt_resolution || '2k' }}
+        run: node scripts/fetch-visual-assets-upgrade.mjs --asphalt-resolution="$ASPHALT_RESOLUTION"
+      - name: Conserva i metadati effettivi soltanto in caso di errore
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napoli-street-upgrade-diagnostics-${{ github.run_id }}
+          path: work/visual-asset-upgrade-diagnostics/
+          retention-days: 7
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-street-visual-upgrade-${{ github.run_id }}
+          path: |
+            public/assets/materials/asphalt_02/
+            public/assets/materials/stone_tiles_02/
+            public/assets/visual-manifest.json
+            public/assets/VISUAL-ASSETS-LICENSE.txt
+          retention-days: 30
+      - name: Conserva l'aggiornamento verificato in un ramo separato
+        env:
+          ASSET_BRANCH: data/visual-street-upgrade-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          ASSET_EXPORT="$(mktemp -d)"
+          mkdir -p "$ASSET_EXPORT/materials"
+          cp -R public/assets/materials/asphalt_02 "$ASSET_EXPORT/materials/"
+          cp -R public/assets/materials/stone_tiles_02 "$ASSET_EXPORT/materials/"
+          cp public/assets/visual-manifest.json public/assets/VISUAL-ASSETS-LICENSE.txt "$ASSET_EXPORT/"
+          # Export only these verified data files. An orphan branch avoids asking
+          # GitHub App credentials to republish the source workflow history.
+          git switch --orphan "$ASSET_BRANCH"
+          mkdir -p public/assets/materials
+          cp -R "$ASSET_EXPORT/materials/asphalt_02" public/assets/materials/
+          cp -R "$ASSET_EXPORT/materials/stone_tiles_02" public/assets/materials/
+          cp "$ASSET_EXPORT/visual-manifest.json" "$ASSET_EXPORT/VISUAL-ASSETS-LICENSE.txt" public/assets/
+          git add public/assets/materials/asphalt_02/ public/assets/materials/stone_tiles_02/ public/assets/visual-manifest.json public/assets/VISUAL-ASSETS-LICENSE.txt
+          git commit -m 'Upgrade verified CC0 street asphalt and add scanned outdoor floor maps'
+          git push origin "HEAD:refs/heads/$ASSET_BRANCH"

@@ -16,19 +16,19 @@
   "origin": "Model and motions generated with Meshy and released CC0 by the source uploader. Mixamo-style bone names describe rig compatibility, not an Adobe asset source.",
   "files": [
     {
-      "path": "source-zpepqtthci.html",
+      "path": "source-zpepqtthci.html.txt",
       "url": "https://vibeassets.io/a/zpepqtthci",
       "bytes": 16256,
       "sha256": "b77817c8131252ea929f89c8149277600b51da844def0e39fdc90b348abb3e1b"
     },
     {
-      "path": "source-cy69g7t2a0.html",
+      "path": "source-cy69g7t2a0.html.txt",
       "url": "https://vibeassets.io/a/cy69g7t2a0",
       "bytes": 14759,
       "sha256": "dcdc924412c2ba645d251eb1255ad13eefc0d6e024894bd28ad9257550e9cbfc"
     },
     {
-      "path": "source-vb5npv0n6u.html",
+      "path": "source-vb5npv0n6u.html.txt",
       "url": "https://vibeassets.io/a/vb5npv0n6u",
       "bytes": 14740,
       "sha256": "b3169bea7c146248d778d27c0a1615dc9e6f7de82a2d6d2e7eb89e6983334627"
@@ -40,7 +40,7 @@
       "sha256": "2161609c97c78b36bed07397f8ffc3ffcf7e19ea95a6733116230be8514c3605"
     },
     {
-      "path": "LICENSE-CC0-1.0.html",
+      "path": "LICENSE-CC0-1.0.html.txt",
       "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.en",
       "bytes": 32223,
       "sha256": "b43732f4c1463b087cf10d4daf8d8766514b2bf8f21bc5ef50905f95be227726"
@@ -102,5 +102,6 @@
   ],
   "extensions_required": [],
   "modification": "None during acquisition. Runtime may normalize height/orientation and choose walking motions.",
-  "verification": "Individual model/motion CC0 notices, documented download path, GLB structure and self-contained dependencies checked. Browser/GPU appearance still requires visual verification."
+  "verification": "Individual model/motion CC0 notices, documented download path, GLB structure and self-contained dependencies checked. Browser/GPU appearance still requires visual verification.",
+  "expected_glb_sha256": "940444190abb1f3731675678277e9c3f27be1783966987f0a02ccd9fd1405193"
 }

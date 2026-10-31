@@ -3,6 +3,7 @@ import {TransformNode} from '@babylonjs/core/Meshes/transformNode';
 import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {ImportMeshAsync} from '@babylonjs/core/Loading/sceneLoader';
 import {registerBuiltInLoaders} from '@babylonjs/loaders/dynamic';
+import {TransmissionHelper,type ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
 import type {AbstractMesh} from '@babylonjs/core/Meshes/abstractMesh';
 import type {GroundCheck,GroundPoint} from './movement';
 
@@ -94,6 +95,13 @@ export function createCar(scene:Scene):Car {
       const manifest=await response.json();
       if(manifest.asset!=='CarConcept'||manifest.license!=='CC-BY-4.0'||manifest.scene!=='CarConcept.gltf')throw new Error('Provenienza del modello auto non valida.');
       registerBuiltInLoaders();
+      // Babylon's transmission helper defaults to a half-float render target.
+      // Keep physical glass on engines that need an unsigned-byte target instead.
+      const engine=scene.getEngine(),caps=engine.getCaps();
+      const transmissionOptions={renderTargetTextureType:caps.textureHalfFloat&&caps.textureHalfFloatRender?2:0,samples:engine.version>1?4:1};
+      const existingTransmission=(scene as Scene&Partial<ITransmissionHelperHolder>)._transmissionHelper;
+      if(existingTransmission)existingTransmission.updateOptions(transmissionOptions);
+      else new TransmissionHelper(transmissionOptions,scene);
       const result=await ImportMeshAsync(folder+'CarConcept.gltf',scene);
       const nodes=[...result.meshes,...result.transformNodes];
       const imported=new Set(nodes);

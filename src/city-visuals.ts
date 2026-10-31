@@ -6,6 +6,7 @@ import {createCityWorld} from './city-world';
 import {createVisualMaterials,loadDaylightEnvironment} from './visual-materials';
 import {addFacadeDetail} from './facade-detail';
 import {addStreetDetail} from './street-detail';
+import {addVegetation,type GreenData} from './vegetation';
 
 /** Shared by the playable scene and the direct engine frame capture. */
 export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime){
@@ -13,7 +14,14 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime)
   const world=createCityWorld(scene,map,city,{materials});
   const facades=addFacadeDetail(scene,map,{focus:[city.spawn,...city.route],radius:95,quality:'alta',materials});
   const streets=addStreetDetail(scene,map,city,{materials});
-  const ready=Promise.all([materials.ready,loadDaylightEnvironment(scene)]).then(([,environment])=>{
+  const vegetationReady=(async()=>{
+    const response=await fetch(`${import.meta.env?.BASE_URL??'/'}data/green.json`);
+    if(!response.ok)throw Error('I dati degli alberi non sono disponibili. Ricarica la pagina.');
+    const green=await response.json() as GreenData;
+    if(green.version!==1||!Array.isArray(green.trees))throw Error('I dati della vegetazione non sono validi.');
+    return addVegetation(scene,map,green,{focus:[city.spawn,...city.route],radius:180,maxTrees:140,quality:'alta',shadows:world.shadows});
+  })();
+  const ready=Promise.all([materials.ready,loadDaylightEnvironment(scene),vegetationReady]).then(([,environment])=>{
     scene.getMeshByName('cielo città')?.setEnabled(false);
     scene.createDefaultSkybox(environment,true,4000,0,false);
   });

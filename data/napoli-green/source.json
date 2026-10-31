@@ -1,0 +1,24 @@
+{
+  "provider": "OpenStreetMap contributors",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "retrieved_at": "2026-10-31T22:55:04.095Z",
+  "bbox": [
+    40.826,
+    14.241,
+    40.842,
+    14.266
+  ],
+  "origin": {
+    "lat": 40.8281,
+    "lon": 14.2486
+  },
+  "query": "[out:json][timeout:25];(node[natural=tree](40.826,14.241,40.842,14.266);way[natural=tree_row](40.826,14.241,40.842,14.266);way[leisure=park](40.826,14.241,40.842,14.266);relation[leisure=park](40.826,14.241,40.842,14.266);way[natural=wood](40.826,14.241,40.842,14.266);relation[natural=wood](40.826,14.241,40.842,14.266);way[landuse=forest](40.826,14.241,40.842,14.266);relation[landuse=forest](40.826,14.241,40.842,14.266););out body geom;",
+  "license": "ODbL-1.0",
+  "copyright": "https://www.openstreetmap.org/copyright",
+  "rawElements": 316,
+  "treeNodes": 250,
+  "treeRows": 41,
+  "areas": 25,
+  "placementPolicy": "Render individual tree nodes only at source coordinates. Tree rows and park polygons do not invent individual planting positions.",
+  "modelPolicy": "Tree geometry, absent dimensions and species-dependent crown shape remain original visual approximations."
+}

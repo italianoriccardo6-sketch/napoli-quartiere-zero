@@ -28,6 +28,38 @@ jobs:
         env:
           npm_config_devdir: ${{ runner.temp }}/napoli-node-gyp
         run: npm install --no-save --package-lock=false --no-audit --no-fund gl@8.1.6
+      - name: Prepara runtime Node e WebGL portabile per iterazioni locali
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),path=require('node:path'),{createRequire}=require('node:module');
+          const root=path.resolve('work/qa-runtime');
+          const copy=(from,to)=>{fs.mkdirSync(path.dirname(to),{recursive:true});fs.cpSync(from,to,{recursive:true});};
+          copy(process.execPath,path.join(root,'bin/node'));
+          for(const bin of ['Xvfb','xvfb-run','xauth','xkbcomp'])copy('/usr/bin/'+bin,path.join(root,'bin',bin));
+          const glRoot=path.dirname(require.resolve('gl/package.json'));
+          for(const file of ['index.js','package.json','src/javascript'])copy(path.join(glRoot,file),path.join(root,'node_modules/gl',file));
+          const release=path.join(glRoot,'build/Release');
+          for(const file of fs.readdirSync(release))if(/\.node$|\.so(?:\.|$)/.test(file))copy(path.join(release,file),path.join(root,'node_modules/gl/build/Release',file));
+          const seen=new Set();
+          function dependency(name,loader=require){
+            const manifest=loader.resolve(name+'/package.json');if(seen.has(manifest))return;seen.add(manifest);
+            const meta=JSON.parse(fs.readFileSync(manifest,'utf8'));copy(path.dirname(manifest),path.join(root,'node_modules',meta.name));
+            const nested=createRequire(manifest);for(const child of Object.keys(meta.dependencies??{}))dependency(child,nested);
+          }
+          for(const name of ['bindings','bit-twiddle','glsl-tokenizer'])dependency(name);
+          fs.writeFileSync(path.join(root,'runtime.json'),JSON.stringify({node:process.version,abi:process.versions.modules,platform:process.platform,arch:process.arch,gl:require('gl/package.json').version,note:'QA-only native runtime; uses host Linux X11/Mesa shared libraries. Never a browser/macOS benchmark.'},null,2));
+          fs.writeFileSync(path.join(root,'RUN.txt'),'From the repository root: PATH="$PWD/work/qa-runtime/bin:$PATH" NODE_PATH="$PWD/work/qa-runtime/node_modules" LIBGL_ALWAYS_SOFTWARE=1 work/qa-runtime/bin/xvfb-run -a work/qa-runtime/bin/node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --view=drive\n');
+          NODE
+          ldd work/qa-runtime/bin/Xvfb > work/qa-runtime/xvfb-shared-libraries.txt
+          ldd work/qa-runtime/node_modules/gl/build/Release/webgl.node > work/qa-runtime/gl-shared-libraries.txt
+          tar -czf work/qa-runtime.tar.gz -C work qa-runtime
+          test "$(stat -c%s work/qa-runtime.tar.gz)" -lt 104857600
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-qa-native-runtime-${{ github.run_id }}
+          path: work/qa-runtime.tar.gz
+          compression-level: 0
+          retention-days: 7
       - name: Render della scena giocabile con materiali PBR, auto e dettagli reali del sorgente
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'

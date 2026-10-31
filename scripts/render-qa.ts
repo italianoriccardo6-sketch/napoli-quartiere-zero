@@ -18,6 +18,7 @@ import {createCityWorld} from '../src/city-world';
 import {createDetailedCity} from '../src/city-visuals';
 import {createCamera} from '../src/camera';
 import {createCharacter} from '../src/character';
+import {createDetailedCharacter} from '../src/character-model';
 import {createScooter} from '../src/vehicle';
 import {createCar} from '../src/car';
 import {placeVehicleOnStreet} from '../src/vehicle-placement';
@@ -25,6 +26,7 @@ import {createVisualMaterials,loadDaylightEnvironment} from '../src/visual-mater
 import {addFacadeDetail} from '../src/facade-detail';
 import {addStreetDetail} from '../src/street-detail';
 import {FileToolsOptions} from '@babylonjs/core/Misc/fileTools';
+import type {ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
 import type {CityMapData} from '../src/city-data';
 
 const require=createRequire(import.meta.url);
@@ -43,7 +45,7 @@ if(usePBR||useCar){
   globalThis.fetch=async(input,init)=>{
     const url=typeof input==='string'?input:input instanceof URL?input.href:input.url;
     if(url.startsWith('blob:')||url.startsWith('data:'))return nativeFetch(input,init);
-    if(!url.startsWith('/assets/'))throw Error('Node render accepts only repository /assets/ files: '+url);
+    if(!url.startsWith('/assets/')&&url!=='/data/green.json')throw Error('Node render accepts only repository assets and the exact measured vegetation file: '+url);
     const path=resolve(publicRoot,decodeURIComponent(url.split('?')[0]).slice(1));
     if(!path.startsWith(publicRoot+sep))throw Error('Asset path escaped public directory.');
     try{
@@ -159,6 +161,9 @@ const originalUpload=gl.texImage2D.bind(gl) as (...args:any[])=>void;
 (globalThis as unknown as {OffscreenCanvas:typeof Canvas}).OffscreenCanvas=Canvas;
 const engine=new Engine(gl,false,{preserveDrawingBuffer:true,stencil:true,disableWebGL2Support:true,doNotHandleContextLost:true});
 if(usePBR||useCar)engine._features.forceBitmapOverHTMLImageElement=true;
+const caps=engine.getCaps(),debug=gl.getExtension('WEBGL_debug_renderer_info');
+const driver={driverRenderer:gl.getParameter(gl.RENDERER),driverVendor:gl.getParameter(gl.VENDOR),unmaskedRenderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):null};
+const capabilities={instancedArrays:caps.instancedArrays,ANGLE_instanced_arrays:gl.getExtension('ANGLE_instanced_arrays')!==null,standardDerivatives:caps.standardDerivatives,textureFloat:caps.textureFloat,textureFloatRender:caps.textureFloatRender,textureHalfFloat:caps.textureHalfFloat,textureHalfFloatRender:caps.textureHalfFloatRender};
 const scene=new Scene(engine),errors:string[]=[];
 engine.onEffectErrorObservable.add(({errors:message})=>errors.push(message));
 const started=performance.now();
@@ -191,8 +196,8 @@ try{
       }
     }
     phase='character and vehicle construction and glTF asset loading';
-    const player=createCharacter(scene),vehicle=useCar?createCar(scene):createScooter(scene),camera=createCamera(scene);
-    if('ready' in vehicle)await vehicle.ready;
+    const player=usePBR&&useDetail?createDetailedCharacter(scene):createCharacter(scene),vehicle=useCar?createCar(scene):createScooter(scene),camera=createCamera(scene);
+    await Promise.all(['ready' in player?player.ready:Promise.resolve(),'ready' in vehicle?vehicle.ready:Promise.resolve()]);
     const size={radius:'radius' in vehicle?vehicle.radius:.93,halfLength:'halfLength' in vehicle?vehicle.halfLength:1.1};
     const placement=useCar?placeVehicleOnStreet(map.city,world.canStand,size):undefined;
     const p=placement?.player??map.city.spawn,car=placement?.car??map.city.scooter,heading=placement?.heading??Math.atan2(map.city.pickup[0]-p[0],map.city.pickup[1]-p[1]);
@@ -239,8 +244,10 @@ try{
   const capturePath=observedErrors.length?output.replace(/\.png$/i,'.failed.png'):output;
   await mkdir(dirname(output),{recursive:true});await writeFile(capturePath,await canvas.encode('png'));
   if(observedErrors.length){failedCandidate=capturePath;throw Error('WebGL validation failed with '+observedErrors.join(',')+'. Actual framebuffer saved only as an unvalidated failed candidate: '+capturePath);}
-  const debug=gl.getExtension('WEBGL_debug_renderer_info');
-  const report={mode,view:arg('--view')??'initial',sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,driverRenderer:gl.getParameter(gl.RENDERER),driverVendor:gl.getParameter(gl.VENDOR),unmaskedRenderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):null,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
+  const facadeMeshes=scene.meshes.filter(m=>m.metadata?.facadeDetail),active=scene.getActiveMeshes(),activeSet=new Set(active.data.slice(0,active.length));
+  const facadeRendering={batches:facadeMeshes.length,enabledBatches:facadeMeshes.filter(m=>m.isEnabled()).length,activeBatches:facadeMeshes.filter(m=>activeSet.has(m)).map(m=>({name:m.name,instances:m.metadata.instances})),instances:facadeMeshes.reduce((sum,m)=>sum+(m.metadata.instances??0),0)};
+  const transmissionTargetType=(scene as Scene&Partial<ITransmissionHelperHolder>)._transmissionHelper?.getOpaqueTarget()?.getInternalTexture()?.type;
+  const report={mode,view:arg('--view')??'initial',sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,...driver,capabilities,facadeRendering,transmissionTargetType,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,importedCharacter:usePBR&&useDetail,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
   await writeFile(output.replace(/\.png$/i,'.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }catch(error){
   await mkdir(dirname(output),{recursive:true});

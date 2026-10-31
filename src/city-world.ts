@@ -16,6 +16,7 @@ import {inside,segmentDistance,type MapData,type Point,type Footprint} from './g
 import {createSurface} from './surfaces';
 import type {World} from './world';
 import type {VisualMaterials} from './visual-materials';
+import {joinedStreetSections,offsetStreetSection} from './street-sections';
 
 export interface CityRoad {id:string;name?:string;highway:string;points:Point[];width?:number}
 export interface CityWorldDetail {
@@ -151,16 +152,23 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   const roadBatches=new Map<boolean,{positions:number[];indices:number[];uvs:number[];ids:string[]}>();
   let renderedRoads=0;
   for(const road of detail?.roads??[]){
-    const points=road.points.filter((p,i,a)=>Number.isFinite(p[0])&&Number.isFinite(p[1])&&(!i||Math.hypot(p[0]-a[i-1][0],p[1]-a[i-1][1])>.01));if(points.length<2)continue;
+    // Keep the original centerline spans/land checks; only their shared edge joins change.
+    const sections=joinedStreetSections(road.points,Number.MAX_VALUE);if(sections.length<2)continue;
     const pedestrian=['footway','path','steps','pedestrian','cycleway'].includes(road.highway),width=cityRoadWidth(road);
     const batch=roadBatches.get(pedestrian)??{positions:[],indices:[],uvs:[],ids:[]};let emitted=false;
-    for(let j=1;j<points.length;j++){
-      const a=points[j-1],b=points[j],mid:Point=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+    for(let j=1;j<sections.length;j++){
+      const a=sections[j-1],b=sections[j],mid:Point=[(a.point[0]+b.point[0])/2,(a.point[1]+b.point[1])/2];
       if(!insideLand(mid))continue;
-      const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz),nx=-dz/len*width/2,nz=dx/len*width/2,index=batch.positions.length/3;
-      for(const p of [[a[0]+nx,a[1]+nz],[a[0]-nx,a[1]-nz],[b[0]+nx,b[1]+nz],[b[0]-nx,b[1]-nz]]){batch.positions.push(p[0],.025,p[1]);batch.uvs.push(p[0]/4,p[1]/4);}
+      const index=batch.positions.length/3,vertices=[offsetStreetSection(a,width/2),offsetStreetSection(a,-width/2),offsetStreetSection(b,width/2),offsetStreetSection(b,-width/2)];
+      for(const p of vertices){batch.positions.push(p[0],.025,p[1]);batch.uvs.push(p[0]/4,p[1]/4);}
       // Babylon's left-handed normal convention needs this winding for +Y.
-      batch.indices.push(index,index+1,index+2,index+1,index+3,index+2);emitted=true;
+      // Sharp/short joined spans can reverse a triangle; orient each face upward.
+      for(const triangle of [[0,1,2],[1,3,2]]){
+        const [p,q,r]=triangle.map(i=>vertices[i]),normalY=(p[1]-q[1])*(r[0]-q[0])-(p[0]-q[0])*(r[1]-q[1]);
+        if(normalY<0)[triangle[1],triangle[2]]=[triangle[2],triangle[1]];
+        batch.indices.push(...triangle.map(i=>index+i));
+      }
+      emitted=true;
     }
     if(emitted){batch.ids.push(road.id);renderedRoads++;}roadBatches.set(pedestrian,batch);
   }

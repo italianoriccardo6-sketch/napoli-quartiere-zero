@@ -45,7 +45,9 @@ export function createVisualMaterials(scene:Scene,options:VisualMaterialOptions=
   const terrain=plain('calcestruzzo urbano','#a5a095',.94),pavement=plain('lastre del marciapiede','#b5b4ac',.86);
   const footway=scanned('pietra dei percorsi','stone_wall','#c4c5c0',.95);
   const facades=['#e4d5bc','#d3c4af','#dcc6ac','#c6c5b4'].map((tint,i)=>scanned('intonaco fotografico '+i,'painted_plaster_wall',tint,.94));
-  const trim=scanned('pietra cornici','stone_wall','#e0d8c7',.85),plinth=scanned('pietra basamento','stone_wall','#a2a49e',.92);
+  // Instance boxes have unit UVs: neutral stone avoids stretching a wall scan
+  // across a forty-metre cornice or a ten-centimetre window frame.
+  const trim=plain('pietra cornici','#d2c7b3',.85),plinth=plain('pietra basamento','#9f9e94',.92);
   const glass=plain('vetro scuro riflettente','#10252c',.13,.05);glass.environmentIntensity=1.4;
   const shutter=plain('vernice persiane','#304b43',.57),iron=plain('ferro verniciato','#282f2f',.38,.45);
   const door=plain('legno dei portoni','#504235',.63),shop=plain('serramenti commerciali','#454f4a',.4,.25);
