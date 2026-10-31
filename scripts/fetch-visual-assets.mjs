@@ -26,35 +26,52 @@ async function bytes(url,limit){
   return Buffer.concat(parts);
 }
 function descriptor(tree,map,format,limit,assetId){
-  const file=tree[map]?.['1k']?.[format];
+  // The live asphalt_02 response uses Diffuse and Rough although other asset
+  // documents use diff and rough. Preserve the actual selected key in credits.
+  const aliases={diff:['diff','Diffuse'],rough:['rough','Rough']};
+  const sourceMapKey=(aliases[map]??[map]).find(key=>Object.hasOwn(tree??{},key));
+  const sourceMap=tree[sourceMapKey];
+  const file=sourceMap?.['1k']?.[format];
   if(!file||typeof file.url!=='string'||!Number.isSafeInteger(file.size)||file.size<=0||file.size>limit||! /^[a-f0-9]{32}$/i.test(file.md5??'')){
     // Keep the actual public descriptor visible when the API's documented shape
     // differs. Diagnostics are CI artifacts only, never redistributed game data.
     const keys=value=>Object.keys(value??{}).slice(0,30);
     const scalar=value=>typeof value==='string'?value.slice(0,250):typeof value==='number'?value:null;
-    console.error('Poly Haven descriptor diagnostics:',JSON.stringify({assetId,map,resolution:'1k',format,limit,treeKeys:keys(tree),resolutionKeys:keys(tree[map]),formatKeys:keys(tree[map]?.['1k']),descriptorKeys:keys(file),size:scalar(file?.size),sizeType:typeof file?.size,md5:scalar(file?.md5),md5Type:typeof file?.md5,url:scalar(file?.url)}));
+    console.error('Poly Haven descriptor diagnostics:',JSON.stringify({assetId,map,sourceMapKey:sourceMapKey??null,resolution:'1k',format,limit,treeKeys:keys(tree),resolutionKeys:keys(sourceMap),formatKeys:keys(sourceMap?.['1k']),descriptorKeys:keys(file),size:scalar(file?.size),sizeType:typeof file?.size,md5:scalar(file?.md5),md5Type:typeof file?.md5,url:scalar(file?.url)}));
     throw Error(`Verified descriptor failed for ${assetId}/1k/${map}/${format}; inspect the bounded descriptor diagnostics`);
   }
   const url=new URL(file.url);
   if(url.protocol!=='https:'||url.hostname!=='dl.polyhaven.org')throw Error('Asset URL is outside the official download host');
-  return file;
+  return {...file,sourceMapKey};
 }
-const files=[],assets=[];
+const files=[],assets=[],plans=[],descriptorErrors=[];
+// Check the entire selection before transferring image files. If the upstream
+// document shape changes, one CI diagnostic run reports every affected map.
 for(const asset of selected){
   const endpoint=`https://api.polyhaven.com/files/${asset.id}`;
   const tree=JSON.parse((await bytes(endpoint,1024*1024)).toString('utf8'));
   await mkdir(diagnosticsRoot,{recursive:true});
   await writeFile(`${diagnosticsRoot}/${asset.id}.json`,JSON.stringify(tree,null,2)+'\n');
   const maps=asset.kind==='hdri'?[['hdri','hdr','environment/daylight.hdr']]:['diff','nor_gl','rough'].map(map=>[map,'jpg',`materials/${asset.id}/${map}.jpg`]);
-  const records={};
+  const descriptors=[];
   for(const [map,format,path]of maps){
-    const file=descriptor(tree,map,format,asset.kind==='hdri'?maxHDR:maxTexture,asset.id);
+    try{descriptors.push({map,format,path,file:descriptor(tree,map,format,asset.kind==='hdri'?maxHDR:maxTexture,asset.id)});}
+    catch(error){descriptorErrors.push(error.message);}
+  }
+  plans.push({asset,endpoint,descriptors});
+}
+if(descriptorErrors.length)throw Error(`Visual asset preflight failed: ${descriptorErrors.join('; ')}`);
+const plannedBytes=plans.reduce((sum,plan)=>sum+plan.descriptors.reduce((subtotal,item)=>subtotal+item.file.size,0),0);
+if(plannedBytes>maxTotal)throw Error('Selected asset pack exceeds 35 MiB budget');
+for(const {asset,endpoint,descriptors}of plans){
+  const records={};
+  for(const {map,format,path,file}of descriptors){
     if(totalBytes+file.size>maxTotal)throw Error('Selected asset pack exceeds 35 MiB budget');
     const data=await bytes(file.url,asset.kind==='hdri'?maxHDR:maxTexture);
     const md5=createHash('md5').update(data).digest('hex');
     if(data.length!==file.size||md5.toLowerCase()!==file.md5.toLowerCase())throw Error(`Integrity mismatch for ${asset.id}/${map}`);
     totalBytes+=data.length;if(totalBytes>maxTotal)throw Error('Asset pack exceeds 35 MiB budget');
-    files.push({path,data});records[map]={path:'/assets/'+path,url:file.url,bytes:data.length,md5,sha256:createHash('sha256').update(data).digest('hex'),resolution:'1k',format};
+    files.push({path,data});records[map]={path:'/assets/'+path,url:file.url,bytes:data.length,md5,sha256:createHash('sha256').update(data).digest('hex'),resolution:'1k',format,sourceMapKey:file.sourceMapKey};
     console.log(`${asset.key}/${map}: ${data.length} bytes, MD5 verified`);
   }
   assets.push({...asset,license:'CC0-1.0',licenseUrl:'https://creativecommons.org/publicdomain/zero/1.0/',page:`https://polyhaven.com/a/${asset.id}`,filesEndpoint:endpoint,files:records});

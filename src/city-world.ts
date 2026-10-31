@@ -15,6 +15,7 @@ import earcut from 'earcut';
 import {inside,segmentDistance,type MapData,type Point,type Footprint} from './geo';
 import {createSurface} from './surfaces';
 import type {World} from './world';
+import type {VisualMaterials} from './visual-materials';
 
 export interface CityRoad {id:string;name?:string;highway:string;points:Point[];width?:number}
 export interface CityWorldDetail {
@@ -68,7 +69,7 @@ export function cityRoadWidth(road:Pick<CityRoad,'highway'|'width'>):number {
  * Material detail, road widths without a tag and flat roofs are visual estimates.
  * No invented landmark model, island, street layout, or map tile is added here.
  */
-export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail):World {
+export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,options:{materials?:VisualMaterials}={}):World {
   const land=(detail?.landPolygons??map.land.map(r=>[r])).map(p=>p.map(cleanRing)).filter(p=>p[0]?.length>=3).map(p=>[p[0],...p.slice(1).filter(r=>r.length>=3)]);
   if(!land.length)throw Error('La superficie di terra della mappa reale non è disponibile.');
   const landBounds=land.map(p=>boundsOf(p[0])),landGrid=new Grid<number>(),boundaries=new Grid<Boundary>();
@@ -113,10 +114,11 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail)
   const skyLight=new HemisphericLight('luce cielo città',new Vector3(0,1,0),scene);skyLight.intensity=.65;skyLight.diffuse=Color3.FromHexString('#d8e5ee');skyLight.groundColor=Color3.FromHexString('#6c665a');
   const sun=new DirectionalLight('sole pomeridiano città',new Vector3(-.8,-.72,-.38),scene);sun.position.set(150,200,100);sun.intensity=1.8;sun.diffuse=Color3.FromHexString('#ffe2b7');sun.shadowMinZ=1;sun.shadowMaxZ=650;sun.autoUpdateExtends=false;sun.orthoLeft=-190;sun.orthoRight=190;sun.orthoTop=190;sun.orthoBottom=-190;
   const shadows=new ShadowGenerator(2048,sun);shadows.usePercentageCloserFiltering=true;shadows.bias=.001;shadows.normalBias=.035;shadows.setDarkness(.25);
-  const terrain=createSurface(scene,'terreno urbano generico','paving','#99988d',87).material;
-  const asphalt=createSurface(scene,'manto stradale generico','plaster','#656b6a',43).material;
-  const footway=createSurface(scene,'pavimentazione pedonale generica','paving','#828780',74).material;
-  const facades=['#c5b49b','#bcb3a1','#c6bba8','#baac96'].map((c,i)=>createSurface(scene,'volume geografico '+i,'plaster',c,100+i).material);
+  const visuals=options.materials;
+  const terrain=visuals?.terrain??createSurface(scene,'terreno urbano generico','paving','#99988d',87).material;
+  const asphalt=visuals?.asphalt??createSurface(scene,'manto stradale generico','plaster','#656b6a',43).material;
+  const footway=visuals?.footway??createSurface(scene,'pavimentazione pedonale generica','paving','#828780',74).material;
+  const facades=visuals?.facades??['#c5b49b','#bcb3a1','#c6bba8','#baac96'].map((c,i)=>createSurface(scene,'volume geografico '+i,'plaster',c,100+i).material);
   for(const [i,polygon] of land.entries()){
     const ground=MeshBuilder.ExtrudePolygon('terra OSM '+i,{shape:polygon[0].map(p=>new Vector3(p[0],0,p[1])),holes:polygon.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:2,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
     ground.material=terrain;ground.receiveShadows=true;ground.metadata={solid:true,geography:'land'};
@@ -130,6 +132,8 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail)
     const height=Number.isFinite(b.height)&&b.height>0?b.height:10;
     const volume=MeshBuilder.ExtrudePolygon('sagoma '+b.id,{shape:b.rings[0].map(p=>new Vector3(p[0],0,p[1])),holes:b.rings.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:height,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
     volume.position.y=height;
+    const positions=volume.getVerticesData('position')!,normals=volume.getVerticesData('normal')!,uvs=volume.getVerticesData('uv')!;
+    for(let v=0;v<positions.length/3;v++){const x=positions[v*3],y=positions[v*3+1],z=positions[v*3+2];uvs[v*2]=Math.abs(normals[v*3+1])>.7?x/2:(Math.abs(normals[v*3])>.7?z/2:x/2);uvs[v*2+1]=Math.abs(normals[v*3+1])>.7?z/2:y/2;}volume.setVerticesData('uv',uvs);
     let hash=0;for(const c of b.id)hash=(Math.imul(hash,31)+c.charCodeAt(0))>>>0;
     const material=hash%facades.length;volume.material=facades[material];volume.metadata={sourceId:b.id,solid:true};
     const key=Math.floor((bounds[0]+bounds[2])/256)+','+Math.floor((bounds[1]+bounds[3])/256)+','+material;

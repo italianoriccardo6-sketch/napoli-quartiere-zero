@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/visual-assets.yml
+      - scripts/fetch-visual-assets.mjs
 permissions:
   contents: write
 concurrency:
