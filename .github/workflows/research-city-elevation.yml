@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches: [research/ctr-vertical-reference-20261031]
-    paths: [.github/workflows/research-city-elevation.yml]
+    paths: [.github/workflows/research-city-elevation.yml, scripts/fetch-city-dtm.mjs]
 permissions:
   contents: read
 jobs:
