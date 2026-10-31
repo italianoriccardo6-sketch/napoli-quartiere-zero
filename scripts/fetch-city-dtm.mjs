@@ -1,6 +1,6 @@
 // Public Regione Campania CTR2020 DTM crop. Never uses the rendered hillshade.
 // Run after installing geotiff@2.1.3 under work/ctr-deps (research workflow only).
-import {mkdir, writeFile, readFile} from 'node:fs/promises';
+import {mkdir, writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {fromArrayBuffer} from '../work/ctr-deps/node_modules/geotiff/dist-module/geotiff.js';
 
@@ -35,18 +35,35 @@ const image=await tiff.getImage();const fd=image.fileDirectory;
 const geoKeys=image.getGeoKeys();
 if(image.getWidth()!==401||image.getHeight()!==357||image.getSamplesPerPixel()!==1||fd.SampleFormat?.[0]!==3||fd.BitsPerSample?.[0]!==32)throw Error('Export is not the requested single-band F32 raster');
 if(geoKeys.GeographicTypeGeoKey!==4326)throw Error('Unexpected geographic output CRS');
-const [band]=await image.readRasters({samples:[0]});
+// ArcGIS emits legitimate sparse TIFF tiles (offset=count=0) for sea nodata.
+// geotiff2.1.3 does not expand them, so decode each present tile explicitly.
+let band,sparseTiles=0;
+if(fd.TileOffsets&&fd.TileByteCounts){
+  const width=image.getWidth(),height=image.getHeight(),tw=fd.TileWidth,th=fd.TileLength;
+  const columns=Math.ceil(width/tw),rows=Math.ceil(height/th);
+  if(fd.TileOffsets.length!==columns*rows||fd.TileByteCounts.length!==columns*rows)throw Error('Invalid TIFF tile directory');
+  band=new Float32Array(width*height);
+  for(let y=0;y<rows;y++)for(let x=0;x<columns;x++){
+    const index=y*columns+x;
+    if(fd.TileByteCounts[index]===0&&fd.TileOffsets[index]===0){sparseTiles++;continue;}
+    if(fd.TileOffsets[index]<=0||fd.TileByteCounts[index]<=0||fd.TileOffsets[index]+fd.TileByteCounts[index]>bytes.length)throw Error('Invalid nonempty TIFF tile');
+    const x0=x*tw,y0=y*th,x1=Math.min(x0+tw,width),y1=Math.min(y0+th,height);
+    const [tile]=await image.readRasters({samples:[0],window:[x0,y0,x1,y1]});
+    if(!(tile instanceof Float32Array))throw Error('Decoded tile is not Float32Array');
+    for(let row=0;row<y1-y0;row++)band.set(tile.subarray(row*(x1-x0),(row+1)*(x1-x0)),(y0+row)*width+x0);
+  }
+}else [band]=await image.readRasters({samples:[0]});
 if(!(band instanceof Float32Array))throw Error('Decoded band is not Float32Array');
 const noData=image.getGDALNoData();
 const samples=Array.from(band,v=>Number.isFinite(v)&&v!==noData&&v!==0?Math.round(v*100)/100:null);
-const valid=samples.filter(v=>v!==null),min=Math.min(...valid),max=Math.max(...valid);
+const valid=samples.filter(v=>v!==null),min=valid.reduce((a,b)=>Math.min(a,b),Infinity),max=valid.reduce((a,b)=>Math.max(a,b),-Infinity);
 if(valid.length<10000||min< -10||max>500||max-min<30)throw Error('Implausible Naples raw height crop');
 const bounds=image.getBoundingBox();
 const grid={version:1,width:image.getWidth(),height:image.getHeight(),bounds:{west:bounds[0],south:bounds[1],east:bounds[2],north:bounds[3]},rowOrder:'north-to-south',sampleLocation:'pixel-center',sourceUnits:'unverified',verticalDatum:null,noData:null,heights:samples};
 await save('raw-source-grid.json',grid);
 const source={provider:'Regione Campania — Sistema Informativo Territoriale',dataset:'CTR2020 — DTM5K',sourceYear:2020,sourceUrl:raster,portalItem:base+'/portal/home/item.html?id=aaff40e0c82d4239bfaf2a776c735b67',license:'CC BY 4.0',licenseDeclaration:'https://sit.regione.campania.it/carta-tecnica-regionale',acquiredAt:new Date().toISOString(),nativePixelSize:5,nativeCrs:service.spatialReference,exportUrl,exportPixelType:'F32',rasterFunction:'None',sha256,verticalDatum:null,verticalUnits:null,activation:'research-only; vertical units not yet certified'};
 await save('source.json',source);
-const validation={sha256,byteLength:bytes.length,decodedPixelType:'Float32Array',sampleFormat:fd.SampleFormat,bitsPerSample:fd.BitsPerSample,geoKeys,width:image.getWidth(),height:image.getHeight(),bounds,noData,validPixels:valid.length,noDataPixels:samples.length-valid.length,min,max,precision:'JSON rounded to0.01 source units; original float32 TIFF retained',requests,verticalUnitsVerified:false};
+const validation={sha256,byteLength:bytes.length,decodedPixelType:'Float32Array',sampleFormat:fd.SampleFormat,bitsPerSample:fd.BitsPerSample,geoKeys,width:image.getWidth(),height:image.getHeight(),bounds,noData,validPixels:valid.length,noDataPixels:samples.length-valid.length,sparseTiles,min,max,precision:'JSON rounded to0.01 source units; original float32 TIFF retained',requests,verticalUnitsVerified:false};
 await save('validation.json',validation);
 await save('LICENSE-NOTICE.md','# Regione Campania CTR2020 DTM\n\nSource: '+raster+'\n\nRegione Campania publishes CTR, DBT and DTM updated to2020 under Creative Commons Attribution4.0: https://sit.regione.campania.it/carta-tecnica-regionale . This crop preserves raw source pixels in napoli-dtm.tif; JSON is reprojected/resampled and rounded to0.01 source units. No vertical datum or unit declaration is inferred from the horizontal CRS. Research data is not activated in gameplay.\n');
 console.log('DTM_CROP_VALIDATION='+JSON.stringify(validation));
