@@ -177,12 +177,12 @@ export function buildStreetDetailGeometry(map:MapData,detail:CityRuntime,options
       }
       // Italian-style white paint, explicitly inferred: no US double-yellow or invented crossings.
       if(half>=3&&insideLand(mid)&&outsideBuildings(mid)){
-        for(const side of [-1,1]){const edge=side*(half-.23);strip('paint',a,b,edge-.045,edge+.045,.037,mid);stats.paintStrips++;thisSpan=true;}
+        for(const side of [-1,1]){const edge=side*(half-.23);strip('paint',a,b,edge-.045,edge+.045,.052,mid);stats.paintStrips++;thisSpan=true;}
         if(['primary','secondary','tertiary'].includes(road.highway)&&half>=3.5){
           const d0=a.distance,d1=b.distance;
           for(let cycle=Math.floor(d0/9);cycle<=Math.floor(d1/9);cycle++){
             const start=Math.max(d0,cycle*9),end=Math.min(d1,cycle*9+3);if(end-start<.1)continue;
-            strip('paint',interpolate(a,b,(start-d0)/(d1-d0)),interpolate(a,b,(end-d0)/(d1-d0)),-.06,.06,.038,mid);stats.paintStrips++;thisSpan=true;
+            strip('paint',interpolate(a,b,(start-d0)/(d1-d0)),interpolate(a,b,(end-d0)/(d1-d0)),-.06,.06,.053,mid);stats.paintStrips++;thisSpan=true;
           }
         }
       }
@@ -195,9 +195,44 @@ export function buildStreetDetailGeometry(map:MapData,detail:CityRuntime,options
   return {batches,stats};
 }
 
+/** Only upward horizontal tops support feet; paint and curb bevels are excluded. */
+function streetHeightIndex(geometry:StreetDetailGeometry){
+  type Top={a:Point;b:Point;c:Point;y:number;denominator:number};
+  const grid=new Map<string,Top[]>();
+  for(const batch of geometry.batches){
+    if(batch.surface!=='pavement'&&batch.surface!=='curb')continue;
+    for(let i=0;i<batch.indices.length;i+=3){
+      const vertices=batch.indices.slice(i,i+3).map(index=>batch.positions.slice(index*3,index*3+3));
+      const [a,b,c]=vertices;if(!a||!b||!c||vertices.some(p=>p.length!==3||!p.every(Number.isFinite)))continue;
+      if(Math.abs(a[1]-b[1])>EPS||Math.abs(a[1]-c[1])>EPS)continue;
+      // Babylon's left-handed face normal is (a-b) cross (c-b).
+      const normalY=(a[2]-b[2])*(c[0]-b[0])-(a[0]-b[0])*(c[2]-b[2]);
+      if(normalY<=EPS)continue;
+      const top:Top={a:[a[0],a[2]],b:[b[0],b[2]],c:[c[0],c[2]],y:a[1],denominator:(b[2]-c[2])*(a[0]-c[0])+(c[0]-b[0])*(a[2]-c[2])};
+      const box=bounds([top.a,top.b,top.c]);
+      for(let x=Math.floor(box[0]/CELL);x<=Math.floor(box[2]/CELL);x++)for(let z=Math.floor(box[1]/CELL);z<=Math.floor(box[3]/CELL);z++){
+        const key=x+','+z,triangles=grid.get(key)??[];triangles.push(top);grid.set(key,triangles);
+      }
+    }
+  }
+  return {
+    heightAt(x:number,z:number){
+      if(!Number.isFinite(x)||!Number.isFinite(z))return 0;
+      let height=0;
+      for(const {a,b,c,y,denominator}of grid.get(Math.floor(x/CELL)+','+Math.floor(z/CELL))??[]){
+        const u=((b[1]-c[1])*(x-c[0])+(c[0]-b[0])*(z-c[1]))/denominator;
+        const v=((c[1]-a[1])*(x-c[0])+(a[0]-c[0])*(z-c[1]))/denominator;
+        if(u>=-EPS&&v>=-EPS&&u+v<=1+EPS)height=Math.max(height,y);
+      }
+      return height;
+    },
+    dispose(){grid.clear();}
+  };
+}
+
 /** Attach visual-only buffers; callers may provide their licensed PBR materials. */
 export function addStreetDetail(scene:Scene,map:MapData,detail:CityRuntime,options:StreetDetailOptions={}){
-  const geometry=buildStreetDetailGeometry(map,detail,options),owned:Material[]=[],materials={} as Record<StreetSurface,Material>;
+  const geometry=buildStreetDetailGeometry(map,detail,options),heights=streetHeightIndex(geometry),owned:Material[]=[],materials={} as Record<StreetSurface,Material>;
   for(const [surface,color]of [['pavement','#a39f90'],['curb','#b9b5a6'],['paint','#e2ded0']] as const){
     const supplied=options.materials?.[surface];if(supplied){materials[surface]=supplied;continue;}
     const material=new StandardMaterial('dettaglio stradale '+surface,scene);material.diffuseColor=Color3.FromHexString(color);material.specularColor.set(.035,.035,.03);materials[surface]=material;owned.push(material);
@@ -206,5 +241,5 @@ export function addStreetDetail(scene:Scene,map:MapData,detail:CityRuntime,optio
     const mesh=new Mesh('dettaglio strada '+batch.key,scene),data=new VertexData();data.positions=batch.positions;data.indices=batch.indices;data.uvs=batch.uvs;const normals:number[]=[];VertexData.ComputeNormals(batch.positions,batch.indices,normals);data.normals=normals;data.applyToMesh(mesh);mesh.material=materials[batch.surface];mesh.material.backFaceCulling=false;mesh.receiveShadows=true;mesh.isPickable=false;mesh.checkCollisions=false;mesh.metadata={solid:false,inferredStreetDetail:true,source:'OSM centerlines; inferred widths, curbs and white markings',surface:batch.surface};return mesh;
   });
   scene.metadata={...(scene.metadata??{}),streetDetail:{...geometry.stats}};
-  return {stats:geometry.stats,meshes,dispose(){for(const mesh of meshes)mesh.dispose();for(const material of owned)material.dispose();}};
+  return {stats:geometry.stats,meshes,heightAt:heights.heightAt,dispose(){heights.dispose();for(const mesh of meshes)mesh.dispose();for(const material of owned)material.dispose();}};
 }

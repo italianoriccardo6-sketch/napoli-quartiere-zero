@@ -7,12 +7,14 @@ import {createVisualMaterials,loadDaylightEnvironment} from './visual-materials'
 import {addFacadeDetail} from './facade-detail';
 import {addStreetDetail} from './street-detail';
 import {addVegetation,type GreenData} from './vegetation';
+import {openingStreetData} from './vehicle-placement';
 
 /** Shared by the playable scene and the direct engine frame capture. */
 export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime){
   const materials=createVisualMaterials(scene);
   const world=createCityWorld(scene,map,city,{materials});
-  const facades=addFacadeDetail(scene,map,{focus:[city.spawn,...city.route],radius:95,quality:'alta',materials});
+  const opening=openingStreetData(city);
+  const facades=addFacadeDetail(scene,map,{focus:[opening.scooter,city.spawn,...city.route],radius:95,quality:'alta',materials});
   const streets=addStreetDetail(scene,map,city,{materials});
   const vegetationReady=(async()=>{
     const response=await fetch(`${import.meta.env?.BASE_URL??'/'}data/green.json`);
@@ -26,5 +28,5 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime)
     scene.createDefaultSkybox(environment,true,4000,0,false);
   });
   scene.metadata={...(scene.metadata??{}),visualDetail:{facades:facades.stats,streets:streets.stats,photographicMaps:'CC0 Poly Haven; generic surfaces, not surveyed Naples facades'}};
-  return {...world,ready,updateDetail(position:Point,quality:'alta'|'bassa'){facades.update(position,quality);}};
+  return {...world,ready,surfaceHeightAt:streets.heightAt,updateDetail(position:Point,quality:'alta'|'bassa'){facades.update(position,quality);}};
 }

@@ -58,7 +58,9 @@ jobs:
           cp public/assets/visual-manifest.json public/assets/VISUAL-ASSETS-LICENSE.txt "$ASSET_EXPORT/"
           # Export only these verified data files. An orphan branch avoids asking
           # GitHub App credentials to republish the source workflow history.
-          git switch --orphan "$ASSET_BRANCH"
+          # Existing asphalt and manifest files changed during the upgrade; their
+          # verified replacements are safely exported before this clean checkout.
+          git switch --orphan "$ASSET_BRANCH" --discard-changes
           mkdir -p public/assets/materials
           cp -R "$ASSET_EXPORT/materials/asphalt_02" public/assets/materials/
           cp -R "$ASSET_EXPORT/materials/stone_tiles_02" public/assets/materials/

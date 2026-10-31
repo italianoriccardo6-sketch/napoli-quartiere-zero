@@ -111,10 +111,10 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   }
 
   scene.clearColor.set(.69,.79,.83,1);scene.fogMode=Scene.FOGMODE_EXP2;scene.fogColor=new Color3(.69,.79,.83);scene.fogDensity=.0004;
-  scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;scene.imageProcessingConfiguration.exposure=1.05;scene.imageProcessingConfiguration.contrast=1.05;
-  const skyLight=new HemisphericLight('luce cielo città',new Vector3(0,1,0),scene);skyLight.intensity=.65;skyLight.diffuse=Color3.FromHexString('#d8e5ee');skyLight.groundColor=Color3.FromHexString('#6c665a');
-  const sun=new DirectionalLight('sole pomeridiano città',new Vector3(-.8,-.72,-.38),scene);sun.position.set(150,200,100);sun.intensity=1.8;sun.diffuse=Color3.FromHexString('#ffe2b7');sun.shadowMinZ=1;sun.shadowMaxZ=650;sun.autoUpdateExtends=false;sun.orthoLeft=-190;sun.orthoRight=190;sun.orthoTop=190;sun.orthoBottom=-190;
-  const shadows=new ShadowGenerator(2048,sun);shadows.usePercentageCloserFiltering=true;shadows.bias=.001;shadows.normalBias=.035;shadows.setDarkness(.25);
+  scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;scene.imageProcessingConfiguration.exposure=1.05;scene.imageProcessingConfiguration.contrast=options.materials?1.12:1.05;
+  const skyLight=new HemisphericLight('luce cielo città',new Vector3(0,1,0),scene);skyLight.intensity=options.materials?0.18:0.65;skyLight.diffuse=Color3.FromHexString('#d8e5ee');skyLight.groundColor=Color3.FromHexString('#6c665a');
+  const sun=new DirectionalLight('sole pomeridiano città',new Vector3(-.8,-.72,-.38),scene);sun.position.set(200*.8/.72,200,200*.38/.72);sun.intensity=options.materials?2.4:1.8;sun.diffuse=Color3.FromHexString('#fff0d7');sun.shadowMinZ=1;sun.shadowMaxZ=650;sun.autoUpdateExtends=false;sun.orthoLeft=-100;sun.orthoRight=100;sun.orthoTop=100;sun.orthoBottom=-100;
+  const shadows=new ShadowGenerator(2048,sun);shadows.usePercentageCloserFiltering=true;shadows.bias=.00008;shadows.normalBias=.02;shadows.setDarkness(.15);
   const visuals=options.materials;
   const terrain=visuals?.terrain??createSurface(scene,'terreno urbano generico','paving','#99988d',87).material;
   const asphalt=visuals?.asphalt??createSurface(scene,'manto stradale generico','plaster','#656b6a',43).material;
@@ -160,7 +160,9 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
       const a=sections[j-1],b=sections[j],mid:Point=[(a.point[0]+b.point[0])/2,(a.point[1]+b.point[1])/2];
       if(!insideLand(mid))continue;
       const index=batch.positions.length/3,vertices=[offsetStreetSection(a,width/2),offsetStreetSection(a,-width/2),offsetStreetSection(b,width/2),offsetStreetSection(b,-width/2)];
-      for(const p of vertices){batch.positions.push(p[0],.025,p[1]);batch.uvs.push(p[0]/4,p[1]/4);}
+      // Walkway ribbons cross roads in OSM; separate their depth to prevent
+      // coplanar asphalt/paving fragments flickering through each other.
+      for(const p of vertices){batch.positions.push(p[0],pedestrian?.025:.04,p[1]);batch.uvs.push(p[0]/(pedestrian?2:3),p[1]/(pedestrian?2:3));}
       // Babylon's left-handed normal convention needs this winding for +Y.
       // Sharp/short joined spans can reverse a triangle; orient each face upward.
       for(const triangle of [[0,1,2],[1,3,2]]){
@@ -191,7 +193,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   scene.onBeforeRenderObservable.add(()=>{
     const camera=scene.activeCamera;if(!camera)return;
     const position=camera.globalPosition;sea.setVector3('cameraPosition',position);
-    const time=performance.now();if(time-lastShadowUpdate<700)return;lastShadowUpdate=time;sun.position.set(position.x+150,200,position.z+100);
+    const time=performance.now();if(time-lastShadowUpdate<700)return;lastShadowUpdate=time;sun.position.set(position.x+200*.8/.72,200,position.z+200*.38/.72);
     for(const chunk of chunks){const nearby=distanceToBounds(position.x,position.z,chunk.bounds)<300;
       if(nearby&&!activeShadows.has(chunk.mesh)){shadows.addShadowCaster(chunk.mesh,false);activeShadows.add(chunk.mesh);}
       else if(!nearby&&activeShadows.has(chunk.mesh)){shadows.removeShadowCaster(chunk.mesh,false);activeShadows.delete(chunk.mesh);}

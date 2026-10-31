@@ -83,7 +83,7 @@ function leafTexture(scene:Scene,palm:boolean){
  const size=256,texture=new DynamicTexture(palm?'foglie palma originali':'foglie originali',{width:size,height:size},scene,true),context=texture.getContext(),image=context.getImageData(0,0,size,size);
  const leaves:Array<{cx:number;cy:number;angle:number;a:number;b:number;shade:number}>=[];
  if(palm){for(let i=0;i<17;i++){const t=i/17;for(const side of[-1,1])leaves.push({cx:side*(.17+.12*Math.sin(t*Math.PI)),cy:-.85+t*1.65,angle:side*(.4+t*.35),a:.34*(.35+Math.sin(t*Math.PI)*.65),b:.027,shade:i%3});}}
- else{for(let i=0;i<9;i++){const angle=i*2.399963,rad=.2+(i%3)*.16;leaves.push({cx:Math.cos(angle)*rad,cy:Math.sin(angle)*rad,angle,a:.29,b:.115,shade:i%4});}}
+ else{for(let i=0;i<9;i++){const angle=i*2.399963,rad=.2+(i%3)*.16;leaves.push({cx:Math.cos(angle)*rad,cy:Math.sin(angle)*rad,angle,a:.34,b:.15,shade:i%4});}}
  for(let py=0;py<size;py++)for(let px=0;px<size;px++){
   const x=(px+.5)/size*2-1,cy=(py+.5)/size*2-1;let alpha=0,shade=0,vein=false;
   for(const leaf of leaves){const co=Math.cos(leaf.angle),si=Math.sin(leaf.angle),dx=x-leaf.cx,dy=cy-leaf.cy,u=dx*co+dy*si,v=-dx*si+dy*co,width=leaf.b*(1-(u/leaf.a)**2);if(width>0&&Math.abs(v)<width){alpha=Math.max(alpha,clamp((width-Math.abs(v))*size*.8,0,1));shade=leaf.shade;vein=Math.abs(v)<.007;}}

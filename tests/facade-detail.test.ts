@@ -1,6 +1,8 @@
 import test from 'node:test';import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';import {Scene} from '@babylonjs/core/scene';
 import {inside,type MapData,type Point} from '../src/geo';import {planFacadeDetail,addFacadeDetail} from '../src/facade-detail';
+import type {CityMapData} from '../src/city-data';
 const building=(id:string,ring:Point[])=>({id,rings:[ring],height:13,estimated:true});
 const ring:Point[]=[[0,0],[18,0],[18,14],[0,14]];
 function fixture():MapData{return{provenance:'osm',notice:'synthetic test',land:[[[-50,-50],[50,-50],[50,50],[-50,50]]],paths:[],buildings:[{...building('house',ring),rings:[ring,[[5,4],[13,4],[13,10],[5,10]]]}]};}
@@ -34,4 +36,22 @@ test('facciate: una lastra non attraversa un ostacolo vicino al bordo del suo in
   map.buildings.push({id:'small-overhang-obstacle',height:.5,estimated:false,rings:[[[cx-.04,cz-.04],[cx+.04,cz-.04],[cx+.04,cz+.04],[cx-.04,cz+.04]]]});
   const after=planFacadeDetail(map,options);
   assert.ok(!after.parts.some(p=>p.feature==='balcony'&&Math.abs(p.x-balcony.x)<1e-8&&Math.abs(p.z-balcony.z)<1e-8&&p.y===balcony.y));
+});
+
+test('facciate: il punto iniziale e il muro davanti al giocatore precedono gli edifici lungo il resto del percorso',()=>{
+  const map=fixture();map.buildings[0].rings[0]=[...ring.slice(2),...ring.slice(0,2)];
+  map.buildings.push(building('distant-large-hotel',[[80,0],[180,0],[180,30],[80,30]]));
+  const plan=planFacadeDetail(map,{...options,focus:[[8,-8],[95,-1]],maxBuildings:1,maxInstances:200});
+  assert.ok(plan.parts.some(p=>p.role==='glass'));assert.ok(plan.parts.every(p=>p.buildingId==='house'),'un hotel vicino a un altro punto del percorso non esaurisce il budget iniziale');
+  assert.ok(plan.parts.find(p=>p.role==='glass')!.z<0,'il muro più vicino viene dettagliato prima del retro, indipendentemente dal primo vertice OSM');
+});
+
+test('Napoli reale: entrambe le facciate iniziali ricevono finestre e i grandi edifici condividono il budget',()=>{
+  const map=JSON.parse(readFileSync('public/data/map.json','utf8')) as CityMapData,before=JSON.stringify(map),city=map.city!;
+  const plan=planFacadeDetail(map,{focus:[city.spawn,...city.route],radius:95,quality:'alta'}),counts=new Map<string,number>();
+  for(const part of plan.parts)counts.set(part.buildingId,(counts.get(part.buildingId)??0)+1);
+  for(const id of ['relation/1191261:0','way/310938477:0'])assert.ok(plan.parts.some(p=>p.buildingId===id&&p.role==='glass'),'finestre sul lato iniziale '+id);
+  assert.ok(plan.stats.detailedBuildings>40,'il dettaglio raggiunge più di pochi hotel sul percorso');
+  assert.ok([...counts.values()].every(count=>count<=4000),'nessuna facciata lunga assorbe il budget delle altre');
+  assert.ok(plan.parts.length<=60000);assert.equal(JSON.stringify(map),before,'sagome, altezze e percorso originali preservati');
 });

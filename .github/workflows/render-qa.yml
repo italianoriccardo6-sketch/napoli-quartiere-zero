@@ -60,7 +60,7 @@ jobs:
           path: work/qa-runtime.tar.gz
           compression-level: 0
           retention-days: 7
-      - name: Render della scena giocabile con materiali PBR, auto e dettagli reali del sorgente
+      - name: Verifica fotogrammi del lungomare con dettagli, ombre, FXAA e occlusione ambientale
         env:
           LIBGL_ALWAYS_SOFTWARE: '1'
         run: |
@@ -68,6 +68,7 @@ jobs:
           set -o pipefail
           xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --width=1024 --height=576 --output=work/render-current.png 2>&1 | tee work/render-log.txt
           xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --view=drive --width=1024 --height=576 --output=work/render-driving.png 2>&1 | tee work/render-driving-log.txt
+          xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --view=waterfront --width=1024 --height=576 --output=work/render-waterfront.png 2>&1 | tee work/render-waterfront-log.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:

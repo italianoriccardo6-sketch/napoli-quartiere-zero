@@ -77,8 +77,13 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
     return true;
   };
   const stats:FacadeStats={selectedBuildings:0,detailedBuildings:0,skippedLandmarks:0,windows:0,balconies:0,shopfronts:0,instances:0,batches:0,budgetReached:false,representation:'inferred-facade-detail-not-surveyed'};
-  const selected=entries.filter(e=>e.distance<=options.radius).sort((a,b)=>a.distance-b.distance||a.building.id.localeCompare(b.building.id));
-  const parts:FacadePart[]=[];
+  const priority=options.focus[0];
+  const priorityDistance=(building:Footprint)=>priority?Math.min(...building.rings[0].map((a,i)=>segmentDistance(priority,a,building.rings[0][(i+1)%building.rings[0].length]))):Infinity;
+  // The whole route controls eligibility; the actual starting/player point controls
+  // priority. A distant hotel beside another route vertex must not starve the first street.
+  const selected=entries.filter(e=>e.distance<=options.radius).sort((a,b)=>priorityDistance(a.building)-priorityDistance(b.building)||a.distance-b.distance||a.building.id.localeCompare(b.building.id));
+  const parts:FacadePart[]=[],deferredLouvers:FacadePart[]=[];
+  const perBuildingLimit=Math.min(maximumParts,options.quality==='alta'?4000:1400),buildingCounts=new Map<string,number>();
   let stop=false;
   for(const entry of selected){
     if(stats.selectedBuildings>=maximumBuildings||stop)break;
@@ -88,16 +93,18 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
     if(!Number.isFinite(building.height)||building.height<3.4)continue;
     stats.selectedBuildings++;
     const startCount=parts.length,ring=building.rings[0],orientation=Math.sign(area(ring));if(!orientation)continue;
+    let buildingStop=false;
     const floors=Math.max(1,Math.min(10,Math.floor(building.height/3.2))),floorHeight=building.height/floors;
     const variant=hash(building.id);
-    for(let edge=0;edge<ring.length;edge++){
+    const orderedEdges=ring.map((_,i)=>i).sort((a,b)=>priority?segmentDistance(priority,ring[a],ring[(a+1)%ring.length])-segmentDistance(priority,ring[b],ring[(b+1)%ring.length])||a-b:a-b);
+    for(const edge of orderedEdges){
       const a=ring[edge],b=ring[(edge+1)%ring.length],dx=b[0]-a[0],dz=b[1]-a[1],length=Math.hypot(dx,dz);if(length<2.8||Math.min(...options.focus.map(p=>segmentDistance(p,a,b)))>options.radius)continue;
       const tx=dx/length,tz=dz/length,nx=orientation*tz,nz=-orientation*tx,yaw=-Math.atan2(tz,tx);
       const point=(along:number,out:number):Point=>[a[0]+tx*along+nx*out,a[1]+tz*along+nz*out];
-      const budget=(count:number)=>{if(parts.length+count<=maximumParts)return true;stats.budgetReached=true;stop=true;return false;};
-      const emit=(along:number,y:number,out:number,width:number,height:number,depth:number,role:FacadeRole,feature:FacadePart['feature'])=>{
+      const budget=(count:number)=>{if(parts.length+count>maximumParts){stats.budgetReached=true;stop=true;return false;}if(parts.length-startCount+count>perBuildingLimit){stats.budgetReached=true;buildingStop=true;return false;}return true;};
+      const emit=(along:number,y:number,out:number,width:number,height:number,depth:number,role:FacadeRole,feature:FacadePart['feature'],defer=false)=>{
         const p=point(along,out);if(!clear(p)||!rectangleClear(p,width,depth,yaw,building.id))return;
-        parts.push({buildingId:building.id,role,feature,x:p[0],y,z:p[1],width,height,depth,yaw});
+        (defer?deferredLouvers:parts).push({buildingId:building.id,role,feature,x:p[0],y,z:p[1],width,height,depth,yaw});
       };
       // Party walls are left alone; details are only on open outer facades.
       if(!clear(point(length/2,.28)))continue;
@@ -107,7 +114,7 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
       emit(length/2,building.height+.26,.07,length-.08,.52,.14,'plinth','parapet');
       emit(length/2,building.height+.55,.13,length+.06,.09,.25,'trim','cornice');
       const bays=Math.max(1,Math.min(24,Math.floor((length-.9)/3.1))),spacing=(length-.9)/bays;
-      for(let floor=0;floor<floors&&!stop;floor++){
+      for(let floor=0;floor<floors&&!stop&&!buildingStop;floor++){
         const bottom=floor*floorHeight;
         if(floor>0){if(!budget(1))break;emit(length/2,bottom+.02,.075,length-.1,.10,.15,'trim','cornice');}
         for(let bay=0;bay<bays;bay++){
@@ -138,7 +145,9 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
             const offset=side*(width/2+.18+shutterWidth/2);
             emit(along+offset,centerY,.10,shutterWidth,height+.10,.14,'shutter','shutter');
             if(options.quality==='alta'&&bayDistance<55){
-              for(let line=1;line<=4;line++)emit(along+offset,bottomY+height*line/5,.19,shutterWidth*.90,.037,.045,'iron','shutter');
+              // Fine slats use only the budget left after structural detail on all
+              // selected buildings, so one long wall cannot consume the street.
+              for(let line=1;line<=4;line++)emit(along+offset,bottomY+height*line/5,.19,shutterWidth*.90,.037,.045,'iron','shutter',true);
             }
           }
           stats.windows++;
@@ -153,9 +162,17 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
           }
         }
       }
-      if(stop)break;
+      if(stop||buildingStop)break;
     }
+    buildingCounts.set(building.id,parts.length-startCount);
     if(parts.length>startCount)stats.detailedBuildings++;
+  }
+  // Near-player louvers take priority when any fine-detail budget remains.
+  if(priority)deferredLouvers.sort((a,b)=>Math.hypot(a.x-priority[0],a.z-priority[1])-Math.hypot(b.x-priority[0],b.z-priority[1]));
+  for(const part of deferredLouvers){
+    if(parts.length>=maximumParts){stats.budgetReached=true;break;}
+    const count=buildingCounts.get(part.buildingId)??0;if(count>=perBuildingLimit)continue;
+    parts.push(part);buildingCounts.set(part.buildingId,count+1);
   }
   stats.instances=parts.length;
   return {parts,stats};

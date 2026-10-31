@@ -1,13 +1,13 @@
 {
-  "version": 1,
-  "retrievedAt": "2026-10-31T22:50:11.581Z",
+  "version": 2,
+  "retrievedAt": "2026-10-31T22:57:55.696Z",
   "provider": "Poly Haven",
   "providerLicensePage": "https://polyhaven.com/license",
   "apiTerms": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md",
-  "apiUserAgent": "NapoliQuartiereZero/0.4 (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero)",
-  "resolution": "1k",
-  "totalBytes": 7952739,
-  "assetCount": 4,
+  "apiUserAgent": "NapoliQuartiereZero/0.5 (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero)",
+  "resolution": "mixed",
+  "totalBytes": 17854395,
+  "assetCount": 5,
   "assets": [
     {
       "id": "asphalt_02",
@@ -24,31 +24,31 @@
       "files": {
         "diff": {
           "path": "/assets/materials/asphalt_02/diff.jpg",
-          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_diff_1k.jpg",
-          "bytes": 731707,
-          "md5": "fa19772d4817754c3efab708c651f5a8",
-          "sha256": "1aa5ce99f58a625c71d48cfc3e68b65ca85ccb00f39e045c0a928608a0ea25ed",
-          "resolution": "1k",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_diff_2k.jpg",
+          "bytes": 3075676,
+          "md5": "336af399fd98a39ab986d8b3bf73b4ff",
+          "sha256": "28f5ba8690553f192c0e5e1a5ff40f34765b4b93f4cc7059b1a3e9c795b6c28c",
+          "resolution": "2k",
           "format": "jpg",
           "sourceMapKey": "Diffuse"
         },
         "nor_gl": {
           "path": "/assets/materials/asphalt_02/nor_gl.jpg",
-          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_nor_gl_1k.jpg",
-          "bytes": 1240122,
-          "md5": "338da8de636ea36133170578cac82e8e",
-          "sha256": "42a1c381b53204e83a982db2864479a30bc127bbdeebb1006f8ee51bff099df3",
-          "resolution": "1k",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_nor_gl_2k.jpg",
+          "bytes": 4943950,
+          "md5": "77ebd1cc0b020ccaa1c6b58f103d1f75",
+          "sha256": "ffe49db71a0fd34c1e259625df66a302a237597d6ef655307987ec4e45bc6f21",
+          "resolution": "2k",
           "format": "jpg",
           "sourceMapKey": "nor_gl"
         },
         "rough": {
           "path": "/assets/materials/asphalt_02/rough.jpg",
-          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/asphalt_02/asphalt_02_rough_1k.jpg",
-          "bytes": 544032,
-          "md5": "ec80a2929797c1b3ffc121c4f665585a",
-          "sha256": "70ba3edc65525eb4dc366cf010ca7ae0bd34e0251ff0225c2dad627a873d0712",
-          "resolution": "1k",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/2k/asphalt_02/asphalt_02_rough_2k.jpg",
+          "bytes": 2230457,
+          "md5": "6fe669ab38640ef2009d6a28d1ad5ee9",
+          "sha256": "b9a516b61b7040a9245ac206642d5f767ad9589a0169c4a1668221429e8a998c",
+          "resolution": "2k",
           "format": "jpg",
           "sourceMapKey": "Rough"
         }
@@ -168,6 +168,51 @@
           "sourceMapKey": "hdri"
         }
       }
+    },
+    {
+      "id": "stone_tiles_02",
+      "key": "paving",
+      "kind": "texture",
+      "metres": 2,
+      "authors": [
+        "Charlotte Baglioni"
+      ],
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "page": "https://polyhaven.com/a/stone_tiles_02",
+      "filesEndpoint": "https://api.polyhaven.com/files/stone_tiles_02",
+      "files": {
+        "diff": {
+          "path": "/assets/materials/stone_tiles_02/diff.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/stone_tiles_02/stone_tiles_02_diff_1k.jpg",
+          "bytes": 817710,
+          "md5": "8d2ebfc3505efbb610aa5010d38d2df8",
+          "sha256": "687ef4a6cc07fb680352cf26b0a2a6256d4c18d8084dcd59ac739bc509296e18",
+          "resolution": "1k",
+          "format": "jpg",
+          "sourceMapKey": "Diffuse"
+        },
+        "nor_gl": {
+          "path": "/assets/materials/stone_tiles_02/nor_gl.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/stone_tiles_02/stone_tiles_02_nor_gl_1k.jpg",
+          "bytes": 873564,
+          "md5": "cca5bd87964b755cc85c01322e8d1a0e",
+          "sha256": "ab19cc9baacb0bc30a219f841254beb6837412ddad9bfc9c052b5aa805d1c3f0",
+          "resolution": "1k",
+          "format": "jpg",
+          "sourceMapKey": "nor_gl"
+        },
+        "rough": {
+          "path": "/assets/materials/stone_tiles_02/rough.jpg",
+          "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/stone_tiles_02/stone_tiles_02_rough_1k.jpg",
+          "bytes": 476160,
+          "md5": "714fdf8447c0c1745d3c2957bb581af4",
+          "sha256": "889f66231be4f25ecd80b5d87f06f4e8c22c801edb8dcc7e34c13e6b4b74491c",
+          "resolution": "1k",
+          "format": "jpg",
+          "sourceMapKey": "Rough"
+        }
+      }
     }
   ],
   "notes": [
@@ -175,6 +220,14 @@
     "Generic scanned materials and a South African pure sky, not photographs or a survey of Naples.",
     "Original maps are preserved. Runtime colour tint or UV scale is an artistic adaptation.",
     "OpenGL tangent-space normal maps; normal convention must be handled by the renderer.",
-    "No live API or remote texture fetch during gameplay."
-  ]
+    "No live API or remote texture fetch during gameplay.",
+    "Asphalt resolution is explicitly selected for the street upgrade; all other source maps retain their individually recorded resolution.",
+    "Stone Tiles 02 is a generic scanned outdoor floor material, not measured Naples paving."
+  ],
+  "upgrade": {
+    "asphaltResolution": "2k",
+    "groundAsset": "stone_tiles_02",
+    "groundResolution": "1k",
+    "maximumCumulativeBytes": 47185920
+  }
 }

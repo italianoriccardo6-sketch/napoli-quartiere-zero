@@ -7,12 +7,30 @@ export interface VehicleStreetData {
   spawn:Point;
   scooter:Point;
   pickup:Point;
+  vehicleHeading?:number;
   route?:Point[];
   roads?:Array<{highway:string;points:Point[]}>;
 }
 export interface VehiclePlacement {car:Point;player:Point;heading:number}
 const finite=(...values:number[])=>values.every(Number.isFinite);
 const validSize=({radius,halfLength}:VehicleSize)=>finite(radius,halfLength)&&radius>0&&halfLength>=radius;
+
+/** Open on the actual drivable waterfront, facing its real street tangent. */
+export function openingStreetData<T extends VehicleStreetData>(city:T):T {
+  const roads=city.roads as Array<{highway:string;name?:string;points:Point[]}>|undefined;
+  const waterfront=roads?.filter(r=>r.name==='Via Partenope'&&r.highway==='residential');
+  let best:{a:Point;b:Point;length:number}|undefined;
+  for(const road of waterfront??[])for(let i=1;i<road.points.length;i++){
+    const a=road.points[i-1],b=road.points[i],length=Math.hypot(b[0]-a[0],b[1]-a[1]);
+    if(length>20&&(!best||length>best.length))best={a,b,length};
+  }
+  if(!best)return city;
+  const point:Point=[(best.a[0]+best.b[0])/2,(best.a[1]+best.b[1])/2];
+  let heading=Math.atan2(best.b[0]-best.a[0],best.b[1]-best.a[1]);
+  const toBar=Math.atan2(city.pickup[0]-point[0],city.pickup[1]-point[1]);
+  if(Math.cos(heading-toBar)<0)heading+=Math.PI;
+  return {...city,scooter:point,vehicleHeading:heading};
+}
 
 /** Collision with the same full-body capsule used by canStandForCar. */
 export function vehicleBlocksPoint(position:GroundPoint,carCenter:GroundPoint,heading:number,radius:number,halfLength:number,playerRadius:number):boolean {
@@ -60,7 +78,7 @@ export function placeVehicleOnStreet(city:VehicleStreetData,worldCheck:GroundChe
     const distance=Math.hypot(p[0]-preferred.x,p[1]-preferred.z);if(distance>60)return;
     const key=Math.round(p[0]*10)+','+Math.round(p[1]*10)+','+Math.round(heading*1000);if(seen.has(key))return;seen.add(key);candidates.push({p:[...p],heading,distance});
   }
-  add(city.scooter,targetHeading(city.scooter));
+  add(city.scooter,Number.isFinite(city.vehicleHeading)?city.vehicleHeading!:targetHeading(city.scooter));
   function addStreet(points:Point[]){
     for(let i=1;i<points.length;i++){
       const a=points[i-1],b=points[i];if(![...a,...b].every(Number.isFinite))continue;

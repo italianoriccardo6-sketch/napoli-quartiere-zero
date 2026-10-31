@@ -47,3 +47,6 @@ for (const model of models) {
   console.log(`${model.uid}: ${record.error ?? `metadata recorded; distribution approval remains false`}`);
 }
 await writeFile(`${outputDirectory}/summary.json`, JSON.stringify({purpose: 'Public model metadata research only', results}, null, 2));
+
+// Public, bounded research facts are also printed so the result remains readable through CI logs.
+console.log('NAPLES_MODEL_RESEARCH_SUMMARY='+JSON.stringify(results.map(({model,httpStatus,title,author,license,isDownloadable,faceCount,vertexCount,description,sourceWarning,error})=>({model,httpStatus,title,author,license,isDownloadable,faceCount,vertexCount,description:description?.slice(0,1600),sourceWarning,error}))));

@@ -8,7 +8,7 @@ import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {createWorld} from './world';
 import {createDetailedCity} from './city-visuals';
 import {createCar,canStandForCar} from './car';
-import {placeVehicleOnStreet,vehicleBlocksPoint,findPlayerBesideVehicle} from './vehicle-placement';
+import {placeVehicleOnStreet,vehicleBlocksPoint,findPlayerBesideVehicle,openingStreetData} from './vehicle-placement';
 import type {CityMapData} from './city-data';
 import {MeshBuilder} from '@babylonjs/core/Meshes/meshBuilder';
 import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
@@ -36,11 +36,11 @@ async function boot(){
   const scene=new Scene(engine),cityVisuals=map.city?createDetailedCity(scene,map,map.city):undefined,world=cityVisuals??createWorld(scene,map),character=map.city?createDetailedCharacter(scene):createCharacter(scene),scooter=map.city?createCar(scene):createScooter(scene),cam=createCamera(scene),input=new Input(canvas),audio=new Audio();
   await Promise.all([cityVisuals?.ready??Promise.resolve(),'ready' in scooter?scooter.ready:Promise.resolve(),'ready' in character?character.ready:Promise.resolve()]);
   const carRadius='radius' in scooter?scooter.radius:.93,carHalfLength='halfLength' in scooter?scooter.halfLength:1.1;
-  const placement=map.city?placeVehicleOnStreet(map.city,world.canStand,{radius:carRadius,halfLength:carHalfLength}):undefined;
+  const placement=map.city?placeVehicleOnStreet(openingStreetData(map.city),world.canStand,{radius:carRadius,halfLength:carHalfLength}):undefined;
   character.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));scooter.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));
   const spawn=placement?.player??[20,58],scooterPoint=placement?.car??[18,60];
   scooter.spawn.set(scooterPoint[0],0,scooterPoint[1]);scooter.root.position.copyFrom(scooter.spawn);
-  character.root.position.set(spawn[0],0,spawn[1]);
+  character.root.position.set(spawn[0],cityVisuals?.surfaceHeightAt(spawn[0],spawn[1])??0,spawn[1]);
   const initialHeading=placement?.heading??Math.atan2(PICKUP[0]-spawn[0],PICKUP[1]-spawn[1]);
   character.root.rotation.y=initialHeading;scooter.root.rotation.y=scooter.heading=initialHeading;
   if(map.city){
@@ -56,7 +56,7 @@ async function boot(){
   if(riding){character.root.position.copyFrom(scooter.root.position);character.root.setEnabled(false);cam.snap(character.root.position);cam.update(character.root.position,1,true);}
   function persist(){if(!storeSave(save))toast('Salvataggio non disponibile in questo browser. La partita continua in memoria.');}
   function persistStory(){try{localStorage.setItem(STORY_SAVE_KEY,JSON.stringify(story));}catch{toast('Il prologo continuerà in memoria: salvataggio non disponibile.');}}
-  function quality(){engine.setHardwareScalingLevel(1/Math.min(devicePixelRatio||1,save.quality==='alta'?1.5:1));scene.shadowsEnabled=save.quality==='alta';cityVisuals?.updateDetail([character.root.position.x,character.root.position.z],save.quality);}
+  function quality(){engine.setHardwareScalingLevel(1/Math.min(devicePixelRatio||1,save.quality==='alta'?1.5:1));scene.shadowsEnabled=save.quality==='alta';cam.effects.setQuality(save.quality);cityVisuals?.updateDetail([character.root.position.x,character.root.position.z],save.quality);}
   quality();
   el<HTMLInputElement>('volume').value=String(save.volume*100);el<HTMLSelectElement>('quality').value=save.quality;
   function pause(value:boolean){if(!started||credits)return;paused=value;input.clear();show('pause',value);if(value&&document.pointerLockElement)document.exitPointerLock();}
@@ -101,7 +101,7 @@ async function boot(){
     if(story.phase==='carrying'&&distance(DELIVERY)<3.5){story=reduceStory(story,'interact-quay');persistStory();openDialogue(storyDialogue(story),true);return;}
     if(story.phase==='return'&&distance(PICKUP)<3.5){
       if(!story.choice){openDialogue(storyDialogue(story),true);return;}
-      story=reduceStory(story,'interact-bar');persistStory();openDialogue(storyDialogue(story));toast(`Prologo completato · +${story.coins} monete`);return;
+      story=reduceStory(story,'interact-bar');persistStory();openDialogue(storyDialogue(story));toast(`Prologo completato · +${story.coins} €`);return;
     }
     if(Vector3.Distance(character.root.position,scooter.root.position)<Math.max(2.7,carHalfLength+.9)){riding=true;scooter.velocity=0;scooter.heading=scooter.root.rotation.y;toast('W accelera · S frena / retromarcia · A/D sterza · E scendi');}
   };
@@ -145,7 +145,7 @@ async function boot(){
         character.root.setEnabled(true);
         const direction=walkingDirection(cam.yaw,forward,turn);const d=new Vector3(direction.x,0,direction.z);
         lastMove=d.lengthSquared()>0;
-        if(lastMove){d.normalize().scaleInPlace((input.keys.has('ShiftLeft')||input.keys.has('ShiftRight')?5.5:3.1)*dt);move(d,.5);character.root.rotation.y=Math.atan2(d.x,d.z);}character.root.position.y=0;
+        if(lastMove){d.normalize().scaleInPlace((input.keys.has('ShiftLeft')||input.keys.has('ShiftRight')?5.5:3.1)*dt);move(d,.5);character.root.rotation.y=Math.atan2(d.x,d.z);}character.root.position.y=cityVisuals?.surfaceHeightAt(character.root.position.x,character.root.position.z)??0;
       }
       if(!Number.isFinite(character.root.position.x)||!world.canStand(character.root.position.x,character.root.position.z,.1)){
         character.root.position.set(spawn[0],0,spawn[1]);riding=false;character.root.setEnabled(true);scooter.velocity=0;cam.snap(character.root.position);toast('Sei tornato sulla banchina in sicurezza.');

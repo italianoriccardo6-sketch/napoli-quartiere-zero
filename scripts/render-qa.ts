@@ -21,7 +21,7 @@ import {createCharacter} from '../src/character';
 import {createDetailedCharacter} from '../src/character-model';
 import {createScooter} from '../src/vehicle';
 import {createCar} from '../src/car';
-import {placeVehicleOnStreet} from '../src/vehicle-placement';
+import {placeVehicleOnStreet,openingStreetData} from '../src/vehicle-placement';
 import {createVisualMaterials,loadDaylightEnvironment} from '../src/visual-materials';
 import {addFacadeDetail} from '../src/facade-detail';
 import {addStreetDetail} from '../src/street-detail';
@@ -199,17 +199,31 @@ try{
     const player=usePBR&&useDetail?createDetailedCharacter(scene):createCharacter(scene),vehicle=useCar?createCar(scene):createScooter(scene),camera=createCamera(scene);
     await Promise.all(['ready' in player?player.ready:Promise.resolve(),'ready' in vehicle?vehicle.ready:Promise.resolve()]);
     const size={radius:'radius' in vehicle?vehicle.radius:.93,halfLength:'halfLength' in vehicle?vehicle.halfLength:1.1};
-    const placement=useCar?placeVehicleOnStreet(map.city,world.canStand,size):undefined;
+    const placement=useCar?placeVehicleOnStreet(openingStreetData(map.city),world.canStand,size):undefined;
     const p=placement?.player??map.city.spawn,car=placement?.car??map.city.scooter,heading=placement?.heading??Math.atan2(map.city.pickup[0]-p[0],map.city.pickup[1]-p[1]);
-    player.root.position.set(p[0],0,p[1]);player.root.rotation.y=heading;player.animate(0,false,false);
+    const playerY=detailedCity?.surfaceHeightAt(p[0],p[1])??0;
+    player.root.position.set(p[0],playerY,p[1]);player.root.rotation.y=heading;player.animate(0,false,false);
     vehicle.spawn.set(car[0],0,car[1]);vehicle.root.position.copyFrom(vehicle.spawn);vehicle.root.rotation.y=vehicle.heading=heading;
     player.root.getChildMeshes().forEach(m=>world!.shadows.addShadowCaster(m));vehicle.root.getChildMeshes().forEach(m=>world!.shadows.addShadowCaster(m));
     camera.orient(heading);camera.snap(player.root.position);
     detailedCity?.updateDetail(p,'alta');
-    scene.metadata={...(scene.metadata??{}),capturePlacement:{player:p,car,heading,size,sharedStreetPlacement:useCar}};
-    if(arg('--view')==='drive'){
+    scene.metadata={...(scene.metadata??{}),capturePlacement:{player:p,playerY,car,heading,size,sharedStreetPlacement:useCar}};
+    if(arg('--view')==='drive'||arg('--view')==='waterfront'){
       if(!useCar)throw Error('Driving view requires the actual imported car (--car).');
       player.root.setEnabled(false);player.root.position.copyFrom(vehicle.root.position);
+      if(arg('--view')==='waterfront'){
+        // A reachable mouse-camera rotation at the same real street position.
+        // Aim across the nearest supplied OSM shoreline, without moving the car.
+        let nearest:[number,number]|undefined,distance=Infinity;
+        for(const coast of map.city.coastlines??[])for(let i=1;i<coast.points.length;i++){
+          const a=coast.points[i-1],b=coast.points[i],dx=b[0]-a[0],dz=b[1]-a[1],length=dx*dx+dz*dz;
+          const t=length?Math.max(0,Math.min(1,((car[0]-a[0])*dx+(car[1]-a[1])*dz)/length)):0;
+          const point:[number,number]=[a[0]+dx*t,a[1]+dz*t],d=Math.hypot(point[0]-car[0],point[1]-car[1]);
+          if(d<distance){nearest=point;distance=d;}
+        }
+        if(!nearest||distance<1)throw Error('A measured shoreline direction for the actual waterfront view is unavailable.');
+        camera.orient(Math.atan2(nearest[0]-car[0],nearest[1]-car[1]));
+      }
       camera.snap(vehicle.root.position);camera.update(vehicle.root.position,1,true);
       detailedCity?.updateDetail(car,'alta');
     }
@@ -247,7 +261,7 @@ try{
   const facadeMeshes=scene.meshes.filter(m=>m.metadata?.facadeDetail),active=scene.getActiveMeshes(),activeSet=new Set(active.data.slice(0,active.length));
   const facadeRendering={batches:facadeMeshes.length,enabledBatches:facadeMeshes.filter(m=>m.isEnabled()).length,activeBatches:facadeMeshes.filter(m=>activeSet.has(m)).map(m=>({name:m.name,instances:m.metadata.instances})),instances:facadeMeshes.reduce((sum,m)=>sum+(m.metadata.instances??0),0)};
   const transmissionTargetType=(scene as Scene&Partial<ITransmissionHelperHolder>)._transmissionHelper?.getOpaqueTarget()?.getInternalTexture()?.type;
-  const report={mode,view:arg('--view')??'initial',sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,...driver,capabilities,facadeRendering,transmissionTargetType,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,importedCharacter:usePBR&&useDetail,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
+  const report={mode,view:arg('--view')??(useCar?'on-foot':'initial'),sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,...driver,capabilities,facadeRendering,transmissionTargetType,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,importedCharacter:usePBR&&useDetail,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
   await writeFile(output.replace(/\.png$/i,'.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }catch(error){
   await mkdir(dirname(output),{recursive:true});

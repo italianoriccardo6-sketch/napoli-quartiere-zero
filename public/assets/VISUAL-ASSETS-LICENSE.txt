@@ -12,3 +12,6 @@ Preparation uses the official public API with a project-specific User-Agent. API
 The shipped game uses self-hosted files, not the live API. Credits are supplied voluntarily for the CC0 assets; no endorsement is implied.
 Preview images, logos, website copy, author avatars and API implementation code are not included.
 These are generic materials, not photogrammetric evidence of the actual buildings or sky of Naples.
+
+Street material upgrade (same CC0 license):
+stone_tiles_02: Charlotte Baglioni — https://polyhaven.com/a/stone_tiles_02
