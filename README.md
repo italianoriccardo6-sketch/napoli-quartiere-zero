@@ -76,3 +76,34 @@ TypeScript, build di produzione e **13 test automatici** passano: coordinate, po
 NullEngine esegue costruzione e aggiornamenti della scena ma non prova shader sulla GPU, qualità visiva, browser/macOS, mouse o completamento interattivo. Nessun tool browser collegato disponibile in questa sessione; screenshot e prova manuale non eseguiti. Il cambio della camera e dei materiali richiede ancora un controllo visivo nel browser. Nessuna promessa di fotorealismo o fedeltà geografica.
 
 Licenze e font: `ASSETS.md` e `public/licenses/`.
+
+
+## Ricerca sul nuovo obiettivo: GTA e Napoli reale
+
+Il riferimento richiesto dall’utente è un open world iperrealistico in una ricostruzione riconoscibile della vera Napoli, accessibile da un sito e con GitHub come fonte del codice. Il prototipo attuale non soddisfa questi criteri; modifiche a colori, materiali procedurali e dialoghi non sostituiscono una nuova produzione dell’ambiente.
+
+### Riferimenti ufficiali GTA
+
+- [Galleria ufficiale GTA VI](https://www.rockstargames.com/VI/media/screenshots): riferimenti di città, personaggi e ambienti. In questa sessione la pagina è leggibile ma i JPG restituiscono soltanto un segnaposto al lettore web; il download locale è rifiutato con HTTP 403. Non è stata effettuata un’ispezione visiva diretta delle immagini né una visione del video. Nessun media Rockstar è copiato o distribuito nel progetto.
+- [GTA V Enhanced, aggiornamento ufficiale](https://www.rockstargames.com/newswire/article/7551a7k917554a/free-upgrade-for-grand-theft-auto-v-on-pc-now-available): Rockstar descrive illuminazione globale, occlusione ambientale, ombre e riflessi tramite ray tracing.
+- [Aggiornamento console ufficiale GTA V](https://www.rockstargames.com/newswire/article/ak73k92o47ko75/grand-theft-auto-community-update/): texture e distanza di visualizzazione migliorate, HDR e audio 3D.
+
+Le differenze produttive da risolvere sono asset credibili a distanza ravvicinata, materiali coerenti, luce/riflessi, continuità del tessuto urbano e animazioni/audio. Il progetto attuale usa invece geometrie inventate, personaggi procedurali e terreno piano. Nessuna equivalenza a GTA è dichiarata.
+
+### Base geografica effettivamente trovata
+
+La [Regione Campania pubblica CTR, DBT e DTM 2020](https://sit.regione.campania.it/carta-tecnica-regionale) per tutto il territorio regionale con licenza CC-BY 4.0. L’[annuncio ufficiale](https://www.territorio.regione.campania.it/news-blog/cartografie-digitali-della-regione-campania) collega repository e webapp di download. È un’alternativa concreta da esplorare rispetto al solo Overpass: il blocco OSM non giustifica disegnare una città inventata e chiamarla reale.
+
+Limite verificato: il repository SharePoint ha rimandato al login Microsoft e la webapp non ha esposto un elenco di file al lettore usato. Nessun tassello Santa Lucia/Borgo Marinari è stato scaricato o controllato. DTM descrive il terreno; cartografia e DBT non costituiscono automaticamente una mesh fotografica di facciate e interni. Non è stata trovata e verificata una Napoli completa fotorealistica pronta per riuso nel gioco. La data 2020 non permette di promettere identità con la città attuale.
+
+Per una ricostruzione fedele occorrono geometrie e quote verificate, rilievi fotografici/fotogrammetrici o modelli accurati con diritti di riuso, confronto di inquadrature reali e giocabili, continuità fra quartieri e gestione dei dati a zone. Il primo tratto candidato collega Borgo Marinari, Santa Lucia e il lungomare: è una proposta di perimetro, non una mappa già realizzata. Le geometrie arbitrarie attuali non sono riutilizzabili come base di fedeltà.
+
+### Accesso dal sito con grafica di fascia alta
+
+[Unreal Pixel Streaming](https://dev.epicgames.com/documentation/en-us/unreal-engine/overview-of-pixel-streaming-in-unreal-engine) documenta un’applicazione che gira su una macchina remota e invia fotogrammi/audio al browser, ricevendone i comandi in tempo reale. Il Mac del giocatore resta un client web; il motore e i dati del mondo girano altrove. Questa è una strada coerente da valutare per mantenere il sito online con un obiettivo visivo molto più ambizioso del renderer web attuale, non una funzionalità già integrata.
+
+Servono una macchina di sviluppo/esecuzione con GPU, una build del gioco, servizi di collegamento/streaming, rete e gestione delle sessioni; occorre valutare costo, qualità e latenza con prove effettive. L’hosting statico corrente non esegue un gioco Unreal. Non sono stati acquistati servizi o attivati server. Non è sufficiente pubblicare una pagina con un video o un’immagine per ottenere il gioco richiesto.
+
+### Criterio per il prossimo risultato
+
+Prima di ampliare la storia o dichiarare una nuova demo adatta al nuovo obiettivo: verificare un’area urbana reale continua, la provenienza dei suoi asset e la pipeline di esecuzione online; poi mostrare riprese effettive del gioco confrontabili con i luoghi reali. Il rapporto di ricerca non è una nuova build, una promessa di identità perfetta o una certificazione di prestazioni.
