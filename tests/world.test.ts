@@ -3,7 +3,7 @@ import {Canvas} from '@napi-rs/canvas';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';import {Scene} from '@babylonjs/core/scene';
 import {createWorld} from '../src/world';import {createCharacter} from '../src/character';import {createScooter} from '../src/vehicle';import {createCamera} from '../src/camera';import {Vector3} from '@babylonjs/core/Maths/math.vector';import type {MapData} from '../src/geo';
 (globalThis as unknown as {OffscreenCanvas:typeof Canvas}).OffscreenCanvas=Canvas;
-const map=JSON.parse(readFileSync('public/data/map.json','utf8')) as MapData;
+const map=JSON.parse(readFileSync('tests/fixtures/provisional-map.json','utf8')) as MapData;
 test('scena Babylon eseguita con NullEngine; percorso, edifici, banchina e discesa',()=>{
   const engine=new NullEngine({renderWidth:800,renderHeight:600,textureSize:512,deterministicLockstep:true,lockstepMaxSteps:4});const scene=new Scene(engine);
   try {

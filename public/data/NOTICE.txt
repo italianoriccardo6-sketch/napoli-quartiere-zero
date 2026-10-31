@@ -1,0 +1,7 @@
+© OpenStreetMap contributors — https://www.openstreetmap.org/copyright
+Dati originali e banca dati derivata sotto Open Database License (ODbL) 1.0:
+https://opendatacommons.org/licenses/odbl/1-0/
+Originale, metadati e procedura: https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero/tree/main/data
+Banca dati derivata distribuita: map.json su questo sito e nel repository.
+Trasformazioni: proiezione metrica locale, estrazione di sagome e strade, conservazione dei cortili, ritaglio della costa, selezione dei percorsi di superficie. Altezze mancanti stimate; terreno non altimetrico. Non è una ricostruzione fotografica.
+La licenza MIT del codice non si applica ai dati OSM.

@@ -6,6 +6,11 @@ import {Engine} from '@babylonjs/core/Engines/engine';
 import {Scene} from '@babylonjs/core/scene';
 import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {createWorld} from './world';
+import {createCityWorld} from './city-world';
+import type {CityMapData} from './city-data';
+import {MeshBuilder} from '@babylonjs/core/Meshes/meshBuilder';
+import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
+import {Color3} from '@babylonjs/core/Maths/math.color';
 import {createCharacter} from './character';
 import {createScooter,stepVelocity} from './vehicle';
 import {createCamera} from './camera';
@@ -18,13 +23,25 @@ import {el,show,toast,updateHUD} from './ui';
 import type {MapData} from './geo';
 async function boot(){
   const response=await fetch(`${import.meta.env.BASE_URL}data/map.json`);if(!response.ok)throw Error('I dati della scena non sono disponibili. Ricarica la pagina.');
-  const map=await response.json() as MapData;
+  const map=await response.json() as CityMapData;
+  if(map.city){PICKUP.splice(0,2,...map.city.pickup);DELIVERY.splice(0,2,...map.city.delivery);}
   const canvas=el<HTMLCanvasElement>('game');
   if(!Engine.isSupported())throw Error('Il browser non supporta WebGL. Prova un browser aggiornato con accelerazione grafica attiva.');
   const engine=new Engine(canvas,true,{preserveDrawingBuffer:true,stencil:true,powerPreference:'high-performance'});
-  const scene=new Scene(engine),world=createWorld(scene,map),character=createCharacter(scene),scooter=createScooter(scene),cam=createCamera(scene),input=new Input(canvas),audio=new Audio();
+  const scene=new Scene(engine),world=map.city?createCityWorld(scene,map,map.city):createWorld(scene,map),character=createCharacter(scene),scooter=createScooter(scene),cam=createCamera(scene),input=new Input(canvas),audio=new Audio();
   character.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));scooter.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));
-  character.root.position.set(20,0,58);character.root.rotation.y=Math.PI;
+  const spawn=map.city?.spawn??[20,58],scooterPoint=map.city?.scooter??[18,60];
+  scooter.spawn.set(scooterPoint[0],0,scooterPoint[1]);scooter.root.position.copyFrom(scooter.spawn);
+  character.root.position.set(spawn[0],0,spawn[1]);
+  const initialHeading=Math.atan2(PICKUP[0]-spawn[0],PICKUP[1]-spawn[1]);
+  character.root.rotation.y=initialHeading;scooter.root.rotation.y=scooter.heading=initialHeading;
+  if(map.city){
+    cam.orient(initialHeading);cam.snap(character.root.position);
+    for(const [i,p]of[PICKUP,DELIVERY].entries()){
+      const material=new StandardMaterial('segnale missione '+i,scene);material.diffuseColor=Color3.FromHexString('#dfbd7f');material.emissiveColor=material.diffuseColor.scale(.3);
+      const marker=MeshBuilder.CreateCylinder('punto di interazione '+i,{diameterTop:0,diameterBottom:.7,height:1.3,tessellation:4},scene);marker.position.set(p[0],3.6,p[1]);marker.rotation.z=Math.PI;marker.material=material;marker.isPickable=false;world.beacons.push(marker);
+    }
+  }
   let story:StoryState;try{story=decodeStory(localStorage.getItem(STORY_SAVE_KEY));}catch{story=initialStory();}
   let dialogueOpen=false,dialogueLines:StoryLine[]=[],dialogueIndex=0,dialogueChoice=false;
   let save:Save=loadSave(),started=false,paused=false,riding=false,credits=false,time=0,hudTime=0,lastMove=false,lastInteraction=0;
@@ -82,7 +99,7 @@ async function boot(){
   };
   function recover(){
     if(!started||paused||credits||dialogueOpen)return;
-    if(riding){scooter.root.position.copyFrom(scooter.spawn);scooter.heading=Math.PI;scooter.root.rotation.y=Math.PI;character.root.position.copyFrom(scooter.spawn);scooter.velocity=0;cam.snap(character.root.position);}
+    if(riding){scooter.root.position.copyFrom(scooter.spawn);scooter.heading=initialHeading;scooter.root.rotation.y=initialHeading;character.root.position.copyFrom(scooter.spawn);scooter.velocity=0;cam.snap(character.root.position);}
     else {let found=false;for(let radius=2;radius<=5&&!found;radius++)for(let a=0;a<Math.PI*2;a+=Math.PI/4){const p=character.root.position.add(new Vector3(Math.sin(a)*radius,0,Math.cos(a)*radius));if(world.canStand(p.x,p.z,1)){scooter.root.position.set(p.x,0,p.z);scooter.velocity=0;found=true;break;}}if(!found){scooter.root.position.copyFrom(scooter.spawn);scooter.velocity=0;}}
     toast('Motorino recuperato in un punto sicuro.');
   }
@@ -94,7 +111,7 @@ async function boot(){
   el<HTMLInputElement>('volume').oninput=e=>{save.volume=Number((e.target as HTMLInputElement).value)/100;persist();};
   el<HTMLSelectElement>('quality').onchange=e=>{save.quality=(e.target as HTMLSelectElement).value as Save['quality'];quality();persist();};
   let resetArmed=false;
-  el('reset').onclick=()=>{if(!resetArmed){resetArmed=true;el('reset').textContent='Conferma ripristino: azzera consegna e monete';return;}save=defaults();persist();story=initialStory();persistStory();riding=false;scooter.velocity=0;scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=Math.PI;character.root.position.set(20,0,58);cam.snap(character.root.position);quality();el<HTMLInputElement>('volume').value='25';el<HTMLSelectElement>('quality').value='alta';el('reset').textContent='Ripristina partita';resetArmed=false;toast('Partita ripristinata.');};
+  el('reset').onclick=()=>{if(!resetArmed){resetArmed=true;el('reset').textContent='Conferma ripristino: azzera consegna e monete';return;}save=defaults();persist();story=initialStory();persistStory();riding=false;scooter.velocity=0;scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;character.root.position.set(spawn[0],0,spawn[1]);cam.snap(character.root.position);quality();el<HTMLInputElement>('volume').value='25';el<HTMLSelectElement>('quality').value='alta';el('reset').textContent='Ripristina partita';resetArmed=false;toast('Partita ripristinata.');};
   function closeCredits(){credits=false;show('credits',false);if(started){paused=true;show('pause',true);}}
   el('credits-button').onclick=()=>{if(dialogueOpen)return;if(started)pause(true);credits=true;show('pause',false);show('credits',true);};el('close-credits').onclick=closeCredits;
   function move(delta:Vector3,radius:number):boolean {
@@ -124,7 +141,7 @@ async function boot(){
         if(lastMove){d.normalize().scaleInPlace((input.keys.has('ShiftLeft')||input.keys.has('ShiftRight')?5.5:3.1)*dt);move(d,.5);character.root.rotation.y=Math.atan2(d.x,d.z);}character.root.position.y=0;
       }
       if(!Number.isFinite(character.root.position.x)||!world.canStand(character.root.position.x,character.root.position.z,.1)){
-        character.root.position.set(20,0,58);riding=false;scooter.velocity=0;cam.snap(character.root.position);toast('Sei tornato sulla banchina in sicurezza.');
+        character.root.position.set(spawn[0],0,spawn[1]);riding=false;scooter.velocity=0;cam.snap(character.root.position);toast('Sei tornato sulla banchina in sicurezza.');
       }
       character.animate(time,lastMove,riding);cam.update(character.root.position,dt,riding);
     }

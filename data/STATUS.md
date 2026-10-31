@@ -1,5 +1,11 @@
-# Stato dei dati — 31 ottobre 2026
-Nessun estratto OSM è incluso. I tentativi limitati verso overpass-api.de, overpass.kumi.systems e www.openstreetmap.org/api/0.6/map sono stati rifiutati dal proxy con HTTP 403 (CONNECT tunnel failed). Le richieste iniziali erano inoltre bloccate da un proxy temporaneamente non raggiungibile.
-File necessario: data/borgo-marinari.osm.json, risposta JSON Overpass completa alla query generata da scripts/fetch-osm.mjs.
-Perimetro richiesto: sud 40.8264, ovest 14.2462, nord 40.8306, est 14.2506. Origine nominale 40.8281 N, 14.2486 E; coordinate da verificare con estratto prima di qualsiasi dichiarazione di fedeltà geografica.
-public/data/map.json è un layout originale provvisorio in metri: non è un estratto, una digitalizzazione o un'elaborazione OSM. L'importatore genera data/map.osm.local.json separatamente; non attiva automaticamente un terreno o un percorso non verificato.
+# Stato geografico 0.3
+
+Estratto OpenStreetMap acquisito tramite il workflow GitHub «Estrai geografia reale di Napoli», run 41247515350, il 31 ottobre 2026 alle 22:18:11 UTC, endpoint overpass-api.de. Originale: `napoli-centro.osm.json`; provenienza: `source.json`; licenza: `OSM-LICENSE.md`.
+
+Perimetro WGS84: sud 40.8260, ovest 14.2410, nord 40.8420, est 14.2660. Origine locale: 40.8281 N, 14.2486 E. I 23.149 elementi sorgente producono 1.803 edifici attivi, di cui 316 con cortili, e 1.531 percorsi di superficie. La costa è una catena di 1.448 punti da due way. Il percorso missione è lungo circa 586 m.
+
+Il vecchio layout inventato non è più la base attiva. I dati derivati sono in `public/data/map.json`; dettagli e scelte in `city-summary.json` e `land-preparation.json`. Sono stimate 1.620 altezze. Terreno ancora piano, facciate e tetti generici, larghezze stradali stimate se assenti. Non è una ricostruzione fotografica o una certificazione dello stato odierno dei luoghi.
+
+I primi tentativi locali verso Overpass erano stati rifiutati dal proxy. La procedura riproducibile su GitHub ha completato l’estrazione pubblica limitata, conservando provenienza e licenza. Non si usano tile raster OSM o dati Google.
+
+I punti quotati regionali seguono una procedura separata e non sono attivati. I controlli hanno individuato alcuni punti restituiti poco fuori dal bbox richiesto: la risposta originale è conservata e il sottoinsieme viene ritagliato localmente senza ampliare il perimetro. Datum e unità verticali restano da verificare prima di generare un terreno altimetrico.

@@ -2,7 +2,7 @@
 
 Gioco 3D per browser, tastiera e mouse. Si apre da un sito online anche su Mac; non richiede Unreal Engine o installazione di un gioco desktop.
 
-**Stato: prototipo artistico, non fotorealistico e non basato su una cartografia OSM verificata.** Il recupero dei dati reali resta bloccato dalla rete. Questa revisione aggiunge un prologo originale, materiali generati con normal map, dettagli architettonici, luce ricalibrata e telecamera più bassa. Non è un open world della scala di GTA e non ne utilizza personaggi o asset.
+**Stato 0.3: base geografica OSM reale, resa ancora a volumi generici.** La precedente isola inventata è sostituita nel gioco da costa, sagome e rete viaria del settore Santa Lucia–lungomare–Plebiscito. Sono attivi 1.803 poligoni di edifici (316 con cortili), 1.531 percorsi di superficie e un tragitto missione verificato di circa 586 m. Non è una ricostruzione fotorealistica: 1.620 altezze sono stimate, il terreno resta piano e facciate/tetti sono generici. Il recupero dei dati tramite la procedura GitHub è riuscito. Non sono ancora disponibili asset architettonici misurati e fotografici o una prova GPU della nuova scena.
 
 ## GitHub è la fonte del progetto
 
@@ -44,25 +44,31 @@ Salvataggi locali distinti: `napoli-quartiere-zero-v1` conserva impostazioni ed 
 
 ## Geografia e dati reali
 
-Area di estrazione prevista: 40.8264–40.8306 N, 14.2462–14.2506 E; origine locale 40.8281 N, 14.2486 E. Coordinate locali in metri, x est e z nord, proiezione equirettangolare a raggio 6.378.137 m. Riferimento di localizzazione: https://en.wikipedia.org/wiki/Castel_dell%27Ovo (non fonte di geometrie).
+Estratto: **40.8260–40.8420 N, 14.2410–14.2660 E**, circa 3,7 km² del centro di Napoli. Fonte Overpass/OpenStreetMap, acquisizione **31 ottobre 2026 alle 22:18 UTC**. L’estratto originale contiene 23.149 elementi; alcuni oggetti completi si estendono oltre il perimetro richiesto. `data/source.json` conserva query, fonte, data, bbox e licenza; `data/city-summary.json` distingue oggetti della fonte e geometrie attive.
+
+Origine locale 40.8281 N, 14.2486 E; coordinate in metri, x est e z nord, proiezione equirettangolare locale con raggio 6.378.137 m. Questa base cartografica non certifica l’identità fotografica con tutti i luoghi reali.
 
 ```sh
 npm run data:fetch
 npm run data:prepare
 ```
 
-L’estrazione tenta al massimo una richiesta per endpoint Overpass (due endpoint), con timeout limitati. Salva `data/borgo-marinari.osm.json`, query e metadati di fonte/data/perimetro/licenza. Non servono chiavi o account. La query è inclusa in `data/query.overpassql`.
+L’estrazione fa al massimo due richieste Overpass, una per endpoint, con timeout e limite di area/dimensione. Il workflow `.github/workflows/geography.yml` conserva l’estratto e la provenienza in un ramo dati separato, prima della revisione e integrazione in `main`. Nessuna richiesta Overpass viene eseguita durante il gioco.
 
-`osmtogeojson` assembla way e relation multipolygon, preservando cortili e corpi distinti. L’importatore produce `data/map.osm.local.json` separatamente. Altezza: `height`, altrimenti livelli × 3,2 m, altrimenti 10 m stimati; massimo tecnico 60 m. Non attiva automaticamente un terreno ricavato da una costa aperta. Per usare i dati reali occorre prima chiudere e verificare le superfici, punti missione, castello e corridoio largo almeno 2 m e aggiornare i test. Vedi `data/STATUS.md`.
+La preparazione usa `osmtogeojson` per edifici multipoligono e cortili, conserva nomi e centerline delle strade e ricompone la costa nella direzione originale (terra a sinistra). La costa completa si estende fuori viewport: viene chiusa **fuori dal perimetro visibile** e poi ritagliata con `polygon-clipping`, preservando anelli e buchi. Non vengono aggiunte rive inventate nel settore attivo. Il confine rettangolare del settore è un limite di caricamento, non una costa reale.
 
-Il layout attuale, il castello composto, i palazzi, il ponte abbreviato, le quote piane e il profilo lontano sono approssimazioni artistiche originali. Le aree pedonali sono adattate alla guida arcade. Non sono una riproduzione fotografica. Nessun dato, texture o modello Google Maps/Earth/Street View.
+Il processo esclude gallerie, passaggi coperti, ponti e livelli diversi da zero dalla resa di superficie, perché il modello di terreno corrente non supporta più quote. Gradini e accessi privati non sono ammessi nel percorso del motorino. Le larghezze senza tag sono stime visive; altezze da `height`, altrimenti livelli × 3,2 m, altrimenti 10 m stimati (massimo tecnico 60 m). Non vengono inventate pendenze.
 
-Futuri dati OSM: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright), [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Estratti e banche dati derivate richiedono attribuzione e rispetto delle condizioni ODbL, inclusa la disponibilità della banca dati derivata o delle modifiche quando prevista dalla licenza. La licenza dei dati è distinta da quella di codice e asset. Questa consegna non contiene un estratto OSM.
+La nuova missione segue un percorso libero sulle geometrie reali di **Via Santa Lucia, Via Chiatamone, Via Alessandro Dumas e Via Partenope**. Punti di interazione e personaggi sono inventati e non corrispondono a esercizi reali. Il tragitto di ritorno usa lo stesso percorso. Il terreno, i punti iniziali e oltre 2.000 campioni del percorso sono controllati per l’ingombro del mezzo prima di generare la mappa attiva. Se la topologia o il collegamento non passano i controlli, la preparazione fallisce senza attivare una nuova mappa.
+
+Le quote regionali sono acquisite separatamente da `.github/workflows/terrain.yml`/`scripts/fetch-terrain.mjs`: massimo 250 punti, due richieste ufficiali, risposta originale, filtro locale al perimetro e avvisi di riferimento verticale. **Non sono usate nel terreno del gioco** finché unità e datum non sono verificati. Non sono un DTM completo.
+
+Licenza: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright), [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Originale e banca dati derivata sono disponibili in questo repository (`data/napoli-centro.osm.json`, `public/data/map.json`), con fonte e avvisi in `data/OSM-LICENSE.md`; non sono sotto MIT. In caso di riuso/distribuzione mantenere attribuzione e rispettare gli obblighi ODbL, inclusa la disponibilità dei dati derivati prevista dalla licenza. Nessun dato, texture o modello Google Maps/Earth/Street View.
 
 ## Moduli e grafica
 
 - `geo.ts`, `import-osm.ts`, `scripts/`: geografia offline.
-- `world.ts`, `surfaces.ts`: scena, dettagli e texture originali di colore/normali. StandardMaterial: non una pipeline PBR fotografica. Mare con riflesso di un cielo analitico, non riflessi della geometria della scena.
+- `city-world.ts`, `surfaces.ts`: scena geografica attiva con edifici accorpati per tile, collisioni su indice spaziale, strade sorgente, cortili e buchi del terreno. `world.ts` resta solo per la fixture storica di test. scena, dettagli e texture originali di colore/normali. StandardMaterial: non una pipeline PBR fotografica. Mare con riflesso di un cielo analitico, non riflessi della geometria della scena.
 - `character.ts`, `vehicle.ts`, `camera.ts`, `input.ts`: personaggio procedurale con arti gerarchici, motorino, telecamera e controlli. Non ci sono mocap o personaggi fotorealistici.
 - `story.ts`, `mission.ts`, `save.ts`: prologo, logica legacy e impostazioni; logica missione originale mantenuta per compatibilità/test.
 - `main.ts`, `ui.ts`, `style.css`, `audio.ts`: interazioni, dialoghi, HUD e audio sintetico.
@@ -71,7 +77,7 @@ Collisioni cinematiche su piano, raggio veicolo 0,93 m, sottopassi massimi di 20
 
 ## Evidenze e limiti
 
-TypeScript, build di produzione e **13 test automatici** passano: coordinate, poligono concavo, altezze, missione legacy, salvataggi, velocità/frenata, relation multipoligono con cortile, scena reale in NullEngine/corridoio percorribile, sequenza del prologo, entrambi i finali, scelta persistita, dati corrotti e ricompensa idempotente.
+TypeScript, build di produzione e **28 test automatici** passano: coordinate, poligono concavo, altezze, missione legacy, salvataggi, velocità/frenata, relation multipoligono con cortile, scena reale in NullEngine/corridoio percorribile, sequenza del prologo, entrambi i finali, scelta persistita, dati corrotti e ricompensa idempotente.
 
 NullEngine esegue costruzione e aggiornamenti della scena ma non prova shader sulla GPU, qualità visiva, browser/macOS, mouse o completamento interattivo. Nessun tool browser collegato disponibile in questa sessione; screenshot e prova manuale non eseguiti. Il cambio della camera e dei materiali richiede ancora un controllo visivo nel browser. Nessuna promessa di fotorealismo o fedeltà geografica.
 
@@ -107,3 +113,13 @@ Servono una macchina di sviluppo/esecuzione con GPU, una build del gioco, serviz
 ### Criterio per il prossimo risultato
 
 Prima di ampliare la storia o dichiarare una nuova demo adatta al nuovo obiettivo: verificare un’area urbana reale continua, la provenienza dei suoi asset e la pipeline di esecuzione online; poi mostrare riprese effettive del gioco confrontabili con i luoghi reali. Il rapporto di ricerca non è una nuova build, una promessa di identità perfetta o una certificazione di prestazioni.
+
+
+### Aggiornamento successivo alla ricerca
+
+La ricerca riportata sopra descriveva i limiti della versione 0.2. Con la versione 0.3 l’estratto OSM è stato effettivamente acquisito, verificato e integrato in GitHub; la scena attiva usa ora sagome e viabilità reali. Resta da realizzare la parte fotografica/architettonica e altimetrica del traguardo richiesto. L’adozione di un server GPU per streaming resta una valutazione, non un servizio acquistato o integrato.
+
+
+### Punti quotati regionali acquisiti, separati dalla scena
+
+Il workflow di ricerca ha acquisito 69 punti dal servizio ufficiale Regione Campania (CTR 2020, CC-BY 4.0); un punto era fuori dal perimetro richiesto. Il sottoinsieme locale contiene quindi 68 punti. Originale, selezione, metadati e validazione sono conservati in `data/napoli-terrain-points/`. Il filtro non ha ampliato i limiti geografici. **Il terreno del gioco resta piano:** datum e unità verticali della risposta ArcGIS non sono stati certificati. Il [capitolato ufficiale CTR](https://www.regione.campania.it/assets/documents/capitolato-oneri-cig-z95361df5b.pdf) offre contesto sui sistemi di riferimento, ma non è stato trattato come certificazione della specifica risposta del servizio.

@@ -1,0 +1,18 @@
+{
+  "source": "https://overpass-api.de/api/interpreter",
+  "date": "2026-10-31T22:18:11.535Z",
+  "bbox": [
+    40.826,
+    14.241,
+    40.842,
+    14.266
+  ],
+  "origin": {
+    "lat": 40.8281,
+    "lon": 14.2486
+  },
+  "license": "ODbL-1.0",
+  "attribution": "© OpenStreetMap contributors",
+  "copyright": "https://www.openstreetmap.org/copyright",
+  "query": "[out:json][timeout:25];(way[building](40.826,14.241,40.842,14.266);relation[building](40.826,14.241,40.842,14.266);way[highway](40.826,14.241,40.842,14.266);way[natural=coastline](40.826,14.241,40.842,14.266);way[man_made=pier](40.826,14.241,40.842,14.266);way[historic=castle](40.826,14.241,40.842,14.266);relation[historic=castle](40.826,14.241,40.842,14.266););out body;>;out skel qt;"
+}

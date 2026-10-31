@@ -1,7 +1,7 @@
 import {mkdir,writeFile} from 'node:fs/promises';
-const bbox=process.env.OSM_BBOX?process.env.OSM_BBOX.split(',').map(Number):[40.8264,14.2462,40.8306,14.2506];
+const bbox=process.env.OSM_BBOX?process.env.OSM_BBOX.split(',').map(Number):[40.8260,14.2410,40.8420,14.2660];
 if(bbox.length!==4||!bbox.every(Number.isFinite)||bbox[0]>=bbox[2]||bbox[1]>=bbox[3]||bbox[2]-bbox[0]>.025||bbox[3]-bbox[1]>.035)throw new Error('Perimetro non valido o troppo ampio: estrazione limitata a un piccolo settore urbano.');
-const output=process.env.OSM_OUTPUT??'data/borgo-marinari.osm.json';
+const output=process.env.OSM_OUTPUT??'data/napoli-centro.osm.json';
 if(!/^data\/[a-z0-9-]+\.osm\.json$/.test(output))throw new Error('Percorso di output non valido.');
 const query=`[out:json][timeout:25];(way[building](${bbox});relation[building](${bbox});way[highway](${bbox});way[natural=coastline](${bbox});way[man_made=pier](${bbox});way[historic=castle](${bbox});relation[historic=castle](${bbox}););out body;>;out skel qt;`;
 await mkdir('data',{recursive:true});

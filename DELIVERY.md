@@ -1,9 +1,11 @@
-# Revisione browser 0.2
+# Revisione browser 0.3 — geografia reale
 
-Fonte: https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero . Ogni pubblicazione deriva dal commit caricato su GitHub; `/build-info.json` identifica quello effettivamente servito. GitHub Actions esegue test/build e conserva un artifact per SHA; il deploy corrente è un passaggio esplicito successivo, non un’automazione Netlify già collegata.
+Fonte e workflow: https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero . Ogni pubblicazione deriva da un commit presente su GitHub; `/build-info.json` identifica il commit effettivamente servito. GitHub Actions verifica test e build e conserva gli artifact per SHA; il deploy rimane un passaggio esplicito, non un’automazione Netlify già collegata.
 
-Nuovo prologo «A nome di tua sorella», dialoghi, due scelte e ricompense persistenti; personaggio con arti gerarchici, camera più bassa, materiali con mappe originali di normali, dettagli e luce rivisti. La geografia resta provvisoria e artistica. Nessun fotorealismo, open world completo, combattimento o inseguimento fisico dichiarato.
+La nuova base sostituisce il layout inventato con un estratto OSM centrale di circa 3,7 km². Geometrie attive: 1.803 edifici, di cui 316 con cortili, e 1.531 percorsi di superficie; costa misurata ricomposta dai dati e ritagliata senza nuove rive nel viewport. Il tragitto missione, lungo circa 586 metri, segue Via Santa Lucia, Via Chiatamone, Via Alessandro Dumas e Via Partenope. Il prologo originale con dialoghi e due finali è mantenuto, con punti di interazione spostati sul nuovo percorso.
 
-Verifiche locali: 13 test superati, TypeScript e build superati. Scena eseguita in NullEngine; nessun screenshot né test GPU/browser/Mac effettuato. I risultati di eventuali workflow remoti e del deploy sono riportati nella chat solo dopo lettura del loro stato.
+Terreno ancora piano e architettura a volumi generici. Sono stimate 1.620 altezze; le quote regionali non sono attivate. Nessuna dichiarazione di fotorealismo, città identica, combattimento o inseguimento fisico.
 
-L’hosting collegato alla chat usa `.openai/hosting.json`; il nuovo sito nasce privato, accessibile al proprietario. Netlify resta predisposto con `netlify.toml`, ma le anteprime anonime precedenti erano temporanee. Non sono stati modificati siti di produzione esistenti.
+Verifiche locali: 28 test, TypeScript e build superati. Inclusi controlli su coordinate sorgente vere, cortili, costa, buchi, dati geografici e percorso completo con oltre 2.000 campioni e ingombro del motorino. Scena eseguita in NullEngine. Non sono stati eseguiti test GPU, screenshot o prove interattive sul Mac.
+
+L’hosting collegato alla chat usa `.openai/hosting.json` e conserva l’accesso privato al proprietario. Non sono stati modificati siti di produzione diversi. I risultati effettivi di CI e deploy sono confermati nella chat solo dopo averne letto lo stato.

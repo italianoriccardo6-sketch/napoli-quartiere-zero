@@ -1,0 +1,88 @@
+{
+  "sourceDate": "2026-10-31T22:18:11.535Z",
+  "source": "https://overpass-api.de/api/interpreter",
+  "bounds": [
+    -640.1679145129254,
+    -233.77093066572516,
+    1465.6475937532923,
+    1547.3409220264557
+  ],
+  "buildings": 1803,
+  "courtyards": 316,
+  "estimatedHeights": 1620,
+  "roads": 1531,
+  "sourceRoads": 1613,
+  "surfaceRoadsExcluded": 82,
+  "coastlineSourceWays": [
+    "way/12494037",
+    "way/145075849"
+  ],
+  "coastlinePoints": 1448,
+  "routeMetres": 586.0644082119704,
+  "routeNames": [
+    "Via Santa Lucia",
+    "Via Chiatamone",
+    "Via Alessandro Dumas",
+    "Via Partenope"
+  ],
+  "spawn": [
+    15.361132279920568,
+    420.95233459739205
+  ],
+  "scooter": [
+    15.045305421059425,
+    418.775122298322
+  ],
+  "pickup": [
+    16.50959358487018,
+    428.8694702303741
+  ],
+  "delivery": [
+    -324.0176206259376,
+    251.2814865680662
+  ],
+  "land": {
+    "source": "OpenStreetMap natural=coastline",
+    "landSide": "left",
+    "coastlineWayIds": [
+      "way/12494037",
+      "way/145075849"
+    ],
+    "measuredCoastPointCount": 1448,
+    "clippingBounds": [
+      -640.1679145129254,
+      -233.77093066572516,
+      1465.6475937532923,
+      1547.3409220264557
+    ],
+    "syntheticClosureOutsideBounds": true,
+    "syntheticClosure": [
+      [
+        2191.9433625542615,
+        1820.8640428547058
+      ],
+      [
+        2548.710625964769,
+        1820.8640428547058
+      ],
+      [
+        2548.710625964769,
+        2049.4236914441367
+      ],
+      [
+        -6436.088170534278,
+        2049.4236914441367
+      ],
+      [
+        -6436.088170534278,
+        -3251.9762845437454
+      ],
+      [
+        -6225.506619707657,
+        -3251.9762845437454
+      ]
+    ]
+  },
+  "heightStatus": "Terreno piano provvisorio; quote regionali non attivate",
+  "representation": "Geometria OSM reale, edifici estrusi generici; non fotorealismo"
+}
