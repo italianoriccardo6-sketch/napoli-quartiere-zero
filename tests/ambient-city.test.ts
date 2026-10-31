@@ -2,7 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';import {Canvas} from '@napi-rs/canvas';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';import {Scene} from '@babylonjs/core/scene';
 import {createCityWorld} from '../src/city-world';
-import {planAmbientCity,pointOnAmbientPath,ambientCarsAllow} from '../src/ambient-city';
+import {planAmbientCity,pointOnAmbientPath,ambientCarsAllow,createAmbientCity} from '../src/ambient-city';
 import {canStandForCar} from '../src/car';
 import {segmentDistance,type Point} from '../src/geo';
 import type {CityMapData,CityRuntime} from '../src/city-data';
@@ -58,4 +58,17 @@ test('Napoli reale: piano deterministico, ingombri liberi e corridoio missione p
     console.log('WEST_AMBIENT_PLAN '+JSON.stringify({anchor:west.anchor,cars:west.cars.map(c=>({roadId:c.roadId,position:c.position})),walkers:west.walkers.map(w=>({roadId:w.roadId,start:w.points[0],end:w.points[w.points.length-1]}))}));
     console.log('AMBIENT_PLAN '+JSON.stringify({anchor:plan.anchor,cars:plan.cars,walkers:plan.walkers.map(w=>({roadId:w.roadId,start:w.points[0],end:w.points[w.points.length-1],points:w.points.length}))}));
   }finally{scene.dispose();e.dispose();}
+});
+
+test('comparse opzionali: asset mancante rifiuta ready e non lascia un muro invisibile',async()=>{
+  const e=new NullEngine({renderWidth:400,renderHeight:300,textureSize:256,deterministicLockstep:true,lockstepMaxSteps:4}),scene=new Scene(e),originalFetch=globalThis.fetch;
+  try{
+    globalThis.fetch=async()=>{throw Error('Fixture: local licensed asset unavailable');};
+    const city:CityRuntime={roads:[{id:'way/parking-fixture',highway:'residential',width:8,points:[[-60,10],[60,10]]}],bounds:[-100,-100,100,100],spawn:[1000,1000],scooter:[1000,1000],pickup:[1000,1000],delivery:[1000,1000],route:[],routeNames:[],sourceDate:'fixture',estimatedHeights:0,heightStatus:'fixture'};
+    const ambient=createAmbientCity(scene,city,{canStand:()=>true},{anchor:[0,0],maxCars:1,maxPedestrians:0});
+    assert.equal(ambient.plan.cars.length,1);const p=ambient.plan.cars[0].position;
+    await assert.rejects(ambient.ready,/comparse/);
+    assert.equal(ambient.canStand(p[0],p[1],.5),true,'un asset mai mostrato non deve bloccare il giocatore');
+    ambient.dispose();assert.equal(ambient.roots.every(r=>r.isDisposed()),true);
+  }finally{globalThis.fetch=originalFetch;scene.dispose();e.dispose();}
 });
