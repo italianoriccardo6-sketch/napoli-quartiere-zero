@@ -1,0 +1,47 @@
+name: Acquisisci rilievo di sfondo del golfo
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - scripts/fetch-background-terrain.mjs
+      - .github/workflows/fetch-background-terrain.yml
+permissions:
+  contents: write
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: node scripts/fetch-background-terrain.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: naples-background-terrain-${{ github.sha }}
+          retention-days: 14
+          path: |
+            public/data/background-terrain.json
+            data/background-terrain-source.json
+            work/background-terrain-acquisition/
+      - name: Conserva soltanto il rilievo derivato e la sua provenienza
+        env:
+          DATA_BRANCH: data/background-terrain-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          TERRAIN_EXPORT="$(mktemp -d)"
+          cp public/data/background-terrain.json "$TERRAIN_EXPORT/background-terrain.json"
+          cp data/background-terrain-source.json "$TERRAIN_EXPORT/background-terrain-source.json"
+          # The branch contains only derived data and provenance, never source,
+          # workflows, the full raw tile or credentials.
+          git switch --orphan "$DATA_BRANCH" --discard-changes
+          mkdir -p public/data data
+          cp "$TERRAIN_EXPORT/background-terrain.json" public/data/background-terrain.json
+          cp "$TERRAIN_EXPORT/background-terrain-source.json" data/background-terrain-source.json
+          git add public/data/background-terrain.json data/background-terrain-source.json
+          git commit -m 'Add public SRTM distant Naples background height grid and provenance'
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"
