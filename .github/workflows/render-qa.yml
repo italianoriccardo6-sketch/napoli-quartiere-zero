@@ -35,15 +35,15 @@ jobs:
           mkdir -p work
           set -o pipefail
           xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --pbr --car --detail --width=1024 --height=576 --output=work/render-current.png 2>&1 | tee work/render-log.txt
+          xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --pbr --car --detail --view=drive --width=1024 --height=576 --output=work/render-driving.png 2>&1 | tee work/render-driving-log.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: napoli-engine-render-${{ github.run_id }}
           path: |
-            work/render-current.png
-            work/render-current.json
-            work/render-current.error.json
-            work/render-log.txt
+            work/render-*.png
+            work/render-*.json
+            work/render-*log.txt
           if-no-files-found: warn
           retention-days: 30
       - name: Conserva il fotogramma effettivo in un ramo QA ispezionabile
@@ -55,7 +55,7 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git switch -c "$QA_BRANCH"
           mkdir -p qa/render
-          cp work/render-current.png work/render-current.json qa/render/
-          git add qa/render/render-current.png qa/render/render-current.json
+          cp work/render-current.png work/render-current.json work/render-driving.png work/render-driving.json qa/render/
+          git add qa/render/render-current.png qa/render/render-current.json qa/render/render-driving.png qa/render/render-driving.json
           git commit -m 'Record actual Babylon source-scene software WebGL frame and diagnostics'
           git push origin "HEAD:refs/heads/$QA_BRANCH"

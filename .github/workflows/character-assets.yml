@@ -1,0 +1,37 @@
+name: Acquisisci personaggio e animazioni CC0
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/character-assets.yml
+permissions:
+  contents: write
+concurrency:
+  group: napoli-character-assets
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Acquisisci personaggio, clip e prove di licenza
+        run: node scripts/fetch-character-assets.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-civilian-${{ github.run_id }}
+          path: public/assets/characters/civilian/
+          retention-days: 30
+      - name: Conserva gli asset in un ramo separato
+        env:
+          ASSET_BRANCH: data/character-assets-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$ASSET_BRANCH"
+          git add public/assets/characters/civilian/
+          git commit -m 'Add licensed detailed civilian and walk/run animations'
+          git push origin "HEAD:refs/heads/$ASSET_BRANCH"
