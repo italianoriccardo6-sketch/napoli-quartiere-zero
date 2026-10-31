@@ -1,0 +1,42 @@
+name: Inspect authentic Naples facade photo sources
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/naples-facade-photos.yml
+      - scripts/fetch-naples-facade-photos.mjs
+permissions:
+  contents: write
+concurrency:
+  group: naples-facade-photo-research
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify Commons license, author and original-byte checksums
+        run: node scripts/fetch-naples-facade-photos.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: naples-facade-photo-research-${{ github.run_id }}
+          path: |
+            public/assets/naples-facade-research/
+            work/facade-photo-diagnostics/
+          retention-days: 14
+          if-no-files-found: error
+      - name: Preserve verified originals on an isolated research data branch
+        env:
+          PHOTO_BRANCH: data/naples-facade-photos-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$PHOTO_BRANCH"
+          git add public/assets/naples-facade-research/
+          git commit -m 'Preserve authentic Naples facade research photographs with source licenses'
+          git push origin "HEAD:refs/heads/$PHOTO_BRANCH"
