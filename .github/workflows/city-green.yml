@@ -1,0 +1,39 @@
+name: Estrai vegetazione reale di Napoli
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/city-green.yml
+permissions:
+  contents: write
+concurrency:
+  group: napoli-green
+  cancel-in-progress: false
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Alberi e aree verdi dal piccolo perimetro OSM
+        run: node scripts/fetch-city-green.mjs
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-green-${{ github.run_id }}
+          path: |
+            data/napoli-green/
+            public/data/green.json
+          retention-days: 30
+      - name: Conserva dati e provenienza nel ramo dedicato
+        env:
+          DATA_BRANCH: data/napoli-green-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git switch -c "$DATA_BRANCH"
+          git add data/napoli-green/ public/data/green.json
+          git commit -m 'Add bounded actual Naples vegetation positions with ODbL provenance'
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"

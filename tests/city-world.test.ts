@@ -19,6 +19,9 @@ test('città: footprint con cortile, banchina e collegamento tra poligoni adiace
     assert.equal(world.canStand(99.8,0,.55),false,'bordo della banchina');assert.equal(world.canStand(110,0),false,'mare');assert.equal(world.canStand(NaN,0),false);
     createCamera(scene);for(let i=0;i<3;i++){world.sea.setFloat('time',i/60);scene.render();}
     assert.equal(world.beacons.length,0);assert.equal(scene.metadata.cityWorld.footprints,1);assert.equal(scene.metadata.cityWorld.renderedRoads,1);
+    const road=scene.getMeshByName('strade OSM')!;
+    const normals=road.getVerticesData('normal')!;
+    assert.ok(normals.length>0);for(let i=1;i<normals.length;i+=3)assert.ok(normals[i]>.99,'la strada riceve la luce sul lato superiore');
   }finally{scene.dispose();engine.dispose();}
 });
 test('larghezze stradali esplicite o stimate dichiarate',()=>{

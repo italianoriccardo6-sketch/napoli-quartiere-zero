@@ -159,7 +159,8 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
       if(!insideLand(mid))continue;
       const dx=b[0]-a[0],dz=b[1]-a[1],len=Math.hypot(dx,dz),nx=-dz/len*width/2,nz=dx/len*width/2,index=batch.positions.length/3;
       for(const p of [[a[0]+nx,a[1]+nz],[a[0]-nx,a[1]-nz],[b[0]+nx,b[1]+nz],[b[0]-nx,b[1]-nz]]){batch.positions.push(p[0],.025,p[1]);batch.uvs.push(p[0]/4,p[1]/4);}
-      batch.indices.push(index,index+2,index+1,index+1,index+2,index+3);emitted=true;
+      // Babylon's left-handed normal convention needs this winding for +Y.
+      batch.indices.push(index,index+1,index+2,index+1,index+3,index+2);emitted=true;
     }
     if(emitted){batch.ids.push(road.id);renderedRoads++;}roadBatches.set(pedestrian,batch);
   }

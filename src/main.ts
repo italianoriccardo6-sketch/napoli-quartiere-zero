@@ -6,7 +6,9 @@ import {Engine} from '@babylonjs/core/Engines/engine';
 import {Scene} from '@babylonjs/core/scene';
 import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {createWorld} from './world';
-import {createCityWorld} from './city-world';
+import {createDetailedCity} from './city-visuals';
+import {createCar,canStandForCar} from './car';
+import {placeVehicleOnStreet,vehicleBlocksPoint,findPlayerBesideVehicle} from './vehicle-placement';
 import type {CityMapData} from './city-data';
 import {MeshBuilder} from '@babylonjs/core/Meshes/meshBuilder';
 import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
@@ -30,12 +32,15 @@ async function boot(){
   const canvas=el<HTMLCanvasElement>('game');
   if(!Engine.isSupported())throw Error('Il browser non supporta WebGL. Prova un browser aggiornato con accelerazione grafica attiva.');
   const engine=new Engine(canvas,true,{preserveDrawingBuffer:true,stencil:true,powerPreference:'high-performance'});
-  const scene=new Scene(engine),world=map.city?createCityWorld(scene,map,map.city):createWorld(scene,map),character=createCharacter(scene),scooter=createScooter(scene),cam=createCamera(scene),input=new Input(canvas),audio=new Audio();
+  const scene=new Scene(engine),cityVisuals=map.city?createDetailedCity(scene,map,map.city):undefined,world=cityVisuals??createWorld(scene,map),character=createCharacter(scene),scooter=map.city?createCar(scene):createScooter(scene),cam=createCamera(scene),input=new Input(canvas),audio=new Audio();
+  await Promise.all([cityVisuals?.ready??Promise.resolve(),'ready' in scooter?scooter.ready:Promise.resolve()]);
+  const carRadius='radius' in scooter?scooter.radius:.93,carHalfLength='halfLength' in scooter?scooter.halfLength:1.1;
+  const placement=map.city?placeVehicleOnStreet(map.city,world.canStand,{radius:carRadius,halfLength:carHalfLength}):undefined;
   character.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));scooter.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));
-  const spawn=map.city?.spawn??[20,58],scooterPoint=map.city?.scooter??[18,60];
+  const spawn=placement?.player??[20,58],scooterPoint=placement?.car??[18,60];
   scooter.spawn.set(scooterPoint[0],0,scooterPoint[1]);scooter.root.position.copyFrom(scooter.spawn);
   character.root.position.set(spawn[0],0,spawn[1]);
-  const initialHeading=Math.atan2(PICKUP[0]-spawn[0],PICKUP[1]-spawn[1]);
+  const initialHeading=placement?.heading??Math.atan2(PICKUP[0]-spawn[0],PICKUP[1]-spawn[1]);
   character.root.rotation.y=initialHeading;scooter.root.rotation.y=scooter.heading=initialHeading;
   if(map.city){
     cam.orient(initialHeading);cam.snap(character.root.position);
@@ -49,7 +54,7 @@ async function boot(){
   let save:Save=loadSave(),started=false,paused=false,riding=false,credits=false,time=0,hudTime=0,lastMove=false,lastInteraction=0;
   function persist(){if(!storeSave(save))toast('Salvataggio non disponibile in questo browser. La partita continua in memoria.');}
   function persistStory(){try{localStorage.setItem(STORY_SAVE_KEY,JSON.stringify(story));}catch{toast('Il prologo continuerà in memoria: salvataggio non disponibile.');}}
-  function quality(){engine.setHardwareScalingLevel(1/Math.min(devicePixelRatio||1,save.quality==='alta'?1.5:1));scene.shadowsEnabled=save.quality==='alta';}
+  function quality(){engine.setHardwareScalingLevel(1/Math.min(devicePixelRatio||1,save.quality==='alta'?1.5:1));scene.shadowsEnabled=save.quality==='alta';cityVisuals?.updateDetail([character.root.position.x,character.root.position.z],save.quality);}
   quality();
   el<HTMLInputElement>('volume').value=String(save.volume*100);el<HTMLSelectElement>('quality').value=save.quality;
   function pause(value:boolean){if(!started||credits)return;paused=value;input.clear();show('pause',value);if(value&&document.pointerLockElement)document.exitPointerLock();}
@@ -59,8 +64,8 @@ async function boot(){
     if(story.phase==='available'&&distance(PICKUP)<3.5)return riding?'Scendi per parlare con Teresa':'Parla con Teresa';
     if(story.phase==='carrying'&&distance(DELIVERY)<3.5)return riding?'Scendi e controlla il telefono':'Controlla il telefono alla banchina';
     if(story.phase==='return'&&distance(PICKUP)<3.5)return riding?'Scendi e torna da Teresa':story.choice?'Conferma la decisione con Teresa':'Decidi di chi fidarti';
-    if(riding)return Math.abs(scooter.velocity)<1?'Scendi dal motorino':'Frena per scendere';
-    if(Vector3.Distance(character.root.position,scooter.root.position)<2.7)return 'Sali sul motorino';
+    if(riding)return Math.abs(scooter.velocity)<1?'Scendi dall’auto':'Frena per scendere';
+    if(Vector3.Distance(character.root.position,scooter.root.position)<Math.max(2.7,carHalfLength+.9))return 'Sali in auto';
     return '';
   }
   function drawDialogue(){
@@ -80,10 +85,9 @@ async function boot(){
   el('choose-negotiate').onclick=()=>{story=reduceStory(story,'choose-negotiate');persistStory();closeDialogue();toast('Hai aperto una trattativa. Torna da Teresa.');};
   function exitScooter(){
     if(Math.abs(scooter.velocity)>1){toast('Fermati prima di scendere.');return;}
-    for(const angle of [Math.PI/2,-Math.PI/2,Math.PI,0]){
-      const p=scooter.root.position.add(new Vector3(Math.sin(scooter.heading+angle)*1.7,0,Math.cos(scooter.heading+angle)*1.7));
-      if(world.canStand(p.x,p.z,.55)){riding=false;scooter.velocity=0;character.root.position.copyFrom(p);character.root.position.y=0;character.root.rotation.y=scooter.heading;return;}
-    }toast('Qui non c’è spazio per scendere. Sposta il motorino o premi R.');
+    const point=findPlayerBesideVehicle(scooter.root.position,scooter.heading,{radius:carRadius,halfLength:carHalfLength},world.canStand,undefined,.55);
+    if(point){riding=false;character.root.setEnabled(true);scooter.velocity=0;character.root.position.set(point[0],0,point[1]);character.root.rotation.y=scooter.heading;return;}
+    toast('Qui non c’è spazio per scendere. Sposta l’auto o premi R.');
   }
   input.onInteract=()=>{
     if(!started||paused||credits||dialogueOpen||performance.now()-lastInteraction<200)return;lastInteraction=performance.now();
@@ -97,13 +101,13 @@ async function boot(){
       if(!story.choice){openDialogue(storyDialogue(story),true);return;}
       story=reduceStory(story,'interact-bar');persistStory();openDialogue(storyDialogue(story));toast(`Prologo completato · +${story.coins} monete`);return;
     }
-    if(Vector3.Distance(character.root.position,scooter.root.position)<2.7){riding=true;scooter.velocity=0;scooter.heading=scooter.root.rotation.y;toast('W accelera · S frena / retromarcia · A/D sterza · E scendi');}
+    if(Vector3.Distance(character.root.position,scooter.root.position)<Math.max(2.7,carHalfLength+.9)){riding=true;scooter.velocity=0;scooter.heading=scooter.root.rotation.y;toast('W accelera · S frena / retromarcia · A/D sterza · E scendi');}
   };
   function recover(){
     if(!started||paused||credits||dialogueOpen)return;
     if(riding){scooter.root.position.copyFrom(scooter.spawn);scooter.heading=initialHeading;scooter.root.rotation.y=initialHeading;character.root.position.copyFrom(scooter.spawn);scooter.velocity=0;cam.snap(character.root.position);}
-    else {let found=false;for(let radius=2;radius<=5&&!found;radius++)for(let a=0;a<Math.PI*2;a+=Math.PI/4){const p=character.root.position.add(new Vector3(Math.sin(a)*radius,0,Math.cos(a)*radius));if(world.canStand(p.x,p.z,1)){scooter.root.position.set(p.x,0,p.z);scooter.velocity=0;found=true;break;}}if(!found){scooter.root.position.copyFrom(scooter.spawn);scooter.velocity=0;}}
-    toast('Motorino recuperato in un punto sicuro.');
+    else {let found=false;for(let radius=2;radius<=5&&!found;radius++)for(let a=0;a<Math.PI*2;a+=Math.PI/4){const p=character.root.position.add(new Vector3(Math.sin(a)*radius,0,Math.cos(a)*radius));if(carCanStand(p.x,p.z,scooter.heading)&&!vehicleBlocksPoint(character.root.position,p,scooter.heading,carRadius,carHalfLength,.55)){scooter.root.position.set(p.x,0,p.z);scooter.velocity=0;found=true;break;}}if(!found){scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;scooter.velocity=0;if(!canWalk(character.root.position.x,character.root.position.z,.5))character.root.position.set(spawn[0],0,spawn[1]);}}
+    toast('Auto recuperata in un punto sicuro.');
   }
   input.onRecover=recover;input.onPause=()=>{if(dialogueOpen)return;if(credits){closeCredits();return;}pause(!paused);};input.onBlur=()=>{if(started&&!paused&&!credits&&!dialogueOpen)pause(true);};input.onLook=(x,y)=>{if(started&&!paused&&!credits&&!dialogueOpen)cam.rotate(x,y);};
   // Drag to orbit if pointer lock is unavailable or declined.
@@ -113,12 +117,14 @@ async function boot(){
   el<HTMLInputElement>('volume').oninput=e=>{save.volume=Number((e.target as HTMLInputElement).value)/100;persist();};
   el<HTMLSelectElement>('quality').onchange=e=>{save.quality=(e.target as HTMLSelectElement).value as Save['quality'];quality();persist();};
   let resetArmed=false;
-  el('reset').onclick=()=>{if(!resetArmed){resetArmed=true;el('reset').textContent='Conferma ripristino: azzera consegna e monete';return;}save=defaults();persist();story=initialStory();persistStory();riding=false;scooter.velocity=0;scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;character.root.position.set(spawn[0],0,spawn[1]);cam.snap(character.root.position);quality();el<HTMLInputElement>('volume').value='25';el<HTMLSelectElement>('quality').value='alta';el('reset').textContent='Ripristina partita';resetArmed=false;toast('Partita ripristinata.');};
+  el('reset').onclick=()=>{if(!resetArmed){resetArmed=true;el('reset').textContent='Conferma ripristino: azzera consegna e monete';return;}save=defaults();persist();story=initialStory();persistStory();riding=false;character.root.setEnabled(true);scooter.velocity=0;scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;character.root.position.set(spawn[0],0,spawn[1]);cam.snap(character.root.position);quality();el<HTMLInputElement>('volume').value='25';el<HTMLSelectElement>('quality').value='alta';el('reset').textContent='Ripristina partita';resetArmed=false;toast('Partita ripristinata.');};
   function closeCredits(){credits=false;show('credits',false);if(started){paused=true;show('pause',true);}}
   el('credits-button').onclick=()=>{if(dialogueOpen)return;if(started)pause(true);credits=true;show('pause',false);show('credits',true);};el('close-credits').onclick=closeCredits;
+  function carCanStand(x:number,z:number,heading:number){return map.city?canStandForCar({x,z},heading,world.canStand,carRadius,carHalfLength):world.canStand(x,z,carRadius);}
+  function canWalk(x:number,z:number,radius:number){return world.canStand(x,z,radius)&&!vehicleBlocksPoint({x,z},scooter.root.position,scooter.heading,carRadius,carHalfLength,radius);}
   function move(delta:Vector3,radius:number):boolean {
     const pos=riding?scooter.root.position:character.root.position;
-    return moveOnGround(pos,{x:delta.x,z:delta.z},radius,world.canStand,!riding).collision;
+    return moveOnGround(pos,{x:delta.x,z:delta.z},radius,riding?((x,z)=>carCanStand(x,z,scooter.heading)):canWalk,!riding).collision;
   }
   engine.runRenderLoop(()=>{
     const dt=Math.min(engine.getDeltaTime()/1000,.04);time+=dt;
@@ -127,19 +133,20 @@ async function boot(){
       if(riding){
         scooter.velocity=stepVelocity(scooter.velocity,forward,dt);
         const proposed=scooter.heading+turn*dt*1.65*Math.min(Math.abs(scooter.velocity)/2,1)*Math.sign(scooter.velocity);
-        scooter.heading=proposed;scooter.root.rotation.y=proposed;
-        const d=new Vector3(Math.sin(proposed)*scooter.velocity*dt,0,Math.cos(proposed)*scooter.velocity*dt);
-        if(move(d,.93))scooter.velocity=0;
+        if(carCanStand(scooter.root.position.x,scooter.root.position.z,proposed)){scooter.heading=proposed;scooter.root.rotation.y=proposed;}
+        const d=new Vector3(Math.sin(scooter.heading)*scooter.velocity*dt,0,Math.cos(scooter.heading)*scooter.velocity*dt);
+        if(move(d,carRadius))scooter.velocity=0;
         scooter.wheels.forEach(w=>w.rotation.x+=scooter.velocity*dt*3.5);
-        character.root.position.copyFrom(scooter.root.position);character.root.position.y=.45;character.root.rotation.y=proposed;
+        character.root.position.copyFrom(scooter.root.position);character.root.position.y=0;character.root.rotation.y=scooter.heading;character.root.setEnabled(false);
         lastMove=Math.abs(scooter.velocity)>.1;
       }else {
+        character.root.setEnabled(true);
         const direction=walkingDirection(cam.yaw,forward,turn);const d=new Vector3(direction.x,0,direction.z);
         lastMove=d.lengthSquared()>0;
         if(lastMove){d.normalize().scaleInPlace((input.keys.has('ShiftLeft')||input.keys.has('ShiftRight')?5.5:3.1)*dt);move(d,.5);character.root.rotation.y=Math.atan2(d.x,d.z);}character.root.position.y=0;
       }
       if(!Number.isFinite(character.root.position.x)||!world.canStand(character.root.position.x,character.root.position.z,.1)){
-        character.root.position.set(spawn[0],0,spawn[1]);riding=false;scooter.velocity=0;cam.snap(character.root.position);toast('Sei tornato sulla banchina in sicurezza.');
+        character.root.position.set(spawn[0],0,spawn[1]);riding=false;character.root.setEnabled(true);scooter.velocity=0;cam.snap(character.root.position);toast('Sei tornato sulla banchina in sicurezza.');
       }
       character.animate(time,lastMove,riding);cam.update(character.root.position,dt,riding);
     }
@@ -148,6 +155,7 @@ async function boot(){
     world.sea.setFloat('time',time);
     audio.update(save.volume,riding,scooter.velocity,paused||!started||credits||dialogueOpen);
     if(started&&(hudTime+=dt)>.08){hudTime=0;updateHUD(save,character.root.position.x,character.root.position.z,character.root.rotation.y,riding,scooter.velocity,nextAction(),map,story);}
+    cityVisuals?.updateDetail([cam.camera.position.x,cam.camera.position.z],save.quality);
     scene.render();
   });
   addEventListener('resize',()=>engine.resize());

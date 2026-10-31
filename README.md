@@ -136,3 +136,12 @@ Regressioni aggiunte: primo aggiornamento e aggiornamenti successivi dell’HUD,
 ### Riferimento visivo fornito dall’utente
 
 La schermata allegata dall’utente richiede una strada a scala reale con asfalto dettagliato, marciapiedi e rampe modellati, veicoli completi, vegetazione articolata, personaggi credibili e ombre coerenti su tutte le superfici, ambientata nella vera Napoli. L’immagine è un riferimento di qualità, non un asset riutilizzato: non è copiata nel repository né inserita nel gioco. La resa attuale a volumi generici non soddisfa quel riferimento; la correzione del movimento non viene presentata come un avanzamento al fotorealismo.
+
+
+## Dettaglio visivo 0.4
+
+La scena attiva condivide la stessa costruzione tra gioco e `scripts/render-qa.ts`: superfici PBR fotografiche Poly Haven (asfalto, intonaco, pietra, cielo HDR CC0), finestre/persiane/balconi e vetrine inferiti sulle sagome OSM, cordoli e marciapiedi lungo il percorso. Le posizioni delle aperture non sono rilievi dei singoli edifici. Il terreno resta piano e molti volumi hanno altezza stimata. Non è una ricostruzione fotogrammetrica di Napoli né una qualità equivalente a GTA V.
+
+L’auto giocabile usa il CarConcept ufficiale Khronos, ©2024 Darmstadt Graphics Group, modello e texture Eric Chadwick, CC BY4.0. Il file e tutte le texture sono locali; il modello è scalato uniformemente a4.4m e la targa originale è nascosta. La capsula di collisione deriva dalla larghezza reale del modello e include muso/coda; la partenza e la discesa separano il personaggio dalla carrozzeria. E entra/esce, R recupera, WASD guida. Il prologo resta completabile a piedi; il percorso era stato validato per il precedente motorino e non tutte le svolte sono garantite per la nuova auto larga.
+
+I workflow di acquisizione conservano provenienza, byte, checksum e licenze in `public/assets/`. Non servono API o servizi esterni durante il gioco. Il render QA usa il vero Babylon Engine con WebGL1/Mesa via Node, non un browser: produce un fotogramma effettivo e segnala errori GLSL/WebGL. Questo prova la resa della scena su quel contesto software; non costituisce una prova di prestazioni o compatibilità su Safari/macOS.
