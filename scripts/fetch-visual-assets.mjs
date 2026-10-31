@@ -5,6 +5,7 @@ import {createHash} from 'node:crypto';
 // and https://github.com/Poly-Haven/Public-API/blob/master/swagger.yml .
 // Downloads happen during preparation only. No provider API is used at runtime.
 const root='public/assets';
+const diagnosticsRoot='work/visual-asset-diagnostics';
 const userAgent='NapoliQuartiereZero/0.4 (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero)';
 const maxTotal=35*1024*1024,maxTexture=3*1024*1024,maxHDR=10*1024*1024;
 const selected=[
@@ -24,9 +25,16 @@ async function bytes(url,limit){
   for await(const part of response.body){size+=part.length;if(size>limit)throw Error('Asset exceeds bounded download limit');parts.push(part);}
   return Buffer.concat(parts);
 }
-function descriptor(tree,map,format,limit){
+function descriptor(tree,map,format,limit,assetId){
   const file=tree[map]?.['1k']?.[format];
-  if(!file||typeof file.url!=='string'||!Number.isSafeInteger(file.size)||file.size<=0||file.size>limit||! /^[a-f0-9]{32}$/i.test(file.md5??''))throw Error(`Verified 1k ${map}/${format} descriptor missing or too large`);
+  if(!file||typeof file.url!=='string'||!Number.isSafeInteger(file.size)||file.size<=0||file.size>limit||! /^[a-f0-9]{32}$/i.test(file.md5??'')){
+    // Keep the actual public descriptor visible when the API's documented shape
+    // differs. Diagnostics are CI artifacts only, never redistributed game data.
+    const keys=value=>Object.keys(value??{}).slice(0,30);
+    const scalar=value=>typeof value==='string'?value.slice(0,250):typeof value==='number'?value:null;
+    console.error('Poly Haven descriptor diagnostics:',JSON.stringify({assetId,map,resolution:'1k',format,limit,treeKeys:keys(tree),resolutionKeys:keys(tree[map]),formatKeys:keys(tree[map]?.['1k']),descriptorKeys:keys(file),size:scalar(file?.size),sizeType:typeof file?.size,md5:scalar(file?.md5),md5Type:typeof file?.md5,url:scalar(file?.url)}));
+    throw Error(`Verified descriptor failed for ${assetId}/1k/${map}/${format}; inspect the bounded descriptor diagnostics`);
+  }
   const url=new URL(file.url);
   if(url.protocol!=='https:'||url.hostname!=='dl.polyhaven.org')throw Error('Asset URL is outside the official download host');
   return file;
@@ -35,10 +43,12 @@ const files=[],assets=[];
 for(const asset of selected){
   const endpoint=`https://api.polyhaven.com/files/${asset.id}`;
   const tree=JSON.parse((await bytes(endpoint,1024*1024)).toString('utf8'));
+  await mkdir(diagnosticsRoot,{recursive:true});
+  await writeFile(`${diagnosticsRoot}/${asset.id}.json`,JSON.stringify(tree,null,2)+'\n');
   const maps=asset.kind==='hdri'?[['hdri','hdr','environment/daylight.hdr']]:['diff','nor_gl','rough'].map(map=>[map,'jpg',`materials/${asset.id}/${map}.jpg`]);
   const records={};
   for(const [map,format,path]of maps){
-    const file=descriptor(tree,map,format,asset.kind==='hdri'?maxHDR:maxTexture);
+    const file=descriptor(tree,map,format,asset.kind==='hdri'?maxHDR:maxTexture,asset.id);
     if(totalBytes+file.size>maxTotal)throw Error('Selected asset pack exceeds 35 MiB budget');
     const data=await bytes(file.url,asset.kind==='hdri'?maxHDR:maxTexture);
     const md5=createHash('md5').update(data).digest('hex');

@@ -20,6 +20,14 @@ jobs:
           node-version: '22'
       - name: Scarica una selezione CC0 limitata e verifica gli hash
         run: node scripts/fetch-visual-assets.mjs
+      - name: Conserva la risposta API effettiva quando la verifica fallisce
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napoli-visual-asset-diagnostics-${{ github.run_id }}
+          path: work/visual-asset-diagnostics/
+          retention-days: 7
+          if-no-files-found: ignore
       - uses: actions/upload-artifact@v4
         with:
           name: napoli-visual-assets-${{ github.run_id }}
