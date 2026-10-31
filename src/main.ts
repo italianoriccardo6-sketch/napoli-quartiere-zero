@@ -7,6 +7,7 @@ import {Scene} from '@babylonjs/core/scene';
 import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {createWorld} from './world';
 import {createDetailedCity} from './city-visuals';
+import {createAmbientCity} from './ambient-city';
 import {createCar,canStandForCar} from './car';
 import {placeVehicleOnStreet,vehicleBlocksPoint,findPlayerBesideVehicle,openingStreetData} from './vehicle-placement';
 import type {CityMapData} from './city-data';
@@ -24,7 +25,7 @@ import {loadSave,storeSave,defaults,type Save} from './save';
 import {PICKUP,DELIVERY} from './mission';
 import {initialStory,reduceStory,decodeStory,storyDialogue,STORY_SAVE_KEY,type StoryState,type StoryLine} from './story';
 import {el,show,toast,updateHUD,validateGameUI} from './ui';
-import type {MapData} from './geo';
+import type {MapData,Point} from './geo';
 async function boot(){
   validateGameUI();
   const response=await fetch(`${import.meta.env.BASE_URL}data/map.json`);if(!response.ok)throw Error('I dati della scena non sono disponibili. Ricarica la pagina.');
@@ -38,11 +39,14 @@ async function boot(){
   const carRadius='radius' in scooter?scooter.radius:.93,carHalfLength='halfLength' in scooter?scooter.halfLength:1.1;
   const placement=map.city?placeVehicleOnStreet(openingStreetData(map.city),world.canStand,{radius:carRadius,halfLength:carHalfLength}):undefined;
   character.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));scooter.root.getChildMeshes().forEach(m=>world.shadows.addShadowCaster(m));
-  const spawn=placement?.player??[20,58],scooterPoint=placement?.car??[18,60];
+  const spawn:Point=placement?.player??[20,58],scooterPoint:Point=placement?.car??[18,60];
   scooter.spawn.set(scooterPoint[0],0,scooterPoint[1]);scooter.root.position.copyFrom(scooter.spawn);
   character.root.position.set(spawn[0],cityVisuals?.surfaceHeightAt(spawn[0],spawn[1])??0,spawn[1]);
   const initialHeading=placement?.heading??Math.atan2(PICKUP[0]-spawn[0],PICKUP[1]-spawn[1]);
   character.root.rotation.y=initialHeading;scooter.root.rotation.y=scooter.heading=initialHeading;
+  const ambient=map.city?createAmbientCity(scene,map.city,world,{anchor:scooterPoint,protectedPoints:[spawn,scooterPoint],surfaceHeightAt:cityVisuals?.surfaceHeightAt,walkerCanStand:(x,z,r)=>world.canStand(x,z,r)&&!vehicleBlocksPoint({x,z},scooter.root.position,scooter.heading,carRadius,carHalfLength,r)&&Math.hypot(x-character.root.position.x,z-character.root.position.z)>r+.5}):undefined;
+  await ambient?.ready;
+  scene.metadata={...(scene.metadata??{}),ambientPopulation:{pedestrians:ambient?.plan.walkers.length??0,parkedCars:ambient?.plan.cars.length??0,representation:'Generic licensed models; inferred parking offsets and walkers on source OSM paths.'}};
   if(map.city){
     cam.orient(initialHeading);cam.snap(character.root.position);
     for(const [i,p]of[PICKUP,DELIVERY].entries()){
@@ -122,8 +126,8 @@ async function boot(){
   el('reset').onclick=()=>{if(!resetArmed){resetArmed=true;el('reset').textContent='Conferma ripristino: azzera consegna e monete';return;}save=defaults();persist();story=initialStory();persistStory();riding=false;character.root.setEnabled(true);scooter.velocity=0;scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;character.root.position.set(spawn[0],0,spawn[1]);cam.snap(character.root.position);quality();el<HTMLInputElement>('volume').value='25';el<HTMLSelectElement>('quality').value='alta';el('reset').textContent='Ripristina partita';resetArmed=false;toast('Partita ripristinata.');};
   function closeCredits(){credits=false;show('credits',false);if(started){paused=true;show('pause',true);}}
   el('credits-button').onclick=()=>{if(dialogueOpen)return;if(started)pause(true);credits=true;show('pause',false);show('credits',true);};el('close-credits').onclick=closeCredits;
-  function carCanStand(x:number,z:number,heading:number){return map.city?canStandForCar({x,z},heading,world.canStand,carRadius,carHalfLength):world.canStand(x,z,carRadius);}
-  function canWalk(x:number,z:number,radius:number){return world.canStand(x,z,radius)&&!vehicleBlocksPoint({x,z},scooter.root.position,scooter.heading,carRadius,carHalfLength,radius);}
+  function carCanStand(x:number,z:number,heading:number){const ground=ambient?.canStand??world.canStand;return map.city?canStandForCar({x,z},heading,ground,carRadius,carHalfLength):ground(x,z,carRadius);}
+  function canWalk(x:number,z:number,radius:number){return (ambient?.canStand(x,z,radius)??world.canStand(x,z,radius))&&!vehicleBlocksPoint({x,z},scooter.root.position,scooter.heading,carRadius,carHalfLength,radius);}
   function move(delta:Vector3,radius:number):boolean {
     const pos=riding?scooter.root.position:character.root.position;
     return moveOnGround(pos,{x:delta.x,z:delta.z},radius,riding?((x,z)=>carCanStand(x,z,scooter.heading)):canWalk,!riding).collision;
@@ -150,7 +154,7 @@ async function boot(){
       if(!Number.isFinite(character.root.position.x)||!world.canStand(character.root.position.x,character.root.position.z,.1)){
         character.root.position.set(spawn[0],0,spawn[1]);riding=false;character.root.setEnabled(true);scooter.velocity=0;cam.snap(character.root.position);toast('Sei tornato sulla banchina in sicurezza.');
       }
-      character.animate(time,lastMove,riding);cam.update(character.root.position,dt,riding);
+      character.animate(time,lastMove,riding);cam.update(character.root.position,dt,riding);ambient?.update(dt,time);
     }
     character.parcel.setEnabled(story.phase==='carrying'||story.phase==='return');
     world.beacons.forEach((b,i)=>{b.setEnabled(i===0?(story.phase==='available'||story.phase==='return'):story.phase==='carrying');b.position.y=3.6+Math.sin(time*2)*.2;b.rotation.y=time*.6;});

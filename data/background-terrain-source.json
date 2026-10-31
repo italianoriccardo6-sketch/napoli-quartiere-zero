@@ -1,0 +1,43 @@
+{
+  "dataset": "NASA/NGA SRTM3 version 2.1, tile N40E014",
+  "tile": "N40E014",
+  "download_url": "https://srtm.kurviger.de/SRTM3/Eurasia/N40E014.hgt.zip",
+  "accessed_at": "2026-10-31T23:06:52.516Z",
+  "license": "Public-domain U.S. Government SRTM data; NASA free/open use policy; attribution retained",
+  "attribution": "SRTM data courtesy of the U.S. Geological Survey; NASA/NGA. Distributed by USGS; unmodified source archive mirrored by Kurviger when official legacy URL is unavailable.",
+  "horizontal_crs": "EPSG:4326 (WGS84)",
+  "vertical_datum": "EGM96 geoid",
+  "vertical_units": "metres",
+  "source_resolution_arc_seconds": 3,
+  "source_grid": {
+    "columns": 1201,
+    "rows": 1201,
+    "row_order": "north-to-south",
+    "column_order": "west-to-east",
+    "encoding": "signed 16-bit big-endian",
+    "void_value": -32768
+  },
+  "documentation": {
+    "dataset": "https://www.usgs.gov/centers/eros/science/usgs-eros-archive-digital-elevation-shuttle-radar-topography-mission-srtm",
+    "mirror": "https://srtm.kurviger.de/",
+    "format": "https://github.com/tilezen/joerd/blob/master/docs/formats.md#skadi",
+    "attribution": "https://github.com/tilezen/joerd/blob/master/docs/attribution.md#srtm",
+    "nasaUsePolicy": "https://forum.earthdata.nasa.gov/viewtopic.php?t=679"
+  },
+  "source_archive_sha256": "86f9641ee87cd31c0b3616041686a9150b8dde0382cfa13217738c2514061074",
+  "source_hgt_sha256": "0fb542a835440c3c08b089c5b500ed879b0b75f9d09506486931efcabb341d25",
+  "modifications": "Bilinear sampling to 241×185 backdrop grid; negative values clamped to 0 m; voids flagged invalid, not filled. No imagery, buildings, bathymetry or Google data.",
+  "purpose": "DISTANT VISUAL BACKGROUND ONLY. Not suitable for collision, terrain navigation or street-level elevation.",
+  "checks": {
+    "vesuvius_sample_m": 994,
+    "sea_sample_m": 0,
+    "void_output_samples": 0,
+    "max_height_m": 1250
+  },
+  "failed_attempts": [
+    {
+      "url": "https://dds.cr.usgs.gov/srtm/version2_1/SRTM3/Eurasia/N40E014.hgt.zip",
+      "error": "HTTP 404"
+    }
+  ]
+}

@@ -26,7 +26,7 @@ export function createVisualMaterials(scene:Scene,options:VisualMaterialOptions=
     value.gammaSpace=!linear;value.wrapU=value.wrapV=Texture.WRAP_ADDRESSMODE;value.anisotropicFilteringLevel=8;return value;
   };
   const plain=(name:string,color:string,roughness=.85,metallic=0)=>{
-    const material=new PBRMaterial(name,scene);material.albedoColor=Color3.FromHexString(color);material.roughness=roughness;material.metallic=metallic;material.environmentIntensity=.8;material.directIntensity=1;return material;
+    const material=new PBRMaterial(name,scene);material.albedoColor=Color3.FromHexString(color).toLinearSpace();material.roughness=roughness;material.metallic=metallic;material.environmentIntensity=.8;material.directIntensity=1;return material;
   };
   const scanned=(name:string,id:string,color:string,roughness=.9)=>{
     const material=plain(name,color,roughness);

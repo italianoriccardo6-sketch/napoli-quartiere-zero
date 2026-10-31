@@ -8,6 +8,7 @@ import {addFacadeDetail} from './facade-detail';
 import {addStreetDetail} from './street-detail';
 import {addVegetation,type GreenData} from './vegetation';
 import {openingStreetData} from './vehicle-placement';
+import {createBackgroundTerrain} from './background-terrain';
 
 /** Shared by the playable scene and the direct engine frame capture. */
 export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime){
@@ -23,9 +24,15 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime)
     if(green.version!==1||!Array.isArray(green.trees))throw Error('I dati della vegetazione non sono validi.');
     return addVegetation(scene,map,green,{focus:[city.spawn,...city.route],radius:180,maxTrees:140,quality:'alta',shadows:world.shadows});
   })();
-  const ready=Promise.all([materials.ready,loadDaylightEnvironment(scene),vegetationReady]).then(([,environment])=>{
+  const backgroundReady=(async()=>{
+    const response=await fetch(`${import.meta.env?.BASE_URL??'/'}data/background-terrain.json`);
+    if(!response.ok)throw Error('Il profilo del golfo non è disponibile. Ricarica la pagina.');
+    return createBackgroundTerrain(scene,await response.json(),{excludeLocalBounds:city.bounds});
+  })();
+  const ready=Promise.all([materials.ready,loadDaylightEnvironment(scene),vegetationReady,backgroundReady]).then(([,environment])=>{
     scene.getMeshByName('cielo città')?.setEnabled(false);
-    scene.createDefaultSkybox(environment,true,4000,0,false);
+    const skybox=scene.createDefaultSkybox(environment,true,100000,0,false);
+    if(skybox?.material)skybox.material.disableDepthWrite=true;
   });
   scene.metadata={...(scene.metadata??{}),visualDetail:{facades:facades.stats,streets:streets.stats,photographicMaps:'CC0 Poly Haven; generic surfaces, not surveyed Naples facades'}};
   return {...world,ready,surfaceHeightAt:streets.heightAt,updateDetail(position:Point,quality:'alta'|'bassa'){facades.update(position,quality);}};

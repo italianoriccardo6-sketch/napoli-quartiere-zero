@@ -32,7 +32,7 @@ test('apertura sul lungomare: strada sorgente immutata, cinque metri liberi, ste
   const map=JSON.parse(readFileSync('public/data/map.json','utf8')) as CityMapData;
   const city=map.city!,before=JSON.stringify(city),opening=openingStreetData(city);
   assert.notEqual(opening,city,'la mappa sorgente resta separata dal punto di apertura');
-  const segment=city.roads.filter(r=>r.name==='Via Partenope'&&r.highway==='residential').flatMap(r=>r.points.slice(1).map((b,i)=>({a:r.points[i],b}))).find(({a,b})=>Math.hypot(opening.scooter[0]-(a[0]+b[0])/2,opening.scooter[1]-(a[1]+b[1])/2)<1e-8);
+  const segment=city.roads.filter(r=>r.name==='Via Partenope'&&r.highway==='pedestrian').flatMap(r=>r.points.slice(1).map((b,i)=>({a:r.points[i],b}))).find(({a,b})=>Math.hypot(opening.scooter[0]-(a[0]+b[0])/2,opening.scooter[1]-(a[1]+b[1])/2)<1e-8);
   assert.ok(segment,'apertura sulla centerline di una strada reale di Via Partenope');
   const e=new NullEngine({renderWidth:800,renderHeight:600,textureSize:512,deterministicLockstep:true,lockstepMaxSteps:4}),scene=new Scene(e);
   try{

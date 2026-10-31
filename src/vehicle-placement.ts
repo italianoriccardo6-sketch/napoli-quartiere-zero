@@ -15,10 +15,13 @@ export interface VehiclePlacement {car:Point;player:Point;heading:number}
 const finite=(...values:number[])=>values.every(Number.isFinite);
 const validSize=({radius,halfLength}:VehicleSize)=>finite(radius,halfLength)&&radius>0&&halfLength>=radius;
 
-/** Open on the actual drivable waterfront, facing its real street tangent. */
+/** Open on the actual waterfront, facing its real street tangent.
+ * Car access to pedestrian-tagged areas is a fictional gameplay adaptation.
+ */
 export function openingStreetData<T extends VehicleStreetData>(city:T):T {
   const roads=city.roads as Array<{highway:string;name?:string;points:Point[]}>|undefined;
-  const waterfront=roads?.filter(r=>r.name==='Via Partenope'&&r.highway==='residential');
+  const promenade=roads?.filter(r=>r.name==='Via Partenope'&&r.highway==='pedestrian');
+  const waterfront=promenade?.length?promenade:roads?.filter(r=>r.name==='Via Partenope'&&r.highway==='residential');
   let best:{a:Point;b:Point;length:number}|undefined;
   for(const road of waterfront??[])for(let i=1;i<road.points.length;i++){
     const a=road.points[i-1],b=road.points[i],length=Math.hypot(b[0]-a[0],b[1]-a[1]);

@@ -14,11 +14,13 @@ export function createCameraEffects(scene:Scene,camera:Camera){
   const supportsAO=Boolean(caps.textureFloatRender||caps.textureHalfFloatRender);
   const name='occlusione ambientale della città';
   const ao=supportsAO?new SSAORenderingPipeline(name,scene,{ssaoRatio:.5,combineRatio:1},[camera]):undefined;
-  if(ao){ao.totalStrength=.85;ao.base=.18;ao.radius=.00018;ao.area=.0015;ao.fallOff=.000004;}
+  // SSAO1 uses normalized depth: retain nearby contact scale with real Gulf relief.
+  const depthScale=2400/camera.maxZ;
+  if(ao){ao.totalStrength=.85;ao.base=.18;ao.radius=.00018*depthScale;ao.area=.0015*depthScale;ao.fallOff=.000004*depthScale;}
   // FXAA is last, so facade rails, foliage and the AO composite share the pass.
   const fxaa=new FxaaPostProcess('antialias città',1,camera,Texture.BILINEAR_SAMPLINGMODE,engine,false,0);
   let enabled=Boolean(ao);
-  const describe=()=>{scene.metadata={...(scene.metadata??{}),cameraEffects:{fxaa:true,ssaoSupported:supportsAO,ssaoEnabled:enabled,ssaoRatio:.5,depthRequirement:'unpacked floating point; packed-only engines use FXAA'}};};
+  const describe=()=>{scene.metadata={...(scene.metadata??{}),cameraEffects:{fxaa:true,ssaoSupported:supportsAO,ssaoEnabled:enabled,ssaoRatio:.5,cameraMaxZ:camera.maxZ,normalizedDepthScale:depthScale,ssaoRadius:ao?.radius,ssaoArea:ao?.area,ssaoFallOff:ao?.fallOff,depthRequirement:'unpacked floating point; packed-only engines use FXAA'}};};
   describe();
   return {setQuality(quality:'alta'|'bassa'){
     const wanted=quality==='alta'&&Boolean(ao);if(wanted===enabled)return;

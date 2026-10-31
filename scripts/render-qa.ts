@@ -16,6 +16,7 @@ import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
 import {Color3} from '@babylonjs/core/Maths/math.color';
 import {createCityWorld} from '../src/city-world';
 import {createDetailedCity} from '../src/city-visuals';
+import {createAmbientCity} from '../src/ambient-city';
 import {createCamera} from '../src/camera';
 import {createCharacter} from '../src/character';
 import {createDetailedCharacter} from '../src/character-model';
@@ -26,6 +27,7 @@ import {createVisualMaterials,loadDaylightEnvironment} from '../src/visual-mater
 import {addFacadeDetail} from '../src/facade-detail';
 import {addStreetDetail} from '../src/street-detail';
 import {FileToolsOptions} from '@babylonjs/core/Misc/fileTools';
+import {toLocal} from '../src/geo';
 import type {ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
 import type {CityMapData} from '../src/city-data';
 
@@ -45,7 +47,7 @@ if(usePBR||useCar){
   globalThis.fetch=async(input,init)=>{
     const url=typeof input==='string'?input:input instanceof URL?input.href:input.url;
     if(url.startsWith('blob:')||url.startsWith('data:'))return nativeFetch(input,init);
-    if(!url.startsWith('/assets/')&&url!=='/data/green.json')throw Error('Node render accepts only repository assets and the exact measured vegetation file: '+url);
+    if(!url.startsWith('/assets/')&&url!=='/data/green.json'&&url!=='/data/background-terrain.json')throw Error('Node render accepts only repository assets and exact measured vegetation/terrain data files: '+url);
     const path=resolve(publicRoot,decodeURIComponent(url.split('?')[0]).slice(1));
     if(!path.startsWith(publicRoot+sep))throw Error('Asset path escaped public directory.');
     try{
@@ -205,10 +207,13 @@ try{
     player.root.position.set(p[0],playerY,p[1]);player.root.rotation.y=heading;player.animate(0,false,false);
     vehicle.spawn.set(car[0],0,car[1]);vehicle.root.position.copyFrom(vehicle.spawn);vehicle.root.rotation.y=vehicle.heading=heading;
     player.root.getChildMeshes().forEach(m=>world!.shadows.addShadowCaster(m));vehicle.root.getChildMeshes().forEach(m=>world!.shadows.addShadowCaster(m));
+    const ambient=usePBR&&useDetail&&useCar?createAmbientCity(scene,map.city,world,{anchor:car,protectedPoints:[p,car],surfaceHeightAt:detailedCity?.surfaceHeightAt,walkerCanStand:(x,z,r)=>world!.canStand(x,z,r)&&Math.hypot(x-player.root.position.x,z-player.root.position.z)>r+.5}):undefined;
+    await ambient?.ready;
+    scene.metadata={...(scene.metadata??{}),ambientPopulation:{pedestrians:ambient?.plan.walkers.length??0,parkedCars:ambient?.plan.cars.length??0,representation:'Same licensed models and shared ambient planner as runtime; no staged traffic.'}};
     camera.orient(heading);camera.snap(player.root.position);
     detailedCity?.updateDetail(p,'alta');
     scene.metadata={...(scene.metadata??{}),capturePlacement:{player:p,playerY,car,heading,size,sharedStreetPlacement:useCar}};
-    if(arg('--view')==='drive'||arg('--view')==='waterfront'){
+    if(['drive','waterfront','vesuvio'].includes(arg('--view')??'')){
       if(!useCar)throw Error('Driving view requires the actual imported car (--car).');
       player.root.setEnabled(false);player.root.position.copyFrom(vehicle.root.position);
       if(arg('--view')==='waterfront'){
@@ -223,6 +228,11 @@ try{
         }
         if(!nearest||distance<1)throw Error('A measured shoreline direction for the actual waterfront view is unavailable.');
         camera.orient(Math.atan2(nearest[0]-car[0],nearest[1]-car[1]));
+      }
+      if(arg('--view')==='vesuvio'){
+        const summit=toLocal(14.4265,40.8214);
+        camera.orient(Math.atan2(summit[0]-car[0],summit[1]-car[1]));
+        scene.metadata={...(scene.metadata??{}),captureView:{kind:'reachable mouse-camera rotation at the same actual street position',target:'Vesuvio',longitude:14.4265,latitude:40.8214,local:summit}};
       }
       camera.snap(vehicle.root.position);camera.update(vehicle.root.position,1,true);
       detailedCity?.updateDetail(car,'alta');
