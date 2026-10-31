@@ -15,6 +15,7 @@ import {MeshBuilder} from '@babylonjs/core/Meshes/meshBuilder';
 import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
 import {Color3} from '@babylonjs/core/Maths/math.color';
 import {createCityWorld} from '../src/city-world';
+import {createDetailedCity} from '../src/city-visuals';
 import {createCamera} from '../src/camera';
 import {createCharacter} from '../src/character';
 import {createScooter} from '../src/vehicle';
@@ -30,7 +31,7 @@ type Context=WebGLRenderingContext&{drawingBufferWidth:number;drawingBufferHeigh
 type ContextFactory=(width:number,height:number,options:Record<string,boolean>)=>Context|null;
 const arg=(name:string)=>process.argv.find(a=>a.startsWith(name+'='))?.slice(name.length+1);
 const width=Number(arg('--width')??1024),height=Number(arg('--height')??576),output=resolve(arg('--output')??'work/render-current.png');
-const usePBR=process.argv.includes('--pbr'),useCar=process.argv.includes('--car'),useDetail=process.argv.includes('--detail'),assetsRead=new Set<string>();
+const usePBR=process.argv.includes('--pbr'),useCar=process.argv.includes('--car'),useDetail=process.argv.includes('--detail'),assetsRead=new Set<string>(),bitmapSources=new WeakSet<object>();
 if(!Number.isInteger(width)||!Number.isInteger(height)||width<128||height<128||width>1920||height>1080)throw Error('Use a bounded render size between128×128 and1920×1080.');
 
 if(usePBR||useCar){
@@ -74,10 +75,11 @@ if(usePBR||useCar){
       if(this.aborted)return;this.readyState=4;this.dispatchEvent(new Event('readystatechange'));this.dispatchEvent(new Event('loadend'));
     }
   }
-  const decodeBitmap=async(source:Blob)=>{
+  const decodeBitmap=async(source:Blob,options?:ImageBitmapOptions)=>{
     if(!(source instanceof Blob))throw Error('Unexpected non-Blob image input in the Node image decoder.');
     const image=await loadImage(Buffer.from(await source.arrayBuffer())),canvas=new Canvas(image.width,image.height);
-    canvas.getContext('2d').drawImage(image,0,0);return Object.assign(canvas,{close:()=>{}});
+    const context=canvas.getContext('2d');if(options?.imageOrientation==='flipY'){context.translate(0,image.height);context.scale(1,-1);}
+    context.drawImage(image,0,0);bitmapSources.add(canvas);return Object.assign(canvas,{close:()=>{}});
   };
   Object.assign(globalThis,{XMLHttpRequest:LocalFileRequest,createImageBitmap:decodeBitmap});
   FileToolsOptions.DefaultRetryStrategy=()=>-1;
@@ -103,8 +105,22 @@ const originalUpload=gl.texImage2D.bind(gl) as (...args:any[])=>void;
     if(source&&typeof source.getContext==='function'&&Number.isFinite(source.width)&&Number.isFinite(source.height)){
       const context=source.getContext('2d');
       if(!context)throw Error('A source texture canvas did not expose its pixels.');
-      const pixels=context.getImageData(0,0,source.width,source.height).data;
-      originalUpload(args[0],args[1],args[2],source.width,source.height,0,args[3],args[4],new Uint8Array(pixels.buffer,pixels.byteOffset,pixels.byteLength));return;
+      const pixels=context.getImageData(0,0,source.width,source.height).data,format=args[3];
+      const channels=format===gl.RGBA?4:format===gl.RGB?3:format===gl.LUMINANCE_ALPHA?2:format===gl.LUMINANCE||format===gl.ALPHA?1:0;
+      if(!channels||args[4]!==gl.UNSIGNED_BYTE)throw Error('Unsupported native canvas texture format '+format+'/'+args[4]);
+      const flip=Boolean(gl.getParameter(gl.UNPACK_FLIP_Y_WEBGL)),premultiply=Boolean(gl.getParameter(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL)),alignment=gl.getParameter(gl.UNPACK_ALIGNMENT) as number;
+      const bitmap=bitmapSources.has(source),packed=new Uint8Array(source.width*source.height*channels);
+      for(let y=0;y<source.height;y++)for(let x=0;x<source.width;x++){
+        const from=((!bitmap&&flip?source.height-1-y:y)*source.width+x)*4,to=(y*source.width+x)*channels,alpha=pixels[from+3],scale=!bitmap&&premultiply?alpha/255:1;
+        if(format===gl.ALPHA)packed[to]=alpha;
+        else if(format===gl.LUMINANCE||format===gl.LUMINANCE_ALPHA){packed[to]=pixels[from]*scale;if(channels===2)packed[to+1]=alpha;}
+        else{packed[to]=pixels[from]*scale;packed[to+1]=pixels[from+1]*scale;packed[to+2]=pixels[from+2]*scale;if(channels===4)packed[to+3]=alpha;}
+      }
+      // ImageBitmap orientation is decoded above; Canvas unpack rules are applied
+      // explicitly. Disable driver unpack transforms so neither can occur twice.
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,false);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);gl.pixelStorei(gl.UNPACK_ALIGNMENT,1);
+      try{originalUpload(args[0],args[1],args[2],source.width,source.height,0,format,args[4],packed);}
+      finally{gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,flip);gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,premultiply);gl.pixelStorei(gl.UNPACK_ALIGNMENT,alignment);}return;
     }
   }
   originalUpload(...args);
@@ -128,13 +144,17 @@ try{
   }else{
     const map=JSON.parse(await readFile('public/data/map.json','utf8')) as CityMapData;
     if(!map.city||map.provenance!=='osm')throw Error('The active real-city source was not present; no substitute scene is permitted.');
-    const materials=usePBR?createVisualMaterials(scene):undefined;
-    if(materials){await materials.ready;await loadDaylightEnvironment(scene);mode='actual-city-pbr-source';}
-    world=createCityWorld(scene,map,map.city,{materials});
-    if(useDetail){
-      const focus=[map.city.spawn,...map.city.route];
-      addFacadeDetail(scene,map,{focus,radius:95,quality:'alta',materials});
-      addStreetDetail(scene,map,map.city,{materials});
+    if(usePBR&&useDetail){
+      const detailed=createDetailedCity(scene,map,map.city);world=detailed;await detailed.ready;mode='actual-runtime-detailed-city-source';
+    }else{
+      const materials=usePBR?createVisualMaterials(scene):undefined;
+      if(materials){await materials.ready;await loadDaylightEnvironment(scene);mode='actual-city-pbr-source';}
+      world=createCityWorld(scene,map,map.city,{materials});
+      if(useDetail){
+        const focus=[map.city.spawn,...map.city.route];
+        addFacadeDetail(scene,map,{focus,radius:95,quality:'alta',materials});
+        addStreetDetail(scene,map,map.city,{materials});
+      }
     }
     const player=createCharacter(scene),vehicle=useCar?createCar(scene):createScooter(scene),camera=createCamera(scene);
     if('ready' in vehicle)await vehicle.ready;
@@ -171,7 +191,7 @@ try{
   if(high-low<10)throw Error('The rendered output has no meaningful colour variation; no misleading blank frame was saved.');
   await mkdir(dirname(output),{recursive:true});await writeFile(output,await canvas.encode('png'));
   const debug=gl.getExtension('WEBGL_debug_renderer_info');
-  const report={mode,output,width,height,webGLVersion:engine.webGLVersion,driverRenderer:gl.getParameter(gl.RENDERER),driverVendor:gl.getParameter(gl.VENDOR),unmaskedRenderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):null,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
+  const report={mode,sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,driverRenderer:gl.getParameter(gl.RENDERER),driverVendor:gl.getParameter(gl.VENDOR),unmaskedRenderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):null,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
   await writeFile(output.replace(/\.png$/i,'.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }catch(error){
   await mkdir(dirname(output),{recursive:true});
