@@ -1,0 +1,106 @@
+{
+  "version": 1,
+  "asset": "CamperCivilian",
+  "license": "CC0-1.0",
+  "scene": "civilian.glb",
+  "source": "https://vibeassets.io/a/zpepqtthci",
+  "source_asset_id": "zpepqtthci",
+  "clip_sources": [
+    "https://vibeassets.io/a/cy69g7t2a0",
+    "https://vibeassets.io/a/vb5npv0n6u"
+  ],
+  "source_rig": "24 joints · cb3e6af4",
+  "retrieved_at": "2026-10-31T22:52:52.860Z",
+  "downloaded_bytes": 3155771,
+  "maximum_download_bytes": 6291456,
+  "origin": "Model and motions generated with Meshy and released CC0 by the source uploader. Mixamo-style bone names describe rig compatibility, not an Adobe asset source.",
+  "files": [
+    {
+      "path": "source-zpepqtthci.html",
+      "url": "https://vibeassets.io/a/zpepqtthci",
+      "bytes": 16256,
+      "sha256": "b77817c8131252ea929f89c8149277600b51da844def0e39fdc90b348abb3e1b"
+    },
+    {
+      "path": "source-cy69g7t2a0.html",
+      "url": "https://vibeassets.io/a/cy69g7t2a0",
+      "bytes": 14759,
+      "sha256": "dcdc924412c2ba645d251eb1255ad13eefc0d6e024894bd28ad9257550e9cbfc"
+    },
+    {
+      "path": "source-vb5npv0n6u.html",
+      "url": "https://vibeassets.io/a/vb5npv0n6u",
+      "bytes": 14740,
+      "sha256": "b3169bea7c146248d778d27c0a1615dc9e6f7de82a2d6d2e7eb89e6983334627"
+    },
+    {
+      "path": "source-agent.md",
+      "url": "https://vibeassets.io/agent.md",
+      "bytes": 15605,
+      "sha256": "2161609c97c78b36bed07397f8ffc3ffcf7e19ea95a6733116230be8514c3605"
+    },
+    {
+      "path": "LICENSE-CC0-1.0.html",
+      "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.en",
+      "bytes": 32223,
+      "sha256": "b43732f4c1463b087cf10d4daf8d8766514b2bf8f21bc5ef50905f95be227726"
+    },
+    {
+      "path": "civilian.glb",
+      "url": "https://vibeassets.io/download/zpepqtthci?combined=1",
+      "bytes": 3062188,
+      "sha256": "940444190abb1f3731675678277e9c3f27be1783966987f0a02ccd9fd1405193"
+    }
+  ],
+  "animations": [
+    {
+      "index": 0,
+      "name": "Walk",
+      "channels": 66
+    },
+    {
+      "index": 1,
+      "name": "Run",
+      "channels": 66
+    }
+  ],
+  "skins": [
+    {
+      "name": "Armature",
+      "joints": 24
+    }
+  ],
+  "meshes": 1,
+  "materials": 1,
+  "nodes": [
+    "head_end",
+    "headfront",
+    "Head",
+    "neck",
+    "LeftHand",
+    "LeftForeArm",
+    "LeftArm",
+    "LeftShoulder",
+    "RightHand",
+    "RightForeArm",
+    "RightArm",
+    "RightShoulder",
+    "Spine",
+    "Spine01",
+    "Spine02",
+    "LeftToeBase",
+    "LeftFoot",
+    "LeftLeg",
+    "LeftUpLeg",
+    "RightToeBase",
+    "RightFoot",
+    "RightLeg",
+    "RightUpLeg",
+    "Hips",
+    "char1",
+    "Armature"
+  ],
+  "extensions_required": [],
+  "modification": "None during acquisition. Runtime may normalize height/orientation and choose walking motions.",
+  "verification": "Individual model/motion CC0 notices, documented download path, GLB structure and self-contained dependencies checked. Browser/GPU appearance still requires visual verification."
+}
