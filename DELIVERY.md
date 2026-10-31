@@ -6,14 +6,14 @@ URL finale fornito nella risposta della chat. Lo ZIP è scaricabile da `/napoli-
 
 Password: `My-Drop-Site`.
 
-Stato `ready` verificato tramite Netlify prima della consegna. Creato su un nuovo sito temporaneo; nessun sito preesistente è stato sovrascritto. È un caricamento anonimo, non collegato all’account o al repository GitHub. Va rivendicato entro circa le **23:50 del 31 ottobre 2026, ora di Parigi**. Il link riservato per rivendicarlo è fornito nella risposta della chat, non salvato nel codice. I deploy anonimi non applicano tutte le regole del progetto Netlify: la configurazione netlify.toml è pronta per un successivo deploy autenticato.
+Stato `ready` verificato tramite Netlify prima della consegna. Creato su un nuovo sito temporaneo; nessun sito preesistente è stato sovrascritto. È un caricamento anonimo, non collegato all’account o al repository GitHub. Il termine originario per rivendicare questo deploy era il 31 ottobre 2026; il suo stato attuale non è stato riverificato durante il caricamento su GitHub. Il link riservato era stato fornito nella risposta della chat, non salvato nel codice. I deploy anonimi non applicano tutte le regole del progetto Netlify: la configurazione netlify.toml è pronta per un successivo deploy autenticato.
 
 ## Contenuto
 
 - Sorgenti completi, package-lock.json, configurazione Netlify.
 - Build statica pronta in `dist/`, da servire via HTTP (non aprire index.html con file://).
 - README, ASSETS, licenze distribuite, stato dei dati e script di estrazione/importazione.
-- Repository Git locale inizializzato e commit della demo. Nell’archivio di consegna è incluso anche `repository.bundle`: `git clone repository.bundle napoli-quartiere-zero` ripristina il repository.
+- Repository GitHub: https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero . Sorgenti, documentazione, test e lockfile sono versionati. Build e dipendenze si rigenerano con `npm ci && npm run build`.
 
 ## Verifiche
 
@@ -24,5 +24,5 @@ Non sono state effettuate prove interattive WebGL, screenshot o misure FPS: ness
 ## Limiti di rete e pubblicazione
 
 - OSM: richieste piccole e limitate a Overpass principale, alternativa e API OSM rifiutate dal proxy con HTTP 403. Non è incluso alcun estratto reale. La scena mostra la dicitura «ricostruzione artistica provvisoria». `data/STATUS.md` specifica perimetro e file richiesto.
-- GitHub: il connettore dispone dell’account, ma non dell’operazione di creazione repository. La CLI fallisce verso api.github.com con Forbidden. Il controllo `gh auth status` segnala autenticazione non valida in queste condizioni; non prova da solo che il token sia scaduto. Nessun repository remoto creato o modificato.
+- GitHub: caricamento completato nel repository indicato dall’utente, tramite il connettore GitHub. Il repository era vuoto e l’account dispone di accesso in scrittura. La precedente limitazione della CLI non impedisce questa pubblicazione tramite connettore.
 - Netlify: la CLI non dispone di una sessione autenticata; il deploy temporaneo anonimo è riuscito usando il proxy configurato. Per rendere permanente l’anteprima è necessaria la rivendicazione tramite il link fornito nella chat.

@@ -102,10 +102,6 @@ npx netlify deploy --dir dist --no-build
 
 Non usare `--prod` per questa prima anteprima. Nessun sito di produzione esistente deve essere sovrascritto. Un eventuale deploy anonimo è temporaneo e richiede di essere rivendicato entro il termine indicato da Netlify.
 
-Il codice è consegnato in un repository Git locale autonomo. Nessun file degli altri repository presenti è stato modificato. La creazione di un nuovo repository GitHub non è disponibile nel connettore e l’API `api.github.com` è bloccata (CLI: Forbidden); non è stato scelto un repository diverso né pubblicato su un progetto esistente. Per caricare dopo aver ripristinato l’accesso:
+Il codice completo è pubblicato su [GitHub: italianoriccardo6-sketch/napoli-quartiere-zero](https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero). Nessun file degli altri repository presenti è stato modificato. Il repository contiene sorgenti, test, lockfile, dati provvisori, licenze e configurazione Netlify; `dist/` e `node_modules/` si rigenerano con `npm ci && npm run build` e non sono versionati.
 
-```sh
-gh repo create napoli-quartiere-zero --private --source . --push
-```
-
-Vedi `DELIVERY.md` per l’esito finale della pubblicazione della sessione.
+Vedi `DELIVERY.md` per l’esito della pubblicazione e i limiti verificati.
