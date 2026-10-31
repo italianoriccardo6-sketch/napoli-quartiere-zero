@@ -1,0 +1,1 @@
+declare module 'osmtogeojson' { const convert:(input:unknown,options?:unknown)=>{features:Array<{id:string;properties:Record<string,string>;geometry:{type:string;coordinates:unknown}}>};export default convert; }
