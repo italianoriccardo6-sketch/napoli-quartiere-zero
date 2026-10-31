@@ -147,7 +147,7 @@ export function createAmbientCity(scene:Scene,city:CityRuntime,world:{canStand:G
       model.root.metadata={...(model.root.metadata??{}),ambient:true,osmRoadId:path.roadId,representation:'Repeated licensed generic civilian model following this source OSM footway/pedestrian polyline.'};
     }));
   }
-  const canStand=(x:number,z:number,radius=.5,ignore?:string)=>world.canStand(x,z,radius)&&ambientCarsAllow(plan,x,z,radius,ignore);
+  const canStand=(x:number,z:number,radius=.5,ignore?:string)=>world.canStand(x,z,radius)&&(disposed||ambientCarsAllow(plan,x,z,radius,ignore));
   function cleanup(){for(const root of roots){for(const mesh of root.getChildMeshes(false))world.shadows?.removeShadowCaster(mesh,false);root.dispose(false,true);}}
   function dispose(){
     if(disposed)return;disposed=true;initialized=false;for(const root of roots)root.setEnabled(false);if(finished)cleanup();

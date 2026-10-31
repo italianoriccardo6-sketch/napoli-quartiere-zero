@@ -50,6 +50,12 @@ test('Napoli reale: piano deterministico, ingombri liberi e corridoio missione p
     }
     const limited=planAmbientCity(city,world.canStand,{maxCars:99,maxPedestrians:99});
     assert.ok(limited.cars.length<=2&&limited.walkers.length<=4,'il budget non può essere aumentato oltre il limite');
+    const west=planAmbientCity(city,world.canStand,{anchor:city.delivery});
+    assert.ok(west.walkers.length>=1&&west.walkers.length<=3,'pedoni disponibili anche sul lungomare occidentale');
+    assert.ok(west.cars.length>=1&&west.cars.length<=2,'soste libere anche sul lungomare occidentale');
+    for(const car of west.cars)assert.ok(canStandForCar({x:car.position[0],z:car.position[1]},car.heading,world.canStand,car.size.radius,car.size.halfLength));
+    for(const walker of west.walkers){const road=city.roads.find(r=>r.id===walker.roadId)!;assert.ok(walker.points.every(p=>nearest(p,road.points)<1e-5&&world.canStand(p[0],p[1],.4)));}
+    console.log('WEST_AMBIENT_PLAN '+JSON.stringify({anchor:west.anchor,cars:west.cars.map(c=>({roadId:c.roadId,position:c.position})),walkers:west.walkers.map(w=>({roadId:w.roadId,start:w.points[0],end:w.points[w.points.length-1]}))}));
     console.log('AMBIENT_PLAN '+JSON.stringify({anchor:plan.anchor,cars:plan.cars,walkers:plan.walkers.map(w=>({roadId:w.roadId,start:w.points[0],end:w.points[w.points.length-1],points:w.points.length}))}));
   }finally{scene.dispose();e.dispose();}
 });
