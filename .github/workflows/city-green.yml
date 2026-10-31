@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - .github/workflows/city-green.yml
+      - scripts/fetch-city-green.mjs
 permissions:
   contents: write
 concurrency:
@@ -33,7 +34,16 @@ jobs:
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git switch -c "$DATA_BRANCH"
+          DATA_EXPORT="$(mktemp -d)"
+          mkdir -p "$DATA_EXPORT/data" "$DATA_EXPORT/public/data"
+          cp -R data/napoli-green "$DATA_EXPORT/data/"
+          cp public/data/green.json "$DATA_EXPORT/public/data/green.json"
+          # The export branch contains data only. Keeping the shallow source
+          # history would ask GitHub App credentials to republish workflow files.
+          git switch --orphan "$DATA_BRANCH"
+          mkdir -p data public/data
+          cp -R "$DATA_EXPORT/data/napoli-green" data/
+          cp "$DATA_EXPORT/public/data/green.json" public/data/green.json
           git add data/napoli-green/ public/data/green.json
           git commit -m 'Add bounded actual Naples vegetation positions with ODbL provenance'
           git push origin "HEAD:refs/heads/$DATA_BRANCH"
