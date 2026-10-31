@@ -32,7 +32,7 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime)
   const ready=Promise.all([materials.ready,loadDaylightEnvironment(scene),vegetationReady,backgroundReady]).then(([,environment])=>{
     scene.getMeshByName('cielo città')?.setEnabled(false);
     const skybox=scene.createDefaultSkybox(environment,true,100000,0,false);
-    if(skybox?.material)skybox.material.disableDepthWrite=true;
+    if(skybox){skybox.applyFog=false;if(skybox.material){skybox.material.disableDepthWrite=true;skybox.material.fogEnabled=false;}}
   });
   scene.metadata={...(scene.metadata??{}),visualDetail:{facades:facades.stats,streets:streets.stats,photographicMaps:'CC0 Poly Haven; generic surfaces, not surveyed Naples facades'}};
   return {...world,ready,surfaceHeightAt:streets.heightAt,updateDetail(position:Point,quality:'alta'|'bassa'){facades.update(position,quality);}};

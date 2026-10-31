@@ -42,7 +42,7 @@ export function createVisualMaterials(scene:Scene,options:VisualMaterialOptions=
     material.metadata={photographicMaps:load,sourceAsset:id,sourceLicense:'CC0-1.0',facadeIdentity:'generic material, not measured Naples facade'};return material;
   };
   const asphalt=scanned('asfalto fotografico','asphalt_02','#dadada',1);
-  const terrain=plain('calcestruzzo urbano','#a5a095',.94),pavement=scanned('lastre del marciapiede','stone_tiles_02','#cbcbc8',.9);
+  const terrain=scanned('pavimentazione urbana','stone_tiles_02','#c3c2bb',.95),pavement=scanned('lastre del marciapiede','stone_tiles_02','#cbcbc8',.9);
   const footway=scanned('pietra dei percorsi','stone_tiles_02','#c4c5c0',.95);
   const facades=['#e4d5bc','#d3c4af','#dcc6ac','#c6c5b4'].map((tint,i)=>scanned('intonaco fotografico '+i,'painted_plaster_wall',tint,.94));
   // Instance boxes have unit UVs: neutral stone avoids stretching a wall scan

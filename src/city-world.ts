@@ -113,7 +113,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   scene.clearColor.set(.69,.79,.83,1);scene.fogMode=Scene.FOGMODE_EXP2;scene.fogColor=new Color3(.69,.79,.83);scene.fogDensity=.0004;
   scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;scene.imageProcessingConfiguration.exposure=1.05;scene.imageProcessingConfiguration.contrast=options.materials?1.12:1.05;
   const skyLight=new HemisphericLight('luce cielo città',new Vector3(0,1,0),scene);skyLight.intensity=options.materials?0.18:0.65;skyLight.diffuse=Color3.FromHexString('#d8e5ee');skyLight.groundColor=Color3.FromHexString('#6c665a');
-  const sun=new DirectionalLight('sole pomeridiano città',new Vector3(-.8,-.72,-.38),scene);sun.position.set(200*.8/.72,200,200*.38/.72);sun.intensity=options.materials?2.4:1.8;sun.diffuse=Color3.FromHexString('#fff0d7');sun.shadowMinZ=1;sun.shadowMaxZ=650;sun.autoUpdateExtends=false;sun.orthoLeft=-100;sun.orthoRight=100;sun.orthoTop=100;sun.orthoBottom=-100;
+  const sun=new DirectionalLight('sole pomeridiano città',new Vector3(.65,-.8,.5),scene);sun.position.set(-200*.65/.8,200,-200*.5/.8);sun.intensity=options.materials?2.4:1.8;sun.diffuse=Color3.FromHexString('#fff0d7');sun.shadowMinZ=1;sun.shadowMaxZ=650;sun.autoUpdateExtends=false;sun.orthoLeft=-100;sun.orthoRight=100;sun.orthoTop=100;sun.orthoBottom=-100;
   const shadows=new ShadowGenerator(2048,sun);shadows.usePercentageCloserFiltering=true;shadows.bias=.00008;shadows.normalBias=.02;shadows.setDarkness(.15);
   const visuals=options.materials;
   const terrain=visuals?.terrain??createSurface(scene,'terreno urbano generico','paving','#99988d',87).material;
@@ -124,7 +124,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
     const ground=MeshBuilder.ExtrudePolygon('terra OSM '+i,{shape:polygon[0].map(p=>new Vector3(p[0],0,p[1])),holes:polygon.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:2,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
     ground.material=terrain;ground.receiveShadows=true;ground.metadata={solid:true,geography:'land'};
     const positions=ground.getVerticesData('position')!,uvs=ground.getVerticesData('uv')!;
-    for(let v=0;v<positions.length/3;v++){uvs[v*2]=positions[v*3]/3.2;uvs[v*2+1]=positions[v*3+2]/4;}ground.setVerticesData('uv',uvs);
+    for(let v=0;v<positions.length/3;v++){uvs[v*2]=positions[v*3]/2;uvs[v*2+1]=positions[v*3+2]/2;}ground.setVerticesData('uv',uvs);
   }
 
   // Build original footprint rings and holes, then merge by material and local tile.
@@ -181,11 +181,11 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
 
   // Analytic water/sky only; no photographic sky, distant fabricated buildings or landmarks.
   Effect.ShadersStore['citySkyVertexShader']=`precision highp float;attribute vec3 position;uniform mat4 worldViewProjection;varying vec3 d;void main(){d=normalize(position);gl_Position=worldViewProjection*vec4(position,1.);}`;
-  Effect.ShadersStore['citySkyFragmentShader']=`precision highp float;varying vec3 d;void main(){vec3 n=normalize(d);vec3 c=mix(vec3(.73,.8,.81),vec3(.29,.49,.64),pow(max(n.y,0.),.55));float glow=pow(max(dot(n,normalize(vec3(.8,.72,.38))),0.),24.);c+=vec3(.23,.16,.07)*glow;gl_FragColor=vec4(c,1.);}`;
+  Effect.ShadersStore['citySkyFragmentShader']=`precision highp float;varying vec3 d;void main(){vec3 n=normalize(d);vec3 c=mix(vec3(.73,.8,.81),vec3(.29,.49,.64),pow(max(n.y,0.),.55));float glow=pow(max(dot(n,normalize(vec3(-.65,.8,-.5))),0.),24.);c+=vec3(.23,.16,.07)*glow;gl_FragColor=vec4(c,1.);}`;
   const skyMaterial=new ShaderMaterial('cielo analitico città',scene,{vertex:'citySky',fragment:'citySky'},{attributes:['position'],uniforms:['worldViewProjection']});skyMaterial.backFaceCulling=false;skyMaterial.disableDepthWrite=true;
   const sky=MeshBuilder.CreateSphere('cielo città',{diameter:4000,segments:20},scene);sky.infiniteDistance=true;sky.material=skyMaterial;sky.isPickable=false;
   Effect.ShadersStore['citySeaVertexShader']=`precision highp float;attribute vec3 position;uniform mat4 worldViewProjection;uniform mat4 world;uniform float time;varying vec3 p;varying vec3 worldP;void main(){p=position;p.y+=sin(p.x*.075+time*.65)*.1+cos(p.z*.11-time*.48)*.075;worldP=(world*vec4(p,1.)).xyz;gl_Position=worldViewProjection*vec4(p,1.);}`;
-  Effect.ShadersStore['citySeaFragmentShader']=`precision highp float;varying vec3 p;varying vec3 worldP;uniform float time;uniform vec3 cameraPosition;void main(){float nx=cos(p.x*.075+time*.65)*.03+sin(p.x*.81+p.z*.56+time*1.2)*.08;float nz=-sin(p.z*.11-time*.48)*.035+cos(p.x*.39-p.z*.91-time*.8)*.065;vec3 n=normalize(vec3(-nx,1.,-nz));vec3 v=normalize(cameraPosition-worldP);float f=.035+.965*pow(1.-max(dot(n,v),0.),5.);vec3 reflected=reflect(-v,n);vec3 sky=mix(vec3(.68,.76,.76),vec3(.3,.5,.61),max(reflected.y,0.));vec3 c=mix(vec3(.075,.285,.32),sky,f);c+=vec3(.8,.62,.33)*pow(max(dot(reflect(-normalize(vec3(.8,.72,.38)),n),v),0.),100.)*.65;float fog=1.-exp(-length(cameraPosition-worldP)*.0004);gl_FragColor=vec4(mix(c,vec3(.69,.79,.83),fog),1.);}`;
+  Effect.ShadersStore['citySeaFragmentShader']=`precision highp float;varying vec3 p;varying vec3 worldP;uniform float time;uniform vec3 cameraPosition;void main(){float ripple=exp(-length(cameraPosition.xz-worldP.xz)*.002);float nx=cos(p.x*.075+time*.65)*.03+sin(p.x*.81+p.z*.56+time*1.2)*.08;float nz=-sin(p.z*.11-time*.48)*.035+cos(p.x*.39-p.z*.91-time*.8)*.065;vec3 n=normalize(vec3(-nx*ripple,1.,-nz*ripple));vec3 v=normalize(cameraPosition-worldP);float f=.035+.965*pow(1.-max(dot(n,v),0.),5.);vec3 reflected=reflect(-v,n);vec3 sky=mix(vec3(.68,.76,.76),vec3(.3,.5,.61),max(reflected.y,0.));vec3 c=mix(vec3(.075,.285,.32),sky,f);c+=vec3(.8,.62,.33)*pow(max(dot(reflect(-normalize(vec3(-.65,.8,-.5)),n),v),0.),100.)*.65;float fog=1.-exp(-length(cameraPosition-worldP)*.0004);gl_FragColor=vec4(mix(c,vec3(.69,.79,.83),fog),1.);}`;
   const sea=new ShaderMaterial('mare città',scene,{vertex:'citySea',fragment:'citySea'},{attributes:['position'],uniforms:['worldViewProjection','world','time','cameraPosition']});sea.setFloat('time',0);sea.setVector3('cameraPosition',new Vector3(0,3,0));sea.backFaceCulling=false;
   const span=Math.max(terrainBounds[2]-terrainBounds[0],terrainBounds[3]-terrainBounds[1]);
   const water=MeshBuilder.CreateGround('mare attorno alla costa',{width:span+60000,height:span+60000,subdivisions:100},scene);water.position.set((terrainBounds[0]+terrainBounds[2])/2,-1.3,(terrainBounds[1]+terrainBounds[3])/2);water.material=sea;water.isPickable=false;
@@ -193,7 +193,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   scene.onBeforeRenderObservable.add(()=>{
     const camera=scene.activeCamera;if(!camera)return;
     const position=camera.globalPosition;sea.setVector3('cameraPosition',position);
-    const time=performance.now();if(time-lastShadowUpdate<700)return;lastShadowUpdate=time;sun.position.set(position.x+200*.8/.72,200,position.z+200*.38/.72);
+    const time=performance.now();if(time-lastShadowUpdate<700)return;lastShadowUpdate=time;sun.position.set(position.x-200*.65/.8,200,position.z-200*.5/.8);
     for(const chunk of chunks){const nearby=distanceToBounds(position.x,position.z,chunk.bounds)<300;
       if(nearby&&!activeShadows.has(chunk.mesh)){shadows.addShadowCaster(chunk.mesh,false);activeShadows.add(chunk.mesh);}
       else if(!nearby&&activeShadows.has(chunk.mesh)){shadows.removeShadowCaster(chunk.mesh,false);activeShadows.delete(chunk.mesh);}
