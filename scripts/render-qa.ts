@@ -26,6 +26,7 @@ import {createVisualMaterials,loadDaylightEnvironment} from '../src/visual-mater
 import {addFacadeDetail} from '../src/facade-detail';
 import {addStreetDetail} from '../src/street-detail';
 import {FileToolsOptions} from '@babylonjs/core/Misc/fileTools';
+import {toLocal} from '../src/geo';
 import type {ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
 import type {CityMapData} from '../src/city-data';
 
@@ -45,7 +46,7 @@ if(usePBR||useCar){
   globalThis.fetch=async(input,init)=>{
     const url=typeof input==='string'?input:input instanceof URL?input.href:input.url;
     if(url.startsWith('blob:')||url.startsWith('data:'))return nativeFetch(input,init);
-    if(!url.startsWith('/assets/')&&url!=='/data/green.json')throw Error('Node render accepts only repository assets and the exact measured vegetation file: '+url);
+    if(!url.startsWith('/assets/')&&url!=='/data/green.json'&&url!=='/data/background-terrain.json')throw Error('Node render accepts only repository assets and exact measured vegetation/terrain data files: '+url);
     const path=resolve(publicRoot,decodeURIComponent(url.split('?')[0]).slice(1));
     if(!path.startsWith(publicRoot+sep))throw Error('Asset path escaped public directory.');
     try{
@@ -208,7 +209,7 @@ try{
     camera.orient(heading);camera.snap(player.root.position);
     detailedCity?.updateDetail(p,'alta');
     scene.metadata={...(scene.metadata??{}),capturePlacement:{player:p,playerY,car,heading,size,sharedStreetPlacement:useCar}};
-    if(arg('--view')==='drive'||arg('--view')==='waterfront'){
+    if(['drive','waterfront','vesuvio'].includes(arg('--view')??'')){
       if(!useCar)throw Error('Driving view requires the actual imported car (--car).');
       player.root.setEnabled(false);player.root.position.copyFrom(vehicle.root.position);
       if(arg('--view')==='waterfront'){
@@ -223,6 +224,11 @@ try{
         }
         if(!nearest||distance<1)throw Error('A measured shoreline direction for the actual waterfront view is unavailable.');
         camera.orient(Math.atan2(nearest[0]-car[0],nearest[1]-car[1]));
+      }
+      if(arg('--view')==='vesuvio'){
+        const summit=toLocal(14.4265,40.8214);
+        camera.orient(Math.atan2(summit[0]-car[0],summit[1]-car[1]));
+        scene.metadata={...(scene.metadata??{}),captureView:{kind:'reachable mouse-camera rotation at the same actual street position',target:'Vesuvio',longitude:14.4265,latitude:40.8214,local:summit}};
       }
       camera.snap(vehicle.root.position);camera.update(vehicle.root.position,1,true);
       detailedCity?.updateDetail(car,'alta');
