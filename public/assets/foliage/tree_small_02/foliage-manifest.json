@@ -1,0 +1,128 @@
+{
+  "version": 1,
+  "retrievedAt": "2026-10-31T23:35:37.718Z",
+  "kind": "photographic_leaf_atlas_and_bark",
+  "geometryIncluded": false,
+  "provider": "Poly Haven",
+  "assetId": "tree_small_02",
+  "sourcePage": "https://polyhaven.com/a/tree_small_02",
+  "filesEndpoint": "https://api.polyhaven.com/files/tree_small_02",
+  "author": "Rico Cilliers",
+  "license": "CC0-1.0",
+  "licensePage": "https://polyhaven.com/license",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "apiTerms": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md",
+  "apiUserAgent": "NapoliQuartiereZero/0.5 (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero)",
+  "totalBytes": 4193769,
+  "maximumPackBytes": 20971520,
+  "files": [
+    {
+      "usage": "leaf colour",
+      "path": "/assets/foliage/tree_small_02/leaves-diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_diff_1k.jpg",
+      "bytes": 340003,
+      "md5": "315cbc2cebfb399e649ccd39112c109a",
+      "sha256": "261e7d7a5ac7d2e16ea8823ff8510be8f3f615999724232994039ad2885e5c36",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "leaves_diff"
+    },
+    {
+      "usage": "leaf alpha mask",
+      "path": "/assets/foliage/tree_small_02/leaves-alpha.png",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/tree_small_02/tree_small_02_leaves_alpha_1k.png",
+      "bytes": 264711,
+      "md5": "63199ba87a9e8928424bd8c3b8017bd0",
+      "sha256": "4f143e2dda8a6a572f427ac378b92255d21761e4611de0d26e21816c01aa533b",
+      "resolution": "1k",
+      "format": "png",
+      "sourceMapKey": "leaves_alpha"
+    },
+    {
+      "usage": "leaf OpenGL normal",
+      "path": "/assets/foliage/tree_small_02/leaves-normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_nor_gl_1k.jpg",
+      "bytes": 681604,
+      "md5": "b06c87e73f54d9654f66d67e9de7aa85",
+      "sha256": "8c72e04fb23e16ae1df79c01385a638473d1dd4dede3d51e83d70153c129f09b",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "leaves_nor_gl"
+    },
+    {
+      "usage": "leaf roughness",
+      "path": "/assets/foliage/tree_small_02/leaves-rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_rough_1k.jpg",
+      "bytes": 307562,
+      "md5": "df8afe55f9d3de3b179a41496645a4f9",
+      "sha256": "864b7d6eba1e62b242e8ffc7c99dd32092ca6c3bf0a7a3537ad29fad2d2ce39e",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "leaves_rough"
+    },
+    {
+      "usage": "bark colour",
+      "path": "/assets/foliage/tree_small_02/bark-diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_diff_1k.jpg",
+      "bytes": 863246,
+      "md5": "a7287a3f4e7f0d4577cb949b245f5b14",
+      "sha256": "4e0093f407b3a1120a36de49a48ebe5a465a9a9b77e361c7a3e66866e115e404",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "Diffuse"
+    },
+    {
+      "usage": "bark OpenGL normal",
+      "path": "/assets/foliage/tree_small_02/bark-normal.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_nor_gl_1k.jpg",
+      "bytes": 1228646,
+      "md5": "115a20da8621cd3e034e9b1bbe574746",
+      "sha256": "9c83be074c950ea1b94c732c0c0291b53b9ba357f932d378bafe3ca3b4418871",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "nor_gl"
+    },
+    {
+      "usage": "bark roughness",
+      "path": "/assets/foliage/tree_small_02/bark-rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_rough_1k.jpg",
+      "bytes": 507997,
+      "md5": "01312422f52dcb069fa4866251cec22d",
+      "sha256": "2039e90e000a6cb14d8b38c7f25b6a428b489cecbc400327f89c511b22ae5c7b",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "Rough"
+    }
+  ],
+  "modelResearch": [
+    {
+      "id": "tree_small_02",
+      "page": "https://polyhaven.com/a/tree_small_02",
+      "sourcePackBytes": 100974143,
+      "defaultSceneTriangles": 2062487,
+      "sourceFitsRuntimeBounds": false,
+      "extensionsUsed": [
+        "KHR_texture_transform"
+      ]
+    },
+    {
+      "id": "jacaranda_tree",
+      "page": "https://polyhaven.com/a/jacaranda_tree",
+      "sourcePackBytes": 214609299,
+      "defaultSceneTriangles": 3863832,
+      "sourceFitsRuntimeBounds": false,
+      "extensionsUsed": [
+        "KHR_materials_specular",
+        "KHR_materials_ior"
+      ]
+    }
+  ],
+  "notes": [
+    "Only original CC0 asset maps are redistributed, without preview renders or website copy.",
+    "Photographic alpha atlas and PBR maps for generic broadleaf geometry; this package does not contain the original multi-million-polygon tree.",
+    "The source asset identifies Burkea africana (wild syringa); this is not a botanical survey or an assertion of the species of Naples street trees.",
+    "Planting positions remain the separate OpenStreetMap geographic data; the tree shape and species are an artistic approximation.",
+    "Alpha is supplied as a separate grayscale PNG mask. Normal and roughness maps use linear colour space.",
+    "Use OpenGL tangent-space normals and a cutout material; no Draco, KTX, external decoder, authentication or live API is needed at runtime."
+  ]
+}

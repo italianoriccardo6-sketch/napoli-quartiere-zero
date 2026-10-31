@@ -1,0 +1,9 @@
+Tree Small 02 photographic leaves and bark maps — Rico Cilliers, Poly Haven.
+https://polyhaven.com/a/tree_small_02
+License: CC0 1.0 Universal; redistribution and commercial use allowed.
+https://polyhaven.com/license
+https://creativecommons.org/publicdomain/zero/1.0/
+
+Original map files, not preview renders or website copy.
+Generic broadleaf visual material, not measured species or geometry of Naples trees.
+API preparation terms: https://github.com/Poly-Haven/Public-API/blob/master/ToS.md
