@@ -3,27 +3,27 @@ import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
 import {Color3} from '@babylonjs/core/Maths/math.color';
 import {TransformNode} from '@babylonjs/core/Meshes/transformNode';
 import {Scene} from '@babylonjs/core/scene';
-import {Mesh} from '@babylonjs/core/Meshes/mesh';
-import {Vector3} from '@babylonjs/core/Maths/math.vector';
 export function createCharacter(scene:Scene) {
-  const root=new TransformNode('corriere',scene);
-  function material(name:string,hex:string){const m=new StandardMaterial(name,scene);m.diffuseColor=Color3.FromHexString(hex);m.specularColor.set(.05,.05,.05);return m;}
-  const shirt=material('camicia del corriere','#efc46f'),skin=material('pelle','#bd896a'),pants=material('pantaloni','#344e65'),shoes=material('scarpe','#eee7d4');
-  function part(name:string,size:Vector3,pos:Vector3,mat:StandardMaterial){const m=MeshBuilder.CreateBox(name,{width:size.x,height:size.y,depth:size.z},scene);m.parent=root;m.position=pos;m.material=mat;m.isPickable=false;return m;}
-  part('busto',new Vector3(.56,.66,.32),new Vector3(0,1.2,0),shirt);
-  const head=MeshBuilder.CreateSphere('testa',{diameter:.38,segments:8},scene);head.position.set(0,1.76,0);head.parent=root;head.material=skin;head.isPickable=false;
-  const hair=part('capelli',new Vector3(.34,.15,.32),new Vector3(0,1.91,-.03),pants);
-  hair.rotation.z=.12;
-  const legs:Mesh[]=[],arms:Mesh[]=[];
+  const root=new TransformNode('Luca Serra',scene);
+  function material(name:string,hex:string){const m=new StandardMaterial(name,scene);m.diffuseColor=Color3.FromHexString(hex);m.specularColor.set(.04,.04,.04);return m;}
+  const jacket=material('giacca di Luca','#38454a'),shirt=material('maglia di Luca','#b9b6a6'),skin=material('pelle','#ba8c73'),denim=material('denim','#273443'),leather=material('pelle scarpe','#302a26'),hair=material('capelli','#292621');
+  function ellipsoid(name:string,parent:TransformNode,x:number,y:number,z:number,w:number,h:number,d:number,mat:StandardMaterial){const m=MeshBuilder.CreateSphere(name,{diameter:1,segments:12},scene);m.parent=parent;m.position.set(x,y,z);m.scaling.set(w,h,d);m.material=mat;m.isPickable=false;return m;}
+  ellipsoid('bacino',root,0,.91,0,.44,.29,.29,denim);ellipsoid('giacca',root,0,1.25,0,.58,.69,.34,jacket);
+  ellipsoid('maglia',root,0,1.31,.153,.26,.42,.025,shirt);ellipsoid('collo',root,0,1.61,0,.15,.2,.16,skin);
+  ellipsoid('testa',root,0,1.77,.015,.31,.39,.3,skin);ellipsoid('capelli',root,0,1.9,-.025,.32,.19,.31,hair);ellipsoid('naso',root,0,1.76,.17,.07,.10,.085,skin);
+  const legs:TransformNode[]=[],arms:TransformNode[]=[];
   for(const side of [-1,1]){
-    legs.push(part('gamba',new Vector3(.2,.68,.23),new Vector3(side*.16,.45,0),pants));
-    part('scarpa',new Vector3(.23,.14,.37),new Vector3(side*.16,.08,.06),shoes);
-    arms.push(part('braccio',new Vector3(.18,.62,.2),new Vector3(side*.37,1.17,0),shirt));
+    const leg=new TransformNode('anca',scene);leg.parent=root;leg.position.set(side*.135,.9,0);legs.push(leg);
+    ellipsoid('gamba',leg,0,-.37,0,.21,.78,.24,denim);ellipsoid('scarpa',leg,0,-.81,.055,.22,.15,.36,leather);
+    const arm=new TransformNode('spalla',scene);arm.parent=root;arm.position.set(side*.31,1.49,0);arms.push(arm);
+    ellipsoid('manica',arm,side*.025,-.24,0,.19,.59,.22,jacket);ellipsoid('mano',arm,side*.025,-.57,.025,.14,.19,.14,skin);
   }
-  const parcel=part('borsa consegne',new Vector3(.45,.45,.25),new Vector3(0,1.16,-.28),material('borsa','#b8674d'));parcel.setEnabled(false);
+  const parcel=ellipsoid('custodia del telefono',root,0,1.18,-.2,.32,.38,.10,leather);parcel.setEnabled(false);
   function animate(time:number,moving:boolean,riding:boolean){
-    legs.forEach((l,i)=>l.rotation.x=riding?-.8:moving?Math.sin(time*10+i*Math.PI)*.55:0);
-    arms.forEach((a,i)=>a.rotation.x=riding?-1.1:moving?Math.sin(time*10+i*Math.PI+Math.PI)*.35:0);
+    const gait=moving?Math.sin(time*10)*.48:0;
+    legs.forEach((l,i)=>{l.rotation.x=riding?-.95:gait*(i?1:-1);l.rotation.z=riding?(i?.16:-.16):0;});
+    arms.forEach((a,i)=>{a.rotation.x=riding?-1.15:gait*(i?-1:1)*.65;a.rotation.z=(i?.08:-.08);});
+    root.rotation.z=moving&&!riding?Math.sin(time*10)*.012:0;
   }
   return {root,animate,parcel};
 }

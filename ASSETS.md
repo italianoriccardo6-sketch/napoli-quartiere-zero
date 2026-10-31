@@ -3,7 +3,7 @@
 | Risorsa | Fonte | Licenza / note |
 | --- | --- | --- |
 | Codice e geometrie procedurali, castello composto, personaggio, motorino, barche, edifici, insegne inventate, arredi | Originali di questo progetto | MIT, vedi LICENSE |
-| Basolato | Texture originale generata con Canvas in world.ts | MIT |
+| Basolato | Mappe colore/normali originali generate con Canvas in surfaces.ts | MIT |
 | Mare | Shader GLSL originale in world.ts | MIT |
 | Audio | Oscillatore sintetico originale, audio.ts | MIT; nessun campione registrato |
 | DM Sans | Pacchetto @fontsource/dm-sans; https://github.com/googlefonts/dm-fonts | SIL Open Font License 1.1; licenza copiata in public/licenses/ |
@@ -18,3 +18,5 @@
 Nessun GLB/glTF, fotografia, texture esterna, modello scaricato, mappa raster o risorsa Google Maps / Google Earth / Street View. La sagoma artistica del castello e il profilo lontano non sono rilievi. Coordinate di riferimento del luogo consultate su https://en.wikipedia.org/wiki/Castel_dell%27Ovo; nessun testo o immagine della pagina è distribuito come asset.
 
 Documentazione consultata per l’implementazione: https://vite.dev/guide/ ; https://doc.babylonjs.com/features/featuresDeepDive/mesh/creation/param/polygon ; https://doc.babylonjs.com/features/featuresDeepDive/lights/shadows ; https://doc.babylonjs.com/features/featuresDeepDive/cameras/camera_collisions . Il controllo della telecamera utilizza un raycast personalizzato, non la gravità per camera descritta nell’ultimo documento. Le firme API sono anche verificate da TypeScript contro i pacchetti installati.
+
+Revisione 0.2: texture e normal map originali di tufo, basolato e intonaco in `src/surfaces.ts`, MIT. Dialoghi e personaggi di finzione originali in `src/story.ts`, MIT. Nessuna fotografia del territorio è stata aggiunta.
