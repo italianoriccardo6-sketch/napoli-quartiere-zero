@@ -1,0 +1,256 @@
+{
+  "mode": "actual-runtime-detailed-city-source",
+  "view": "waterfront",
+  "sourceRevision": "ed625e5ae2a215a33c32ee306c49a6832cdc4fa5",
+  "output": "/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-waterfront.png",
+  "width": 1024,
+  "height": 576,
+  "webGLVersion": 1,
+  "driverRenderer": "ANGLE",
+  "driverVendor": "stack-gl",
+  "unmaskedRenderer": null,
+  "capabilities": {
+    "instancedArrays": true,
+    "ANGLE_instanced_arrays": true,
+    "standardDerivatives": true,
+    "textureFloat": true,
+    "textureFloatRender": true,
+    "textureHalfFloat": false,
+    "textureHalfFloatRender": false
+  },
+  "facadeRendering": {
+    "batches": 124,
+    "enabledBatches": 103,
+    "activeBatches": [
+      {
+        "name": "dettagli facciata 0,2,plinth,structure",
+        "instances": 36
+      },
+      {
+        "name": "dettagli facciata 0,2,trim,structure",
+        "instances": 4543
+      },
+      {
+        "name": "dettagli facciata 0,2,glass,structure",
+        "instances": 714
+      },
+      {
+        "name": "dettagli facciata 0,2,shutter,structure",
+        "instances": 1428
+      },
+      {
+        "name": "dettagli facciata 0,2,door,structure",
+        "instances": 9
+      },
+      {
+        "name": "dettagli facciata 0,2,iron,structure",
+        "instances": 1538
+      },
+      {
+        "name": "dettagli facciata 0,2,shop,structure",
+        "instances": 3
+      },
+      {
+        "name": "dettagli facciata 0,1,plinth,structure",
+        "instances": 27
+      },
+      {
+        "name": "dettagli facciata 0,1,trim,structure",
+        "instances": 1231
+      },
+      {
+        "name": "dettagli facciata 0,1,glass,structure",
+        "instances": 189
+      },
+      {
+        "name": "dettagli facciata 0,1,shutter,structure",
+        "instances": 378
+      },
+      {
+        "name": "dettagli facciata 0,1,shop,structure",
+        "instances": 3
+      },
+      {
+        "name": "dettagli facciata 0,1,iron,structure",
+        "instances": 358
+      },
+      {
+        "name": "dettagli facciata 0,1,door,structure",
+        "instances": 6
+      },
+      {
+        "name": "dettagli facciata -1,1,plinth,structure",
+        "instances": 32
+      },
+      {
+        "name": "dettagli facciata -1,1,trim,structure",
+        "instances": 846
+      },
+      {
+        "name": "dettagli facciata 0,2,iron,fine",
+        "instances": 30
+      }
+    ],
+    "instances": 60000
+  },
+  "transmissionTargetType": 0,
+  "softwareRequested": true,
+  "features": {
+    "photographicPBR": true,
+    "facadeAndStreetDetail": true,
+    "importedCar": true,
+    "importedCharacter": true,
+    "HDRRadiancePrefilter": false
+  },
+  "assetsRead": [
+    "/assets/characters/civilian/civilian.glb",
+    "/assets/characters/civilian/source-manifest.json",
+    "/assets/environment/daylight.hdr",
+    "/assets/materials/asphalt_02/diff.jpg",
+    "/assets/materials/asphalt_02/nor_gl.jpg",
+    "/assets/materials/asphalt_02/rough.jpg",
+    "/assets/materials/painted_plaster_wall/diff.jpg",
+    "/assets/materials/painted_plaster_wall/nor_gl.jpg",
+    "/assets/materials/painted_plaster_wall/rough.jpg",
+    "/assets/materials/stone_tiles_02/diff.jpg",
+    "/assets/materials/stone_tiles_02/nor_gl.jpg",
+    "/assets/materials/stone_tiles_02/rough.jpg",
+    "/assets/vehicles/car-concept/CarConcept.data.bin",
+    "/assets/vehicles/car-concept/CarConcept.gltf",
+    "/assets/vehicles/car-concept/Dash_E.webp",
+    "/assets/vehicles/car-concept/Dot_C.webp",
+    "/assets/vehicles/car-concept/Dot_N.webp",
+    "/assets/vehicles/car-concept/Hex_N.webp",
+    "/assets/vehicles/car-concept/Khronos_C.webp",
+    "/assets/vehicles/car-concept/Mechanical_N.webp",
+    "/assets/vehicles/car-concept/Mechanical_ORM.webp",
+    "/assets/vehicles/car-concept/Occlusion.webp",
+    "/assets/vehicles/car-concept/Powdercoat_N.webp",
+    "/assets/vehicles/car-concept/Rib_N.webp",
+    "/assets/vehicles/car-concept/Thickness.webp",
+    "/assets/vehicles/car-concept/Tireside_C.webp",
+    "/assets/vehicles/car-concept/Tireside_N.webp",
+    "/assets/vehicles/car-concept/Tiretread_N.webp",
+    "/assets/vehicles/car-concept/source-manifest.json",
+    "/data/green.json"
+  ],
+  "cameraPosition": [
+    45.42571877979068,
+    2.8720034554745144,
+    201.659677306635
+  ],
+  "meshCount": 650,
+  "materialCount": 53,
+  "frames": 3,
+  "renderWallMs": 23344,
+  "shaderErrors": [],
+  "webGLErrors": [],
+  "sourceSceneMetadata": {
+    "cityWorld": {
+      "provenance": "osm",
+      "footprints": 1803,
+      "invalidFootprints": 0,
+      "buildingChunks": 360,
+      "renderedRoads": 1520,
+      "bounds": [
+        -640.1679145129254,
+        -209.514413621575,
+        1465.6475937532923,
+        1547.3409220264557
+      ],
+      "terrainElevation": "flat-estimate",
+      "representation": "OSM footprint extrusions; procedural surface detail, not photorealism"
+    },
+    "streetDetail": {
+      "roadsConsidered": 14,
+      "roadsDetailed": 14,
+      "sidewalkSpans": 535,
+      "curbSpans": 535,
+      "paintStrips": 693,
+      "junctionGaps": 171,
+      "rejectedRaisedSpans": 83,
+      "meshCount": 27,
+      "vertexCount": 11332,
+      "estimatedWidths": true,
+      "inferredMarkings": true,
+      "collisionGeometryAdded": false
+    },
+    "visualDetail": {
+      "facades": {
+        "selectedBuildings": 60,
+        "detailedBuildings": 60,
+        "skippedLandmarks": 2,
+        "windows": 5029,
+        "balconies": 1007,
+        "shopfronts": 83,
+        "instances": 60000,
+        "batches": 124,
+        "budgetReached": true,
+        "representation": "inferred-facade-detail-not-surveyed"
+      },
+      "streets": {
+        "roadsConsidered": 14,
+        "roadsDetailed": 14,
+        "sidewalkSpans": 535,
+        "curbSpans": 535,
+        "paintStrips": 693,
+        "junctionGaps": 171,
+        "rejectedRaisedSpans": 83,
+        "meshCount": 27,
+        "vertexCount": 11332,
+        "estimatedWidths": true,
+        "inferredMarkings": true,
+        "collisionGeometryAdded": false
+      },
+      "photographicMaps": "CC0 Poly Haven; generic surfaces, not surveyed Naples facades"
+    },
+    "vegetation": {
+      "sourceTrees": 250,
+      "treesRendered": 25,
+      "estimatedDimensions": 25,
+      "invalidSource": 0,
+      "outsideLand": 0,
+      "insideBuildings": 0,
+      "outsideCorridor": 225,
+      "budgetClipped": 0,
+      "branchInstances": 625,
+      "leafInstances": 2800,
+      "meshCount": 18,
+      "placement": "source-tree-nodes-only",
+      "individualTreesInvented": false,
+      "measuredPositions": true,
+      "measuredShapes": false
+    },
+    "cameraEffects": {
+      "fxaa": true,
+      "ssaoSupported": true,
+      "ssaoEnabled": true,
+      "ssaoRatio": 0.5,
+      "depthRequirement": "unpacked floating point; packed-only engines use FXAA"
+    },
+    "capturePlacement": {
+      "player": [
+        45.243416561331664,
+        196.9219540914045
+      ],
+      "playerY": 0,
+      "car": [
+        45.16974265235783,
+        194.86476863362407
+      ],
+      "heading": 4.748186645410835,
+      "size": {
+        "radius": 1.3085042755765075,
+        "halfLength": 2.22500001459805
+      },
+      "sharedStreetPlacement": true
+    }
+  },
+  "limitations": [
+    "Direct Node WebGL, not browser UI automation or macOS validation.",
+    "WebGL1 adapter: browser WebGL2 feature output and performance may differ.",
+    "HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.",
+    "No FPS claim; renderWallMs includes scene construction, compilation and capture.",
+    "No HTML HUD is included: this captures the actual 3D engine scene only."
+  ]
+}
