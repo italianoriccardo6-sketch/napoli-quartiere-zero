@@ -4,7 +4,21 @@ import {segmentDistance} from './geo';
 import {target} from './mission';
 import {storyDestination,storyObjective,type StoryState} from './story';
 import type {Save} from './save';
-export const el=<T extends HTMLElement=HTMLElement>(id:string)=>document.getElementById(id) as T;
+export const GAME_UI_IDS=[
+  'game','loading','error','error-text','start','play','hud','pause-button','credits-button',
+  'mission-phase','objective','distance','direction','coins','speed','mode-info','hint','toast','minimap','world-note',
+  'pause','resume','volume','quality','reset','credits','close-credits','dialogue','dialogue-speaker','dialogue-text',
+  'dialogue-choices','choose-protect','choose-negotiate','dialogue-next',
+] as const;
+export function validateGameUI(root:Pick<Document,'getElementById'>=document){
+  const missing=GAME_UI_IDS.filter(id=>!root.getElementById(id));
+  if(missing.length)throw new Error('L’interfaccia di gioco non si è caricata correttamente. Ricarica la pagina.',{cause:{missingElements:missing}});
+}
+export function el<T extends HTMLElement=HTMLElement>(id:string):T {
+  const element=document.getElementById(id);
+  if(!element)throw new Error('L’interfaccia di gioco non è pronta. Ricarica la pagina.',{cause:{missingElement:id}});
+  return element as T;
+}
 export function show(id:string,value:boolean){el(id).classList.toggle('hidden',!value);}
 let toastTimer:ReturnType<typeof setTimeout>;
 export function toast(message:string){el('toast').textContent=message;show('toast',true);clearTimeout(toastTimer);toastTimer=setTimeout(()=>show('toast',false),4500);}

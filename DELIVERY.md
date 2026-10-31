@@ -9,3 +9,10 @@ Terreno ancora piano e architettura a volumi generici. Sono stimate 1.620 altezz
 Verifiche locali: 28 test, TypeScript e build superati. Inclusi controlli su coordinate sorgente vere, cortili, costa, buchi, dati geografici e percorso completo con oltre 2.000 campioni e ingombro del motorino. Scena eseguita in NullEngine. Non sono stati eseguiti test GPU, screenshot o prove interattive sul Mac.
 
 L’hosting collegato alla chat usa `.openai/hosting.json` e conserva l’accesso privato al proprietario. Non sono stati modificati siti di produzione diversi. I risultati effettivi di CI e deploy sono confermati nella chat solo dopo averne letto lo stato.
+
+
+## Patch 0.3.1
+
+Riprodotto e corretto il crash HUD causato da `world-note` privo di ID. Verifica dell’interfaccia prima dell’avvio, input senza pointer lock, focus sulla scena, direzioni A/D e mouse coerenti con la telecamera. Controller di movimento estratto e usato direttamente dall’app e dai test.
+
+43 test effettivi superati, inclusi markup reale/HUD di produzione e movimento sulla mappa attiva. Build e TypeScript verificati. DOM simulato e NullEngine non sostituiscono la prova interattiva sul Mac, non effettuata in questa sessione. La qualità grafica della schermata richiesta dall’utente resta un obiettivo non raggiunto.

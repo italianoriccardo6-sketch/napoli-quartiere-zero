@@ -123,3 +123,16 @@ La ricerca riportata sopra descriveva i limiti della versione 0.2. Con la versio
 ### Punti quotati regionali acquisiti, separati dalla scena
 
 Il workflow di ricerca ha acquisito 69 punti dal servizio ufficiale Regione Campania (CTR 2020, CC-BY 4.0); un punto era fuori dal perimetro richiesto. Il sottoinsieme locale contiene quindi 68 punti. Originale, selezione, metadati e validazione sono conservati in `data/napoli-terrain-points/`. Il filtro non ha ampliato i limiti geografici. **Il terreno del gioco resta piano:** datum e unità verticali della risposta ArcGIS non sono stati certificati. Il [capitolato ufficiale CTR](https://www.regione.campania.it/assets/documents/capitolato-oneri-cig-z95361df5b.pdf) offre contesto sui sistemi di riferimento, ma non è stato trattato come certificazione della specifica risposta del servizio.
+
+
+## Correzione 0.3.1 — blocco dopo «Gioca»
+
+L’HTML pubblicato conteneva il riquadro della strada soltanto come `class="world-note"`, mentre l’HUD cercava `id="world-note"`. Il primo aggiornamento dopo l’avvio produceva `TypeError: Cannot set properties of null (setting 'textContent')`, all’interno del callback del ciclo di gioco. L’errore è stato riprodotto eseguendo l’HUD di produzione contro gli identificatori dell’HTML pubblicato; l’identificatore è corretto e ora tutti i controlli richiesti vengono verificati prima di avviare la scena.
+
+Regressioni aggiunte: primo aggiornamento e aggiornamenti successivi dell’HUD, tutti gli stati del prologo, input da tastiera anche senza pointer lock, perdita effettiva di focus, movimento dalla posizione reale iniziale, collisioni e confronto con le direzioni della vera telecamera Babylon. Sono inoltre corretti A/D invertiti e il verso orizzontale del mouse. Il controller di movimento testato è quello usato dal gioco, non una copia nei test.
+
+`npm test` registra tutte le suite nello stesso processo, senza affidarsi a worker che in questo ambiente possono uscire senza eseguire le asserzioni. Risultato: **43 test eseguiti e superati**. L’interfaccia è verificata con DOM simulato costruito dall’HTML reale e Canvas software; la scena usa NullEngine. Questo non equivale a una prova interattiva WebGL nel browser o sul Mac, che resta non effettuata per assenza di uno strumento browser collegato.
+
+### Riferimento visivo fornito dall’utente
+
+La schermata allegata dall’utente richiede una strada a scala reale con asfalto dettagliato, marciapiedi e rampe modellati, veicoli completi, vegetazione articolata, personaggi credibili e ombre coerenti su tutte le superfici, ambientata nella vera Napoli. L’immagine è un riferimento di qualità, non un asset riutilizzato: non è copiata nel repository né inserita nel gioco. La resa attuale a volumi generici non soddisfa quel riferimento; la correzione del movimento non viene presentata come un avanzamento al fotorealismo.

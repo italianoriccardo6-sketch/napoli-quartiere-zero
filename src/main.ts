@@ -14,14 +14,16 @@ import {Color3} from '@babylonjs/core/Maths/math.color';
 import {createCharacter} from './character';
 import {createScooter,stepVelocity} from './vehicle';
 import {createCamera} from './camera';
+import {walkingDirection,moveOnGround} from './movement';
 import {Input} from './input';
 import {Audio} from './audio';
 import {loadSave,storeSave,defaults,type Save} from './save';
 import {PICKUP,DELIVERY} from './mission';
 import {initialStory,reduceStory,decodeStory,storyDialogue,STORY_SAVE_KEY,type StoryState,type StoryLine} from './story';
-import {el,show,toast,updateHUD} from './ui';
+import {el,show,toast,updateHUD,validateGameUI} from './ui';
 import type {MapData} from './geo';
 async function boot(){
+  validateGameUI();
   const response=await fetch(`${import.meta.env.BASE_URL}data/map.json`);if(!response.ok)throw Error('I dati della scena non sono disponibili. Ricarica la pagina.');
   const map=await response.json() as CityMapData;
   if(map.city){PICKUP.splice(0,2,...map.city.pickup);DELIVERY.splice(0,2,...map.city.delivery);}
@@ -116,11 +118,7 @@ async function boot(){
   el('credits-button').onclick=()=>{if(dialogueOpen)return;if(started)pause(true);credits=true;show('pause',false);show('credits',true);};el('close-credits').onclick=closeCredits;
   function move(delta:Vector3,radius:number):boolean {
     const pos=riding?scooter.root.position:character.root.position;
-    const n=Math.max(1,Math.ceil(delta.length()/.2));const d=delta.scale(1/n);let collision=false;
-    for(let i=0;i<n;i++){
-      if(world.canStand(pos.x+d.x,pos.z+d.z,radius)){pos.x+=d.x;pos.z+=d.z;}
-      else {collision=true;if(!riding){if(world.canStand(pos.x+d.x,pos.z,radius))pos.x+=d.x;if(world.canStand(pos.x,pos.z+d.z,radius))pos.z+=d.z;}else break;}
-    }return collision;
+    return moveOnGround(pos,{x:delta.x,z:delta.z},radius,world.canStand,!riding).collision;
   }
   engine.runRenderLoop(()=>{
     const dt=Math.min(engine.getDeltaTime()/1000,.04);time+=dt;
@@ -136,7 +134,7 @@ async function boot(){
         character.root.position.copyFrom(scooter.root.position);character.root.position.y=.45;character.root.rotation.y=proposed;
         lastMove=Math.abs(scooter.velocity)>.1;
       }else {
-        const f=cam.yaw+Math.PI;const d=new Vector3(Math.sin(f)*forward-Math.cos(f)*turn,0,Math.cos(f)*forward+Math.sin(f)*turn);
+        const direction=walkingDirection(cam.yaw,forward,turn);const d=new Vector3(direction.x,0,direction.z);
         lastMove=d.lengthSquared()>0;
         if(lastMove){d.normalize().scaleInPlace((input.keys.has('ShiftLeft')||input.keys.has('ShiftRight')?5.5:3.1)*dt);move(d,.5);character.root.rotation.y=Math.atan2(d.x,d.z);}character.root.position.y=0;
       }
