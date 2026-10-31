@@ -1,0 +1,1286 @@
+{
+  "mode": "actual-runtime-detailed-city-source",
+  "output": "/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-current.png",
+  "success": false,
+  "failedCandidate": "/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-current.failed.png",
+  "error": "WebGL validation failed with 1280,1282,1286. Actual framebuffer saved only as an unvalidated failed candidate: /home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-current.failed.png",
+  "stack": "Error: WebGL validation failed with 1280,1282,1286. Actual framebuffer saved only as an unvalidated failed candidate: /home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-current.failed.png\n    at <anonymous> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:241:63)",
+  "shaderErrors": [],
+  "glCallErrors": [
+    {
+      "phase": "character and vehicle construction and glTF asset loading",
+      "call": "gl.texImage2D",
+      "code": 1280,
+      "args": [
+        "0xde1",
+        "0x0",
+        "0x1908",
+        "0x400",
+        "0x400",
+        "0x0",
+        "0x1908",
+        "0x8d61",
+        null
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at WebGLRenderingContext.gl.texImage2D (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:157:3)\n    at Engine._createInternalTexture (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:3090:16)\n    at Engine.RegisterEnginesExtensionsEngineRenderTarget.ThinEngine.createRenderTargetTexture (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/Extensions/engine.renderTarget.pure.ts:55:77)\n    at new RenderTargetTexture (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/node_modules/@babylonjs/core/Materials/Textures/renderTargetTexture.pure.js:499:56)\n    at TransmissionHelper._setupRenderTargets (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/transmissionHelper.ts:393:36)\n    at new TransmissionHelper (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/transmissionHelper.ts:148:14)\n    at ensureTransmissionHelper (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/transmissionHelper.ts:531:38)\n    at KHR_materials_transmission._loadTransparentPropertiesAsync (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/KHR_materials_transmission.pure.ts:79:13)\n    at <anonymous> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/KHR_materials_transmission.pure.ts:59:32)"
+    },
+    {
+      "phase": "character and vehicle construction and glTF asset loading",
+      "call": "gl.generateMipmap",
+      "code": 1282,
+      "args": [
+        "0xde1"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine._createInternalTexture (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:3110:22)\n    at Engine.RegisterEnginesExtensionsEngineRenderTarget.ThinEngine.createRenderTargetTexture (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/Extensions/engine.renderTarget.pure.ts:55:77)\n    at new RenderTargetTexture (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/node_modules/@babylonjs/core/Materials/Textures/renderTargetTexture.pure.js:499:56)\n    at TransmissionHelper._setupRenderTargets (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/transmissionHelper.ts:393:36)\n    at new TransmissionHelper (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/transmissionHelper.ts:148:14)\n    at ensureTransmissionHelper (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/transmissionHelper.ts:531:38)\n    at KHR_materials_transmission._loadTransparentPropertiesAsync (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/KHR_materials_transmission.pure.ts:79:13)\n    at <anonymous> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/loaders/src/glTF/2.0/Extensions/KHR_materials_transmission.pure.ts:59:32)\n    at Function.LoadExtensionAsync (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/node_modules/@babylonjs/loaders/glTF/2.0/glTFLoader.pure.js:2542:16)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.clear",
+      "code": 1286,
+      "args": [
+        "0x4500"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.clear (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1000:18)\n    at Observer.callback (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/node_modules/@babylonjs/core/Materials/Textures/renderTargetTexture.pure.js:399:24)\n    at Observable.notifyObservers (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Misc/observable.pure.ts:439:49)\n    at ObjectRenderer.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/objectRenderer.ts:772:59)\n    at RenderTargetTexture._renderToTarget (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/node_modules/@babylonjs/core/Materials/Textures/renderTargetTexture.pure.js:846:30)\n    at RenderTargetTexture._render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/node_modules/@babylonjs/core/Materials/Textures/renderTargetTexture.pure.js:782:18)\n    at RenderTargetTexture.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/node_modules/@babylonjs/core/Materials/Textures/renderTargetTexture.pure.js:723:14)\n    at Scene._renderForCamera (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/scene.pure.ts:5263:38)\n    at Scene._processSubCameras (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/scene.pure.ts:5358:18)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x3bc4",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x1dd0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x30",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x30",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x1a4",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x174",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xf6",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x17a",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x384",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x1da",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x6c",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x12c",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xc",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x5412",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x180",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xf0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x108",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x150",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x168",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x4e0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x120",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x738",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x210",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xd8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x48",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xa8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x90",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xa8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x228",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x60",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x138",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xa8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xa8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x60",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x60",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xc0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x48",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x48",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x48",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x78",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x48",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x3d8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x210",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x2b8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x4b0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x210",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x300",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x480",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x528",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x7e0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x1b0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xaf8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xa20",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x6f0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x288",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x648",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x4b0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x288",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x558",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x5b8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x4e0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xf18",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x618",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x6f0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xc18",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x978",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x450",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xb88",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x858",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x978",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x768",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x690",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x3c0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xde0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x9c0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xb70",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x6c0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x3d8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x3d8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x6f0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0xac8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x1b0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x1b0",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x348",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x360",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x258",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x378",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x420",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x318",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x528",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x318",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x3d8",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x120",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x318",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x300",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x180",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    },
+    {
+      "phase": "frame 2 scene render and shader compilation",
+      "call": "gl.drawElements",
+      "code": 1286,
+      "args": [
+        "0x4",
+        "0x138",
+        "0x1403",
+        "0x0"
+      ],
+      "stack": "Error: GL error observed immediately after call\n    at WebGLRenderingContext.api.<computed> (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/scripts/render-qa.ts:111:88)\n    at Engine.drawElementsType (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Engines/thinEngine.pure.ts:1951:22)\n    at Mesh._draw (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2147:20)\n    at Mesh._processRendering (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2520:22)\n    at Mesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/mesh.pure.ts:2884:22)\n    at SubMesh.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Meshes/subMesh.pure.ts:447:29)\n    at Function._RenderSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:294:21)\n    at RenderingGroup._renderOpaqueSorted (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:222:24)\n    at RenderingGroup.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingGroup.ts:157:18)\n    at RenderingManager.render (/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/dev/core/src/Rendering/renderingManager.ts:258:28)"
+    }
+  ],
+  "sourceSceneMetadata": {
+    "cityWorld": {
+      "provenance": "osm",
+      "footprints": 1803,
+      "invalidFootprints": 0,
+      "buildingChunks": 360,
+      "renderedRoads": 1520,
+      "bounds": [
+        -640.1679145129254,
+        -209.514413621575,
+        1465.6475937532923,
+        1547.3409220264557
+      ],
+      "terrainElevation": "flat-estimate",
+      "representation": "OSM footprint extrusions; procedural surface detail, not photorealism"
+    },
+    "streetDetail": {
+      "roadsConsidered": 14,
+      "roadsDetailed": 14,
+      "sidewalkSpans": 535,
+      "curbSpans": 535,
+      "paintStrips": 693,
+      "junctionGaps": 171,
+      "rejectedRaisedSpans": 83,
+      "meshCount": 27,
+      "vertexCount": 11332,
+      "estimatedWidths": true,
+      "inferredMarkings": true,
+      "collisionGeometryAdded": false
+    },
+    "visualDetail": {
+      "facades": {
+        "selectedBuildings": 16,
+        "detailedBuildings": 16,
+        "skippedLandmarks": 0,
+        "windows": 3173,
+        "balconies": 677,
+        "shopfronts": 32,
+        "instances": 59970,
+        "batches": 72,
+        "budgetReached": true,
+        "representation": "inferred-facade-detail-not-surveyed"
+      },
+      "streets": {
+        "roadsConsidered": 14,
+        "roadsDetailed": 14,
+        "sidewalkSpans": 535,
+        "curbSpans": 535,
+        "paintStrips": 693,
+        "junctionGaps": 171,
+        "rejectedRaisedSpans": 83,
+        "meshCount": 27,
+        "vertexCount": 11332,
+        "estimatedWidths": true,
+        "inferredMarkings": true,
+        "collisionGeometryAdded": false
+      },
+      "photographicMaps": "CC0 Poly Haven; generic surfaces, not surveyed Naples facades"
+    },
+    "capturePlacement": {
+      "player": [
+        17.082487614911,
+        418.4796082350004
+      ],
+      "car": [
+        15.045305421059425,
+        418.775122298322
+      ],
+      "heading": 0.1440553848540455,
+      "size": {
+        "radius": 1.3085042755765075,
+        "halfLength": 2.22500001459805
+      },
+      "sharedStreetPlacement": true
+    }
+  }
+}
