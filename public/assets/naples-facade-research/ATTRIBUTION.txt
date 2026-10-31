@@ -1,0 +1,35 @@
+Hotel Excelsior (8639643491).jpg
+Author: Angelo DeSantis
+Source: https://commons.wikimedia.org/wiki/File:Hotel_Excelsior_(8639643491).jpg
+License: CC BY 2.0 https://creativecommons.org/licenses/by/2.0
+Original download: https://upload.wikimedia.org/wikipedia/commons/4/4f/Hotel_Excelsior_%288639643491%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+SHA-256: 24e86769cc51ccd8f8c4d1de1f54ad0b465d6922fb42c3eeaec0856372df6cd6
+Changes: none; original image bytes. No runtime projection is currently approved.
+Limitations: Blue-hour lighting is unsuitable as daytime albedo without further review. No wall corners or OSM identity accepted before source-pixel inspection.
+
+Grande Albergo Vesuvio - panoramio.jpg
+Author: Mister No
+Source: https://commons.wikimedia.org/wiki/File:Grande_Albergo_Vesuvio_-_panoramio.jpg
+License: CC BY 3.0 https://creativecommons.org/licenses/by/3.0
+Original download: https://upload.wikimedia.org/wikipedia/commons/5/50/Grande_Albergo_Vesuvio_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+SHA-256: df3e26ae4651b74bc1c7be985933c9a7d88080d564a72a10996a3b1290607117
+Changes: none; original image bytes. No runtime projection is currently approved.
+Limitations: Native source is below 2k; never upscale and claim recovered detail. No wall corners or OSM identity accepted before source-pixel inspection.
+
+SereRegioneCampaniaS.Lucia.jpg
+Author: Baku
+Source: https://commons.wikimedia.org/wiki/File:SereRegioneCampaniaS.Lucia.jpg
+License: CC BY-SA 4.0 https://creativecommons.org/licenses/by-sa/4.0
+Original download: https://upload.wikimedia.org/wikipedia/commons/e/e7/SereRegioneCampaniaS.Lucia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+SHA-256: 5260efbc13125564d70a778e1d060e9c9128fe8ef8bc8ab2cc7aa3ff94b0c0b2
+Changes: none; original image bytes. No runtime projection is currently approved.
+Limitations: ShareAlike license is distinct from CC BY/CC0; preserve it on any adapted image. Source footprint height is a 10m fallback, not a measured height. No wall corners accepted before source-pixel inspection.
+
+View of Via Partenope and the marina from Castel dell'Ovo, Naples, 2010.jpg
+Author: DimiTalen
+Source: https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg
+License: CC0 http://creativecommons.org/publicdomain/zero/1.0/deed.en
+Original download: https://upload.wikimedia.org/wikipedia/commons/e/e0/View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo%2C_Naples%2C_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original
+SHA-256: 63d316b36f987dbb39e0b96d0a88518d80eac76b94baa9e099ecec7f9defced6
+Changes: none; original image bytes. No runtime projection is currently approved.
+Limitations: Broad waterfront reference; individual facade crops have lower native resolution. Never render the complete panorama as a city/skyline billboard.

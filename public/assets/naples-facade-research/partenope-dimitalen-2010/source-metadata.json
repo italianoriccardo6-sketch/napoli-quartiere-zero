@@ -1,0 +1,121 @@
+{
+  "id": "partenope-dimitalen-2010",
+  "title": "View of Via Partenope and the marina from Castel dell'Ovo, Naples, 2010.jpg",
+  "author": "DimiTalen",
+  "license": "CC0",
+  "width": 2939,
+  "height": 1954,
+  "limitations": [
+    "Broad waterfront reference; individual facade crops have lower native resolution.",
+    "Never render the complete panorama as a city/skyline billboard."
+  ],
+  "sourcePage": "https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo%2C_Naples%2C_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+  "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+  "authorHtml": "DimiTalen",
+  "captured": "2010-07-08 15:11:03",
+  "bytes": 4581414,
+  "sha1": "02e1f7fd14e2c4bbb283349f131e57ffddd52920",
+  "sha256": "63d316b36f987dbb39e0b96d0a88518d80eac76b94baa9e099ecec7f9defced6",
+  "acquiredAt": "2026-10-31T23:26:49.158Z",
+  "use": "research-only-not-runtime-texture",
+  "photoQuads": [],
+  "commonsImageInfo": {
+    "size": 4581414,
+    "width": 2939,
+    "height": 1954,
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e0/View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo%2C_Naples%2C_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "descriptionurl": "https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg",
+    "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=144031142",
+    "sha1": "02e1f7fd14e2c4bbb283349f131e57ffddd52920",
+    "extmetadata": {
+      "DateTime": {
+        "value": "2024-01-15 19:51:24",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "View of Via Partenope and the marina from Castel dell'Ovo, Naples, 2010",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Nikon D70s|CC-Zero|Castel dell'Ovo (Naples)|Marinas in Italy|Via Partenope (Naples)|Self-published work|2010 in Naples|July 2010 in Campania|Files with coordinates missing SDC location of creation|Italy photographs taken on 2010-07-08|2010 photos by User:DimiTalen",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "40.827997",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "14.248138",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "View of Via Partenope and the marina from Castel dell'Ovo, Naples, 2010",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2010-07-08 15:11:03",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "DimiTalen",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Zero, Public Domain Dedication",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "false",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "mime": "image/jpeg"
+  }
+}

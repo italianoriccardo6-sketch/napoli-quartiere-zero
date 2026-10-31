@@ -1,0 +1,123 @@
+{
+  "id": "palazzo-santa-lucia-baku-2021",
+  "title": "SereRegioneCampaniaS.Lucia.jpg",
+  "author": "Baku",
+  "license": "CC BY-SA 4.0",
+  "width": 4032,
+  "height": 1908,
+  "sha1": "a0c754502ad5325d27c5765a4cc50740ca4569b8",
+  "buildingId": "relation/1191261:0",
+  "limitations": [
+    "ShareAlike license is distinct from CC BY/CC0; preserve it on any adapted image.",
+    "Source footprint height is a 10m fallback, not a measured height.",
+    "No wall corners accepted before source-pixel inspection."
+  ],
+  "sourcePage": "https://commons.wikimedia.org/wiki/File:SereRegioneCampaniaS.Lucia.jpg",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e7/SereRegioneCampaniaS.Lucia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+  "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+  "authorHtml": "<a href=\"//commons.wikimedia.org/wiki/User:Baku\" title=\"User:Baku\">Baku</a>",
+  "captured": "2021-07-16",
+  "bytes": 4063811,
+  "sha256": "5260efbc13125564d70a778e1d060e9c9128fe8ef8bc8ab2cc7aa3ff94b0c0b2",
+  "acquiredAt": "2026-10-31T23:26:48.891Z",
+  "use": "research-only-not-runtime-texture",
+  "photoQuads": [],
+  "commonsImageInfo": {
+    "size": 4063811,
+    "width": 4032,
+    "height": 1908,
+    "url": "https://upload.wikimedia.org/wikipedia/commons/e/e7/SereRegioneCampaniaS.Lucia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "descriptionurl": "https://commons.wikimedia.org/wiki/File:SereRegioneCampaniaS.Lucia.jpg",
+    "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=107610367",
+    "sha1": "a0c754502ad5325d27c5765a4cc50740ca4569b8",
+    "extmetadata": {
+      "DateTime": {
+        "value": "2021-07-16 16:28:11",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "SereRegioneCampaniaS.Lucia",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Palaces in Naples|Self-published work|Files with coordinates missing SDC location of creation",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "GPSLatitude": {
+        "value": "40.832598",
+        "source": "commons-desc-page"
+      },
+      "GPSLongitude": {
+        "value": "14.248885",
+        "source": "commons-desc-page"
+      },
+      "GPSMapDatum": {
+        "value": "WGS-84",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Palazzo della sede della regione Campania (Santa Lucia)",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2021-07-16",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<span class=\"int-own-work\" lang=\"en\">Own work</span>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a href=\"//commons.wikimedia.org/wiki/User:Baku\" title=\"User:Baku\">Baku</a>",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY-SA 4.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution-Share Alike 4.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by-sa/4.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-sa-4.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "mime": "image/jpeg"
+  }
+}

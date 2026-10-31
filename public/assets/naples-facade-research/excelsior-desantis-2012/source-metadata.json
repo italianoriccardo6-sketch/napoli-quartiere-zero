@@ -1,0 +1,108 @@
+{
+  "id": "excelsior-desantis-2012",
+  "title": "Hotel Excelsior (8639643491).jpg",
+  "author": "Angelo DeSantis",
+  "license": "CC BY 2.0",
+  "width": 2400,
+  "height": 1456,
+  "limitations": [
+    "Blue-hour lighting is unsuitable as daytime albedo without further review.",
+    "No wall corners or OSM identity accepted before source-pixel inspection."
+  ],
+  "sourcePage": "https://commons.wikimedia.org/wiki/File:Hotel_Excelsior_(8639643491).jpg",
+  "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Hotel_Excelsior_%288639643491%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+  "licenseUrl": "https://creativecommons.org/licenses/by/2.0",
+  "authorHtml": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/78023771@N00\">Angelo DeSantis</a> from Berkeley, US",
+  "captured": "2012-10-04 18:45",
+  "bytes": 1472033,
+  "sha1": "91ca66ebb8c76de1224d0d744076f20d0dbf2d68",
+  "sha256": "24e86769cc51ccd8f8c4d1de1f54ad0b465d6922fb42c3eeaec0856372df6cd6",
+  "acquiredAt": "2026-10-31T23:26:48.457Z",
+  "use": "research-only-not-runtime-texture",
+  "photoQuads": [],
+  "commonsImageInfo": {
+    "size": 1472033,
+    "width": 2400,
+    "height": 1456,
+    "url": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Hotel_Excelsior_%288639643491%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+    "descriptionurl": "https://commons.wikimedia.org/wiki/File:Hotel_Excelsior_(8639643491).jpg",
+    "descriptionshorturl": "https://commons.wikimedia.org/w/index.php?curid=28572249",
+    "sha1": "91ca66ebb8c76de1224d0d744076f20d0dbf2d68",
+    "extmetadata": {
+      "DateTime": {
+        "value": "2013-09-26 00:10:32",
+        "source": "mediawiki-metadata",
+        "hidden": ""
+      },
+      "ObjectName": {
+        "value": "Hotel Excelsior (8639643491)",
+        "source": "mediawiki-metadata"
+      },
+      "CommonsMetadataExtension": {
+        "value": 1.2,
+        "source": "extension",
+        "hidden": ""
+      },
+      "Categories": {
+        "value": "Taken with Canon EOS 5D Mark II|Flickr images reviewed by File Upload Bot (Magnus Manske)|Hotels in Italy at night|Blue hour in Naples|Photographs by Angelo DeSantis|Hotel Excelsior (Naples)|User:AVIA BavARia/uploads/flickr/78023771@N00",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "Assessments": {
+        "value": "",
+        "source": "commons-categories",
+        "hidden": ""
+      },
+      "ImageDescription": {
+        "value": "Naples, Italy, near the coast",
+        "source": "commons-desc-page"
+      },
+      "DateTimeOriginal": {
+        "value": "2012-10-04 18:45",
+        "source": "commons-desc-page"
+      },
+      "Credit": {
+        "value": "<p><a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/photos/angeloangelo/8639643491/\">Hotel Excelsior</a>\n</p>\n<ul><li>Uploaded by <a href=\"//commons.wikimedia.org/wiki/User:AVIA_BavARia\" title=\"User:AVIA BavARia\">AVIA BavARia</a></li></ul>",
+        "source": "commons-desc-page"
+      },
+      "Artist": {
+        "value": "<a rel=\"nofollow\" class=\"external text\" href=\"https://www.flickr.com/people/78023771@N00\">Angelo DeSantis</a> from Berkeley, US",
+        "source": "commons-desc-page"
+      },
+      "LicenseShortName": {
+        "value": "CC BY 2.0",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "UsageTerms": {
+        "value": "Creative Commons Attribution 2.0",
+        "source": "commons-desc-page"
+      },
+      "AttributionRequired": {
+        "value": "true",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "LicenseUrl": {
+        "value": "https://creativecommons.org/licenses/by/2.0",
+        "source": "commons-desc-page"
+      },
+      "Copyrighted": {
+        "value": "True",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "Restrictions": {
+        "value": "",
+        "source": "commons-desc-page",
+        "hidden": ""
+      },
+      "License": {
+        "value": "cc-by-2.0",
+        "source": "commons-templates",
+        "hidden": ""
+      }
+    },
+    "mime": "image/jpeg"
+  }
+}
