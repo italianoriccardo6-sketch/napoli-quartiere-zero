@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Metadati e query piccola dal servizio ufficiale Regione Campania
+      - name: Metadati e punti ufficiali con selezione locale rigorosa del perimetro
         run: node scripts/fetch-terrain.mjs
       - uses: actions/upload-artifact@v4
         with:

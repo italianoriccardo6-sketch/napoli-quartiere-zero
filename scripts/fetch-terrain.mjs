@@ -113,15 +113,29 @@ async function main() {
   for (const feature of features) {
     const g = feature.geometry, a = feature.attributes;
     if (!g || ![g.x,g.y,g.z].every(Number.isFinite)) throw new Error('Point contains a missing or non-finite X, Y or Z');
-    if (g.x < bbox.west-1e-7 || g.x > bbox.east+1e-7 || g.y < bbox.south-1e-7 || g.y > bbox.north+1e-7) {
-      throw new Error('Point falls outside the requested small perimeter');
-    }
+    if (g.x < -180 || g.x > 180 || g.y < -90 || g.y > 90) throw new Error('Point has invalid WGS84 longitude/latitude');
     if (!a || !types.includes(a.TIPO) || !Number.isSafeInteger(a.OBJECTID) || ids.has(a.OBJECTID)) {
       throw new Error('Point has an invalid type/object identifier or duplicates another point');
     }
     if (a.Descr !== null && typeof a.Descr !== 'string') throw new Error('Point description has an unexpected type');
     ids.add(a.OBJECTID);
   }
+
+  // The first real response included points ~4.4 m beyond the north envelope.
+  // Its precise server-side cause has not been established.
+  // Preserve all raw points, then clip strictly to the requested geographic box.
+  // This is a documented selection step, not a relaxation of its bounds.
+  const selected = features.filter(({geometry:g})=>g.x >= bbox.west && g.x <= bbox.east && g.y >= bbox.south && g.y <= bbox.north);
+  diagnostic.rawCount=features.length;
+  diagnostic.selectedCount=selected.length;
+  diagnostic.excludedOutOfBounds=features.length-selected.length;
+  diagnostic.postProcessing='strict geographic bbox filtering';
+  if (selected.length === 0) throw new Error('No validated points remain inside the requested strict geographic perimeter');
+  diagnostic.selected_finite_xy_extent={
+    xmin:Math.min(...selected.map(point=>point.geometry.x)),xmax:Math.max(...selected.map(point=>point.geometry.x)),
+    ymin:Math.min(...selected.map(point=>point.geometry.y)),ymax:Math.max(...selected.map(point=>point.geometry.y)),
+  };
+  await writeFile(`${output}/points.selected.json`,JSON.stringify({...result.json,features:selected},null,2)+'\n');
 
   const source = {
     provider:'Regione Campania — Sistema Informativo Territoriale',
@@ -141,7 +155,13 @@ async function main() {
     bbox_wgs84:bbox,
     class_labels:{'16110000':'Quota Al Suolo','16110300':'Punto Quota Su Viabilità'},
     maximum_rows:limit,
-    feature_count:features.length,
+    feature_count:selected.length,
+    rawCount:features.length,
+    selectedCount:selected.length,
+    excludedOutOfBounds:features.length-selected.length,
+    postProcessing:'strict geographic bbox filtering',
+    raw_response_file:'points.raw.json',
+    selected_response_file:'points.selected.json',
     truncated:result.json.exceededTransferLimit === true,
     pagination_performed:false,
     requests_performed:2,
@@ -161,7 +181,8 @@ async function main() {
     'Fonte: Regione Campania — Dati pubblicati dal Servizio SIT, cartografia 2020.',
     `La pubblicazione ufficiale dei prodotti CTR, DBT e DTM 2020 dichiara CC-BY 4.0: ${licensePage}`,
     'Licenza: https://creativecommons.org/licenses/by/4.0/ . Conservare attribuzione e indicare le modifiche.',
-    'Questa estrazione seleziona soltanto punti di quota al suolo/sulla viabilità entro il perimetro dichiarato; riproietta le sole coordinate orizzontali in EPSG:4326 tramite il servizio ufficiale.',
+    'Questa estrazione richiede soltanto punti di quota al suolo/sulla viabilità e riproietta le sole coordinate orizzontali in EPSG:4326 tramite il servizio ufficiale.',
+    'La risposta originale è conservata in points.raw.json. La selezione derivata points.selected.json esclude rigorosamente ogni punto fuori dal perimetro geografico dichiarato; i conteggi sono registrati in source.json.',
     '',
     '**Datum verticale e unità Z non verificati. Non usare automaticamente questi punti come terreno giocabile.**',
     'Il limite di 250 righe può lasciare la selezione incompleta. Nessuna paginazione o attivazione della scena.',
@@ -173,7 +194,7 @@ async function main() {
   diagnostic.vertical_units_verified=false;
   // Even validated research points are not an accepted raster/gameplay terrain.
   await writeFile(`${output}/validation.json`,JSON.stringify(diagnostic,null,2)+'\n');
-  console.log(`Saved ${features.length} finite official ground/road elevation points (limit ${limit}, truncated=${source.truncated}). Vertical units/datum remain unverified; no scene activated.`);
+  console.log(`Saved ${selected.length} selected official ground/road elevation points from ${features.length} raw points; excluded ${source.excludedOutOfBounds} outside the strict bbox (limit ${limit}, truncated=${source.truncated}). Vertical units/datum remain unverified; no scene activated.`);
 }
 
 main().catch(async error => {
