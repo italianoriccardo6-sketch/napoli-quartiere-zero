@@ -8,6 +8,16 @@ const types = ['16110000', '16110300'];
 const limit = 250;
 const output = 'data/napoli-terrain-points';
 const maxBytes = 2 * 1024 * 1024;
+const licensePage = 'https://sit.regione.campania.it/carta-tecnica-regionale';
+const diagnostic = {
+  status:'not_started',
+  usable_as_terrain:false,
+  maximum_rows:limit,
+  bbox_wgs84:bbox,
+  returned_horizontal_crs:null,
+  returned_finite_xy_extent:null,
+  first_three_points:[],
+};
 
 async function requestJSON(url, timeoutMs) {
   const response = await fetch(url, {
@@ -33,8 +43,13 @@ async function requestJSON(url, timeoutMs) {
 }
 
 async function main() {
+  await mkdir(output,{recursive:true});
+  await writeFile(`${output}/validation.json`,JSON.stringify(diagnostic,null,2)+'\n');
   const metadataURL = `${layer}?f=pjson`;
   const metadata = await requestJSON(metadataURL, 25000);
+  // Keep the exact response even if its schema or a later point fails validation.
+  await writeFile(`${output}/layer-metadata.json`,metadata.raw);
+  diagnostic.status='metadata_received';
   const typeField = metadata.json.fields?.find(field => field.name === 'TIPO');
   if (typeField?.type !== 'esriFieldTypeString') throw new Error('Official TIPO field is absent or no longer a string');
   if (metadata.json.geometryType !== 'esriGeometryPoint' || metadata.json.hasZ !== true) {
@@ -61,8 +76,34 @@ async function main() {
     resultRecordCount:String(limit),
   };
   const queryURL = `${layer}/query?${new URLSearchParams(parameters)}`;
+  await writeFile(`${output}/source.json`,JSON.stringify({
+    status:'Unvalidated diagnostic response only; NOT usable as terrain.',
+    provider:'Regione Campania — Sistema Informativo Territoriale',
+    source_year:2020,
+    retrieved_at:new Date().toISOString(),
+    license:'CC-BY-4.0',
+    license_url:'https://creativecommons.org/licenses/by/4.0/',
+    license_declaration:licensePage,
+    attribution:'Regione Campania — Dati pubblicati dal Servizio SIT, cartografia 2020',
+    metadata_url:metadataURL,query_url:queryURL,query_parameters:parameters,
+    bbox_wgs84:bbox,maximum_rows:limit,vertical_reference:null,vertical_units:null,
+    vertical_warning:'Vertical units/datum not verified. No scene activation.',
+  },null,2)+'\n');
   const result = await requestJSON(queryURL, 35000);
+  await writeFile(`${output}/points.raw.json`,result.raw);
   const features = result.json.features;
+  diagnostic.status='response_received_unvalidated';
+  diagnostic.returned_horizontal_crs=result.json.spatialReference ?? null;
+  if (Array.isArray(features)) {
+    diagnostic.feature_count=features.length;
+    diagnostic.first_three_points=features.slice(0,3).map(point=>({geometry:point.geometry??null,attributes:point.attributes??null}));
+    const xy=features.map(point=>point.geometry).filter(g=>g && Number.isFinite(g.x) && Number.isFinite(g.y));
+    if(xy.length) diagnostic.returned_finite_xy_extent={
+      xmin:Math.min(...xy.map(g=>g.x)),xmax:Math.max(...xy.map(g=>g.x)),
+      ymin:Math.min(...xy.map(g=>g.y)),ymax:Math.max(...xy.map(g=>g.y)),
+    };
+  }
+  await writeFile(`${output}/validation.json`,JSON.stringify(diagnostic,null,2)+'\n');
   if (!Array.isArray(features) || features.length === 0 || features.length > limit) {
     throw new Error('The bounded query returned no points, an invalid response, or more than 250 points');
   }
@@ -82,7 +123,6 @@ async function main() {
     ids.add(a.OBJECTID);
   }
 
-  const licensePage = 'https://sit.regione.campania.it/carta-tecnica-regionale';
   const source = {
     provider:'Regione Campania — Sistema Informativo Territoriale',
     dataset:'CTR2020_v2 — Punti, layer 2; ground/road elevation classes only',
@@ -128,7 +168,25 @@ async function main() {
     'Non si applica ai dati la licenza MIT del codice del gioco.',
     '',
   ].join('\n'));
+  diagnostic.status='validated_research_points_only';
+  diagnostic.vertical_reference_verified=false;
+  diagnostic.vertical_units_verified=false;
+  // Even validated research points are not an accepted raster/gameplay terrain.
+  await writeFile(`${output}/validation.json`,JSON.stringify(diagnostic,null,2)+'\n');
   console.log(`Saved ${features.length} finite official ground/road elevation points (limit ${limit}, truncated=${source.truncated}). Vertical units/datum remain unverified; no scene activated.`);
 }
 
-main().catch(error => {console.error(`Terrain research extraction failed: ${error.message}`);process.exitCode=1;});
+main().catch(async error => {
+  diagnostic.status='rejected';
+  diagnostic.error=error.message;
+  diagnostic.usable_as_terrain=false;
+  await mkdir(output,{recursive:true});
+  await writeFile(`${output}/validation.json`,JSON.stringify(diagnostic,null,2)+'\n');
+  console.error(`Terrain research extraction failed: ${error.message}`);
+  console.error('Diagnostic only — NOT usable terrain:',JSON.stringify({
+    returned_horizontal_crs:diagnostic.returned_horizontal_crs,
+    returned_finite_xy_extent:diagnostic.returned_finite_xy_extent,
+    first_three_points:diagnostic.first_three_points,
+  }));
+  process.exitCode=1;
+});

@@ -25,6 +25,14 @@ jobs:
           name: napoli-terrain-${{ github.run_id }}
           path: data/napoli-terrain-points/
           retention-days: 30
+      - name: Conserva le risposte diagnostiche anche in caso di rifiuto
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napoli-terrain-diagnostics-${{ github.run_id }}
+          path: data/napoli-terrain-points/
+          retention-days: 14
+          if-no-files-found: warn
       - name: Conserva i punti di ricerca in un ramo dati separato
         env:
           DATA_BRANCH: data/napoli-terrain-${{ github.run_id }}
