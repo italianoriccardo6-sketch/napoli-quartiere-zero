@@ -53,3 +53,77 @@ test('photographic traffic and encounter dependency graphs contain no Babylon re
   }
   visit('src/photo-traffic.ts');visit('src/encounter-simulation.ts');assert.ok(visited.size>=5,'the actual transitive graph is inspected');
 });
+
+const world=()=>JSON.parse(readFileSync('public/data/photo-world.json','utf8')) as CityMapData;
+const districts=()=>JSON.parse(readFileSync('public/data/photo-districts.json','utf8')).districts as Array<{name:string;drive:{position:[number,number];heading:number}}>;
+const gap=(a:readonly number[],b:readonly number[])=>Math.hypot(a[0]-b[0],a[1]-b[1]);
+function assertValidFleet(traffic:ReturnType<typeof createPhotoTraffic>,ground:(x:number,z:number,r:number)=>boolean,label:string){
+  assert.ok(traffic.actors.length>=1&&traffic.actors.length<=traffic.maxVehicles,`${label}: traffic exists within budget`);
+  assert.equal(traffic.actors.filter(a=>a.role==='patrol').length,1,`${label}: exactly one patrol`);
+  for(const [i,actor]of traffic.actors.entries()){
+    assert.ok(canStandForCar({x:actor.position[0],z:actor.position[1]},actor.heading,ground,actor.radius,actor.halfLength),`${label}: full car on source ground`);
+    assert.ok(actor.route.length>=2,`${label}: every car has a route on the current graph`);
+    for(const other of traffic.actors.slice(i+1))assert.equal(trafficCapsulesOverlap(actor,other),false,`${label}: cars never overlap`);
+  }
+}
+
+test('shared edge cache reproduces the uncached street graph exactly',async()=>{
+  const {buildTrafficNetwork}=await import('../src/traffic-network');
+  const map=actual(),source=createPhotoSourceCollision(map),cache=new Map<string,boolean>();
+  const anchors=[map.city!.spawn,map.city!.pickup,map.city!.delivery,map.city!.route[Math.floor(map.city!.route.length/2)]];
+  const serial=(n:ReturnType<typeof buildTrafficNetwork>)=>JSON.stringify({segments:n.segments,edges:n.validatedEdges,excluded:n.excludedRoads,nodes:[...n.nodes.values()]});
+  for(const anchor of anchors){
+    const plain=buildTrafficNetwork(map.city!,source.canStand,{anchor});
+    assert.ok(plain.validatedEdges>0);
+    assert.equal(serial(buildTrafficNetwork(map.city!,source.canStand,{anchor,edgeCache:cache})),serial(plain),'first cached build');
+    assert.equal(serial(buildTrafficNetwork(map.city!,source.canStand,{anchor,edgeCache:cache})),serial(plain),'build from a warm cache');
+  }
+  assert.ok(cache.size>0);
+});
+
+test('traffic follows the player into municipal districts and keeps driving there',()=>{
+  const map=world(),source=createPhotoSourceCollision(map),driver=createPhotoDrivingSimulation(map);
+  let player:TrafficPlayer={position:driver.activePosition,heading:driver.state.car.heading,radius:driver.size.radius,halfLength:driver.size.halfLength,riding:true,speed:0};
+  const traffic=createPhotoTraffic(map.city!,source.canStand,{anchor:player.position,player:()=>player});
+  assert.equal(traffic.follow(),false,'no relocation while the player stays near the anchor');
+  const visited=districts().filter(d=>['Posillipo','Fuorigrotta','Bagnoli','Pianura','Ponticelli'].includes(d.name));
+  assert.equal(visited.length,5);
+  for(const district of visited){
+    player={...player,position:[...district.drive.position],heading:district.drive.heading};
+    assert.equal(traffic.follow(),true,`${district.name}: traffic moves with the player`);
+    assert.ok(gap(traffic.anchor,district.drive.position)<1e-9);
+    assertValidFleet(traffic,source.canStand,district.name);
+    for(const actor of traffic.actors){
+      assert.ok(gap(actor.position,player.position)>=70,`${district.name}: new cars appear away from the player`);
+      assert.ok(gap(actor.position,player.position)<=230,`${district.name}: cars are in the player's area`);
+      assert.equal(trafficCapsulesOverlap(actor,player),false);
+    }
+    const before=traffic.stats.metresDriven;
+    for(let frame=0;frame<250;frame++){traffic.update(.04);assert.equal(traffic.follow(),false,'a stationary player does not cause repeated rebuilds');}
+    assertValidFleet(traffic,source.canStand,district.name+' after driving');
+    assert.ok(traffic.stats.metresDriven-before>40,`${district.name}: relocated traffic actually drives`);
+  }
+  assert.equal(traffic.relocations,visited.length);
+});
+
+test('a short relocation keeps nearby cars where they are and refuses to move an active pursuit',()=>{
+  const map=actual(),source=createPhotoSourceCollision(map),driver=createPhotoDrivingSimulation(map);
+  let player:TrafficPlayer={position:driver.activePosition,heading:driver.state.car.heading,radius:driver.size.radius,halfLength:driver.size.halfLength,riding:false,speed:0};
+  const traffic=createPhotoTraffic(map.city!,source.canStand,{anchor:player.position,player:()=>player});
+  for(let frame=0;frame<100;frame++)traffic.update(.04);
+  const patrol=traffic.actors.find(a=>a.role==='patrol')!,snapshot={id:patrol.id,position:[...patrol.position],heading:patrol.heading,speed:patrol.speed};
+  assert.equal(traffic.relocate(patrol.position),true);
+  const kept=traffic.actors.find(a=>a.id===snapshot.id);
+  assert.ok(kept,'a car close to the new area is kept, not respawned');
+  assert.deepEqual(kept.position,snapshot.position);assert.equal(kept.heading,snapshot.heading);assert.equal(kept.speed,snapshot.speed);
+  assert.equal(kept.role,'patrol','the kept patrol keeps its role and beacon');
+  assertValidFleet(traffic,source.canStand,'short relocation');
+
+  player={...player,riding:true,position:[...traffic.actors[0].position],heading:traffic.actors[0].heading};
+  assert.equal(traffic.reportPlayerCollision(8),true);assert.ok(traffic.pursuit.state.level>0);
+  const during=JSON.stringify(traffic.actors),anchor=traffic.anchor;
+  player={...player,position:[player.position[0]+400,player.position[1]]};
+  assert.equal(traffic.follow(),false,'the patrol never vanishes during a pursuit');
+  assert.equal(traffic.relocate(map.city!.delivery),false);
+  assert.equal(JSON.stringify(traffic.actors),during);assert.deepEqual(traffic.anchor,anchor);
+});

@@ -180,3 +180,30 @@ test('explicit travel preserves story and respects dialogue and pursuit while pa
     const pursued=JSON.stringify(f.game.driver.state);assert.equal(f.game.travelTo(district.name),false);assert.equal(JSON.stringify(f.game.driver.state),pursued,'travel cannot evade an active patrol or alter placement on refusal');
   }finally{f.close();}
 });
+
+test('fast travel to a municipal district brings the rendered traffic models with the player',async()=>{
+  const photoWorld=JSON.parse(readFileSync('public/data/photo-world.json','utf8')) as CityMapData;
+  const districts=JSON.parse(readFileSync('public/data/photo-districts.json','utf8')).districts;
+  const f=await fixture(undefined,{...resources,map:photoWorld,districts});
+  try{
+    const carFile=(m:{src:string})=>new URL(m.src).pathname.endsWith('/car-white-core.glb'),beaconFile=(m:{src:string})=>new URL(m.src).pathname.endsWith('/patrol-beacon-core.glb');
+    const playerCar=f.models.find(carFile)!,slots=f.models.filter(m=>carFile(m)&&m!==playerCar),beacons=f.models.filter(beaconFile);
+    assert.equal(slots.length,f.game.traffic.maxVehicles,'one native car model per traffic slot');assert.equal(beacons.length,f.game.traffic.maxVehicles);
+    const created=f.models.length;
+    const check=(label:string)=>{
+      const shown=slots.filter(m=>m.parent===f.native);
+      assert.equal(shown.length,f.game.traffic.actors.length,`${label}: visible traffic cars match the simulation`);
+      for(const [slot,actor]of f.game.traffic.actors.entries())assert.deepEqual(slots[slot].position,localToPhotoCoordinate(actor.position,0),`${label}: native pose follows the car`);
+      assert.equal(beacons.filter(m=>m.parent===f.native).length,1,`${label}: only the patrol shows a beacon`);
+    };
+    check('opening');
+    const fuorigrotta=districts.find((d:{name:string})=>d.name==='Fuorigrotta');
+    assert.equal(f.game.travelTo('Fuorigrotta'),true);
+    assert.ok(distance(f.game.traffic.anchor,fuorigrotta.drive.position)<1e-9,'traffic is rebuilt around the arrival');
+    for(const actor of f.game.traffic.actors)assert.ok(distance(actor.position,fuorigrotta.drive.position)<=230);
+    check('after travel');
+    for(let i=0;i<60;i++)f.game.update(.04,still);
+    check('after driving');
+    assert.equal(ModelDouble.created.length,created,'relocation re-poses existing models instead of adding new ones');
+  }finally{f.close();}
+});

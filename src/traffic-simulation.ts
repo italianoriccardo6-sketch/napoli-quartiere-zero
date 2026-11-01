@@ -15,7 +15,7 @@ export interface TrafficSimulationOptions {
 const distance=(a:Point,b:Point)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
 const angle=(value:number)=>Math.atan2(Math.sin(value),Math.cos(value));
 const finitePoint=(p:Point)=>p.length===2&&p.every(Number.isFinite);
-function nextRoute(network:TrafficNetwork,point:Point,ordinal:number):Point[]{
+export function nextRoute(network:TrafficNetwork,point:Point,ordinal:number):Point[]{
   const start=nearestTrafficNode(network,point,20);if(!start)return [];
   const goals=[...network.nodes.values()].filter(n=>distance(start.point,n.point)>35&&distance(start.point,n.point)<300).sort((a,b)=>distance(b.point,start.point)-distance(a.point,start.point)||a.id.localeCompare(b.id));
   for(let k=0;k<Math.min(12,goals.length);k++){
@@ -24,14 +24,19 @@ function nextRoute(network:TrafficNetwork,point:Point,ordinal:number):Point[]{
   const edge=start.edges[ordinal%start.edges.length];return edge?[[...start.point],[...network.nodes.get(edge.to)!.point]]:[];
 }
 
-export function planTrafficActors(network:TrafficNetwork,ground:GroundCheck,options:{anchor:Point;maxVehicles?:number;protectedPoints?:Point[]}):TrafficActor[]{
-  const limit=Math.max(0,Math.min(6,Math.floor(options.maxVehicles??5))),actors:TrafficActor[]=[];
-  if(!finitePoint(options.anchor)||!Number.isFinite(limit))throw Error('Invalid traffic anchor or budget.');
-  const nodes=[...network.nodes.values()].filter(n=>distance(n.point,options.anchor)>=30&&distance(n.point,options.anchor)<=220).sort((a,b)=>distance(a.point,options.anchor)-distance(b.point,options.anchor)||a.id.localeCompare(b.id));
+/**
+ * `minDistance` keeps new cars out of the player's immediate surroundings, and
+ * `occupied` holds cars that already exist, so a respawn keeps their spacing.
+ * `ordinalOffset` keeps the route choice of new cars distinct from kept ones.
+ */
+export function planTrafficActors(network:TrafficNetwork,ground:GroundCheck,options:{anchor:Point;maxVehicles?:number;protectedPoints?:Point[];minDistance?:number;occupied?:Point[];ordinalOffset?:number}):TrafficActor[]{
+  const limit=Math.max(0,Math.min(6,Math.floor(options.maxVehicles??5))),actors:TrafficActor[]=[],minimum=options.minDistance??30,offset=options.ordinalOffset??0;
+  if(!finitePoint(options.anchor)||!Number.isFinite(limit)||!Number.isFinite(minimum)||minimum<0||minimum>=220)throw Error('Invalid traffic anchor or budget.');
+  const nodes=[...network.nodes.values()].filter(n=>distance(n.point,options.anchor)>=minimum&&distance(n.point,options.anchor)<=220).sort((a,b)=>distance(a.point,options.anchor)-distance(b.point,options.anchor)||a.id.localeCompare(b.id));
   for(const node of nodes){
     if(actors.length>=limit)break;
-    if(actors.some(actor=>distance(node.point,actor.position)<22)||(options.protectedPoints??[]).some(p=>distance(p,node.point)<10))continue;
-    const route=nextRoute(network,node.point,actors.length);if(route.length<2||distance(route[0],route[1])<4)continue;
+    if(actors.some(actor=>distance(node.point,actor.position)<22)||(options.occupied??[]).some(p=>distance(p,node.point)<22)||(options.protectedPoints??[]).some(p=>distance(p,node.point)<10))continue;
+    const route=nextRoute(network,node.point,actors.length+offset);if(route.length<2||distance(route[0],route[1])<4)continue;
     const heading=Math.atan2(route[1][0]-route[0][0],route[1][1]-route[0][1]),radius=1.3085043,halfLength=2.225;
     const permitted:GroundCheck=(x,z,r)=>ground(x,z,r)&&onTrafficRoad(network,[x,z],r);
     if(!canStandForCar({x:node.point[0],z:node.point[1]},heading,permitted,radius,halfLength))continue;
@@ -63,6 +68,18 @@ export function createTrafficSimulation(network:TrafficNetwork,ground:GroundChec
     return !actors.some(actor=>trafficCapsulesOverlap(pedestrian,actor));
   }
   function reportIncident(incident:PursuitIncident){if(elapsed-lastIncident<4)return;lastIncident=elapsed;pursuit.reportIncident(incident);}
+  /**
+   * Swaps in a network built around a new area. The actor array is mutated in
+   * place, so collision checks and callers holding `actors` see the new cars.
+   * Refused during an alert: an active patrol must never vanish or teleport.
+   */
+  function relocate(nextNetwork:TrafficNetwork,nextActors:TrafficActor[]){
+    if(pursuit.state.level>0)return false;
+    network=nextNetwork;actors.splice(0,actors.length,...nextActors);
+    stats.vehicles=actors.length;stats.civilianVehicles=actors.filter(a=>a.role==='civilian').length;stats.patrolVehicles=actors.filter(a=>a.role==='patrol').length;stats.sourceRoadEdges=network.validatedEdges;stats.blockedVehicles=0;
+    return true;
+  }
+  const currentNetwork=()=>network;
   function update(dt:number){
     if(!Number.isFinite(dt)||dt<=0||dt>.25)return;
     const player=options.player();if(!validPlayer(player))return;elapsed+=dt;
@@ -105,6 +122,6 @@ export function createTrafficSimulation(network:TrafficNetwork,ground:GroundChec
     pursuit.update(dt,{nearestPatrol:nearest,visible,playerSpeed:player.speed});
     stats.blockedVehicles=actors.filter(a=>a.blockedSeconds>1).length;
   }
-  return {actors,stats,pursuit,update,canStand,reportIncident};
+  return {actors,stats,pursuit,update,canStand,reportIncident,relocate,currentNetwork};
 }
 
