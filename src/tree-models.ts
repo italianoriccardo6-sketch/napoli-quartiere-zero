@@ -13,7 +13,7 @@ type LOD='near'|'far';
 type Role='bark_branches'|'leaves'|'bark_trunk';
 const roles:Role[]=['bark_branches','leaves','bark_trunk'];
 interface LODRecord {lod:LOD;path:string;bytes:number;sha256:string;triangles:number}
-interface ModelManifest {asset:'tree_small_02';license:'CC0-1.0';totalRuntimeBytes:number;outputs:LODRecord[]}
+interface ModelManifest {asset:'tree_small_02';license:'CC0-1.0';totalRuntimeBytes:number;sharedTextures:{bytes:number};outputs:LODRecord[]}
 export interface TreeModelOptions extends VegetationOptions {
   nearDistance?:number;
   lodHysteresis?:number;
@@ -30,11 +30,12 @@ export interface TreeModelStats {
 }
 function manifest(raw:unknown):ModelManifest {
   const value=raw as ModelManifest;
-  if(!value||value.asset!=='tree_small_02'||value.license!=='CC0-1.0'||!Number.isSafeInteger(value.totalRuntimeBytes)||value.totalRuntimeBytes>20*1024*1024||!Array.isArray(value.outputs)||value.outputs.length!==2)throw Error('Invalid tree model manifest.');
+  if(!value||value.asset!=='tree_small_02'||value.license!=='CC0-1.0'||!Number.isSafeInteger(value.totalRuntimeBytes)||value.totalRuntimeBytes<=0||value.totalRuntimeBytes>32*1024*1024||!Array.isArray(value.outputs)||value.outputs.length!==2)throw Error('Invalid tree model manifest.');
   for(const lod of ['near','far'] as const){
     const matches=value.outputs.filter(output=>output.lod===lod),output=matches[0];
-    if(matches.length!==1||output.path!==`tree_small_02-${lod}.glb`||!Number.isSafeInteger(output.bytes)||output.bytes<=0||output.bytes>25*1024*1024||! /^[a-f0-9]{64}$/i.test(output.sha256)||!Number.isInteger(output.triangles)||output.triangles<=0||output.triangles>150000)throw Error('Invalid tree LOD descriptor.');
+    if(matches.length!==1||output.path!==`tree_small_02-${lod}.glb`||!Number.isSafeInteger(output.bytes)||output.bytes<=0||output.bytes>25*1024*1024||! /^[a-f0-9]{64}$/i.test(output.sha256)||!Number.isInteger(output.triangles)||output.triangles<=0||output.triangles>(lod==='near'?300000:120000))throw Error('Invalid tree LOD descriptor.');
   }
+  if(!Number.isSafeInteger(value.sharedTextures?.bytes)||value.sharedTextures.bytes<=0||value.outputs.reduce((sum,output)=>sum+output.bytes,value.sharedTextures.bytes)!==value.totalRuntimeBytes)throw Error('Invalid combined tree asset byte count.');
   return value;
 }
 function disposeImport(result:ISceneLoaderAsyncResult){

@@ -4,3 +4,22 @@ https://polyhaven.com/license
 Offline simplification performed with glTF-Transform and meshoptimizer (MIT tools, not included in runtime).
 Shared unchanged photographic maps remain credited in the existing foliage manifest (Rico Cilliers leaves; Rob Tuytel Bark Brown01).
 No original 95MB input binary, preview renders or API source code is redistributed.
+
+Adaptation: component-preserving, actual-alpha-area-prioritized triangle reduction.
+Near: 299,060 triangles, 14,695,012 bytes; far: 119,846 triangles, 7,147,048 bytes.
+Both LODs retain all 30,250 original connected index components of the leaf primitive.
+These components are not asserted to be individual leaves. The model remains an artistic generic tree;
+its species, crown shape and dimensions are not surveyed representations of Naples trees.
+Only triangle indices and unused-vertex compaction change leaf geometry: original source positions,
+normals, UV orientation and all seven photographic image files are retained without leaf-scale inflation.
+
+Clamped source alpha-covered surface-area retention: near 71.24%; far 44.38%.
+The desired near 90% / far 70% conservation targets were NOT met.
+Measurements use the unchanged 16-bit PNG normalized by 65535, cutoff 0.55,
+bilinear repeat sampling and 64 uniform-area samples per triangle in the original UV orientation.
+Clamped per-component measurements separate loss from growth; net area alone is not a fidelity claim.
+Geometry plus the seven shared maps totals 25,593,674 bytes, within the 32 MiB runtime bound.
+Verification requirement: review the actual shared-engine render before publication;
+rendered trial outcomes are recorded separately in QA diagnostics.
+Detailed source hashes, methods, achieved ratios and quality limitations are in tree-lod-manifest.json
+and tree-lod-evidence.json. Reproduction workflow is manual-only; original source input stays excluded.

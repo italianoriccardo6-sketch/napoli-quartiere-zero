@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {createHash} from 'node:crypto';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';
 import {Scene} from '@babylonjs/core/scene';
 import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
@@ -20,6 +21,9 @@ import {Material} from '@babylonjs/core/Materials/material';
 registerBuiltInLoaders();
 const folder=new URL('../public/assets/foliage/tree_small_02/',import.meta.url);
 const manifest=JSON.parse(readFileSync(new URL('tree-lod-manifest.json',folder),'utf8'));
+const MiB=1024*1024;
+const hash=(kind:string,bytes:Uint8Array)=>createHash(kind).update(bytes).digest('hex');
+const uvHash=(values:ArrayLike<number>)=>hash('sha256',new Uint8Array(Float32Array.from(values).buffer));
 const roles=['bark_branches','leaves','bark_trunk'];
 const engine=()=>new NullEngine({renderWidth:800,renderHeight:600,textureSize:512,deterministicLockstep:true,lockstepMaxSteps:4});
 function fixture(){
@@ -50,13 +54,31 @@ function noPhotographicTextures(scene:Scene,preserved=new Set<unknown>()){
   assert.ok(scene.textures.every(texture=>preserved.has(texture)||(texture===scene.environmentBRDFTexture&&texture.name.startsWith('data:EnvironmentBRDFTexture'))),'GLB placeholders may share Babylon’s generated BRDF lookup, but introduce no photographic-map textures');
 }
 
+test('alberi installati: GLB entro i limiti approvati e sette mappe originali verificate byte per byte',()=>{
+  const textureManifestBytes=readFileSync(new URL('foliage-manifest.json',folder)),textures=JSON.parse(textureManifestBytes.toString('utf8'));
+  assert.equal(hash('sha256',textureManifestBytes),manifest.sharedTextures.manifestSHA256);assert.equal(textures.files.length,7);assert.deepEqual(manifest.sharedTextures.files,textures.files);
+  let textureBytes=0;
+  for(const file of textures.files){
+    const bytes=readFileSync(new URL('../public'+file.path,import.meta.url));
+    assert.equal(bytes.length,file.bytes,file.path);assert.equal(hash('md5',bytes),file.md5,file.path);assert.equal(hash('sha256',bytes),file.sha256,file.path);textureBytes+=bytes.length;
+  }
+  assert.equal(textureBytes,3751614);assert.equal(manifest.sharedTextures.bytes,textureBytes);
+  let modelBytes=0;
+  for(const output of manifest.outputs){
+    const bytes=readFileSync(new URL(output.path,folder));
+    assert.equal(bytes.length,output.bytes,output.path);assert.equal(hash('sha256',bytes),output.sha256,output.path);assert.ok(bytes.length<=25*MiB);modelBytes+=bytes.length;
+    assert.ok(output.triangles<=(output.lod==='near'?300000:120000));
+  }
+  assert.equal(modelBytes+textureBytes,manifest.totalRuntimeBytes);assert.ok(manifest.totalRuntimeBytes<=32*MiB);
+});
+
 test('albero GLB reale: nodo OSM e quota negativa, matrici LOD comuni, buffer stabili e rilascio delle ombre',{timeout:15000},async()=>{
   const e=engine(),scene=new Scene(e),sun=new DirectionalLight('sole alberi',new Vector3(.6,-1,.4),scene),shadows=new ShadowGenerator(128,sun);
   const photographic=createPhotographicFoliageMaterials(scene),bark=photographic.bark,broadleaf=photographic.leaves,external=[bark,broadleaf];
   assert.equal(broadleaf.transparencyMode,Material.MATERIAL_ALPHATEST);assert.equal(broadleaf.alphaCutOff,.55);assert.equal(broadleaf.backFaceCulling,false);assert.equal(broadleaf.twoSidedLighting,true);
   const unrelated=MeshBuilder.CreateBox('altro caster',{},scene);shadows.addShadowCaster(unrelated,false);
-  const {map,green,source,point,options}=fixture(),before=JSON.stringify({map,green}),loaded:string[]=[],initialTextures=new Set(scene.textures);
-  const result=createTreeModels(scene,map,green,{...options,materials:{bark,broadleaf},shadows,loadManifest:async()=>manifest,loadModel:async(url,scene)=>{loaded.push(url);return loadRealModel(url,scene);}});
+  const {map,green,source,point,options}=fixture(),before=JSON.stringify({map,green}),loaded:string[]=[],initialTextures=new Set(scene.textures),importedUV=new Map<string,string>();
+  const result=createTreeModels(scene,map,green,{...options,materials:{bark,broadleaf},shadows,loadManifest:async()=>manifest,loadModel:async(url,scene)=>{loaded.push(url);const imported=await loadRealModel(url,scene),lod=url.endsWith('-near.glb')?'near':'far';for(const mesh of imported.meshes)if(mesh.getTotalVertices()){const uv=mesh.getVerticesData('uv');assert.ok(uv);importedUV.set(lod+'/'+mesh.material!.name,uvHash(uv));}return imported;}});
   try{
     await result.ready;result.update(point,'alta');
     assert.equal(loaded.length,2);assert.equal(result.placements.length,1);
@@ -65,6 +87,7 @@ test('albero GLB reale: nodo OSM e quota negativa, matrici LOD comuni, buffer st
     assert.equal(result.stats.modelTrees,1);assert.equal(result.stats.proceduralTrees,0);
     const models=result.meshes.filter(mesh=>mesh.metadata?.treeModel),near=models.filter(mesh=>mesh.metadata.lod==='near'),far=models.filter(mesh=>mesh.metadata.lod==='far');
     assert.equal(models.length,6);assert.deepEqual(near.map(mesh=>mesh.metadata.materialRole).sort(),roles.slice().sort());assert.deepEqual(far.map(mesh=>mesh.metadata.materialRole).sort(),roles.slice().sort());
+    assert.equal(near.reduce((sum,mesh)=>sum+mesh.getTotalIndices()/3,0),299060);assert.equal(far.reduce((sum,mesh)=>sum+mesh.getTotalIndices()/3,0),119846);
     assert.equal(result.stats.nearTrees,1);assert.equal(result.stats.farTrees,0);emptyLOD(far);
     assert.equal(result.stats.renderedModelTriangles,manifest.outputs.find((output:{lod:string})=>output.lod==='near').triangles);
     const normalization=near[0].metadata.normalization;
@@ -77,6 +100,7 @@ test('albero GLB reale: nodo OSM e quota negativa, matrici LOD comuni, buffer st
       const positions=mesh.getVerticesData('position')!,normals=mesh.getVerticesData('normal')!,uvs=mesh.getVerticesData('uv')!,indices=mesh.getIndices()!;
       assert.ok(positions.length>0&&indices.length>0);assert.equal(positions.length%3,0);assert.equal(normals.length,positions.length);assert.equal(uvs.length,positions.length/3*2);assert.equal(indices.length%3,0);
       assert.ok(Array.from(positions).every(Number.isFinite));assert.ok(Array.from(normals).every(Number.isFinite));assert.ok(Array.from(uvs).every(Number.isFinite));
+      assert.equal(uvHash(uvs),importedUV.get(mesh.metadata.lod+'/'+mesh.metadata.materialRole),'runtime normalization preserves the exact imported UV stream and alpha orientation');
       assert.ok(Array.from(indices).every(index=>Number.isInteger(index)&&index>=0&&index<positions.length/3));
       const world=mesh.computeWorldMatrix(true);assert.ok(world.isIdentity(),'the imported handedness/root transform is baked into the template geometry');
       if(mesh.metadata.lod==='near')for(let i=1;i<positions.length;i+=3){minimumNearY=Math.min(minimumNearY,positions[i]);maximumNearY=Math.max(maximumNearY,positions[i]);}
@@ -98,6 +122,33 @@ test('albero GLB reale: nodo OSM e quota negativa, matrici LOD comuni, buffer st
     assert.ok(renderList.some(mesh=>owned.has(mesh as Mesh)),'near trees join the actual shadow render list');assert.ok(renderList.includes(unrelated));
     result.dispose();assert.ok([...owned].every(mesh=>mesh.isDisposed()));assert.ok(shadows.getShadowMap()!.renderList!.every(mesh=>!owned.has(mesh as Mesh)),'dispose removes every owned caster');assert.ok(shadows.getShadowMap()!.renderList!.includes(unrelated));
     assert.ok(external.every(material=>scene.materials.includes(material)));assert.ok(scene.meshes.includes(unrelated));
+  }finally{result.dispose();scene.dispose();e.dispose();}
+});
+
+const invalidManifests:Array<[string,(value:typeof manifest)=>void]>=[
+  ['somma esatta oltre 32 MiB',value=>{value.outputs[0].bytes=25*MiB;value.outputs[1].bytes=32*MiB-value.sharedTextures.bytes-value.outputs[0].bytes+1;value.totalRuntimeBytes=32*MiB+1;}],
+  ['near oltre 300000 triangoli',value=>{value.outputs.find((output:{lod:string})=>output.lod==='near').triangles=300001;}],
+  ['far oltre 120000 triangoli',value=>{value.outputs.find((output:{lod:string})=>output.lod==='far').triangles=120001;}],
+  ['near oltre 25 MiB',value=>{value.outputs.find((output:{lod:string})=>output.lod==='near').bytes=25*MiB+1;value.outputs.find((output:{lod:string})=>output.lod==='far').bytes=1;value.totalRuntimeBytes=value.outputs.reduce((sum:number,output:{bytes:number})=>sum+output.bytes,0)+value.sharedTextures.bytes;}],
+  ['far oltre 25 MiB',value=>{value.outputs.find((output:{lod:string})=>output.lod==='far').bytes=25*MiB+1;value.outputs.find((output:{lod:string})=>output.lod==='near').bytes=1;value.totalRuntimeBytes=value.outputs.reduce((sum:number,output:{bytes:number})=>sum+output.bytes,0)+value.sharedTextures.bytes;}],
+  ['totale dichiarato nasconde una somma oltre 32 MiB',value=>{value.outputs[0].bytes=25*MiB;value.outputs[1].bytes=8*MiB;value.totalRuntimeBytes=32*MiB;}]
+];
+for(const [label,mutate]of invalidManifests)test('manifesto alberi: rifiuta '+label+' prima di caricare GLB',{timeout:15000},async()=>{
+  const e=engine(),scene=new Scene(e),bark=new StandardMaterial('corteccia esterna',scene),broadleaf=new StandardMaterial('foglie esterne',scene),{map,green,options}=fixture(),candidate=structuredClone(manifest);let loads=0;
+  mutate(candidate);
+  const result=createTreeModels(scene,map,green,{...options,materials:{bark,broadleaf},loadManifest:async()=>candidate,loadModel:async()=>{loads++;throw new Error('unexpected model request');}});
+  try{
+    await assert.rejects(result.ready);assert.equal(loads,0,'invalid descriptors must be rejected before model transport');assert.equal(scene.meshes.length,0);assert.ok(scene.materials.includes(bark)&&scene.materials.includes(broadleaf));
+  }finally{result.dispose();scene.dispose();e.dispose();}
+});
+
+test('manifesto alberi: accetta esattamente 300k/120k triangoli, 25 MiB per file e 32 MiB complessivi',{timeout:15000},async()=>{
+  const e=engine(),scene=new Scene(e),bark=new StandardMaterial('corteccia esterna',scene),broadleaf=new StandardMaterial('foglie esterne',scene),{map,green,options}=fixture(),candidate=structuredClone(manifest),transport=new Error('valid manifest reached model transport');let loads=0;
+  const near=candidate.outputs.find((output:{lod:string})=>output.lod==='near'),far=candidate.outputs.find((output:{lod:string})=>output.lod==='far');
+  near.triangles=300000;far.triangles=120000;near.bytes=25*MiB;far.bytes=32*MiB-near.bytes-candidate.sharedTextures.bytes;candidate.totalRuntimeBytes=32*MiB;
+  const result=createTreeModels(scene,map,green,{...options,materials:{bark,broadleaf},loadManifest:async()=>candidate,loadModel:async()=>{loads++;throw transport;}});
+  try{
+    await assert.rejects(result.ready,error=>error instanceof Error&&error.cause===transport);assert.equal(loads,2,'valid boundary descriptors reach model transport; geometry is covered separately by the real GLB test');
   }finally{result.dispose();scene.dispose();e.dispose();}
 });
 

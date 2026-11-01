@@ -1,7 +1,8 @@
 {
-  "version": 1,
-  "status": "offline-research-requires-rendered-review",
-  "retrievedAt": "2026-11-01T00:41:26.234Z",
+  "version": 2,
+  "algorithm": "component-preserving-verified-alpha-area-priority",
+  "status": "unapproved-diagnostic-candidate-requires-rendered-review",
+  "retrievedAt": "2026-11-01T01:25:22.416Z",
   "asset": "tree_small_02",
   "author": "Rico Cilliers",
   "license": "CC0-1.0",
@@ -92,6 +93,337 @@
         "max": [
           0.9772163033485413,
           0.9827111959457397
+        ]
+      },
+      "componentHistogram": {
+        "count": 30250,
+        "totals": {
+          "triangles": 1939380,
+          "surfaceArea": 27.808347383836782,
+          "uvArea": 724.8402892039924,
+          "alphaArea": 25.962444662433782,
+          "flippedAlphaArea": 18.653702912819867,
+          "degenerateTriangles": 0
+        },
+        "triangleQuantiles": {
+          "0": 15,
+          "1": 170,
+          "0.01": 15,
+          "0.1": 15,
+          "0.5": 19,
+          "0.9": 170,
+          "0.99": 170
+        },
+        "triangles": [
+          {
+            "minimum": 0,
+            "maximumExclusive": 1,
+            "count": 0
+          },
+          {
+            "minimum": 1,
+            "maximumExclusive": 2,
+            "count": 0
+          },
+          {
+            "minimum": 2,
+            "maximumExclusive": 3,
+            "count": 0
+          },
+          {
+            "minimum": 3,
+            "maximumExclusive": 4,
+            "count": 0
+          },
+          {
+            "minimum": 4,
+            "maximumExclusive": 5,
+            "count": 0
+          },
+          {
+            "minimum": 5,
+            "maximumExclusive": 9,
+            "count": 0
+          },
+          {
+            "minimum": 9,
+            "maximumExclusive": 17,
+            "count": 11895
+          },
+          {
+            "minimum": 17,
+            "maximumExclusive": 33,
+            "count": 5536
+          },
+          {
+            "minimum": 33,
+            "maximumExclusive": 65,
+            "count": 1775
+          },
+          {
+            "minimum": 65,
+            "maximumExclusive": 129,
+            "count": 2437
+          },
+          {
+            "minimum": 129,
+            "maximumExclusive": 257,
+            "count": 8607
+          },
+          {
+            "minimum": 257,
+            "maximumExclusive": 1025,
+            "count": 0
+          },
+          {
+            "minimum": 1025,
+            "maximumExclusive": null,
+            "count": 0
+          }
+        ],
+        "surfaceAreaQuantiles": {
+          "0": 0.00002522626579309895,
+          "1": 0.006250586314658538,
+          "0.01": 0.00006086139801612102,
+          "0.1": 0.00012605081512707622,
+          "0.5": 0.0004184803691621717,
+          "0.9": 0.002415177523978411,
+          "0.99": 0.005449804734508761
+        },
+        "surfaceArea": [
+          {
+            "minimum": 0,
+            "maximumExclusive": 1e-10,
+            "count": 0
+          },
+          {
+            "minimum": 1e-10,
+            "maximumExclusive": 1e-8,
+            "count": 0
+          },
+          {
+            "minimum": 1e-8,
+            "maximumExclusive": 0.000001,
+            "count": 0
+          },
+          {
+            "minimum": 0.000001,
+            "maximumExclusive": 0.00001,
+            "count": 0
+          },
+          {
+            "minimum": 0.00001,
+            "maximumExclusive": 0.0001,
+            "count": 1666
+          },
+          {
+            "minimum": 0.0001,
+            "maximumExclusive": 0.001,
+            "count": 20206
+          },
+          {
+            "minimum": 0.001,
+            "maximumExclusive": 0.01,
+            "count": 8378
+          },
+          {
+            "minimum": 0.01,
+            "maximumExclusive": 0.1,
+            "count": 0
+          },
+          {
+            "minimum": 0.1,
+            "maximumExclusive": 1,
+            "count": 0
+          },
+          {
+            "minimum": 1,
+            "maximumExclusive": null,
+            "count": 0
+          }
+        ],
+        "uvAreaQuantiles": {
+          "0": 0.002821189206258623,
+          "1": 0.06363853951874887,
+          "0.01": 0.002821189206258623,
+          "0.1": 0.00453589673144883,
+          "0.5": 0.010591236782431901,
+          "0.9": 0.06363853951874887,
+          "0.99": 0.06363853951874887
+        },
+        "uvArea": [
+          {
+            "minimum": 0,
+            "maximumExclusive": 1e-10,
+            "count": 0
+          },
+          {
+            "minimum": 1e-10,
+            "maximumExclusive": 1e-8,
+            "count": 0
+          },
+          {
+            "minimum": 1e-8,
+            "maximumExclusive": 0.000001,
+            "count": 0
+          },
+          {
+            "minimum": 0.000001,
+            "maximumExclusive": 0.00001,
+            "count": 0
+          },
+          {
+            "minimum": 0.00001,
+            "maximumExclusive": 0.0001,
+            "count": 0
+          },
+          {
+            "minimum": 0.0001,
+            "maximumExclusive": 0.001,
+            "count": 0
+          },
+          {
+            "minimum": 0.001,
+            "maximumExclusive": 0.01,
+            "count": 11251
+          },
+          {
+            "minimum": 0.01,
+            "maximumExclusive": 0.1,
+            "count": 18999
+          },
+          {
+            "minimum": 0.1,
+            "maximumExclusive": 1,
+            "count": 0
+          },
+          {
+            "minimum": 1,
+            "maximumExclusive": null,
+            "count": 0
+          }
+        ],
+        "alphaAreaQuantiles": {
+          "0": 0.00002522626579309895,
+          "1": 0.005794949034924675,
+          "0.01": 0.00005378865812098673,
+          "0.1": 0.00011611648183204891,
+          "0.5": 0.0003906741812190364,
+          "0.9": 0.0022654883528788125,
+          "0.99": 0.005027535850433861
+        },
+        "alphaArea": [
+          {
+            "minimum": 0,
+            "maximumExclusive": 1e-10,
+            "count": 0
+          },
+          {
+            "minimum": 1e-10,
+            "maximumExclusive": 1e-8,
+            "count": 0
+          },
+          {
+            "minimum": 1e-8,
+            "maximumExclusive": 0.000001,
+            "count": 0
+          },
+          {
+            "minimum": 0.000001,
+            "maximumExclusive": 0.00001,
+            "count": 0
+          },
+          {
+            "minimum": 0.00001,
+            "maximumExclusive": 0.0001,
+            "count": 2179
+          },
+          {
+            "minimum": 0.0001,
+            "maximumExclusive": 0.001,
+            "count": 20121
+          },
+          {
+            "minimum": 0.001,
+            "maximumExclusive": 0.01,
+            "count": 7950
+          },
+          {
+            "minimum": 0.01,
+            "maximumExclusive": 0.1,
+            "count": 0
+          },
+          {
+            "minimum": 0.1,
+            "maximumExclusive": 1,
+            "count": 0
+          },
+          {
+            "minimum": 1,
+            "maximumExclusive": null,
+            "count": 0
+          }
+        ],
+        "flippedAlphaAreaQuantiles": {
+          "0": 0.000011008884609911884,
+          "1": 0.004239333919163387,
+          "0.01": 0.000022120216842281058,
+          "0.1": 0.00006307476153825711,
+          "0.5": 0.00022727450182623957,
+          "0.9": 0.0017225365450232505,
+          "0.99": 0.0037196736255929656
+        },
+        "flippedAlphaArea": [
+          {
+            "minimum": 0,
+            "maximumExclusive": 1e-10,
+            "count": 0
+          },
+          {
+            "minimum": 1e-10,
+            "maximumExclusive": 1e-8,
+            "count": 0
+          },
+          {
+            "minimum": 1e-8,
+            "maximumExclusive": 0.000001,
+            "count": 0
+          },
+          {
+            "minimum": 0.000001,
+            "maximumExclusive": 0.00001,
+            "count": 0
+          },
+          {
+            "minimum": 0.00001,
+            "maximumExclusive": 0.0001,
+            "count": 6648
+          },
+          {
+            "minimum": 0.0001,
+            "maximumExclusive": 0.001,
+            "count": 17325
+          },
+          {
+            "minimum": 0.001,
+            "maximumExclusive": 0.01,
+            "count": 6277
+          },
+          {
+            "minimum": 0.01,
+            "maximumExclusive": 0.1,
+            "count": 0
+          },
+          {
+            "minimum": 0.1,
+            "maximumExclusive": 1,
+            "count": 0
+          },
+          {
+            "minimum": 1,
+            "maximumExclusive": null,
+            "count": 0
+          }
         ]
       }
     },
@@ -269,25 +601,24 @@
         "sourcePage": "https://polyhaven.com/a/bark_brown_01",
         "sourceMapKey": "Rough"
       }
-    ],
-    "preparationManifestSHA256": "a750d31ccec1249b352ae59c9c4a4fb5c75e75d8222bbf5593e7f88d9499ff57"
+    ]
   },
   "outputs": [
     {
       "lod": "near",
       "path": "tree_small_02-near.glb",
-      "bytes": 3877092,
-      "sha256": "140d638d52e7e6197ea36b9259d51e96cbb52ec87500ddd5302c26212659c9ff",
-      "triangles": 79263,
+      "bytes": 14695012,
+      "sha256": "a08de5e6b0c701326a0bbae69bb0289be1cca3445642e1ed28779007c92d70bc",
+      "triangles": 299060,
       "primitives": [
         {
           "role": "bark_branches",
           "sourceTriangles": 94814,
-          "triangles": 10278,
-          "ratio": 0.10840171282721961,
-          "vertices": 10328,
+          "triangles": 10064,
+          "ratio": 0.10614466218069062,
+          "vertices": 10182,
           "targetTriangles": 11000,
-          "reportedAttributeError": 0.008371102623641491,
+          "reportedAttributeError": 0.008633691817522049,
           "errorLimit": 0.01,
           "flags": [],
           "sourceBounds": {
@@ -327,18 +658,278 @@
           "sourceComponents": 751,
           "retainedSourceComponents": 740,
           "sourceOccupiedCanopyCells": 446,
-          "retainedOccupiedCanopyCells": 388,
+          "retainedOccupiedCanopyCells": 387,
           "canopyGrid": 12
         },
         {
+          "componentConservation": {
+            "algorithm": "independent-connected-index-components, source-vertex-subset, no prune/permissive, dynamic actual-alpha-area-prioritized upgrades",
+            "seedStrategy": "minimum valid triangle count per original component; preferredFaces is a diagnostic LOD hint only",
+            "score": "(clamped actual alphaArea + .1 * clamped surfaceArea) / (original alphaArea + .1 * original surfaceArea)",
+            "appliedUpgrades": 27654,
+            "preferredFacesPerComponent": 4,
+            "budget": 285000,
+            "sourceComponents": 30250,
+            "retainedSourceComponents": 30250,
+            "sourceAreas": {
+              "triangles": 1939380,
+              "surfaceArea": 27.808347383836782,
+              "uvArea": 724.8402892039924,
+              "alphaArea": 25.962444662433782,
+              "flippedAlphaArea": 18.653702912819867,
+              "degenerateTriangles": 0
+            },
+            "areas": {
+              "triangles": 285000,
+              "surfaceArea": 22.826618653336986,
+              "uvArea": 550.6383117484779,
+              "alphaArea": 18.520704113425804,
+              "flippedAlphaArea": 15.589962351512444,
+              "degenerateTriangles": 0
+            },
+            "retainedAreaRatios": {
+              "surfaceArea": 0.8208549159093375,
+              "uvArea": 0.7596684675919158,
+              "alphaArea": 0.7133651839891733,
+              "flippedAlphaArea": 0.8357569767447165
+            },
+            "clampedComponentRetention": {
+              "surfaceArea": {
+                "retainedArea": 22.806499368527344,
+                "retainedRatio": 0.820131417869992,
+                "lossArea": 5.001848015309482,
+                "lossRatio": 0.17986858213000956,
+                "growthArea": 0.020119284809607577,
+                "growthRatio": 0.000723498039344173
+              },
+              "uvArea": {
+                "retainedArea": 548.9799612168165,
+                "retainedRatio": 0.7573805835485459,
+                "lossArea": 175.86032798722758,
+                "lossRatio": 0.24261941645152546,
+                "growthArea": 1.6583505316687432,
+                "growthRatio": 0.002287884043379979
+              },
+              "alphaArea": {
+                "retainedArea": 18.494516202530477,
+                "retainedRatio": 0.712356499667037,
+                "lossArea": 7.467928459903238,
+                "lossRatio": 0.28764350033296043,
+                "growthArea": 0.026187910895342642,
+                "growthRatio": 0.0010086843221368555
+              },
+              "flippedAlphaArea": {
+                "retainedArea": 15.53007505439074,
+                "retainedRatio": 0.8325464990502023,
+                "lossArea": 3.1236278584291512,
+                "lossRatio": 0.16745350094979908,
+                "growthArea": 0.05988729712164624,
+                "growthRatio": 0.003210477694511171
+              }
+            },
+            "componentAreaRatioQuantiles": {
+              "surfaceArea": {
+                "0": 0.24798568627985387,
+                "1": 1.0450529099236545,
+                "0.01": 0.2879663482783871,
+                "0.1": 0.5121314513622556,
+                "0.5": 0.7314022921869265,
+                "0.9": 0.9554211453870933,
+                "0.99": 1.009653262346149
+              },
+              "uvArea": {
+                "0": 0.2382364217695226,
+                "1": 1.0584671356049433,
+                "0.01": 0.26262539001666857,
+                "0.1": 0.4435206011822552,
+                "0.5": 0.7246981301366441,
+                "0.9": 0.9646656266218324,
+                "0.99": 1.0463987685373286
+              },
+              "alphaArea": {
+                "0": 0.10383693535565548,
+                "1": 1.0450529099236545,
+                "0.01": 0.1620527809929056,
+                "0.1": 0.24724592697101425,
+                "0.5": 0.7401127817366966,
+                "0.9": 0.9571691225812409,
+                "0.99": 1.0207893943119324
+              },
+              "flippedAlphaArea": {
+                "0": 0.2205089525833357,
+                "1": 1.1159139435401844,
+                "0.01": 0.23713941561830082,
+                "0.1": 0.5427135981133012,
+                "0.5": 0.7710598529828103,
+                "0.9": 1.008676067844915,
+                "0.99": 1.059972712854213
+              }
+            },
+            "componentRetainedAreaRatioQuantiles": {
+              "surfaceArea": {
+                "0": 0.24798568627985387,
+                "1": 1,
+                "0.01": 0.2879663482783871,
+                "0.1": 0.5121314513622556,
+                "0.5": 0.7314022921869265,
+                "0.9": 0.9554211453870933,
+                "0.99": 1
+              },
+              "uvArea": {
+                "0": 0.2382364217695226,
+                "1": 1,
+                "0.01": 0.26262539001666857,
+                "0.1": 0.4435206011822552,
+                "0.5": 0.7246981301366441,
+                "0.9": 0.9646656266218324,
+                "0.99": 1
+              },
+              "alphaArea": {
+                "0": 0.10383693535565548,
+                "1": 1,
+                "0.01": 0.1620527809929056,
+                "0.1": 0.24724592697101425,
+                "0.5": 0.7401127817366966,
+                "0.9": 0.9571691225812409,
+                "0.99": 1
+              },
+              "flippedAlphaArea": {
+                "0": 0.2205089525833357,
+                "1": 1,
+                "0.01": 0.23713941561830082,
+                "0.1": 0.5427135981133012,
+                "0.5": 0.7710598529828103,
+                "0.9": 1,
+                "0.99": 1
+              }
+            },
+            "desiredAggregateRetention": {
+              "ratio": 0.9,
+              "diagnosticOnly": true,
+              "optimizationOrientation": "image(v), verified unchanged runtime UV0 orientation",
+              "metBy": {
+                "surfaceArea": false,
+                "uvArea": false,
+                "alphaArea": false,
+                "flippedAlphaArea": false
+              }
+            },
+            "candidateLimits": {
+              "maximumSurfaceAreaRatio": 1.05,
+              "maximumUVAreaRatio": 1.1,
+              "maximumAlphaAreaRelativeGrowth": 0.2,
+              "alphaAreaAbsoluteGrowthTolerance": "original component surfaceArea / 64 (one sample quantum)",
+              "minimumSurfaceAreaRatio": 0.2,
+              "minimumAlphaAreaRatio": 0.1
+            },
+            "rejectedCandidates": {
+              "geometry": 12440,
+              "alpha": 2976
+            },
+            "selectedTriangleHistogram": [
+              {
+                "minimum": 0,
+                "maximumExclusive": 1,
+                "count": 0
+              },
+              {
+                "minimum": 1,
+                "maximumExclusive": 2,
+                "count": 0
+              },
+              {
+                "minimum": 2,
+                "maximumExclusive": 3,
+                "count": 9880
+              },
+              {
+                "minimum": 3,
+                "maximumExclusive": 4,
+                "count": 4215
+              },
+              {
+                "minimum": 4,
+                "maximumExclusive": 5,
+                "count": 6179
+              },
+              {
+                "minimum": 5,
+                "maximumExclusive": 7,
+                "count": 2846
+              },
+              {
+                "minimum": 7,
+                "maximumExclusive": 9,
+                "count": 917
+              },
+              {
+                "minimum": 9,
+                "maximumExclusive": 13,
+                "count": 942
+              },
+              {
+                "minimum": 13,
+                "maximumExclusive": 17,
+                "count": 1274
+              },
+              {
+                "minimum": 17,
+                "maximumExclusive": 25,
+                "count": 815
+              },
+              {
+                "minimum": 25,
+                "maximumExclusive": 33,
+                "count": 727
+              },
+              {
+                "minimum": 33,
+                "maximumExclusive": 49,
+                "count": 1551
+              },
+              {
+                "minimum": 49,
+                "maximumExclusive": 65,
+                "count": 904
+              },
+              {
+                "minimum": 65,
+                "maximumExclusive": 97,
+                "count": 0
+              },
+              {
+                "minimum": 97,
+                "maximumExclusive": 129,
+                "count": 0
+              },
+              {
+                "minimum": 129,
+                "maximumExclusive": 193,
+                "count": 0
+              },
+              {
+                "minimum": 193,
+                "maximumExclusive": 257,
+                "count": 0
+              },
+              {
+                "minimum": 257,
+                "maximumExclusive": null,
+                "count": 0
+              }
+            ],
+            "originalComponentsRetainedUnreduced": 0,
+            "maximumReportedError": 0.8537572622299194,
+            "sampleMethod": "64 uniform-area Hammersley samples per triangle; raw 16-bit mask /65535, bilinear repeat, cutoff .55; verified image(v) uses top-down PNG row v*H and guides optimization; image(1-v) is diagnostic only"
+          },
           "role": "leaves",
           "sourceTriangles": 1939380,
-          "triangles": 64985,
-          "ratio": 0.033508131464694904,
-          "vertices": 80931,
-          "targetTriangles": 65000,
-          "reportedAttributeError": 0.0049794018268585205,
-          "errorLimit": 0.005,
+          "triangles": 285000,
+          "ratio": 0.1469541812331776,
+          "vertices": 336667,
+          "targetTriangles": 285000,
+          "reportedAttributeError": 0.8537572622299194,
+          "errorLimit": "component-local, recorded by preparation",
           "flags": [],
           "sourceBounds": {
             "min": [
@@ -359,35 +950,35 @@
           },
           "bounds": {
             "min": [
-              -1.3072476387023926,
-              1.4959819316864014,
-              -1.3679063320159912
+              -1.3083008527755737,
+              1.4597431421279907,
+              -1.3826267719268799
             ],
             "max": [
-              1.5881683826446533,
-              4.5255818367004395,
-              2.865727424621582
+              1.6077065467834473,
+              4.532637119293213,
+              2.9096498489379883
             ],
             "span": [
-              2.895416021347046,
-              3.029599905014038,
-              4.233633756637573
+              2.916007399559021,
+              3.072893977165222,
+              4.292276620864868
             ]
           },
           "sourceComponents": 30250,
-          "retainedSourceComponents": 9965,
+          "retainedSourceComponents": 30250,
           "sourceOccupiedCanopyCells": 620,
-          "retainedOccupiedCanopyCells": 560,
+          "retainedOccupiedCanopyCells": 612,
           "canopyGrid": 12
         },
         {
           "role": "bark_trunk",
           "sourceTriangles": 28293,
-          "triangles": 4000,
-          "ratio": 0.14137772593927828,
-          "vertices": 2761,
+          "triangles": 3996,
+          "ratio": 0.141236348213339,
+          "vertices": 2766,
           "targetTriangles": 4000,
-          "reportedAttributeError": 0.009353958070278168,
+          "reportedAttributeError": 0.009346850216388702,
           "errorLimit": 0.01,
           "flags": [],
           "sourceBounds": {
@@ -425,9 +1016,9 @@
             ]
           },
           "sourceComponents": 70,
-          "retainedSourceComponents": 69,
+          "retainedSourceComponents": 70,
           "sourceOccupiedCanopyCells": 162,
-          "retainedOccupiedCanopyCells": 146,
+          "retainedOccupiedCanopyCells": 148,
           "canopyGrid": 12
         }
       ]
@@ -435,16 +1026,16 @@
     {
       "lod": "far",
       "path": "tree_small_02-far.glb",
-      "bytes": 809676,
-      "sha256": "49ca6130e06a285df88632aebb42d14ed5952204c95e4e3296cdabb8cf134dea",
-      "triangles": 14503,
+      "bytes": 7147048,
+      "sha256": "a4b4ac1980f173847d5643455059a2a238a9a8e56e44ef042382060f2e8c895a",
+      "triangles": 119846,
       "primitives": [
         {
           "role": "bark_branches",
           "sourceTriangles": 94814,
-          "triangles": 2848,
-          "ratio": 0.03003775813698399,
-          "vertices": 3540,
+          "triangles": 2847,
+          "ratio": 0.030027211171346005,
+          "vertices": 3537,
           "targetTriangles": 3000,
           "reportedAttributeError": 0.017898598685860634,
           "errorLimit": 0.02,
@@ -490,14 +1081,274 @@
           "canopyGrid": 12
         },
         {
+          "componentConservation": {
+            "algorithm": "independent-connected-index-components, source-vertex-subset, no prune/permissive, dynamic actual-alpha-area-prioritized upgrades",
+            "seedStrategy": "minimum valid triangle count per original component; preferredFaces is a diagnostic LOD hint only",
+            "score": "(clamped actual alphaArea + .1 * clamped surfaceArea) / (original alphaArea + .1 * original surfaceArea)",
+            "appliedUpgrades": 8192,
+            "preferredFacesPerComponent": 2,
+            "budget": 115000,
+            "sourceComponents": 30250,
+            "retainedSourceComponents": 30250,
+            "sourceAreas": {
+              "triangles": 1939380,
+              "surfaceArea": 27.808347383836782,
+              "uvArea": 724.8402892039924,
+              "alphaArea": 25.962444662433782,
+              "flippedAlphaArea": 18.653702912819867,
+              "degenerateTriangles": 0
+            },
+            "areas": {
+              "triangles": 115000,
+              "surfaceArea": 17.895103688319484,
+              "uvArea": 431.414439001989,
+              "alphaArea": 11.527074565686181,
+              "flippedAlphaArea": 12.687565763405674,
+              "degenerateTriangles": 0
+            },
+            "retainedAreaRatios": {
+              "surfaceArea": 0.6435155401834762,
+              "uvArea": 0.5951855124882217,
+              "alphaArea": 0.44399033741091487,
+              "flippedAlphaArea": 0.6801633875430744
+            },
+            "clampedComponentRetention": {
+              "surfaceArea": {
+                "retainedArea": 17.889872495174355,
+                "retainedRatio": 0.6433274242529277,
+                "lossArea": 9.918474888662425,
+                "lossRatio": 0.35667257574707234,
+                "growthArea": 0.0052311931451717655,
+                "growthRatio": 0.0001881159305501313
+              },
+              "uvArea": {
+                "retainedArea": 430.90834939761197,
+                "retainedRatio": 0.5944873040526326,
+                "lossArea": 293.93193980639614,
+                "lossRatio": 0.4055126959473891,
+                "growthArea": 0.5060896043837193,
+                "growthRatio": 0.000698208435598273
+              },
+              "alphaArea": {
+                "retainedArea": 11.522242826508991,
+                "retainedRatio": 0.44380423247203055,
+                "lossArea": 14.440201835924821,
+                "lossRatio": 0.5561957675279706,
+                "growthArea": 0.004831739177192539,
+                "growthRatio": 0.00018610493888442632
+              },
+              "flippedAlphaArea": {
+                "retainedArea": 12.654755665641826,
+                "retainedRatio": 0.6784044821977288,
+                "lossArea": 5.99894724717808,
+                "lossRatio": 0.32159551780227336,
+                "growthArea": 0.03281009776382977,
+                "growthRatio": 0.0017589053453446412
+              }
+            },
+            "componentAreaRatioQuantiles": {
+              "surfaceArea": {
+                "0": 0.21496354492633873,
+                "1": 1.0180061686758561,
+                "0.01": 0.252975667516594,
+                "0.1": 0.3871538159526788,
+                "0.5": 0.6250479038907433,
+                "0.9": 0.8193873182204697,
+                "0.99": 1.0096470412104497
+              },
+              "uvArea": {
+                "0": 0.11669435695559914,
+                "1": 1.0559657717655204,
+                "0.01": 0.26262539001666857,
+                "0.1": 0.36089212120287656,
+                "0.5": 0.6369831655974785,
+                "0.9": 0.858860008460774,
+                "0.99": 1.02677986247638
+              },
+              "alphaArea": {
+                "0": 0.10139993569655964,
+                "1": 1.0207951977240666,
+                "0.01": 0.1256048310077459,
+                "0.1": 0.2137646157145711,
+                "0.5": 0.5843093464700535,
+                "0.9": 0.7535961940830808,
+                "0.99": 0.9720987046471925
+              },
+              "flippedAlphaArea": {
+                "0": 0.21496354492633873,
+                "1": 1.1159139435401844,
+                "0.01": 0.23713676982294066,
+                "0.1": 0.4089582112885815,
+                "0.5": 0.6313425355735098,
+                "0.9": 0.8736749250307415,
+                "0.99": 1.0599677733362944
+              }
+            },
+            "componentRetainedAreaRatioQuantiles": {
+              "surfaceArea": {
+                "0": 0.21496354492633873,
+                "1": 1,
+                "0.01": 0.252975667516594,
+                "0.1": 0.3871538159526788,
+                "0.5": 0.6250479038907433,
+                "0.9": 0.8193873182204697,
+                "0.99": 1
+              },
+              "uvArea": {
+                "0": 0.11669435695559914,
+                "1": 1,
+                "0.01": 0.26262539001666857,
+                "0.1": 0.36089212120287656,
+                "0.5": 0.6369831655974785,
+                "0.9": 0.858860008460774,
+                "0.99": 1
+              },
+              "alphaArea": {
+                "0": 0.10139993569655964,
+                "1": 1,
+                "0.01": 0.1256048310077459,
+                "0.1": 0.2137646157145711,
+                "0.5": 0.5843093464700535,
+                "0.9": 0.7535961940830808,
+                "0.99": 0.9720987046471925
+              },
+              "flippedAlphaArea": {
+                "0": 0.21496354492633873,
+                "1": 1,
+                "0.01": 0.23713676982294066,
+                "0.1": 0.4089582112885815,
+                "0.5": 0.6313425355735098,
+                "0.9": 0.8736749250307415,
+                "0.99": 1
+              }
+            },
+            "desiredAggregateRetention": {
+              "ratio": 0.7,
+              "diagnosticOnly": true,
+              "optimizationOrientation": "image(v), verified unchanged runtime UV0 orientation",
+              "metBy": {
+                "surfaceArea": false,
+                "uvArea": false,
+                "alphaArea": false,
+                "flippedAlphaArea": false
+              }
+            },
+            "candidateLimits": {
+              "maximumSurfaceAreaRatio": 1.05,
+              "maximumUVAreaRatio": 1.1,
+              "maximumAlphaAreaRelativeGrowth": 0.2,
+              "alphaAreaAbsoluteGrowthTolerance": "original component surfaceArea / 64 (one sample quantum)",
+              "minimumSurfaceAreaRatio": 0.2,
+              "minimumAlphaAreaRatio": 0.1
+            },
+            "rejectedCandidates": {
+              "geometry": 12440,
+              "alpha": 2976
+            },
+            "selectedTriangleHistogram": [
+              {
+                "minimum": 0,
+                "maximumExclusive": 1,
+                "count": 0
+              },
+              {
+                "minimum": 1,
+                "maximumExclusive": 2,
+                "count": 0
+              },
+              {
+                "minimum": 2,
+                "maximumExclusive": 3,
+                "count": 18381
+              },
+              {
+                "minimum": 3,
+                "maximumExclusive": 4,
+                "count": 1920
+              },
+              {
+                "minimum": 4,
+                "maximumExclusive": 5,
+                "count": 4914
+              },
+              {
+                "minimum": 5,
+                "maximumExclusive": 7,
+                "count": 2257
+              },
+              {
+                "minimum": 7,
+                "maximumExclusive": 9,
+                "count": 782
+              },
+              {
+                "minimum": 9,
+                "maximumExclusive": 13,
+                "count": 834
+              },
+              {
+                "minimum": 13,
+                "maximumExclusive": 17,
+                "count": 670
+              },
+              {
+                "minimum": 17,
+                "maximumExclusive": 25,
+                "count": 345
+              },
+              {
+                "minimum": 25,
+                "maximumExclusive": 33,
+                "count": 100
+              },
+              {
+                "minimum": 33,
+                "maximumExclusive": 49,
+                "count": 47
+              },
+              {
+                "minimum": 49,
+                "maximumExclusive": 65,
+                "count": 0
+              },
+              {
+                "minimum": 65,
+                "maximumExclusive": 97,
+                "count": 0
+              },
+              {
+                "minimum": 97,
+                "maximumExclusive": 129,
+                "count": 0
+              },
+              {
+                "minimum": 129,
+                "maximumExclusive": 193,
+                "count": 0
+              },
+              {
+                "minimum": 193,
+                "maximumExclusive": 257,
+                "count": 0
+              },
+              {
+                "minimum": 257,
+                "maximumExclusive": null,
+                "count": 0
+              }
+            ],
+            "originalComponentsRetainedUnreduced": 0,
+            "maximumReportedError": 0.8629134893417358,
+            "sampleMethod": "64 uniform-area Hammersley samples per triangle; raw 16-bit mask /65535, bilinear repeat, cutoff .55; verified image(v) uses top-down PNG row v*H and guides optimization; image(1-v) is diagnostic only"
+          },
           "role": "leaves",
           "sourceTriangles": 1939380,
-          "triangles": 9656,
-          "ratio": 0.004978910785921274,
-          "vertices": 17431,
-          "targetTriangles": 10000,
-          "reportedAttributeError": 0.010441417805850506,
-          "errorLimit": 0.02,
+          "triangles": 115000,
+          "ratio": 0.05929730119935237,
+          "vertices": 174169,
+          "targetTriangles": 115000,
+          "reportedAttributeError": 0.8629134893417358,
+          "errorLimit": "component-local, recorded by preparation",
           "flags": [],
           "sourceBounds": {
             "min": [
@@ -518,25 +1369,25 @@
           },
           "bounds": {
             "min": [
-              -1.2908966541290283,
-              1.5234293937683105,
-              -1.289897084236145
+              -1.3033894300460815,
+              1.4597431421279907,
+              -1.3826267719268799
             ],
             "max": [
-              1.5855462551116943,
-              4.517841815948486,
-              2.7975361347198486
+              1.6077065467834473,
+              4.531851768493652,
+              2.9096498489379883
             ],
             "span": [
-              2.8764429092407227,
-              2.994412422180176,
-              4.087433218955994
+              2.911095976829529,
+              3.0721086263656616,
+              4.292276620864868
             ]
           },
           "sourceComponents": 30250,
-          "retainedSourceComponents": 3779,
+          "retainedSourceComponents": 30250,
           "sourceOccupiedCanopyCells": 620,
-          "retainedOccupiedCanopyCells": 452,
+          "retainedOccupiedCanopyCells": 603,
           "canopyGrid": 12
         },
         {
@@ -544,9 +1395,9 @@
           "sourceTriangles": 28293,
           "triangles": 1999,
           "ratio": 0.07065351853815431,
-          "vertices": 1520,
+          "vertices": 1513,
           "targetTriangles": 2000,
-          "reportedAttributeError": 0.019460812211036682,
+          "reportedAttributeError": 0.01943177916109562,
           "errorLimit": 0.02,
           "flags": [],
           "sourceBounds": {
@@ -575,25 +1426,25 @@
             "max": [
               0.9294251799583435,
               3.6645729541778564,
-              1.912890911102295
+              1.9231672286987305
             ],
             "span": [
               1.692505121231079,
               3.686418240889907,
-              2.3039296865463257
+              2.3142060041427612
             ]
           },
           "sourceComponents": 70,
-          "retainedSourceComponents": 59,
+          "retainedSourceComponents": 58,
           "sourceOccupiedCanopyCells": 162,
-          "retainedOccupiedCanopyCells": 139,
+          "retainedOccupiedCanopyCells": 138,
           "canopyGrid": 12
         }
       ]
     }
   ],
-  "totalRuntimeBytes": 8438382,
-  "maximumRuntimeBytes": 20971520,
+  "totalRuntimeBytes": 25593674,
+  "maximumRuntimeBytes": 33554432,
   "materialRoles": [
     "bark_branches",
     "leaves",
@@ -604,9 +1455,8 @@
     "Source branch UV1 and its exact used KHR_texture_transform are baked into UV0 before UV1 is removed. Leaf atlas UV0 and trunk UV0 are retained.",
     "Geometry-only uncompressed GLBs require no Draco, meshopt decoder, images or external runtime fetch. Bind existing bark/leaf PBR materials by the stable role names.",
     "The JPEG leaf diffuse has no alpha channel. Attach the unchanged separate PNG alpha through the existing Babylon material factory. No image pixels are edited or packed.",
-    "Prune/Permissive may remove leaf components or relax attribute seams; actual flags, retained component counts and coarse canopy occupancy are recorded per primitive.",
-    "Reported simplifier error, bounds and occupancy are diagnostics, not a silhouette or perceptual-quality guarantee. Near/far render review with the actual alpha material is required before runtime approval.",
-    "No claim of GTA-equivalent or photographic tree quality follows from triangle reduction alone.",
-    "The historical map manifest was annotated to distinguish its seven unchanged photographic files from this derived geometry bundle. preparationManifestSHA256 retains its exact preparation-time hash; manifestSHA256 describes the current scope-annotated map manifest."
+    "Every original connected index component of the leaf primitive is retained. Bark primitives retain their recorded global simplification diagnostics. Component-local leaf simplification changes only triangle indices selecting original P/N/UV vertices; no leaf scale inflation, UV flip, image edit, Prune or Permissive is used. Components are not asserted to be individual leaves.",
+    "Exact geometric area, summed absolute UV area, and 64-sample alpha-covered area are compared with the original before reduction. Net area and per-component clamped retention are recorded; bounds and voxel occupancy alone do not demonstrate canopy density. Reported simplifier error and these metrics are diagnostics, not a silhouette or perceptual-quality guarantee. Near/far render review with the actual alpha material is required before runtime approval.",
+    "No claim of GTA-equivalent or photographic tree quality follows from triangle reduction alone."
   ]
 }

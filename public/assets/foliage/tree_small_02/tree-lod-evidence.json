@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "kind": "measured-lossy-component-preserving-adaptation",
+  "researchRun": "https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero/actions/runs/41260945638",
+  "artifactId": 13065545775,
+  "modelManifest": "tree-lod-manifest.json",
+  "source": {
+    "asset": "tree_small_02",
+    "author": "Rico Cilliers",
+    "license": "CC0-1.0",
+    "binaryBytes": 95102324,
+    "binarySHA256": "8da6c3c389ad8748286d1b7488cd827f75ebdad9d8f59ef7dfb0916df5edc634",
+    "leafIndexComponents": 30250,
+    "leafSurfaceAreaSquareMetres": 27.808347383836782,
+    "leafAlphaAreaSquareMetres": 25.962444662433782,
+    "leafFlippedDiagnosticAlphaAreaSquareMetres": 18.653702912819867,
+    "sourceBinaryDistributed": false
+  },
+  "sampling": {
+    "maskBitDepth": 16,
+    "normalizationDivisor": 65535,
+    "cutoff": 0.55,
+    "samplesPerTriangle": 64,
+    "method": "uniform-area Hammersley, bilinear repeat",
+    "orientation": "original UV0, image(v), Babylon invertY=false",
+    "flippedOrientation": "diagnostic only; not used by runtime or reduction score"
+  },
+  "outputs": [
+    {
+      "lod": "near",
+      "triangles": 299060,
+      "bytes": 14695012,
+      "sha256": "a08de5e6b0c701326a0bbae69bb0289be1cca3445642e1ed28779007c92d70bc",
+      "retainedLeafIndexComponents": 30250,
+      "clampedSourceGeometricAreaRatio": 0.820131417869992,
+      "clampedSourceAlphaAreaRatio": 0.712356499667037,
+      "desiredAlphaAreaRatio": 0.9,
+      "desiredAlphaAreaRatioMet": false
+    },
+    {
+      "lod": "far",
+      "triangles": 119846,
+      "bytes": 7147048,
+      "sha256": "a4b4ac1980f173847d5643455059a2a238a9a8e56e44ef042382060f2e8c895a",
+      "retainedLeafIndexComponents": 30250,
+      "clampedSourceGeometricAreaRatio": 0.6433274242529277,
+      "clampedSourceAlphaAreaRatio": 0.44380423247203055,
+      "desiredAlphaAreaRatio": 0.7,
+      "desiredAlphaAreaRatioMet": false
+    }
+  ],
+  "totalGeometryAndSharedMapsBytes": 25593674,
+  "maximumRuntimeBytes": 33554432,
+  "verification": [
+    "Serialized GLB byte counts and SHA256 match the research manifest.",
+    "Actual indices and position/normal/UV streams are finite and valid; three material roles per LOD.",
+    "Both actual GLBs retain 30250 connected leaf index components, with zero degenerate leaf triangles.",
+    "Independent serialized-geometry alpha and geometric areas match the CI measurements within 1e-8.",
+    "All seven original photographic maps retain their recorded byte counts, MD5 and SHA256.",
+    "Plain geometry GLBs contain no images, textures, Draco or meshopt runtime decoder extensions."
+  ],
+  "limitations": [
+    "Source alpha-area targets are unmet; measurements do not establish visual equivalence to the source model or GTA.",
+    "Area measurements are base-level samples, not rendered silhouette, mip-level alpha coverage or performance measurements.",
+    "Tree placement remains the existing OSM source-node plan; generic artistic model geometry is not surveyed Naples vegetation.",
+    "Actual shared-engine render review is required before publication; trial outcomes belong in separate QA diagnostics."
+  ]
+}
