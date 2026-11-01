@@ -28,6 +28,6 @@ export function addCityGround(scene:Scene,land:Point[][][],buildings:readonly Fo
     actorHeightPolicy:'barycentric-interpolation-of-rendered-ground-and-street-triangles',
     limitation:'Native 5 m ground DTM is not a road, bridge, stair or building-foundation survey. Missing coastal samples are explicitly estimated or retained flat.',
   };
-  return {heightAt,renderedHeightAt:ground.heightAt,buildingBaseHeight:foundations.heightAt,meshes:ground.meshes,sides:sides.mesh,metadata,
+  return {heightAt,renderedHeightAt:ground.heightAt,buildingBaseHeight:foundations.heightAt,geometry:ground.geometry,meshes:ground.meshes,sides:sides.mesh,metadata,
     dispose(){sides.mesh.dispose();ground.dispose();}};
 }

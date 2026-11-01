@@ -35,6 +35,7 @@ test('altimetria: campioni reali del DTM2020 distinguono lungomare, Plebiscito e
   near(sampleCityElevationLonLat(g,14.24723,40.82992),4.128368219999253,.001);
   near(sampleCityElevationLonLat(g,14.24868,40.83585),19.1305060249968,.001);
   near(sampleCityElevationLonLat(g,14.24142,40.8416),154.74104720004635,.001);
+  // Stable source-control point; the current playable street reference is selected dynamically.
   const anchor:[number,number]=[-115.9798949332978,201.3268650741524],field=createCityElevation(g,anchor);
   near(field.heightAt(...anchor),0);assert.ok(field.heightAt(...toLocal(14.24868,40.83585))!>14);
 });

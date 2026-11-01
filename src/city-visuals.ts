@@ -23,9 +23,9 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime,
   const opening=openingStreetData(city);
   const realFacades=addNaplesFacades(scene,map,{buildingBaseHeight:world.buildingBaseHeight}),foliage=createPhotographicFoliageMaterials(scene);
   const excludeEdges=new Map(NAPLES_PHOTO_FACES.filter(f=>realFacades.excludedBuildingIds.has(f.buildingId)).map(f=>[f.buildingId,new Set(f.edges)]));
-  const facades=addFacadeDetail(scene,map,{focus:[opening.scooter,city.spawn,...city.route],radius:95,quality:'alta',materials,excludeEdges,buildingBaseHeight:world.buildingBaseHeight});
+  const facades=addFacadeDetail(scene,map,{focus:[opening.scooter,city.spawn,...city.route],radius:95,quality:'alta',materials,excludeEdges,buildingBaseHeight:world.buildingBaseHeight,shadows:world.shadows});
   for(const mesh of realFacades.profileMeshes)world.shadows.addShadowCaster(mesh,false);
-  const streets=addStreetDetail(scene,map,city,{materials,groundHeight:world.groundHeightAt});
+  const streets=addStreetDetail(scene,map,city,{materials,groundHeight:world.groundHeightAt,groundGeometry:world.groundGeometry});
   const surfaceHeightAt=(x:number,z:number)=>Math.max(world.surfaceHeightAt?.(x,z)??0,streets.supportHeightAt(x,z)??-Infinity);
   const coast=addCoastDetail(scene,map,city,{material:materials.quay,shadows:world.shadows,groundHeight:world.groundHeightAt});
   const greenReady=(async()=>{

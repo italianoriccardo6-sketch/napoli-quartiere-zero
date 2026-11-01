@@ -11,6 +11,8 @@ import {Canvas,loadImage} from '@napi-rs/canvas';
 import {Engine} from '@babylonjs/core/Engines/engine';
 import {Scene} from '@babylonjs/core/scene';
 import {Vector3} from '@babylonjs/core/Maths/math.vector';
+import {Ray} from '@babylonjs/core/Culling/ray';
+import {Mesh} from '@babylonjs/core/Meshes/mesh';
 import {MeshBuilder} from '@babylonjs/core/Meshes/meshBuilder';
 import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
 import {Color3} from '@babylonjs/core/Maths/math.color';
@@ -29,7 +31,7 @@ import {createVisualMaterials,loadDaylightEnvironment} from '../src/visual-mater
 import {addFacadeDetail} from '../src/facade-detail';
 import {addStreetDetail} from '../src/street-detail';
 import {FileToolsOptions} from '@babylonjs/core/Misc/fileTools';
-import {toLocal} from '../src/geo';
+import {toLocal,inside,segmentDistance,type Point} from '../src/geo';
 import {buildVegetationPlan,type GreenData} from '../src/vegetation';
 import type {ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
 import type {CityMapData} from '../src/city-data';
@@ -198,7 +200,7 @@ try{
       if(useDetail){
         const focus=[map.city.spawn,...map.city.route];
         addFacadeDetail(scene,map,{focus,radius:95,quality:'alta',materials,buildingBaseHeight:world.buildingBaseHeight});
-        const street=addStreetDetail(scene,map,map.city,{materials,groundHeight:world.groundHeightAt}),ground=world.surfaceHeightAt??(()=>0);
+        const street=addStreetDetail(scene,map,map.city,{materials,groundHeight:world.groundHeightAt,groundGeometry:world.groundGeometry}),ground=world.surfaceHeightAt??(()=>0);
         world.surfaceHeightAt=(x,z)=>Math.max(ground(x,z),street.supportHeightAt(x,z)??-Infinity);
       }
     }
@@ -252,13 +254,45 @@ try{
       // a player-camera or movement test. Geometry and materials are unchanged.
       const green=JSON.parse(await readFile('public/data/green.json','utf8')) as GreenData;
       const plan=buildVegetationPlan(map,green,{focus:[openingStreetData(map.city).scooter,map.city.spawn,...map.city.route],radius:180,maxTrees:140,groundHeight:detailedCity?.surfaceHeightAt});
-      const tree=plan.placements.sort((a,b)=>Math.hypot(a.point[0]-car[0],a.point[1]-car[1])-Math.hypot(b.point[0]-car[0],b.point[1]-car[1]))[0];
-      if(!tree)throw Error('No actual runtime source tree is available for foliage inspection.');
-      const [x,z]=tree.point,distance=Math.max(7,tree.crownDiameter*1.7);
-      camera.camera.position.set(x-distance*.7,tree.ground+tree.height*.55,z-distance*.7);
-      camera.camera.setTarget(new Vector3(x,tree.ground+tree.height*.6,z));
-      detailedCity?.updateDetail(tree.point,'alta');
-      scene.metadata={...(scene.metadata??{}),captureView:{kind:'source-tree material diagnostic camera; not player input validation',treeId:tree.id,point:tree.point}};
+      const buildingClearance=(point:Point)=>{
+        let clearance=Infinity;
+        for(const building of map.buildings){
+          if(!building.rings[0]?.length)continue;
+          if(inside(point,building.rings[0])&&!building.rings.slice(1).some(ring=>inside(point,ring)))return -1;
+          for(const ring of building.rings)for(let i=0;i<ring.length;i++)clearance=Math.min(clearance,segmentDistance(point,ring[i],ring[(i+1)%ring.length]));
+        }
+        return clearance;
+      };
+      // Facade/rail meshes are intentionally not player-pickable. Enable exact
+      // thin-instance ray checks temporarily, without changing rendered objects.
+      const thinPicking=scene.meshes.filter((mesh):mesh is Mesh=>mesh instanceof Mesh&&mesh.hasThinInstances).map(mesh=>({mesh,enabled:mesh.thinInstanceEnablePicking}));
+      for(const {mesh}of thinPicking)mesh.thinInstanceEnablePicking=true;
+      let selected:{tree:(typeof plan.placements)[number];position:Vector3;target:Vector3;clearance:number}|undefined,tested=0;
+      try{
+        const trees=plan.placements.sort((a,b)=>Math.hypot(a.point[0]-car[0],a.point[1]-car[1])-Math.hypot(b.point[0]-car[0],b.point[1]-car[1]));
+        for(const tree of trees){
+          detailedCity?.updateDetail(tree.point,'alta');for(const mesh of scene.meshes)mesh.computeWorldMatrix(true);
+          const [x,z]=tree.point,distance=Math.max(8,tree.height*1.1,tree.crownDiameter*1.7),preferred=Math.atan2(car[1]-z,car[0]-x),target=new Vector3(x,tree.ground+tree.height*.6,z),spread=tree.crownDiameter*.15;
+          const targets=[target,target.add(new Vector3(-spread,0,0)),target.add(new Vector3(spread,0,0)),target.add(new Vector3(0,-tree.height*.25,0))];
+          for(let orbit=0;orbit<24&&!selected;orbit++){
+            tested++;const step=orbit===0?0:Math.ceil(orbit/2)*(orbit%2?1:-1),angle=preferred+step*Math.PI/12,point:Point=[x+Math.cos(angle)*distance,z+Math.sin(angle)*distance],clearance=buildingClearance(point);
+            if(clearance<1.5||!world!.canStand(...point,.6))continue;
+            const position=new Vector3(point[0],Math.max(tree.ground+tree.height*.55,surfaceHeightAt(...point)+1.6),point[1]);
+            const clear=targets.every(aim=>{
+              const delta=aim.subtract(position),length=delta.length();
+              if(length<=.3)return false;
+              const ray=new Ray(position,delta.scale(1/length),length-.2),hit=scene.pickWithRay(ray,mesh=>mesh.isEnabled()&&mesh.isVisible&&mesh.visibility>0&&!mesh.metadata?.sourceTreeNodes&&Boolean(mesh.metadata?.solid||mesh.metadata?.facadeDetail||mesh.metadata?.naplesFacadeProfile||mesh.metadata?.naplesPhotoFacade||mesh.metadata?.streetFurniture));
+              return !hit?.hit||hit.distance>=length-.2;
+            });
+            if(clear)selected={tree,position,target,clearance};
+          }
+          if(selected)break;
+        }
+      }finally{for(const {mesh,enabled}of thinPicking)mesh.thinInstanceEnablePicking=enabled;}
+      if(!selected)throw Error('No source-tree diagnostic orbit has building clearance and unobstructed scene rays; no obstructed frame is substituted.');
+      camera.camera.position.copyFrom(selected.position);camera.camera.setTarget(selected.target);
+      detailedCity?.updateDetail([selected.position.x,selected.position.z],'alta');
+      scene.metadata={...(scene.metadata??{}),captureView:{kind:'source-tree material diagnostic camera; not player input validation',treeId:selected.tree.id,point:selected.tree.point,sourceBuildingClearanceMetres:selected.clearance,lineOfSightRays:4,orbitCandidatesTested:tested}};
     }
     if(arg('--view')==='uphill'){
       // Diagnostic relocation to a free point on an original source road near

@@ -1,6 +1,7 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';import {Scene} from '@babylonjs/core/scene';
+import {DirectionalLight} from '@babylonjs/core/Lights/directionalLight';import {ShadowGenerator} from '@babylonjs/core/Lights/Shadows/shadowGenerator';import {Vector3} from '@babylonjs/core/Maths/math.vector';import {MeshBuilder} from '@babylonjs/core/Meshes/meshBuilder';
 import {inside,type MapData,type Point} from '../src/geo';import {planFacadeDetail,addFacadeDetail} from '../src/facade-detail';
 import type {CityMapData} from '../src/city-data';
 const building=(id:string,ring:Point[])=>({id,rings:[ring],height:13,estimated:true});
@@ -27,6 +28,22 @@ test('facciate: limiti di distanza, edifici e istanze mantengono il costo finito
 test('facciate: thin instances a gruppi, senza picking/collisioni, con culling e dispose',()=>{
   const engine=new NullEngine({renderWidth:640,renderHeight:480,textureSize:512,deterministicLockstep:true,lockstepMaxSteps:4}),scene=new Scene(engine);
   try{const detail=addFacadeDetail(scene,fixture(),options);assert.ok(detail.stats.instances>200);assert.ok(detail.meshes.length<=32);assert.ok(detail.meshes.length<detail.stats.instances/10);let instances=0;for(const mesh of detail.meshes){assert.equal(mesh.isPickable,false);assert.equal(mesh.checkCollisions,false);assert.equal(mesh.metadata.solid,false);instances+=mesh.thinInstanceCount;}assert.equal(instances,detail.stats.instances);detail.update([8,-8],'bassa');assert.ok(detail.meshes.filter(m=>m.metadata.fine).every(m=>!m.isEnabled()));detail.update([10000,10000]);assert.ok(detail.meshes.every(m=>!m.isEnabled()));detail.update([8,-8]);assert.ok(detail.meshes.some(m=>m.isEnabled()));detail.dispose();assert.ok(detail.meshes.every(m=>m.isDisposed()));}finally{scene.dispose();engine.dispose();}
+});
+
+test('ombre facciate: soltanto gruppi strutturali vicini in alta qualità, con rimozione al cambio distanza e dispose',()=>{
+  const engine=new NullEngine(),scene=new Scene(engine),sun=new DirectionalLight('test sun',new Vector3(.6,-1,.4),scene),shadows=new ShadowGenerator(128,sun);
+  try{
+    const unrelated=MeshBuilder.CreateBox('other shadow caster',{},scene);shadows.addShadowCaster(unrelated,false);
+    const detail=addFacadeDetail(scene,fixture(),{...options,shadows});
+    const renderList=()=>shadows.getShadowMap()!.renderList!,facadeCasters=()=>renderList().filter(mesh=>mesh.metadata?.facadeDetail);
+    assert.ok(detail.meshes.some(mesh=>mesh.metadata.fine),'la fixture comprende lamelle fini');assert.ok(detail.meshes.some(mesh=>mesh.metadata.facadeRole==='glass'),'la fixture comprende vetri');
+    const initial=facadeCasters();assert.ok(initial.length>0);assert.ok(initial.every(mesh=>!mesh.metadata.fine&&mesh.metadata.facadeRole!=='glass'));
+    detail.update([8,-8],'alta');assert.equal(facadeCasters().length,initial.length,'aggiornamenti ripetuti non duplicano i caster');
+    detail.update([130,-8],'alta');assert.ok(detail.meshes.some(mesh=>mesh.isEnabled()),'i dettagli restano visibili oltre il raggio delle ombre');assert.equal(facadeCasters().length,0);
+    detail.update([8,-8],'bassa');assert.equal(facadeCasters().length,0);assert.ok(renderList().includes(unrelated));
+    detail.update([8,-8],'alta');assert.equal(facadeCasters().length,initial.length);
+    detail.dispose();assert.ok(detail.meshes.every(mesh=>mesh.isDisposed()));assert.equal(renderList().length,1,'dispose rimuove solo i caster di questo kit');assert.equal(renderList()[0],unrelated);
+  }finally{scene.dispose();engine.dispose();}
 });
 
 test('facciate: una lastra non attraversa un ostacolo vicino al bordo del suo ingombro',()=>{

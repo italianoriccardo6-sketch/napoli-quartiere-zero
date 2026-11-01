@@ -23,18 +23,26 @@ test('graded runtime keeps the complete walking route and playable car movement 
   try{
     const map=JSON.parse(readFileSync('public/data/map.json','utf8')) as CityMapData,city=map.city!,before=JSON.stringify(map);
     const terrain=createCityTerrainPolicy(parseCityElevationGrid(JSON.parse(readFileSync('public/data/city-elevation.json','utf8'))),openingStreetData(city).scooter);
-    const world=createCityWorld(scene,map,city,{terrain}),street=addStreetDetail(scene,map,city,{groundHeight:world.groundHeightAt});
+    const world=createCityWorld(scene,map,city,{terrain}),street=addStreetDetail(scene,map,city,{groundHeight:world.groundHeightAt,groundGeometry:world.groundGeometry});
     const surface=(x:number,z:number)=>Math.max(world.surfaceHeightAt!(x,z),street.supportHeightAt(x,z)??-Infinity);
     assert.equal(scene.metadata.cityWorld.terrainElevation,'regional-relative-dtm2020');assert.equal(scene.getMeshByName('terra OSM 0'),null);
     assert.ok(Math.abs(scene.getMeshByName('mare attorno alla costa')!.position.y+terrain.anchorHeight)<1e-8);
     for(const name of ['strade OSM','percorsi pedonali OSM']){
       const mesh=scene.getMeshByName(name)!,positions=mesh.getVerticesData('position')!,offset=name==='strade OSM'?.04:.025;
       for(let i=0;i<positions.length;i+=3)assert.ok(Math.abs(positions[i+1]-world.groundHeightAt!(positions[i],positions[i+2])-offset)<1e-7);
-      for(let i=0;i<positions.length;i+=12){
-        const ax=(positions[i]+positions[i+3])/2,az=(positions[i+2]+positions[i+5])/2,bx=(positions[i+6]+positions[i+9])/2,bz=(positions[i+8]+positions[i+11])/2;
-        assert.ok(Math.hypot(bx-ax,bz-az)<=5+1e-7,'same source road spans are subdivided to follow grades');
+      const indices=mesh.getIndices()!;
+      for(let i=0;i<indices.length;i+=3){const face=Array.from(indices.slice(i,i+3)).map(id=>positions.slice(id*3,id*3+3)),x=face.reduce((n,p)=>n+p[0],0)/3,z=face.reduce((n,p)=>n+p[2],0)/3,y=face.reduce((n,p)=>n+p[1],0)/3;
+        assert.ok(Math.abs(y-world.groundHeightAt!(x,z)-offset)<1e-6,'road interiors follow rendered terrain creases instead of disappearing into ground');
       }
     }
+    assert.ok(scene.metadata.cityWorld.maximumRoadSourceSpan<=5+1e-7);
+    let topInteriors=0;
+    for(const batch of street.geometry.batches)for(let i=0;i<batch.supportIndices.length;i+=3){
+      const face=batch.supportIndices.slice(i,i+3).map(id=>batch.positions.slice(id*3,id*3+3)),x=face.reduce((n,p)=>n+p[0],0)/3,z=face.reduce((n,p)=>n+p[2],0)/3,y=face.reduce((n,p)=>n+p[1],0)/3,profile=batch.surface==='pavement'?.125:.12;
+      assert.ok(Math.abs(y-world.groundHeightAt!(x,z)-profile)<1e-6,'sidewalk and curb top interiors stay exactly above the rendered ground');
+      assert.ok(street.supportHeightAt(x,z)!>=y-1e-7);topInteriors++;
+    }
+    assert.ok(topInteriors>1000);
     const walker=new Vector3(city.route[0][0],surface(...city.route[0]),city.route[0][1]);let minimum=walker.y,maximum=walker.y,steps=0;
     for(let i=1;i<city.route.length;i++){
       const target=city.route[i];let remaining=Math.hypot(target[0]-walker.x,target[1]-walker.z),guard=0;

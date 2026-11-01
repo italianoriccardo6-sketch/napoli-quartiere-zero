@@ -9,6 +9,7 @@ import {cityRoadWidth,type CityRoad} from './city-world';
 import type {CityRuntime} from './city-data';
 import {joinedStreetSections,offsetStreetSection as offset,interpolateStreetSection as interpolate,type StreetSection as Section} from './street-sections';
 import {createTriangleSurfaceSampler} from './triangle-surface';
+import {conformSurfaceToGround} from './ground-surface-overlay';
 export {joinedStreetSections} from './street-sections';
 
 export type StreetSurface='pavement'|'curb'|'paint';
@@ -20,6 +21,7 @@ export interface StreetDetailOptions {
   maxSpans?:number;
   materials?:Partial<Record<StreetSurface,Material>>;
   groundHeight?:(x:number,z:number)=>number;
+  groundGeometry?:{positions:ArrayLike<number>;indices:ArrayLike<number>;normals?:ArrayLike<number>};
 }
 export interface StreetDetailStats {
   roadsConsidered:number;roadsDetailed:number;sidewalkSpans:number;curbSpans:number;
@@ -27,7 +29,7 @@ export interface StreetDetailStats {
   estimatedWidths:true;inferredMarkings:true;collisionGeometryAdded:false;
 }
 export interface StreetGeometryBatch {
-  key:string;surface:StreetSurface;positions:number[];indices:number[];uvs:number[];supportIndices:number[];
+  key:string;surface:StreetSurface;positions:number[];indices:number[];uvs:number[];supportIndices:number[];normals?:number[];
 }
 export interface StreetDetailGeometry {batches:StreetGeometryBatch[];stats:StreetDetailStats}
 type Bounds=[number,number,number,number];
@@ -127,15 +129,15 @@ export function buildStreetDetailGeometry(map:MapData,detail:CityRuntime,options
     })
     .filter(candidate=>candidate.distance<=radius*radius).sort((a,b)=>a.distance-b.distance||a.road.id.localeCompare(b.road.id));
   stats.roadsConsidered=candidates.length;
-  const bucket=new Map<string,StreetGeometryBatch>();
+  const bucket=new Map<string,StreetGeometryBatch>(),profileOffsets=new WeakMap<StreetGeometryBatch,number[]>();
   function batch(surface:StreetSurface,mid:Point):StreetGeometryBatch {
     const base=surface+':'+Math.floor(mid[0]/128)+','+Math.floor(mid[1]/128);let part=0,key=base;
     while((bucket.get(key)?.positions.length??0)/3>59980)key=base+':'+(++part);
-    let value=bucket.get(key);if(!value){value={key,surface,positions:[],indices:[],uvs:[],supportIndices:[]};bucket.set(key,value);batches.push(value);}return value;
+    let value=bucket.get(key);if(!value){value={key,surface,positions:[],indices:[],uvs:[],supportIndices:[]};bucket.set(key,value);profileOffsets.set(value,[]);batches.push(value);}return value;
   }
   function quad(surface:StreetSurface,vertices:Array<[number,number,number]>,uvs:number[],mid:Point,reverse=false){
     const target=batch(surface,mid),n=target.positions.length/3;
-    for(const p of vertices){const ground=options.groundHeight?.(p[0],p[2])??0;if(!Number.isFinite(ground))throw new TypeError('Quota del dettaglio stradale non finita.');target.positions.push(p[0],p[1]+ground,p[2]);}target.uvs.push(...uvs);
+    for(const p of vertices){const ground=options.groundHeight?.(p[0],p[2])??0;if(!Number.isFinite(ground))throw new TypeError('Quota del dettaglio stradale non finita.');target.positions.push(p[0],p[1]+ground,p[2]);profileOffsets.get(target)!.push(p[1]);}target.uvs.push(...uvs);
     const triangles=reverse?[[0,2,1],[0,3,2]]:[[0,1,2],[0,2,3]];
     const horizontal=vertices.every(p=>Math.abs(p[1]-vertices[0][1])<EPS);
     for(const triangle of triangles){
@@ -194,6 +196,13 @@ export function buildStreetDetailGeometry(map:MapData,detail:CityRuntime,options
     if(detailed)stats.roadsDetailed++;
     if(emittedSpans>=maxSpans)break;
   }
+  if(options.groundGeometry)for(const batch of batches){
+    const supportingFaces=new Set<string>();for(let i=0;i<batch.supportIndices.length;i+=3)supportingFaces.add(batch.supportIndices.slice(i,i+3).join(','));
+    const supportingOrdinals=new Set<number>();for(let i=0;i<batch.indices.length;i+=3)if(supportingFaces.has(batch.indices.slice(i,i+3).join(',')))supportingOrdinals.add(i/3);
+    const conformed=conformSurfaceToGround(batch,options.groundGeometry,{offset:0,uvMetres:2,vertexOffsets:profileOffsets.get(batch)!});
+    batch.positions=conformed.positions;batch.indices=conformed.indices;batch.uvs=conformed.uvs;batch.normals=conformed.normals;batch.supportIndices=[];
+    for(let i=0;i<conformed.sourceTriangles.length;i++)if(supportingOrdinals.has(conformed.sourceTriangles[i]))batch.supportIndices.push(...conformed.indices.slice(i*3,i*3+3));
+  }
   stats.meshCount=batches.length;stats.vertexCount=batches.reduce((n,b)=>n+b.positions.length/3,0);
   return {batches,stats};
 }
@@ -211,12 +220,12 @@ export function addStreetDetail(scene:Scene,map:MapData,detail:CityRuntime,optio
     const material=new StandardMaterial('dettaglio stradale '+surface,scene);material.diffuseColor=Color3.FromHexString(color);material.specularColor.set(.035,.035,.03);materials[surface]=material;owned.push(material);
   }
   const meshes=geometry.batches.map(batch=>{
-    const mesh=new Mesh('dettaglio strada '+batch.key,scene),data=new VertexData();data.positions=batch.positions;data.indices=batch.indices;data.uvs=batch.uvs;const normals:number[]=[];VertexData.ComputeNormals(batch.positions,batch.indices,normals);data.normals=normals;data.applyToMesh(mesh);mesh.material=materials[batch.surface];mesh.material.backFaceCulling=false;mesh.receiveShadows=true;mesh.isPickable=false;mesh.checkCollisions=false;mesh.metadata={solid:false,inferredStreetDetail:true,source:'OSM centerlines; inferred widths, curbs and white markings',surface:batch.surface};return mesh;
+    const mesh=new Mesh('dettaglio strada '+batch.key,scene),data=new VertexData();data.positions=batch.positions;data.indices=batch.indices;data.uvs=batch.uvs;const normals:number[]=[];VertexData.ComputeNormals(batch.positions,batch.indices,normals);data.normals=batch.normals??normals;data.applyToMesh(mesh);mesh.material=materials[batch.surface];mesh.material.backFaceCulling=false;mesh.receiveShadows=true;mesh.isPickable=false;mesh.checkCollisions=false;mesh.metadata={solid:false,inferredStreetDetail:true,source:'OSM centerlines; inferred widths, curbs and white markings',surface:batch.surface};return mesh;
   });
   scene.metadata={...(scene.metadata??{}),streetDetail:{...geometry.stats}};
   const heightAt=(x:number,z:number)=>{
     if(!Number.isFinite(x)||!Number.isFinite(z))return 0;
     return Math.max(options.groundHeight?.(x,z)??0,heights.heightAt(x,z)??-Infinity);
   };
-  return {stats:geometry.stats,meshes,heightAt,supportHeightAt:heights.heightAt,dispose(){heights.dispose();for(const mesh of meshes)mesh.dispose();for(const material of owned)material.dispose();}};
+  return {geometry,stats:geometry.stats,meshes,heightAt,supportHeightAt:heights.heightAt,dispose(){heights.dispose();for(const mesh of meshes)mesh.dispose();for(const material of owned)material.dispose();}};
 }

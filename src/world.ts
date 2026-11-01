@@ -23,6 +23,7 @@ export interface World {
   groundHeightAt?:(x:number,z:number)=>number;
   surfaceHeightAt?:(x:number,z:number)=>number;
   buildingBaseHeight?:(id:string)=>number;
+  groundGeometry?:{positions:ArrayLike<number>;indices:ArrayLike<number>;normals?:ArrayLike<number>};
 }
 export function createWorld(scene:Scene,data:MapData):World {
   scene.clearColor.set(.69,.79,.83,1);scene.fogMode=Scene.FOGMODE_EXP2;scene.fogColor=new Color3(.69,.79,.83);scene.fogDensity=.00115;

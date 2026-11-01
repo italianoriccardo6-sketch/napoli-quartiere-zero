@@ -6,6 +6,7 @@ import {Material} from '@babylonjs/core/Materials/material';
 import {PBRMaterial} from '@babylonjs/core/Materials/PBR/pbrMaterial';
 import {Color3} from '@babylonjs/core/Maths/math.color';
 import {Matrix,Quaternion,Vector3} from '@babylonjs/core/Maths/math.vector';
+import type {ShadowGenerator} from '@babylonjs/core/Lights/Shadows/shadowGenerator';
 import {inside,segmentDistance,type MapData,type Point,type Footprint} from './geo';
 
 export type FacadeRole='trim'|'plinth'|'glass'|'shutter'|'iron'|'door'|'shop';
@@ -17,6 +18,8 @@ export interface FacadeOptions {
   maxBuildings?:number;
   maxInstances?:number;
   materials?:Partial<Record<FacadeRole,Material>>;
+  /** Nearby coarse facade geometry can cast shadows at high quality. */
+  shadows?:ShadowGenerator;
   /** Buildings with verified photo fronts can keep their original architecture visible. */
   excludeBuildingIds?:ReadonlySet<string>;
   /** Photo fronts replace only these source edges; other sides keep their detail. */
@@ -193,21 +196,30 @@ export function addFacadeDetail(scene:Scene,map:MapData,options:FacadeOptions){
   const definitions:Record<FacadeRole,{color:string;roughness:number;metallic:number}>={trim:{color:'#d3c5aa',roughness:.8,metallic:0},plinth:{color:'#a79a82',roughness:.9,metallic:0},glass:{color:'#263d49',roughness:.16,metallic:0},shutter:{color:'#31564a',roughness:.66,metallic:0},iron:{color:'#293332',roughness:.52,metallic:.72},door:{color:'#544334',roughness:.73,metallic:0},shop:{color:'#1a2d31',roughness:.20,metallic:0}};
   for(const [role,definition]of Object.entries(definitions) as [FacadeRole,typeof definitions[FacadeRole]][]){
     const external=options.materials?.[role];if(external){materials.set(role,external);continue;}
-    const material=new PBRMaterial('facciata inferita · '+role,scene);material.albedoColor=Color3.FromHexString(definition.color);material.roughness=definition.roughness;material.metallic=definition.metallic;materials.set(role,material);ownedMaterials.push(material);
+    const material=new PBRMaterial('facciata inferita · '+role,scene);material.albedoColor=Color3.FromHexString(definition.color).toLinearSpace();material.roughness=definition.roughness;material.metallic=definition.metallic;materials.set(role,material);ownedMaterials.push(material);
   }
   const batches=new Map<string,FacadePart[]>();
   for(const part of plan.parts){const key=Math.floor(part.x/TILE)+','+Math.floor(part.z/TILE)+','+part.role+','+(part.feature==='shutter'&&part.role==='iron'?'fine':'structure');const batch=batches.get(key)??[];batch.push(part);batches.set(key,batch);}
-  const meshes:Mesh[]=[],meshBounds=new Map<Mesh,[number,number,number,number]>();
+  const meshes:Mesh[]=[],meshBounds=new Map<Mesh,[number,number,number,number]>(),shadowCasters=new Set<Mesh>(),shadows=options.shadows;
   const matrix=Matrix.Identity(),scale=new Vector3(),position=new Vector3();
   for(const [key,parts]of batches){
-    const mesh=MeshBuilder.CreateBox('dettagli facciata '+key,{size:1},scene);mesh.material=materials.get(parts[0].role)!;mesh.isPickable=false;mesh.checkCollisions=false;mesh.receiveShadows=true;mesh.metadata={solid:false,facadeDetail:true,inferred:true,instances:parts.length,fine:parts[0].feature==='shutter'&&parts[0].role==='iron'};
+    const mesh=MeshBuilder.CreateBox('dettagli facciata '+key,{size:1},scene);mesh.material=materials.get(parts[0].role)!;mesh.isPickable=false;mesh.checkCollisions=false;mesh.receiveShadows=true;mesh.metadata={solid:false,facadeDetail:true,facadeRole:parts[0].role,inferred:true,instances:parts.length,fine:parts[0].feature==='shutter'&&parts[0].role==='iron'};
     const buffer=new Float32Array(parts.length*16);
     for(let i=0;i<parts.length;i++){const p=parts[i];scale.set(p.width,p.height,p.depth);position.set(p.x,p.y,p.z);Matrix.ComposeToRef(scale,Quaternion.RotationYawPitchRoll(p.yaw,0,0),position,matrix);matrix.copyToArray(buffer,i*16);}
     mesh.thinInstanceSetBuffer('matrix',buffer,16,true);mesh.thinInstanceRefreshBoundingInfo();meshes.push(mesh);
     const b=mesh.getBoundingInfo().boundingBox;meshBounds.set(mesh,[b.minimum.x,b.minimum.z,b.maximum.x,b.maximum.z]);
   }
   plan.stats.batches=meshes.length;
-  function update(position:Point,quality:FacadeQuality=options.quality){const range=quality==='alta'?240:135;for(const mesh of meshes)mesh.setEnabled((quality==='alta'||!mesh.metadata.fine)&&distanceToBounds(position,meshBounds.get(mesh)!)<=(mesh.metadata.fine?90:range));}
+  function update(position:Point,quality:FacadeQuality=options.quality){
+    const range=quality==='alta'?240:135;
+    for(const mesh of meshes){
+      const distance=distanceToBounds(position,meshBounds.get(mesh)!),enabled=(quality==='alta'||!mesh.metadata.fine)&&distance<=(mesh.metadata.fine?90:range);
+      mesh.setEnabled(enabled);
+      const casts=shadows&&enabled&&quality==='alta'&&!mesh.metadata.fine&&mesh.metadata.facadeRole!=='glass'&&distance<=100;
+      if(casts&&!shadowCasters.has(mesh)){shadows.addShadowCaster(mesh,false);shadowCasters.add(mesh);}
+      else if(!casts&&shadowCasters.delete(mesh))shadows?.removeShadowCaster(mesh,false);
+    }
+  }
   if(options.focus[0])update(options.focus[0]);
-  return {meshes,stats:plan.stats,update,dispose(){for(const mesh of meshes)mesh.dispose(false,false);for(const material of ownedMaterials)material.dispose();}};
+  return {meshes,stats:plan.stats,update,dispose(){for(const mesh of shadowCasters)shadows?.removeShadowCaster(mesh,false);shadowCasters.clear();for(const mesh of meshes)mesh.dispose(false,false);for(const material of ownedMaterials)material.dispose();}};
 }
