@@ -1,0 +1,58 @@
+{
+  "version": 1,
+  "retrievedAt": "2026-10-31T23:54:41.970Z",
+  "provider": "Poly Haven",
+  "assetId": "leafy_grass",
+  "sourcePage": "https://polyhaven.com/a/leafy_grass",
+  "filesEndpoint": "https://api.polyhaven.com/files/leafy_grass",
+  "author": "Charlotte Baglioni",
+  "license": "CC0-1.0",
+  "licensePage": "https://polyhaven.com/license",
+  "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+  "apiTerms": "https://github.com/Poly-Haven/Public-API/blob/master/ToS.md",
+  "apiUserAgent": "NapoliQuartiereZero/0.5 (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero)",
+  "tileMetres": 2,
+  "seamless": true,
+  "resolution": "1k",
+  "totalBytes": 3172828,
+  "maximumTotalBytes": 4194304,
+  "files": {
+    "diff": {
+      "path": "/assets/materials/leafy_grass/diff.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/leafy_grass/leafy_grass_diff_1k.jpg",
+      "bytes": 1195394,
+      "md5": "0dbc071e91d6905edfcfbe8eb785a1ab",
+      "sha256": "cfa40bc9d9417d1852db8753a8d5917f110c40101179f63543c382e39bc05e4a",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "Diffuse"
+    },
+    "nor_gl": {
+      "path": "/assets/materials/leafy_grass/nor_gl.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/leafy_grass/leafy_grass_nor_gl_1k.jpg",
+      "bytes": 1466049,
+      "md5": "8279e096e204ea326d57a318869f99df",
+      "sha256": "832328216adc0a7e1f70a31d5ee48c9ab7f2152d83816122736cf42ac4b2ebd6",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "nor_gl"
+    },
+    "rough": {
+      "path": "/assets/materials/leafy_grass/rough.jpg",
+      "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/leafy_grass/leafy_grass_rough_1k.jpg",
+      "bytes": 511385,
+      "md5": "05f6bb1383e12b327727d313c5899cf2",
+      "sha256": "0c2a1d91aacb8e54a496051b59854e51e456fe858abeade778e308359ef16463",
+      "resolution": "1k",
+      "format": "jpg",
+      "sourceMapKey": "Rough"
+    }
+  },
+  "notes": [
+    "Original photographic grass ground maps, unchanged bytes; preview renders and website copy are excluded.",
+    "Generic scanned grass, leaves and twigs; not a photographic survey of Naples ground.",
+    "Application is limited to separately sourced real OpenStreetMap green-area polygons. This asset does not create planting positions or invented parks.",
+    "Diffuse uses sRGB; OpenGL normals and grayscale roughness use linear colour space.",
+    "No authentication, external runtime decoder or live API is needed."
+  ]
+}

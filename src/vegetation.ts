@@ -1,5 +1,6 @@
 import '@babylonjs/core/Meshes/thinInstanceMesh';
 import {Scene} from '@babylonjs/core/scene';import {Mesh} from '@babylonjs/core/Meshes/mesh';import {MeshBuilder} from '@babylonjs/core/Meshes/meshBuilder';
+import {VertexData} from '@babylonjs/core/Meshes/mesh.vertexData';
 import {Material} from '@babylonjs/core/Materials/material';import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';import {DynamicTexture} from '@babylonjs/core/Materials/Textures/dynamicTexture';
 import {Color3} from '@babylonjs/core/Maths/math.color';import {Vector3,Matrix,Quaternion} from '@babylonjs/core/Maths/math.vector';import type {ShadowGenerator} from '@babylonjs/core/Lights/Shadows/shadowGenerator';
 import {inside,segmentDistance,toLocal,type MapData,type Point,type Footprint} from './geo';
@@ -7,7 +8,7 @@ import {inside,segmentDistance,toLocal,type MapData,type Point,type Footprint} f
 export interface SourceTree {id:string;lon:number;lat:number;tags:Record<string,string>}
 export interface GreenData {version:1;source:{bbox:number[];license:string;retrieved_at:string;[key:string]:unknown};trees:SourceTree[];treeRows?:unknown[];areas?:unknown[]}
 export type TreeForm='broadleaf'|'umbrella'|'conifer'|'palm';
-export interface VegetationOptions {focus?:Point[];radius?:number;maxTrees?:number;quality?:'alta'|'bassa';groundHeight?:(x:number,z:number)=>number;materials?:{bark?:Material};shadows?:ShadowGenerator}
+export interface VegetationOptions {focus?:Point[];radius?:number;maxTrees?:number;quality?:'alta'|'bassa';groundHeight?:(x:number,z:number)=>number;materials?:{bark?:Material;broadleaf?:Material;palm?:Material};photographicLeafCards?:boolean;shadows?:ShadowGenerator}
 export interface TreePlacement {id:string;point:Point;ground:number;form:TreeForm;height:number;crownDiameter:number;trunkDiameter:number;estimatedHeight:boolean;estimatedCrown:boolean;crownLimitedByClearance:boolean}
 export interface VegetationStats {sourceTrees:number;treesRendered:number;estimatedDimensions:number;invalidSource:number;outsideLand:number;insideBuildings:number;outsideCorridor:number;budgetClipped:number;branchInstances:number;leafInstances:number;meshCount:number;placement:'source-tree-nodes-only';individualTreesInvented:false}
 export interface VegetationBatch {key:string;kind:'bark'|'broadleaf'|'palm';matrices:number[]}
@@ -99,15 +100,26 @@ function barkTextures(scene:Scene){
  for(let y=0;y<height;y++)for(let x=0;x<width;x++){const i=(y*width+x)*4,h=relief(x,y),grain=Math.sin(x*5.31+y*2.13)*3,shade=clamp(.57+h*.48,.17,.92),nx=-(relief(x+1,y)-relief(x-1,y))*1.4,ny=-(relief(x,y+1)-relief(x,y-1))*.9,length=Math.hypot(nx,ny,1);color.data[i]=59+shade*54+grain;color.data[i+1]=48+shade*43+grain;color.data[i+2]=36+shade*33+grain;color.data[i+3]=255;normals.data[i]=(nx/length*.5+.5)*255;normals.data[i+1]=(ny/length*.5+.5)*255;normals.data[i+2]=(1/length*.5+.5)*255;normals.data[i+3]=255;}
  dc.putImageData(color,0,0);nc.putImageData(normals,0,0);for(const texture of[diffuse,normal]){texture.update();texture.anisotropicFilteringLevel=4;texture.uScale=2;texture.vScale=2;}normal.level=.45;return {diffuse,normal};
 }
+/** Eight original leaf quads use clean individual atlas islands, avoiding opaque UV padding. */
+function photographicLeafCluster(scene:Scene,name:string){
+ const mesh=new Mesh(name,scene),positions:number[]=[],indices:number[]=[],uvs:number[]=[],normals:number[]=[];
+ const regions=[[.06,.045,.215,.145],[.23,.045,.365,.132]];
+ for(let i=0;i<8;i++){
+  const side=i%2?1:-1,level=Math.floor(i/2),[u0,v0,u1,v1]=regions[i%2],h=.19,w=h*(u1-u0)/(v1-v0),angle=side*(.35-level*.07),cx=side*.14,cy=-.33+level*.22,co=Math.cos(angle),si=Math.sin(angle),start=positions.length/3;
+  for(const [x,y]of[[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]])positions.push(cx+x*co-y*si,cy+x*si+y*co,(i%3-1)*.035);
+  uvs.push(u0,v1,u1,v1,u1,v0,u0,v0);indices.push(start,start+1,start+2,start,start+2,start+3);
+ }
+ VertexData.ComputeNormals(positions,indices,normals);const vertices=new VertexData();vertices.positions=positions;vertices.indices=indices;vertices.normals=normals;vertices.uvs=uvs;vertices.applyToMesh(mesh);return mesh;
+}
 export function addVegetation(scene:Scene,map:MapData,data:GreenData,options:VegetationOptions={}){
  const plan=buildVegetationPlan(map,data,options),meshes:Mesh[]=[],ownedMaterials:Material[]=[],textures:DynamicTexture[]=[];
  if(!plan.placements.length)return {stats:plan.stats,placements:plan.placements,meshes,dispose(){}};
  const bark=options.materials?.bark??new StandardMaterial('corteccia originale',scene);
  if(!options.materials?.bark){const material=bark as StandardMaterial,generated=barkTextures(scene);material.diffuseColor=Color3.White();material.diffuseTexture=generated.diffuse;material.bumpTexture=generated.normal;material.specularColor.set(.035,.035,.03);textures.push(generated.diffuse,generated.normal);ownedMaterials.push(material);}
- const leaves=new Map<string,StandardMaterial>();
- for(const kind of ['broadleaf','palm'] as const){if(!plan.batches.some(b=>b.kind===kind))continue;const texture=leafTexture(scene,kind==='palm');textures.push(texture);const material=new StandardMaterial('vegetazione alpha '+kind,scene);material.diffuseTexture=texture;material.useAlphaFromDiffuseTexture=true;material.diffuseColor=Color3.White();material.specularColor.set(.025,.03,.015);material.backFaceCulling=false;material.twoSidedLighting=true;material.transparencyMode=Material.MATERIAL_ALPHATEST;material.alphaCutOff=.42;leaves.set(kind,material);ownedMaterials.push(material);}
+ const leaves=new Map<string,Material>();
+ for(const kind of ['broadleaf','palm'] as const){if(!plan.batches.some(b=>b.kind===kind))continue;const supplied=options.materials?.[kind];if(supplied){leaves.set(kind,supplied);continue;}const texture=leafTexture(scene,kind==='palm');textures.push(texture);const material=new StandardMaterial('vegetazione alpha '+kind,scene);material.diffuseTexture=texture;material.useAlphaFromDiffuseTexture=true;material.diffuseColor=Color3.White();material.specularColor.set(.025,.03,.015);material.backFaceCulling=false;material.twoSidedLighting=true;material.transparencyMode=Material.MATERIAL_ALPHATEST;material.alphaCutOff=.42;leaves.set(kind,material);ownedMaterials.push(material);}
  for(const batch of plan.batches){
-  const mesh=batch.kind==='bark'?MeshBuilder.CreateCylinder('rami '+batch.key,{diameterBottom:1,diameterTop:.65,height:1,tessellation:8},scene):MeshBuilder.CreatePlane('chioma '+batch.key,{size:1},scene);
+  const mesh=batch.kind==='bark'?MeshBuilder.CreateCylinder('rami '+batch.key,{diameterBottom:1,diameterTop:.65,height:1,tessellation:8},scene):batch.kind==='broadleaf'&&options.photographicLeafCards?photographicLeafCluster(scene,'chioma fotografica '+batch.key):MeshBuilder.CreatePlane('chioma '+batch.key,{size:1},scene);
   mesh.material=batch.kind==='bark'?bark:leaves.get(batch.kind)!;mesh.isPickable=false;mesh.checkCollisions=false;mesh.receiveShadows=true;mesh.metadata={solid:false,sourceTreeNodes:true,kind:batch.kind,shape:'original procedural visual approximation'};
   mesh.thinInstanceSetBuffer('matrix',new Float32Array(batch.matrices),16,true);mesh.thinInstanceRefreshBoundingInfo(true);options.shadows?.addShadowCaster(mesh,false);meshes.push(mesh);
  }

@@ -15,3 +15,16 @@ These are generic materials, not photogrammetric evidence of the actual building
 
 Street material upgrade (same CC0 license):
 stone_tiles_02: Charlotte Baglioni — https://polyhaven.com/a/stone_tiles_02
+
+Foliage and green ground upgrade 0.4.1 (same CC0 license):
+tree_small_02: Rico Cilliers — https://polyhaven.com/a/tree_small_02
+bark_brown_01: Rob Tuytel — https://polyhaven.com/a/bark_brown_01
+leafy_grass: Charlotte Baglioni — https://polyhaven.com/a/leafy_grass
+Only the original photographic leaf atlas and material maps are included; the full Tree Small 02 model is not distributed. Tree shapes are original inferred geometry at selected OSM positions. The textures are generic, not a survey of Naples vegetation.
+
+Selected real Naples facade photograph:
+View of Via Partenope and the marina from Castel dell'Ovo, Naples, 2010.jpg
+DimiTalen, captured 2010-07-08 — CC0 1.0 Universal.
+https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg
+Original bytes unchanged. Two selected regions are projected on the confirmed Royal Continental and Grand Hotel Vesuvio OSM fronts. Three-dimensional recesses, frames and balconies are inferred artwork, not photogrammetry. Other building fronts use generic materials.
+Source metadata, checksums and detailed attribution: naples-facade-research/manifest.json and naples-facade-research/ATTRIBUTION.txt.

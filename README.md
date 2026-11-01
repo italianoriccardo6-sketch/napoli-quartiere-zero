@@ -2,7 +2,7 @@
 
 Gioco 3D per browser, tastiera e mouse. Si apre da un sito online anche su Mac; non richiede Unreal Engine o installazione di un gioco desktop.
 
-**Stato 0.3: base geografica OSM reale, resa ancora a volumi generici.** La precedente isola inventata è sostituita nel gioco da costa, sagome e rete viaria del settore Santa Lucia–lungomare–Plebiscito. Sono attivi 1.803 poligoni di edifici (316 con cortili), 1.531 percorsi di superficie e un tragitto missione verificato di circa 586 m. Non è una ricostruzione fotorealistica: 1.620 altezze sono stimate, il terreno resta piano e facciate/tetti sono generici. Il recupero dei dati tramite la procedura GitHub è riuscito. Non sono ancora disponibili asset architettonici misurati e fotografici o una prova GPU della nuova scena.
+**Stato 0.4.1: geografia OSM reale e primi due fronti fotografici di Napoli.** Costa, sagome e rete viaria coprono il settore Santa Lucia–lungomare–Plebiscito: 1.803 poligoni di edifici (316 con cortili), 1.531 percorsi di superficie e circa 586 m di percorso missione. I fronti selezionati del Royal Continental e del Grand Hotel Vesuvio usano una fotografia CC0 del 2010 sulle rispettive pareti OSM, con profondità ricostruite artisticamente. Materiali PBR fotografici, foglie e corteccia fotografiche, aree verdi OSM e dettagli del lungomare completano questa revisione. Le altre facciate sono generiche, 1.620 altezze sono stimate e il terreno urbano resta piano. La demo non raggiunge ancora il riferimento visivo richiesto.
 
 ## GitHub è la fonte del progetto
 
@@ -31,16 +31,16 @@ Vite + TypeScript + Babylon.js core e loaders 9.33.1 (nessun GLB remoto). Font i
 
 Luca Serra cerca Ada, sua sorella. Teresa gli consegna un telefono danneggiato al bar; alla banchina il contatto non si presenta. Sul telefono ci sono una prova e due messaggi incompatibili. Il giocatore decide di proteggere la prova per la giornalista Nora oppure di aprire una trattativa, poi torna da Teresa per confermare il finale.
 
-Flusso giocabile: **bar → banchina → scelta nei dialoghi → ritorno al bar**. Si può completare a piedi o usando il motorino. Proteggere dà 25 monete e il contatto Nora; trattare dà 75 monete e il contatto dell’intermediario. La ricompensa viene assegnata una sola volta. Nessun inseguitore fisico, inseguimento simulato, combattimento o dialogo doppiato è implementato. Personaggi e vicenda sono di fantasia. Teresa è rappresentata dal punto di interazione al bar, non da un personaggio animato.
+Flusso giocabile: **bar → banchina → scelta nei dialoghi → ritorno al bar**. Si può completare a piedi; il mezzo attivo è un’auto, mentre il motorino rimane nel codice storico. Proteggere dà 25 monete e il contatto Nora; trattare dà 75 monete e il contatto dell’intermediario. La ricompensa viene assegnata una sola volta. Nessun inseguitore fisico, inseguimento simulato, combattimento o dialogo doppiato è implementato. Personaggi e vicenda sono di fantasia. Teresa è rappresentata dal punto di interazione al bar, non da un personaggio animato.
 
 - WASD/frecce: movimento; Shift: corsa.
 - Mouse: guarda; trascinamento sulla scena se pointer lock non disponibile.
-- E: parla, controlla il telefono, sali/scendi dal motorino. Fermarsi prima di scendere.
-- Motorino: W accelera; S frena e poi retromarcia; A/D sterzano.
+- E: parla, controlla il telefono, sali/scendi dall’auto. Fermarsi prima di scendere.
+- Auto: W accelera; S frena e poi retromarcia; A/D sterzano.
 - R: recupero in punto sicuro; Esc: pausa (durante un dialogo usare il pulsante Continua).
 - I dialoghi fermano il movimento; al termine la partita riprende. La perdita di focus mette in pausa la guida/esplorazione.
 
-Salvataggi locali distinti: `napoli-quartiere-zero-v1` conserva impostazioni ed eventuali vecchie monete; `napoli-quartiere-zero-story-v1` conserva fase, scelta e ricompensa del nuovo prologo. Le monete del prologo sono mostrate insieme alle vecchie monete. Dati corrotti sono respinti, storage indisponibile lascia proseguire in memoria. «Ripristina partita» richiede due clic e azzera entrambi. Posizione e mezzo ripartono dalla piazzetta al ricaricamento. Nessun controllo touch o supporto mobile dichiarato.
+Salvataggi locali distinti: `napoli-quartiere-zero-v1` conserva impostazioni ed eventuali vecchie monete; `napoli-quartiere-zero-story-v1` conserva fase, scelta e ricompensa del nuovo prologo. Le monete del prologo sono mostrate insieme alle vecchie monete. Dati corrotti sono respinti, storage indisponibile lascia proseguire in memoria. «Ripristina partita» richiede due clic e azzera entrambi. Posizione e mezzo ripartono dal punto iniziale sul lungomare al ricaricamento. Nessun controllo touch o supporto mobile dichiarato.
 
 ## Geografia e dati reali
 
@@ -68,23 +68,26 @@ Licenza: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright
 ## Moduli e grafica
 
 - `geo.ts`, `import-osm.ts`, `scripts/`: geografia offline.
-- `city-world.ts`, `surfaces.ts`: scena geografica attiva con edifici accorpati per tile, collisioni su indice spaziale, strade sorgente, cortili e buchi del terreno. `world.ts` resta solo per la fixture storica di test. scena, dettagli e texture originali di colore/normali. StandardMaterial: non una pipeline PBR fotografica. Mare con riflesso di un cielo analitico, non riflessi della geometria della scena.
-- `character.ts`, `vehicle.ts`, `camera.ts`, `input.ts`: personaggio procedurale con arti gerarchici, motorino, telecamera e controlli. Non ci sono mocap o personaggi fotorealistici.
+- `city-world.ts`, `city-visuals.ts`: scena geografica attiva con edifici accorpati per tile, collisioni su indice spaziale, strade sorgente, cortili e buchi del terreno. `world.ts` e `surfaces.ts` restano per la fixture e i materiali storici.
+- `visual-materials.ts`, `naples-facades.ts`, `facade-detail.ts`: superfici PBR fotografiche, due fronti alberghieri reali e dettagli generici sulle altre sagome OSM. `foliage-materials.ts`, `vegetation.ts`, `green-ground.ts`, `coast-detail.ts` e `street-furniture.ts` gestiscono vegetazione, superfici verdi e arredi con provenienza distinta dalle forme artistiche.
+- `character-model.ts`, `car.ts`, `camera.ts`, `input.ts`: civile riggato e animazioni CC0, auto CarConcept CC BY 4.0, telecamera e controlli. `character.ts` e `vehicle.ts` conservano il personaggio e il motorino procedurali storici.
 - `story.ts`, `mission.ts`, `save.ts`: prologo, logica legacy e impostazioni; logica missione originale mantenuta per compatibilità/test.
 - `main.ts`, `ui.ts`, `style.css`, `audio.ts`: interazioni, dialoghi, HUD e audio sintetico.
 
-Collisioni cinematiche su piano, raggio veicolo 0,93 m, sottopassi massimi di 20 cm, scorrimento a piedi e stop del mezzo contro ostacoli. Bordi non attraversabili; controllo di recupero se si esce dalla mappa. Ombre selettive e istanze per decorazioni; qualità alta con pixel ratio massimo 1,5, bassa massimo 1 senza ombre. Nessun benchmark FPS verificato. Vite segnala il chunk JS iniziale sopra 500 kB: avviso, non errore.
+Collisioni cinematiche su piano con l’intera capsula dell’auto normalizzata: raggio circa 1,3085 m e semilunghezza 2,225 m. Scorrimento a piedi e arresto del mezzo contro gli ostacoli; sottopassi massimi di 20 cm. Bordi non attraversabili e recupero se si esce dalla mappa. Ombre selettive e istanze per decorazioni; qualità alta con pixel ratio massimo 1,5, bassa massimo 1 senza ombre. Nessun benchmark FPS verificato. Vite segnala il chunk JS iniziale sopra 500 kB: avviso, non errore.
 
 ## Evidenze e limiti
 
-TypeScript, build di produzione e **28 test automatici** passano: coordinate, poligono concavo, altezze, missione legacy, salvataggi, velocità/frenata, relation multipoligono con cortile, scena reale in NullEngine/corridoio percorribile, sequenza del prologo, entrambi i finali, scelta persistita, dati corrotti e ricompensa idempotente.
+Le suite automatiche verificano coordinate, poligoni e cortili, altezze dichiarate e stimate, collisioni e movimento, missione e salvataggi. La revisione 0.4.1 aggiunge controlli su fronti fotografici, dettagli costieri, arredi e ritaglio delle aree verdi, compresa l’interpolazione sui triangoli del terreno. Test e build sono eseguiti dal workflow GitHub sul commit della revisione.
 
-NullEngine esegue costruzione e aggiornamenti della scena ma non prova shader sulla GPU, qualità visiva, browser/macOS, mouse o completamento interattivo. Nessun tool browser collegato disponibile in questa sessione; screenshot e prova manuale non eseguiti. Il cambio della camera e dei materiali richiede ancora un controllo visivo nel browser. Nessuna promessa di fotorealismo o fedeltà geografica.
+NullEngine esegue costruzione e aggiornamenti della scena; lo script separato `scripts/render-qa.ts` produce fotogrammi effettivi con WebGL/Mesa via Node. Queste verifiche non costituiscono una prova interattiva su Safari/macOS né un benchmark sul Mac del giocatore. La corrispondenza fotografica resta limitata ai due fronti selezionati; gli altri dettagli sono ricostruzioni artistiche.
 
 Licenze e font: `ASSETS.md` e `public/licenses/`.
 
 
-## Ricerca sul nuovo obiettivo: GTA e Napoli reale
+## Ricerca iniziale sull’obiettivo: GTA e Napoli reale
+
+Questa sezione conserva i risultati della ricerca precedente alla base OSM 0.3; le descrizioni del prototipo e dei download disponibili si riferiscono a quel momento. Lo stato attivo è indicato all’inizio del documento e negli aggiornamenti successivi.
 
 Il riferimento richiesto dall’utente è un open world iperrealistico in una ricostruzione riconoscibile della vera Napoli, accessibile da un sito e con GitHub come fonte del codice. Il prototipo attuale non soddisfa questi criteri; modifiche a colori, materiali procedurali e dialoghi non sostituiscono una nuova produzione dell’ambiente.
 
@@ -155,3 +158,13 @@ L’aggiornamento delle superfici usa asfalto2K e lastre esterne stone_tiles_02 
 ### Rilievo distante del golfo
 
 `public/data/background-terrain.json` contiene il rilievo SRTM3 v2.1 N40E014 (NASA/NGA/USGS, pubblico dominio), acquisito dal mirror Kurviger quando l’URL storico USGS restituisce 404. Coordinate WGS84, quote in metri sul geoide EGM96; fonte e SHA256 in `data/background-terrain-source.json`. La griglia circa 120×133 m ricostruisce il profilo geografico distante di Vesuvio e Posillipo; colori e foschia sono artistici. Non è fotogrammetria. Tutte le celle che intersecano il rettangolo urbano, più 120 m, sono escluse: le collisioni e le quote delle strade restano quelle della demo. L’orizzonte usa la propria foschia e la camera arriva a 50 km senza avvicinare o ingrandire le montagne.
+
+## Fronti reali e superfici 0.4.1
+
+La fotografia di [Via Partenope dal Castel dell’Ovo](https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg), scattata da **DimiTalen l’8 luglio 2010**, è distribuita con licenza **CC0 1.0**. I byte originali e il checksum sono conservati in `public/assets/naples-facade-research/`. Due regioni dell’immagine sono proiettate sui fronti confermati del **Royal Continental, ala moderna** (`relation/4779351:1`) e del **Grand Hotel Vesuvio** (`way/337012555:0`). Le pareti mantengono posizione e segmenti della mappa OSM; finestre, cornici, logge e balconi seguono la disposizione osservata, con profondità inferite. La foto ha risoluzione limitata per ogni singolo fronte e documenta il 2010. Non è un rilievo fotogrammetrico, né una ricostruzione fotografica di tutti gli edifici.
+
+Le foglie usano l’atlante fotografico **Tree Small 02 di Rico Cilliers**, la corteccia **Bark Brown 01 di Rob Tuytel** e il suolo verde **Leafy Grass di Charlotte Baglioni**, tutti da Poly Haven con licenza CC0 1.0. Sono incluse soltanto le mappe originali, accompagnate dai relativi manifest; il modello completo Tree Small 02 non è distribuito. Le forme degli alberi rimangono originali e approssimate, sulle posizioni dei nodi OSM selezionati. Queste texture generiche non identificano le specie presenti a Napoli.
+
+`scripts/prepare-green-ground.ts` ricava dall’estratto originale **25 aree OSM** con tag parco/bosco/foresta e le unifica in **24 poligoni** in `public/data/green-ground.json`, conservando gli anelli interni e ritagliando sui veri poligoni di terra e sul perimetro attivo. Il materiale erboso è una scelta artistica: non è una misura della copertura vegetale. La geometria decorativa ritaglia i triangoli del suolo esistente e ne interpola quote e normali, con uno scarto di 12 mm; non aggiunge terra o collisioni. Fonte e derivazione restano © OpenStreetMap contributors, ODbL 1.0.
+
+Il basso profilo in pietra del lungomare segue esclusivamente tratti della costa OSM vicini al percorso. Altezza, larghezza e presenza continua del parapetto sono stimate a fini visivi: la foto non certifica un muro su ogni segmento. Gli arredi usano posizioni OSM con modelli originali e dimensioni inferite. Le altre facciate mantengono materiali e aperture generici. Fonti, autori e limiti sono riepilogati in [ASSETS.md](ASSETS.md) e nei manifest inclusi; nessun asset Rockstar è distribuito.

@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "purpose": "Original Naples photograph with inferred projective wall mapping",
+  "totalBytes": 4581414,
+  "assets": [
+    {
+      "id": "partenope-dimitalen-2010",
+      "title": "View of Via Partenope and the marina from Castel dell'Ovo, Naples, 2010.jpg",
+      "author": "DimiTalen",
+      "license": "CC0",
+      "width": 2939,
+      "height": 1954,
+      "limitations": [
+        "Broad waterfront reference; individual facade crops have lower native resolution.",
+        "Never render the complete panorama as a city/skyline billboard."
+      ],
+      "sourcePage": "https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg",
+      "downloadUrl": "https://upload.wikimedia.org/wikipedia/commons/e/e0/View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo%2C_Naples%2C_2010.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+      "licenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+      "authorHtml": "DimiTalen",
+      "captured": "2010-07-08 15:11:03",
+      "bytes": 4581414,
+      "sha1": "02e1f7fd14e2c4bbb283349f131e57ffddd52920",
+      "sha256": "63d316b36f987dbb39e0b96d0a88518d80eac76b94baa9e099ecec7f9defced6",
+      "acquiredAt": "2026-10-31T23:26:49.158Z",
+      "use": "Runtime photo texture on two confirmed mapped hotel fronts; manual UV calibration and inferred 3D profiles. Original image bytes unchanged.",
+      "photoQuads": [],
+      "targets": [
+        "relation/4779351:1",
+        "way/337012555:0"
+      ]
+    }
+  ]
+}

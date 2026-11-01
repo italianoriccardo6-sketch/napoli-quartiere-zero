@@ -1,0 +1,7 @@
+Leafy Grass photographic ground maps — Charlotte Baglioni, Poly Haven.
+https://polyhaven.com/a/leafy_grass
+CC0 1.0 Universal: redistribution and commercial use allowed.
+https://polyhaven.com/license
+https://creativecommons.org/publicdomain/zero/1.0/
+Original diffuse, OpenGL normal and roughness files; source tile width 2m.
+Generic material applied only to separately sourced geographic green areas.

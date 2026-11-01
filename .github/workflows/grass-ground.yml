@@ -1,0 +1,46 @@
+name: Acquisisci terreno erboso fotografico CC0 entro 4 MiB
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: napoli-grass-ground
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Scarica esattamente tre mappe e verifica i checksum
+        run: node scripts/fetch-grass-ground.mjs
+      - name: Conserva metadati API soltanto come ricerca separata
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napoli-grass-ground-research-${{ github.run_id }}
+          path: work/grass-ground-research/
+          retention-days: 7
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-photographic-grass-${{ github.run_id }}
+          path: public/assets/materials/leafy_grass/
+          retention-days: 30
+      - name: Esporta soltanto gli asset verificati in un ramo dati
+        env:
+          DATA_BRANCH: data/grass-ground-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          GRASS_EXPORT="$(mktemp -d)"
+          cp -R public/assets/materials/leafy_grass "$GRASS_EXPORT/"
+          git switch --orphan "$DATA_BRANCH" --discard-changes
+          mkdir -p public/assets/materials
+          cp -R "$GRASS_EXPORT/leafy_grass" public/assets/materials/
+          git add public/assets/materials/leafy_grass/
+          git commit -m 'Add verified CC0 photographic grass ground maps with provenance'
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"

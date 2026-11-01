@@ -8,7 +8,7 @@ export type VisualTextureLoader=(url:string,linear:boolean)=>BaseTexture;
 export interface VisualMaterials {
   terrain:PBRMaterial;asphalt:PBRMaterial;footway:PBRMaterial;facades:PBRMaterial[];
   trim:PBRMaterial;plinth:PBRMaterial;glass:PBRMaterial;shutter:PBRMaterial;iron:PBRMaterial;door:PBRMaterial;shop:PBRMaterial;
-  pavement:PBRMaterial;curb:PBRMaterial;paint:PBRMaterial;ready:Promise<void>;
+  pavement:PBRMaterial;curb:PBRMaterial;paint:PBRMaterial;quay:PBRMaterial;signRed:PBRMaterial;grass:PBRMaterial;ready:Promise<void>;
 }
 export interface VisualMaterialOptions {loadTextures?:boolean;textureLoader?:VisualTextureLoader}
 /** Photographic CC0 maps are self-hosted; material tints are inferred, not sampled from Naples facades. */
@@ -52,7 +52,9 @@ export function createVisualMaterials(scene:Scene,options:VisualMaterialOptions=
   const shutter=plain('vernice persiane','#304b43',.57),iron=plain('ferro verniciato','#282f2f',.38,.45);
   const door=plain('legno dei portoni','#504235',.63),shop=plain('serramenti commerciali','#454f4a',.4,.25);
   const curb=plain('bordo di pietra chiara','#c4c0b5',.85),paint=plain('segnaletica bianca usurata','#deded3',.85);
-  return {terrain,asphalt,footway,facades,trim,plinth,glass,shutter,iron,door,shop,pavement,curb,paint,ready:Promise.all(pending).then(()=>{})};
+  const quay=scanned('muratura del lungomare','stone_wall','#b4b0a1',.95),signRed=plain('vernice dei segnali','#b52224',.6,.15);
+  const grass=scanned('suolo delle aree verdi','leafy_grass','#eeeeea',1);
+  return {terrain,asphalt,footway,facades,trim,plinth,glass,shutter,iron,door,shop,pavement,curb,paint,quay,signRed,grass,ready:Promise.all(pending).then(()=>{})};
 }
 /** Actual photographic pure-sky environment; no unrelated buildings or terrain are substituted. */
 export function loadDaylightEnvironment(scene:Scene):Promise<BaseTexture>{

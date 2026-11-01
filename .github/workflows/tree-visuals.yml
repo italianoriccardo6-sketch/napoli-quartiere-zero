@@ -1,0 +1,46 @@
+name: Ricerca modelli alberi e acquisisci fogliame fotografico CC0
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: napoli-tree-visuals
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Ispeziona i modelli originali e verifica mappe CC0 entro 20 MiB
+        run: node scripts/fetch-tree-visuals.mjs
+      - name: Metadati di ricerca esatti senza ridistribuirli nel gioco
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napoli-tree-model-research-${{ github.run_id }}
+          path: work/tree-visual-research/
+          retention-days: 7
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-photographic-foliage-${{ github.run_id }}
+          path: public/assets/foliage/tree_small_02/
+          retention-days: 30
+      - name: Esporta soltanto gli asset verificati in un ramo dati
+        env:
+          DATA_BRANCH: data/tree-visuals-${{ github.run_id }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          TREE_EXPORT="$(mktemp -d)"
+          cp -R public/assets/foliage/tree_small_02 "$TREE_EXPORT/"
+          git switch --orphan "$DATA_BRANCH" --discard-changes
+          mkdir -p public/assets/foliage
+          cp -R "$TREE_EXPORT/tree_small_02" public/assets/foliage/
+          git add public/assets/foliage/tree_small_02/
+          git commit -m 'Add verified CC0 photographic foliage and bark maps with provenance'
+          git push origin "HEAD:refs/heads/$DATA_BRANCH"

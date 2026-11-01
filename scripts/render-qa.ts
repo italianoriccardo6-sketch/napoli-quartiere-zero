@@ -28,6 +28,7 @@ import {addFacadeDetail} from '../src/facade-detail';
 import {addStreetDetail} from '../src/street-detail';
 import {FileToolsOptions} from '@babylonjs/core/Misc/fileTools';
 import {toLocal} from '../src/geo';
+import {buildVegetationPlan,type GreenData} from '../src/vegetation';
 import type {ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
 import type {CityMapData} from '../src/city-data';
 
@@ -47,7 +48,7 @@ if(usePBR||useCar){
   globalThis.fetch=async(input,init)=>{
     const url=typeof input==='string'?input:input instanceof URL?input.href:input.url;
     if(url.startsWith('blob:')||url.startsWith('data:'))return nativeFetch(input,init);
-    if(!url.startsWith('/assets/')&&url!=='/data/green.json'&&url!=='/data/background-terrain.json')throw Error('Node render accepts only repository assets and exact measured vegetation/terrain data files: '+url);
+    if(!url.startsWith('/assets/')&&!['/data/green.json','/data/background-terrain.json','/data/furniture.json','/data/green-ground.json'].includes(url))throw Error('Node render accepts only repository assets and exact measured vegetation/terrain data files: '+url);
     const path=resolve(publicRoot,decodeURIComponent(url.split('?')[0]).slice(1));
     if(!path.startsWith(publicRoot+sep))throw Error('Asset path escaped public directory.');
     try{
@@ -234,12 +235,25 @@ try{
         camera.orient(Math.atan2(summit[0]-car[0],summit[1]-car[1]));
         scene.metadata={...(scene.metadata??{}),captureView:{kind:'reachable mouse-camera rotation at the same actual street position',target:'Vesuvio',longitude:14.4265,latitude:40.8214,local:summit}};
       }
-      camera.snap(vehicle.root.position);camera.update(vehicle.root.position,1,true);
+      camera.snap(vehicle.root.position,true);camera.update(vehicle.root.position,1,true);
       detailedCity?.updateDetail(car,'alta');
     }
     if(arg('--view')==='street'){
       // Same source geometry from a second actual road position, not a concept render.
       const point=map.city.route[Math.min(6,map.city.route.length-1)];camera.camera.position.set(point[0],1.8,point[1]);camera.camera.setTarget(new Vector3(p[0],1.6,p[1]));
+    }
+    if(arg('--view')==='foliage'){
+      // Source-position diagnostic of an existing runtime tree, explicitly not
+      // a player-camera or movement test. Geometry and materials are unchanged.
+      const green=JSON.parse(await readFile('public/data/green.json','utf8')) as GreenData;
+      const plan=buildVegetationPlan(map,green,{focus:[openingStreetData(map.city).scooter,map.city.spawn,...map.city.route],radius:180,maxTrees:140,groundHeight:detailedCity?.surfaceHeightAt});
+      const tree=plan.placements.sort((a,b)=>Math.hypot(a.point[0]-car[0],a.point[1]-car[1])-Math.hypot(b.point[0]-car[0],b.point[1]-car[1]))[0];
+      if(!tree)throw Error('No actual runtime source tree is available for foliage inspection.');
+      const [x,z]=tree.point,distance=Math.max(7,tree.crownDiameter*1.7);
+      camera.camera.position.set(x-distance*.7,tree.ground+tree.height*.55,z-distance*.7);
+      camera.camera.setTarget(new Vector3(x,tree.ground+tree.height*.6,z));
+      detailedCity?.updateDetail(tree.point,'alta');
+      scene.metadata={...(scene.metadata??{}),captureView:{kind:'source-tree material diagnostic camera; not player input validation',treeId:tree.id,point:tree.point}};
     }
   }
   // Shader includes are asynchronous ESM imports. Let the actual material compile

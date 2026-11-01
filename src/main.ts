@@ -33,7 +33,7 @@ async function boot(){
   if(map.city){PICKUP.splice(0,2,...map.city.pickup);DELIVERY.splice(0,2,...map.city.delivery);}
   const canvas=el<HTMLCanvasElement>('game');
   if(!Engine.isSupported())throw Error('Il browser non supporta WebGL. Prova un browser aggiornato con accelerazione grafica attiva.');
-  const engine=new Engine(canvas,true,{preserveDrawingBuffer:true,stencil:true,powerPreference:'high-performance'});
+  const engine=new Engine(canvas,true,{preserveDrawingBuffer:false,stencil:true,powerPreference:'high-performance'});
   const scene=new Scene(engine),cityVisuals=map.city?createDetailedCity(scene,map,map.city):undefined,world=cityVisuals??createWorld(scene,map),character=map.city?createDetailedCharacter(scene):createCharacter(scene),scooter=map.city?createCar(scene):createScooter(scene),cam=createCamera(scene),input=new Input(canvas),audio=new Audio();
   await Promise.all([cityVisuals?.ready??Promise.resolve(),'ready' in scooter?scooter.ready:Promise.resolve(),'ready' in character?character.ready:Promise.resolve()]);
   const carRadius='radius' in scooter?scooter.radius:.93,carHalfLength='halfLength' in scooter?scooter.halfLength:1.1;
@@ -57,7 +57,7 @@ async function boot(){
   let story:StoryState;try{story=decodeStory(localStorage.getItem(STORY_SAVE_KEY));}catch{story=initialStory();}
   let dialogueOpen=false,dialogueLines:StoryLine[]=[],dialogueIndex=0,dialogueChoice=false;
   let save:Save=loadSave(),started=false,paused=false,riding=!!map.city,credits=false,time=0,hudTime=0,lastMove=false,lastInteraction=0;
-  if(riding){character.root.position.copyFrom(scooter.root.position);character.root.setEnabled(false);cam.snap(character.root.position);cam.update(character.root.position,1,true);}
+  if(riding){character.root.position.copyFrom(scooter.root.position);character.root.setEnabled(false);cam.snap(character.root.position,true);cam.update(character.root.position,1,true);}
   function persist(){if(!storeSave(save))toast('Salvataggio non disponibile in questo browser. La partita continua in memoria.');}
   function persistStory(){try{localStorage.setItem(STORY_SAVE_KEY,JSON.stringify(story));}catch{toast('Il prologo continuerà in memoria: salvataggio non disponibile.');}}
   function quality(){engine.setHardwareScalingLevel(1/Math.min(devicePixelRatio||1,save.quality==='alta'?1.5:1));scene.shadowsEnabled=save.quality==='alta';cam.effects.setQuality(save.quality);cityVisuals?.updateDetail([character.root.position.x,character.root.position.z],save.quality);}
@@ -111,19 +111,19 @@ async function boot(){
   };
   function recover(){
     if(!started||paused||credits||dialogueOpen)return;
-    if(riding){scooter.root.position.copyFrom(scooter.spawn);scooter.heading=initialHeading;scooter.root.rotation.y=initialHeading;character.root.position.copyFrom(scooter.spawn);scooter.velocity=0;cam.snap(character.root.position);}
+    if(riding){scooter.root.position.copyFrom(scooter.spawn);scooter.heading=initialHeading;scooter.root.rotation.y=initialHeading;character.root.position.copyFrom(scooter.spawn);scooter.velocity=0;cam.snap(character.root.position,riding);}
     else {let found=false;for(let radius=2;radius<=5&&!found;radius++)for(let a=0;a<Math.PI*2;a+=Math.PI/4){const p=character.root.position.add(new Vector3(Math.sin(a)*radius,0,Math.cos(a)*radius));if(carCanStand(p.x,p.z,scooter.heading)&&!vehicleBlocksPoint(character.root.position,p,scooter.heading,carRadius,carHalfLength,.55)){scooter.root.position.set(p.x,0,p.z);scooter.velocity=0;found=true;break;}}if(!found){scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;scooter.velocity=0;if(!canWalk(character.root.position.x,character.root.position.z,.5))character.root.position.set(spawn[0],0,spawn[1]);}}
     toast('Auto recuperata in un punto sicuro.');
   }
   input.onRecover=recover;input.onPause=()=>{if(dialogueOpen)return;if(credits){closeCredits();return;}pause(!paused);};input.onBlur=()=>{if(started&&!paused&&!credits&&!dialogueOpen)pause(true);};input.onLook=(x,y)=>{if(started&&!paused&&!credits&&!dialogueOpen)cam.rotate(x,y);};
   // Drag to orbit if pointer lock is unavailable or declined.
   let dragging=false;canvas.addEventListener('pointerdown',()=>{dragging=true;if(started&&!paused&&!document.pointerLockElement)toast('Trascina il mouse per ruotare la visuale.');});addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointermove',e=>{if(dragging&&!document.pointerLockElement&&started&&!paused&&!dialogueOpen)cam.rotate(e.movementX,e.movementY);});
-  el('play').onclick=()=>{started=true;document.body.classList.add('playing');show('start',false);show('hud',true);show('pause-button',true);cam.snap(character.root.position);void resume();toast(map.city?'WASD guida · E scendi dall’auto. Teresa ti aspetta al bar.':'Luca, Teresa ti aspetta al bar. Segui il segnale sulla mappa.');};
+  el('play').onclick=()=>{started=true;document.body.classList.add('playing');show('start',false);show('hud',true);show('pause-button',true);cam.snap(character.root.position,riding);void resume();toast(map.city?'WASD guida · E scendi dall’auto. Teresa ti aspetta al bar.':'Luca, Teresa ti aspetta al bar. Segui il segnale sulla mappa.');};
   el('pause-button').onclick=()=>{if(!dialogueOpen)pause(true);};el('resume').onclick=()=>void resume();
   el<HTMLInputElement>('volume').oninput=e=>{save.volume=Number((e.target as HTMLInputElement).value)/100;persist();};
   el<HTMLSelectElement>('quality').onchange=e=>{save.quality=(e.target as HTMLSelectElement).value as Save['quality'];quality();persist();};
   let resetArmed=false;
-  el('reset').onclick=()=>{if(!resetArmed){resetArmed=true;el('reset').textContent='Conferma ripristino: azzera consegna e monete';return;}save=defaults();persist();story=initialStory();persistStory();riding=false;character.root.setEnabled(true);scooter.velocity=0;scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;character.root.position.set(spawn[0],0,spawn[1]);cam.snap(character.root.position);quality();el<HTMLInputElement>('volume').value='25';el<HTMLSelectElement>('quality').value='alta';el('reset').textContent='Ripristina partita';resetArmed=false;toast('Partita ripristinata.');};
+  el('reset').onclick=()=>{if(!resetArmed){resetArmed=true;el('reset').textContent='Conferma ripristino: azzera consegna e monete';return;}save=defaults();persist();story=initialStory();persistStory();riding=false;character.root.setEnabled(true);scooter.velocity=0;scooter.root.position.copyFrom(scooter.spawn);scooter.root.rotation.y=scooter.heading=initialHeading;character.root.position.set(spawn[0],0,spawn[1]);cam.snap(character.root.position,riding);quality();el<HTMLInputElement>('volume').value='25';el<HTMLSelectElement>('quality').value='alta';el('reset').textContent='Ripristina partita';resetArmed=false;toast('Partita ripristinata.');};
   function closeCredits(){credits=false;show('credits',false);if(started){paused=true;show('pause',true);}}
   el('credits-button').onclick=()=>{if(dialogueOpen)return;if(started)pause(true);credits=true;show('pause',false);show('credits',true);};el('close-credits').onclick=closeCredits;
   function carCanStand(x:number,z:number,heading:number){const ground=ambient?.canStand??world.canStand;return map.city?canStandForCar({x,z},heading,ground,carRadius,carHalfLength):ground(x,z,carRadius);}
@@ -152,7 +152,7 @@ async function boot(){
         if(lastMove){d.normalize().scaleInPlace((input.keys.has('ShiftLeft')||input.keys.has('ShiftRight')?5.5:3.1)*dt);move(d,.5);character.root.rotation.y=Math.atan2(d.x,d.z);}character.root.position.y=cityVisuals?.surfaceHeightAt(character.root.position.x,character.root.position.z)??0;
       }
       if(!Number.isFinite(character.root.position.x)||!world.canStand(character.root.position.x,character.root.position.z,.1)){
-        character.root.position.set(spawn[0],0,spawn[1]);riding=false;character.root.setEnabled(true);scooter.velocity=0;cam.snap(character.root.position);toast('Sei tornato sulla banchina in sicurezza.');
+        character.root.position.set(spawn[0],0,spawn[1]);riding=false;character.root.setEnabled(true);scooter.velocity=0;cam.snap(character.root.position,riding);toast('Sei tornato sulla banchina in sicurezza.');
       }
       character.animate(time,lastMove,riding);cam.update(character.root.position,dt,riding);ambient?.update(dt,time);
     }
