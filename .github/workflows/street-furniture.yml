@@ -22,6 +22,7 @@ jobs:
       - name: Nodi arredi nel piccolo perimetro OSM
         run: node scripts/fetch-street-furniture.mjs
       - uses: actions/upload-artifact@v4
+        if: always()
         with:
           name: napoli-furniture-${{ github.run_id }}
           path: |
