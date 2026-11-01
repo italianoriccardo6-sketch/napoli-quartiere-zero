@@ -22,6 +22,7 @@ import {addCityGround} from './city-ground';
 import {createTriangleSurfaceSampler} from './triangle-surface';
 import {conformSurfaceToGround} from './ground-surface-overlay';
 import {createSpatialStream} from './spatial-stream';
+import {cityRoadWidth} from './road-width';
 
 export interface CityRoad {id:string;name?:string;highway:string;points:Point[];width?:number}
 export interface CityWorldDetail {
@@ -63,12 +64,7 @@ class Grid<T>{
 }
 interface Boundary {a:Point;b:Point;bounds:Bounds}
 interface IndexedBuilding {footprint:Footprint;bounds:Bounds}
-/** Estimated visual width in metres when OSM has no explicit width; never changes collision geometry. */
-export function cityRoadWidth(road:Pick<CityRoad,'highway'|'width'>):number {
-  if(Number.isFinite(road.width)&&road.width!>0)return Math.min(30,road.width!);
-  const widths:Record<string,number>={motorway:13,trunk:11,primary:10,secondary:8,tertiary:7,residential:6,unclassified:5.5,living_street:5,pedestrian:5,service:4.5,footway:2.8,path:2.4,steps:2,track:3.5,cycleway:2.4};
-  return widths[road.highway]??4;
-}
+export {cityRoadWidth} from './road-width';
 
 /**
  * Render OSM cartographic footprints and roads with optional relative DTM terrain.

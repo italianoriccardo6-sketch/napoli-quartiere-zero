@@ -2,50 +2,33 @@
 
 Gioco 3D per browser, tastiera e mouse. Si apre da un sito online anche su Mac; non richiede Unreal Engine o installazione di un gioco desktop.
 
-## Ramo 0.5.0-preview.1 — stato effettivo
+## 0.6.0-preview.1 — partita nella città fotografica
 
-Questa revisione prosegue la base integrata 0.4.2; non è ancora un gioco fotorealistico che copre tutta Napoli.
+Apri **`/photoreal.html`**, inserisci la chiave Google Maps già configurata e premi **Gioca a Napoli**. La partita parte in auto sul lungomare: guida, scendi e segui l’obiettivo della storia. Il pulsante **Vista libera** consente di esplorare e poi tornare alla partita. Entrambe le modalità e il viaggio rapido riutilizzano la stessa mappa nativa Google Maps JavaScript 3D; non viene sovrapposto un secondo renderer Babylon. La versione Babylon esistente rimane all’indirizzo principale.
 
-- **Traffico e inseguimenti:** fino a quattro auto mobili nella scena iniziale, una pattuglia fittizia presente fin dall'avvio, allerta/ricerca/fuga e fermo dopo sei secondi di vicinanza con giocatore quasi fermo. Urti veloci o la scelta narrativa rischiosa attivano l'allerta. Il reticolo di traffico è locale (500 m dalla partenza), con centri strada OSM e larghezze inferite; non simula corsie, precedenze o sensi unici. Auto conservative possono fermarsi negli incroci difficili.
-- **Scontro facoltativo:** un personaggio adulto generico su un punto pedonale libero, lontano dalle interazioni narrative; a piedi **F** colpisce. I colpi muovono le articolazioni del modello esistente; distanza, orientamento, muri, salute, fiato e tempi di recupero influenzano l'esito. Il personaggio è finzione, non una persona reale o un'indicazione di criminalità in quel luogo. Lo scontro termina senza respawn; salute e stato dello scontro non sono salvati fra ricaricamenti.
-- **Storia successiva:** nove tappe fra atti II–IV ed epilogo, dopo il prologo, sul percorso reale già verificato. La progressione usa `napoli-quartiere-zero-campaign-v1`, con 180 monete complessive assegnate una sola volta. Il ripristino azzera anche questa progressione. Le tappe non aggiungono quartieri o attività reali inventate.
-- **Lettura dialoghi:** opzione in pausa mediante SpeechSynthesis, disattivata inizialmente; lingua italiana e voce disponibile nel browser. Non è doppiaggio registrato e la voce può usare un servizio del browser.
-- **Confine della città:** installato il confine ISTAT non generalizzato al 1 gennaio 2026 (4 poligoni, 6.035 vertici), con sorgente originale, checksum e CC BY 4.0. Produce **162 settori amministrativi**, circa 118,94 km². Il confine statistico non è costa, terreno o copertura giocabile; gli edifici e le strade dei quartieri esterni non sono ancora installati.
-- **Dati a zone:** unione e deduplicazione per identità OSM, rifiuto di conflitti/riferimenti mancanti, pacchetti con checksum, caricatore con coda, concorrenza limitata, cache, timeout e annullamento. Il packaging dell'estratto esistente produce nove tile geografici di prova; il gioco continua a usare la mappa centrale verificata.
-- **Vista fotografica:** `/photoreal.html` contiene un esploratore aereo separato tramite SDK ufficiale Google Maps JavaScript 3D. Senza configurazione non carica SDK, fotografie o servizi a pagamento. Richiede progetto, fatturazione e chiave client ristretta per usare il servizio reale. La copertura dettagliata di tutti i quartieri e la qualità su Safari/Mac restano da verificare. Non è il gioco Babylon sovrapposto alle immagini Google e non scarica o ricostruisce Google Earth.
+- **Città e quartieri:** mondo di collisione esteso al comune con **56.201 poligoni di edifici e 23.373 parti di strada**, conservando esattamente la base centrale. Sono disponibili **30 destinazioni di viaggio rapido**, inclusi Posillipo, Fuorigrotta, Bagnoli, Pianura e Ponticelli. I riferimenti provengono dai dati cartografici; gli arrivi verificano lo spazio dell’intera auto e una posizione pedonale vicina. Non sono confini amministrativi dei quartieri. Non occorre Geocoding API.
+- **Guida e cammino:** auto GLB nativa, accelerazione, frenata, retromarcia, collisioni orizzontali con terra/edifici, salita e discesa, recupero e pausa. A piedi la vista iniziale è in prima persona; **V** mostra l’avatar statico in terza persona. L’avatar viene spostato dal controller: non ha una nuova animazione di cammino nel renderer Google.
+- **Traffico e allerta:** fino a quattro auto, inclusa una pattuglia fittizia, nel reticolo locale entro 500 m dalla partenza. Urti e incidenti narrativi possono attivare ricerca, inseguimento e fermo. Non è una simulazione del traffico di tutta Napoli, di corsie, precedenze o sensi unici.
+- **Scontro e storia:** scontro facoltativo a piedi con salute, fiato e colpi; **F** muove una mano/avambraccio estratti dal civile installato. Non è un pugno con dita articolate. Prologo con due scelte e nove tappe successive degli atti II–IV/epilogo sul percorso centrale. Prologo e campagna usano i salvataggi locali già esistenti; posizione, traffico, salute e stato dello scontro ripartono al ricaricamento. Se lo storage non è disponibile, la storia prosegue in memoria.
 
-La chiave client ristretta può essere inserita direttamente nel campo **Chiave API Google Maps** di `/photoreal.html`: resta solo nella memoria della scheda e viene usata quando si preme il pulsante di apertura. Non viene salvata dal sito e va reinserita dopo il ricaricamento. Non servono variabili d'ambiente o una nuova build per questo percorso; la configurazione VITE rimane un'alternativa avanzata.
+| Comando | Partita fotografica |
+| --- | --- |
+| WASD / frecce | Guida o cammina; in auto S frena e poi inserisce la retromarcia |
+| Shift | Corri a piedi |
+| E | Scendi/sali, interagisci con l’obiettivo e continua i dialoghi; fermati prima di scendere |
+| F / V | Colpisci a piedi / alterna prima e terza persona a piedi |
+| Q, C / +, − | Ruota la visuale / regola la distanza della camera |
+| R / Esc | Recupera in un punto libero / pausa |
 
-Costi e configurazione: [`public/PHOTOREAL-SETUP.txt`](public/PHOTOREAL-SETUP.txt). Al listino verificato, Immersive Maps ha 5.000 caricamenti mensili gratuiti, poi 7 USD per 1.000 nella prima fascia; Geocoding opzionale è separato. Nessun account o servizio a pagamento è stato attivato durante lo sviluppo.
+La chiave inserita nel campo rimane **solo nella memoria della scheda** e va reinserita dopo il ricaricamento; non richiede variabili d’ambiente o una nuova build. Per chi ha già configurato Maps JavaScript API, fatturazione e restrizioni del sito non servono altri servizi Google. Inserire la chiave da solo non carica la mappa. Costi e configurazione: [`public/PHOTOREAL-SETUP.txt`](public/PHOTOREAL-SETUP.txt). Il listino documentato prevede 5.000 caricamenti Immersive Maps gratuiti al mese, poi 7 USD per 1.000 nella prima fascia; nuove schede e ricaricamenti possono aumentare l’utilizzo.
 
-```sh
-npm run city:municipal-plan
-npm run city:pack -- --seed-existing --output=work/my-sector-pack
-```
+### Fonti, preparazione e limiti verificabili
 
-I pacchetti restano staging finché terreno, costa, collegamenti e controller non sono verificati. Non sostituiscono automaticamente `public/data/map.json`. I paragrafi 0.3–0.4.2 sotto ricostruiscono la base precedente; quando descrivono funzionalità assenti, si riferiscono a quelle revisioni.
+Il mondo fotografico usa geometrie indipendenti da Google: archivio OSM/Protomaps **NAP 1.4.0**, snapshot 8 marzo 2026, fissato con SHA256 e ritagliato sul confine ISTAT 2026. Fonte, licenze, tile e derivazione sono in [`data/photo-world/source.json`](data/photo-world/source.json) e [`data/photo-world/LICENSE-NOTICE.txt`](data/photo-world/LICENSE-NOTICE.txt). La quantizzazione vettoriale è circa **0,23–0,30 m**: non è un rilievo stradale. Il JSON generato misura circa 21,5 MB; `public/data/map.json`, terreno e percorso centrali restano invariati. `npm test` e `npm run build` preparano/verificano automaticamente mondo, destinazioni e GLB; il mondo generato e la cache dell’archivio sono ignorati da Git. Al primo avvio della preparazione serve rete per scaricare l’archivio pubblico, oltre a `curl` e `unzip`.
 
-**Base 0.4.2: dislivelli del DTM2020 regionale, geografia OSM e tre fronti fotografici di Napoli.** Costa, sagome e rete viaria coprono il settore Santa Lucia–lungomare–Plebiscito: 1.803 poligoni di edifici (316 con cortili), 1.531 percorsi di superficie e circa 586 m di percorso missione. Il Royal Continental e il Grand Hotel Vesuvio usano la fotografia diurna CC0 di DimiTalen del 2010; il Grand Hotel Santa Lucia usa la fotografia FAL 1.3 di Antoine Pitrou del 2011. Le immagini sono proiettate sulle rispettive pareti OSM, con profondità ricostruite artisticamente. Materiali PBR fotografici, alberi CC0 con geometria ridotta, aree verdi OSM e dettagli del lungomare completano questa revisione. La città segue il terreno regionale con quote relative alla strada iniziale: piedi, strade, auto, edifici e arredi condividono la superficie renderizzata. Le altre facciate sono generiche; le 1.620 altezze prive di tag o livelli restano stime della base dati e 159 ricevono un adattamento soltanto visivo al terreno supportato. La demo non raggiunge ancora il riferimento visivo richiesto.
+Le immagini Google sono **riprese archiviate, non una diretta**. Il renderer posiziona camera e modelli rispetto al terreno naturale (DTM), che può differire dalla superficie fotografica visibile (DSM). Orientamento dei modelli, contatto con la strada, copertura dettagliata dei singoli quartieri e prestazioni Safari/Mac richiedono ancora una prova visiva con la chiave dell’utente; i test automatici dell’SDK usano un adattatore locale e non certificano questi risultati. Le collisioni cartografiche non includono ogni gradino, ponte, galleria o ostacolo fotografato. Le altezze esterne di 10 m sono segnaposto del formato e non ricostruzioni misurate; il servizio Google fornisce la resa visiva. Non viene estratto, copiato o conservato offline contenuto Google.
 
-## Sviluppo successivo: città estesa nel browser
-
-Il ramo di lavoro `work/napoli-city-streaming` mantiene la base 0.4.2 e prepara l'estensione senza server GPU. Non è una nuova release di tutta Napoli e non amplia ancora i dati geografici attivi.
-
-I volumi degli edifici vengono costruiti progressivamente per distanza, con al massimo 160 batch GPU residenti. Le sagome originali e l'indice delle collisioni restano in memoria anche quando la mesh viene scaricata. I dettagli generici delle facciate seguono ora l'esplorazione, con un proprietario per edificio e al massimo 12 settori residenti. La qualità bassa riduce il budget delle istanze. Gli alberi fotografici oltre 300 m (alta) o 120 m (bassa), con isteresi, non vengono inviati al rendering; i nodi sorgenti restano invariati. Il limite temporale del caricatore è un budget cooperativo: una singola costruzione può superarlo; non è una garanzia di FPS. Terreno, strade e dati sorgenti sono ancora caricati integralmente. Il caricamento geografico da disco/rete a zone resta da implementare.
-
-```sh
-npm run city:plan
-npm run city:plan -- --sector=napoli-w4-n0
-npm run city:acquire -- --sector=napoli-w4-n0
-```
-
-Il primo comando mostra un piano di **368 settori**, ciascuno non superiore a circa 1 km², e un catalogo di lavoro dei 30 quartieri, inclusi Posillipo, Fuorigrotta, Bagnoli, Pianura e Ponticelli. Il rettangolo di acquisizione comprende anche mare e aree esterne: non è il confine amministrativo verificato di Napoli, né prova di copertura installata. I quartieri non sono ancora poligoni di gioco.
-
-Il secondo comando stampa la query senza eseguirla; il terzo acquisisce **un solo settore** in `data/city-sectors/`, con risposta originale, checksum, query e avviso ODbL. La procedura ha timeout, limite di 16 MiB e rifiuta risposte incomplete/ambigue; non riprova automaticamente e non sovrascrive un settore già acquisito. Non modifica `public/data/map.json`. Il workflow manuale «Acquisisci un settore della Napoli estesa» conserva il risultato come artifact e non attiva o pubblica una nuova mappa. L'acquisizione richiede accesso di rete al servizio Overpass; nessuna richiesta è fatta durante il gioco.
-
-Prima di attivare settori esterni servono un confine comunale verificato, ricomposizione/deduplicazione delle geometrie, terra e costa continue, DTM esteso, caricamento geografico a zone e prove di attraversamento fra zone. La fedeltà visiva richiede inoltre asset fotografici/architettonici appropriati: i dati OSM da soli non rendono Napoli fotorealistica. La preview aggiunge uno scontro, una pattuglia e tappe successive; combattimento e traffico su scala cittadina, doppiaggio registrato e campagna estesa a tutti i quartieri restano da produrre.
-
-La calibrazione FAL 1.3 del Santa Lucia ha una copia importabile in `assets/santa-lucia-pitrou-2011/` e una copia pubblica indipendente; i test ne verificano l'identità dei byte. Questo evita l'importazione JavaScript da `public/`, rifiutata dal server Vite in sviluppo. Autori, calibrazione e licenza della fotografia sono conservati.
+La base Babylon 0.4.2 e le procedure storiche di acquisizione/streaming rimangono disponibili. `city:plan`, `city:acquire`, `city:pack` e `city:municipal-plan` lavorano su piani o pacchetti separati: non sostituiscono il nuovo mondo fotografico né attivano automaticamente nuove mappe. Le sezioni successive documentano questa base e le revisioni precedenti.
 
 ## GitHub è la fonte del progetto
 
@@ -59,6 +42,7 @@ Node.js 22.12+ e npm:
 
 ```sh
 npm ci
+npm run prebuild
 npm run dev
 ```
 
@@ -68,9 +52,9 @@ npm run build
 npm run preview
 ```
 
-Vite + TypeScript + Babylon.js core e loaders 9.33.1 (nessun GLB remoto). Font inclusi nella build, nessun backend. `dist/`, dipendenze e credenziali non sono versionati. `npm run typecheck` esegue solo il controllo dei tipi.
+Vite + TypeScript; Babylon.js core e loaders 9.33.1 per la base centrale, SDK Google Maps JavaScript 3D per la partita fotografica. GLB e font sono locali; non occorre un server GPU. Le immagini Google richiedono il servizio esterno. I passaggi `pretest`/`prebuild` generano i dati fotografici prima delle verifiche. `dist/`, dipendenze e credenziali non sono versionati. `npm run typecheck` esegue solo il controllo dei tipi.
 
-## Prologo: «A nome di tua sorella»
+## Prologo e controlli della base Babylon: «A nome di tua sorella»
 
 Luca Serra cerca Ada, sua sorella. Teresa gli consegna un telefono danneggiato al bar; alla banchina il contatto non si presenta. Sul telefono ci sono una prova e due messaggi incompatibili. Il giocatore decide di proteggere la prova per la giornalista Nora oppure di aprire una trattativa, poi torna da Teresa per confermare il finale.
 
@@ -85,7 +69,7 @@ Flusso giocabile: **bar → banchina → scelta nei dialoghi → ritorno al bar*
 
 Salvataggi locali distinti: `napoli-quartiere-zero-v1` conserva impostazioni ed eventuali vecchie monete; `napoli-quartiere-zero-story-v1` conserva fase, scelta e ricompensa del nuovo prologo. Le monete del prologo sono mostrate insieme alle vecchie monete. Dati corrotti sono respinti, storage indisponibile lascia proseguire in memoria. «Ripristina partita» richiede due clic e azzera entrambi. Posizione e mezzo ripartono dal punto iniziale sul lungomare al ricaricamento. Nessun controllo touch o supporto mobile dichiarato.
 
-## Geografia e dati reali
+## Geografia della base centrale conservata
 
 Estratto: **40.8260–40.8420 N, 14.2410–14.2660 E**, circa 3,7 km² del centro di Napoli. Fonte Overpass/OpenStreetMap, acquisizione **31 ottobre 2026 alle 22:18 UTC**. L’estratto originale contiene 23.149 elementi; alcuni oggetti completi si estendono oltre il perimetro richiesto. `data/source.json` conserva query, fonte, data, bbox e licenza; `data/city-summary.json` distingue oggetti della fonte e geometrie attive.
 
@@ -106,11 +90,13 @@ La nuova missione segue un percorso libero sulle geometrie reali di **Via Santa 
 
 Le quote regionali sono acquisite separatamente da `.github/workflows/terrain.yml`/`scripts/fetch-terrain.mjs`: massimo 250 punti, due richieste ufficiali, risposta originale, filtro locale al perimetro e avvisi di riferimento verticale. **Non sono usate nel terreno del gioco** finché unità e datum non sono verificati. Non sono un DTM completo.
 
-Licenza: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright), [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Originale e banca dati derivata sono disponibili in questo repository (`data/napoli-centro.osm.json`, `public/data/map.json`), con fonte e avvisi in `data/OSM-LICENSE.md`; non sono sotto MIT. In caso di riuso/distribuzione mantenere attribuzione e rispettare gli obblighi ODbL, inclusa la disponibilità dei dati derivati prevista dalla licenza. Nessun dato, texture o modello Google Maps/Earth/Street View.
+Licenza: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright), [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/). Originale e banca dati derivata sono disponibili in questo repository (`data/napoli-centro.osm.json`, `public/data/map.json`), con fonte e avvisi in `data/OSM-LICENSE.md`; non sono sotto MIT. In caso di riuso/distribuzione mantenere attribuzione e rispettare gli obblighi ODbL, inclusa la disponibilità dei dati derivati prevista dalla licenza. Questi file OSM non contengono dati, texture o modelli Google Maps/Earth/Street View; il servizio fotografico separato viene caricato soltanto tramite SDK ufficiale.
 
 ## Moduli e grafica
 
-- `geo.ts`, `import-osm.ts`, `scripts/`: geografia offline.
+- `photoreal-entry.ts`, `photoreal-city.ts`, `photo-game.ts`: partita, interfaccia e modelli nel renderer Google; `photo-driving.ts`, `photo-traffic.ts`, `traffic-simulation.ts`, `encounter-simulation.ts`: movimento, traffico e scontro condivisi senza estrazione di geometrie Google.
+- `scripts/prepare-photo-world.mjs`, `prepare-photo-districts.ts`, `prepare-photo-models.mjs`: preparazione riproducibile di mondo comunale, destinazioni e modelli core GLB.
+- `geo.ts`, `import-osm.ts`, `scripts/`: geografia offline della base Babylon. I moduli seguenti descrivono quella scena.
 - `city-world.ts`, `city-visuals.ts`: scena geografica attiva con edifici accorpati per tile, collisioni su indice spaziale, strade sorgente, cortili e buchi del terreno. `world.ts` e `surfaces.ts` restano per la fixture e i materiali storici.
 - `visual-materials.ts`, `naples-facades.ts`, `santa-lucia-facade.ts`, `facade-detail.ts`: superfici PBR fotografiche, tre fronti alberghieri confermati e dettagli generici sulle altre sagome OSM. `tree-models.ts`, `foliage-materials.ts`, `vegetation.ts`, `green-ground.ts`, `coast-detail.ts` e `street-furniture.ts` gestiscono alberi ridotti, superfici verdi e arredi, distinguendo geometrie, materiali e posizioni sorgente.
 - `character-model.ts`, `car.ts`, `camera.ts`, `input.ts`: civile riggato e animazioni CC0, auto CarConcept CC BY 4.0, telecamera e controlli. `character.ts` e `vehicle.ts` conservano il personaggio e il motorino procedurali storici.
@@ -120,6 +106,8 @@ Licenza: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright
 Collisioni cinematiche nel piano orizzontale, con quota e assetto adattati alla superficie renderizzata, usando l’intera capsula dell’auto normalizzata: raggio circa 1,3085 m e semilunghezza 2,225 m. Scorrimento a piedi e arresto del mezzo contro gli ostacoli; sottopassi massimi di 20 cm. Bordi non attraversabili e recupero se si esce dalla mappa. Ombre selettive e istanze per decorazioni; qualità alta con pixel ratio massimo 1,5, bassa massimo 1 senza ombre. Nessun benchmark FPS verificato. Vite segnala il chunk JS iniziale sopra 500 kB: avviso, non errore.
 
 ## Evidenze e limiti
+
+Le suite fotografiche verificano provenienza e checksum del mondo esteso, spazio di arrivo nei 30 quartieri, GLB senza estensioni, movimento, visuale, colpi, traffico, inseguimento e salvataggi usando controller e adattatore dell’app. L’adattatore locale non renderizza immagini Google. La verifica visiva sul servizio reale resta distinta.
 
 Le suite automatiche verificano coordinate, poligoni e cortili, altezze dichiarate e stimate, collisioni e movimento, missione e salvataggi. Le revisioni 0.4.1–0.4.2 aggiungono controlli su fronti fotografici, dettagli costieri, arredi, aree verdi e dislivelli; l’intero percorso viene percorso dal controller su quote ricavate dai triangoli renderizzati, con verifiche su assetto e movimento dell’auto. Test e build sono eseguiti dal workflow GitHub sul commit della revisione.
 

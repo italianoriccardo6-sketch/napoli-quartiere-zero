@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "format": "glTF-2.0-binary-core-no-extensions",
+  "generatedBy": "scripts/prepare-photo-models.mjs",
+  "runtimeConversion": false,
+  "googleImageryIncluded": false,
+  "coordinateConvention": "right-handed glTF, metres, +Y up, +Z physical forward; native Maps ENU convention uses heading+180deg, tilt270deg, roll0deg, derived from the documented rotation frame and official windmill sample; live visual alignment still requires SDK verification",
+  "sources": [
+    {
+      "path": "assets/vehicles/car-concept/CarConcept.gltf",
+      "sha256": "6d968487ee7ea0f53f8df690b5778412ab0d78fa50f7a4e2b684013780d88f2d",
+      "revision": "8f492390ddc7a2ae221a1369ef560589cf8c70fb",
+      "license": "CC-BY-4.0",
+      "author": "Eric Chadwick",
+      "copyright": "© 2024 Darmstadt Graphics Group GmbH"
+    },
+    {
+      "path": "assets/characters/civilian/civilian.glb",
+      "sha256": "940444190abb1f3731675678277e9c3f27be1783966987f0a02ccd9fd1405193",
+      "license": "CC0-1.0",
+      "source": "https://vibeassets.io/a/zpepqtthci"
+    }
+  ],
+  "outputs": [
+    {
+      "file": "car-white-core.glb",
+      "path": "assets/photo-models/car-white-core.glb",
+      "license": "CC-BY-4.0",
+      "bytes": 4989216,
+      "sha256": "df82e90f5138ccf2f34ce32efc65b8720ade6eec9981e32d00879746a83f4339",
+      "dimensions": {
+        "width": 2.567008630642368,
+        "height": 1.160132084094106,
+        "length": 4.4
+      },
+      "upAxis": "+Y",
+      "forwardAxis": "+Z",
+      "groundY": 0,
+      "scale": 1,
+      "orientationOffset": {
+        "heading": 180,
+        "tilt": 270,
+        "roll": 0
+      },
+      "normalizedWheelCenters": {
+        "front": [
+          [
+            0.9852839863159635,
+            0.38775553240801874,
+            1.2590659601457415
+          ],
+          [
+            -0.9859763894034728,
+            0.38775547222045353,
+            1.2580381085029217
+          ]
+        ],
+        "rear": [
+          [
+            0.9913677987642415,
+            0.38775547222045353,
+            -1.568060194713076
+          ],
+          [
+            -0.9920602018517507,
+            0.38775547222045353,
+            -1.5673548918414326
+          ]
+        ]
+      },
+      "materialVariant": "Pearly Swirly",
+      "changes": [
+        "Original material variant baked; primary body adjusted to artistic white",
+        "KHR texture transforms baked to ordinary UV accessors",
+        "WebP source images decoded to embedded PNG and resampled to at most 1024px on the longest edge; depicted texture content retained at reduced detail",
+        "Clearcoat/iridescence removed; transmission approximated with core alpha blending; emissive strength clamped to core range",
+        "Trademark license plate node removed from rendering; original source bytes unchanged",
+        "Uniform metre normalization from actual wheel axis and transformed geometry",
+        "Offline attribute-aware mesh simplification retains original vertex attributes and extrema; unreferenced vertices removed; explicit tangents omitted so core-glTF viewers derive normal-map tangents"
+      ],
+      "optimization": {
+        "tool": "meshoptimizer",
+        "version": "1.3.0",
+        "sourceTriangles": 213313,
+        "triangles": 64755,
+        "targetTriangleRatio": 0.3,
+        "maximumRelativeSimplificationError": 0.015,
+        "achievedMaximumRelativeError": 0.014967206865549088,
+        "retained": "Original vertex positions, normals, UV streams, primitive/material assignments, per-primitive extrema and node transforms",
+        "runtimeCompression": false
+      },
+      "convertedTextures": [
+        {
+          "source": "Mechanical_N.webp",
+          "sourceSHA256": "020ebe88f3876916a3e69673bf87158f7277a16ab5ea0ee3907bdb79f4f7af48",
+          "pngSHA256": "d9f5dd9a7fa654f57876fa7cc9925023208e920d1b63e8a5e3be3f27ed91a631",
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "width": 512,
+          "height": 512,
+          "resampled": false
+        },
+        {
+          "source": "Mechanical_ORM.webp",
+          "sourceSHA256": "d1f1e5c59781b79db7e84da5e9b1fbb284b21efc7a539574ee0ebe1ce104421e",
+          "pngSHA256": "9e6361a944691a45bb3da951eea6a03013ff1ee03372b2485a07fe73a49f35d0",
+          "sourceWidth": 512,
+          "sourceHeight": 512,
+          "width": 512,
+          "height": 512,
+          "resampled": false
+        },
+        {
+          "source": "Occlusion.webp",
+          "sourceSHA256": "7fe3e166951f7bdb6d4e8388c0d5714dbba50e5cc275de1915e6eab8d6d5cb47",
+          "pngSHA256": "f227958d9f685aa4e79f780f234095e34693294f1ba68c5702ccaa81d5156ec6",
+          "sourceWidth": 2048,
+          "sourceHeight": 2048,
+          "width": 1024,
+          "height": 1024,
+          "resampled": true
+        },
+        {
+          "source": "Khronos_C.webp",
+          "sourceSHA256": "b4f81a98ffa615095fd32d35c6710ee8057dbb14809bbd3eefebbaf7dc2239c5",
+          "pngSHA256": "8a26109f4a7a9229cae4007011dd1d77794eaa40dab52573c711b9fbeef1d50b",
+          "sourceWidth": 512,
+          "sourceHeight": 128,
+          "width": 512,
+          "height": 128,
+          "resampled": false
+        },
+        {
+          "source": "Hex_N.webp",
+          "sourceSHA256": "bcde9a997f7a79e1908c1d212564a2263a6b95a3bca12cbd1f437e1f57c5fd8f",
+          "pngSHA256": "8b48365ed7bb81860b2934be3cc2be2c8f5efd20c87b5c2d45e5e2a0e389b26f",
+          "sourceWidth": 64,
+          "sourceHeight": 32,
+          "width": 64,
+          "height": 32,
+          "resampled": false
+        },
+        {
+          "source": "Hex_N.webp",
+          "sourceSHA256": "bcde9a997f7a79e1908c1d212564a2263a6b95a3bca12cbd1f437e1f57c5fd8f",
+          "pngSHA256": "8b48365ed7bb81860b2934be3cc2be2c8f5efd20c87b5c2d45e5e2a0e389b26f",
+          "sourceWidth": 64,
+          "sourceHeight": 32,
+          "width": 64,
+          "height": 32,
+          "resampled": false
+        },
+        {
+          "source": "Rib_N.webp",
+          "sourceSHA256": "c959f3710698cf6dff847297e2d6d97daf594672eec01f2c4856a18e6b4fa03f",
+          "pngSHA256": "234920877f43510815e7ef97e13d4313fcff87a1a022d185d0a24663159eb646",
+          "sourceWidth": 32,
+          "sourceHeight": 32,
+          "width": 32,
+          "height": 32,
+          "resampled": false
+        },
+        {
+          "source": "Dash_E.webp",
+          "sourceSHA256": "fd17ffdd3e6b638d16c934ece4cf63bf6e7300c55af92bb3b2153a3d3ee83145",
+          "pngSHA256": "d3c103e7f784ee637be736d3b2311b958871634cef74000163e9b9cff82f7ae4",
+          "sourceWidth": 1024,
+          "sourceHeight": 256,
+          "width": 1024,
+          "height": 256,
+          "resampled": false
+        },
+        {
+          "source": "Powdercoat_N.webp",
+          "sourceSHA256": "5528b60f02ad913071304a868c387bab78f87d09b246459a892307132a335ae9",
+          "pngSHA256": "9c17938dabfaf51117ca4488d5455d7583fab348f2449e0e24633c5fb0d93b41",
+          "sourceWidth": 128,
+          "sourceHeight": 128,
+          "width": 128,
+          "height": 128,
+          "resampled": false
+        },
+        {
+          "source": "Dot_C.webp",
+          "sourceSHA256": "ad468ff4a4cee31f595847eeda50fb23432c1b52be1991e0543cb6bd1ac84e85",
+          "pngSHA256": "59a00c20307e956770c2b61f04e4a89f4de4e52e5f8a6f0f45f0dd4c06c74140",
+          "sourceWidth": 128,
+          "sourceHeight": 128,
+          "width": 128,
+          "height": 128,
+          "resampled": false
+        },
+        {
+          "source": "Dot_N.webp",
+          "sourceSHA256": "7eb4771f6a73b483a6940f6c89ae7225243163af394b229f8405c5ec717e3d18",
+          "pngSHA256": "7e71581566240dc69dc508ddb94cbd8be26cce173e9d9d501363be4f04807157",
+          "sourceWidth": 128,
+          "sourceHeight": 128,
+          "width": 128,
+          "height": 128,
+          "resampled": false
+        },
+        {
+          "source": "Tireside_C.webp",
+          "sourceSHA256": "913effce24c0f5a9c0a5fa91bc8addb5f640efe6b858f2327e93abc2299d28b6",
+          "pngSHA256": "7545b527ef99549b3a13dbf9c6d54e7edef0d6b2642bcb294a0b8bff98510638",
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "width": 1024,
+          "height": 1024,
+          "resampled": false
+        },
+        {
+          "source": "Tireside_N.webp",
+          "sourceSHA256": "8b8dd254dbb7dc5202cd99e4ae9dbf890d8de3dcd79e77f12af923f29753c57a",
+          "pngSHA256": "811bc485e9177ba61d73b176622a922d75c392a437f69c90a0bb1803462d92b3",
+          "sourceWidth": 1024,
+          "sourceHeight": 1024,
+          "width": 1024,
+          "height": 1024,
+          "resampled": false
+        },
+        {
+          "source": "Tiretread_N.webp",
+          "sourceSHA256": "734af0dc6949c29e6da80657638b2b2d7ab5e265373b85bc131224931de1da52",
+          "pngSHA256": "11a5ce36130366b598c4916775368152a43a888817dcaf68283c15f2e4916610",
+          "sourceWidth": 512,
+          "sourceHeight": 128,
+          "width": 512,
+          "height": 128,
+          "resampled": false
+        }
+      ],
+      "triangles": 64755
+    },
+    {
+      "rightArmPose": {
+        "elbow": [
+          -0.3026430010795593,
+          1.1797977685928345,
+          -0.014010665938258171
+        ],
+        "wrist": [
+          -0.36223798990249634,
+          0.9587154984474182,
+          0.06785173714160919
+        ]
+      },
+      "file": "civilian-standing-core.glb",
+      "path": "assets/photo-models/civilian-standing-core.glb",
+      "license": "CC0-1.0",
+      "bytes": 1737720,
+      "sha256": "24f4fdb4eecbc754efda2c2e8bfdbc04f373399bcb890031e4a06e124b4ba9ac",
+      "dimensions": {
+        "width": 0.7894291636573346,
+        "height": 1.799999869906016,
+        "depth": 0.3700156686267224
+      },
+      "upAxis": "+Y",
+      "forwardAxis": "+Z",
+      "groundY": 1.0520555780713092e-15,
+      "scale": 1,
+      "orientationOffset": {
+        "heading": 180,
+        "tilt": 270,
+        "roll": 0
+      },
+      "changes": [
+        "Source skinned rest legs and averaged authored walk arm rotations baked offline into ordinary static geometry",
+        "Uniform 1.8 m height, feet centred at ground, forward +Z",
+        "Right-handed GLB output reflects the Babylon normalized pose along X and reverses triangle winding",
+        "No runtime skeleton or animation; this is a standing model translated by the game controller, not a walking animation",
+        "Original source JPG and source material preserved; source asset bytes unchanged"
+      ]
+    },
+    {
+      "file": "patrol-beacon-core.glb",
+      "path": "assets/photo-models/patrol-beacon-core.glb",
+      "license": "MIT",
+      "bytes": 4700,
+      "sha256": "bf3e4d88486a75403632e3aef0f61518c2fba26a8cc3c003f86c90ceeb114a51",
+      "dimensions": {
+        "width": 0.8,
+        "height": 0.12,
+        "depth": 0.25
+      },
+      "upAxis": "+Y",
+      "forwardAxis": "+Z",
+      "groundY": 0,
+      "scale": 1,
+      "orientationOffset": {
+        "heading": 180,
+        "tilt": 270,
+        "roll": 0
+      },
+      "triangles": 36,
+      "changes": [
+        "Original static blue/white roof-light geometry for a fictional patrol; no flashing or real-police identity claim"
+      ]
+    },
+    {
+      "file": "mission-marker-core.glb",
+      "path": "assets/photo-models/mission-marker-core.glb",
+      "license": "MIT",
+      "bytes": 3328,
+      "sha256": "533651a7c58af855fabf1e10000647e399ed9dc1265a2d03298450fd07c8b090",
+      "dimensions": {
+        "width": 0.6,
+        "height": 1.2,
+        "depth": 0.6
+      },
+      "upAxis": "+Y",
+      "forwardAxis": "+Z",
+      "groundY": 0,
+      "scale": 1,
+      "orientationOffset": {
+        "heading": 180,
+        "tilt": 270,
+        "roll": 0
+      },
+      "triangles": 32,
+      "changes": [
+        "Original gold geometric objective marker; no geographic structure or measured position claim"
+      ]
+    },
+    {
+      "file": "hand-core.glb",
+      "path": "assets/photo-models/hand-core.glb",
+      "license": "CC0-1.0",
+      "bytes": 243260,
+      "sha256": "bc6f87b9cce5205d6a652b28061ee7906ee4ddbb0e5e3f69f0b70f246f829d93",
+      "dimensions": {
+        "width": 0.15177686072241603,
+        "height": 0.13074663471064218,
+        "depth": 0.39426127022763957
+      },
+      "bounds": {
+        "min": [
+          -0.0674878552759083,
+          -0.06872278859703006,
+          -0.2302436001776973
+        ],
+        "max": [
+          0.08428900544650773,
+          0.062023846113612134,
+          0.16401767004994225
+        ]
+      },
+      "origin": "Measured source RightHand wrist pivot",
+      "wrist": [
+        0,
+        0,
+        0
+      ],
+      "sourceSelectedJoints": [
+        "RightForeArm",
+        "RightHand"
+      ],
+      "selectionMinimumCombinedWeight": 0.5,
+      "selectedSourceVertices": 2100,
+      "triangles": 1859,
+      "upAxis": "+Y",
+      "forwardAxis": "+Z",
+      "groundY": -0.06872278859703006,
+      "scale": 1,
+      "orientationOffset": {
+        "heading": 180,
+        "tilt": 270,
+        "roll": 0
+      },
+      "changes": [
+        "Selected actual triangles whose vertices have combined source RightForeArm/RightHand skin weight at least0.5",
+        "Reused the actual baked civilian pose, original UVs and original embedded source JPG; no synthetic hand geometry or substituted texture",
+        "Origin is measured wrist; forearm extends behind wrist along -Z, hand points forward along +Z",
+        "A static hand/forearm excerpt, with an open cut at the rear sleeve; no closed fist or finger articulation is claimed",
+        "Whole-model translation/rotation may animate a first-person strike; no runtime skeletal or Google mesh extraction"
+      ]
+    }
+  ],
+  "limitations": "Core-PBR adaptation is lossy. Google Maps live rendering, model axis mapping, transparent glass and fit against its archived photographic surfaces require native SDK verification; no visual equivalence or photogrammetric vehicle/character claim."
+}

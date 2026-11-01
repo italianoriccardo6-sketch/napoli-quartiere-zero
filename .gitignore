@@ -1,5 +1,6 @@
 node_modules/
 dist/
+public/data/photo-world.json
 work/
 .netlify/
 playwright-report/

@@ -1,6 +1,6 @@
 {
   "name": "napoli-quartiere-zero",
-  "version": "0.5.0-preview.1",
+  "version": "0.6.0-preview.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -14,7 +14,9 @@
     "city:plan": "node --import tsx scripts/acquire-city-sector.ts",
     "city:acquire": "node --import tsx scripts/acquire-city-sector.ts --execute",
     "city:pack": "node --import tsx scripts/prepare-city-sectors.ts",
-    "city:municipal-plan": "node --import tsx scripts/prepare-municipal-sectors.ts"
+    "city:municipal-plan": "node --import tsx scripts/prepare-municipal-sectors.ts",
+    "prebuild": "node scripts/prepare-photo-world.mjs && node --import tsx scripts/prepare-photo-districts.ts && node --import tsx scripts/prepare-photo-models.mjs",
+    "pretest": "node scripts/prepare-photo-world.mjs && node --import tsx scripts/prepare-photo-districts.ts && node --import tsx scripts/prepare-photo-models.mjs"
   },
   "dependencies": {
     "@babylonjs/core": "9.33.1",
@@ -26,9 +28,13 @@
     "polygon-clipping": "^0.15.7"
   },
   "devDependencies": {
+    "@mapbox/vector-tile": "3.0.0",
     "@napi-rs/canvas": "^1.1.0",
     "@types/earcut": "3.0.0",
     "@types/node": "^24.0.0",
+    "meshoptimizer": "1.3.0",
+    "pbf": "5.1.2",
+    "pmtiles": "4.5.0",
     "tsx": "^4.20.0",
     "typescript": "^6.0.0",
     "vite": "8.3.5"

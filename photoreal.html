@@ -4,9 +4,9 @@
   <main class="photo-layout">
     <aside class="photo-sidebar">
       <a class="photo-back" href="./">← Quartiere Zero</a>
-      <p class="photo-eyebrow">NAPOLI · ESPLORAZIONE 3D</p>
-      <h1>La città<br>fotografica.</h1>
-      <p class="photo-description">Esplora la città dall’alto con le immagini 3D di Google Maps, dove disponibili.</p>
+      <p class="photo-eyebrow">NAPOLI · GUIDA NELLA CITTÀ FOTOGRAFICA</p>
+      <h1>Napoli.<br>Al volante.</h1>
+      <p class="photo-description">Guida sul lungomare, scendi dall’auto e continua la storia nella città fotografica di Google Maps.</p>
       <section id="photo-setup" class="photo-card"><h2>Collega Google Maps</h2><p id="photo-setup-text">Il servizio fotografico non è ancora collegato. Il gioco esistente resta disponibile.</p><p><a href="./PHOTOREAL-SETUP.txt" target="_blank" rel="noopener">Costi e configurazione →</a></p></section>
       <section id="photo-key-config" class="photo-card">
         <label class="photo-label" for="photo-api-key">Chiave API Google Maps</label>
@@ -14,19 +14,21 @@
         <p id="photo-key-help">Usa una chiave Maps JavaScript limitata a questo sito. Rimane nella memoria di questa scheda: non viene salvata nel sito, nella chat o nel repository. Va reinserita quando ricarichi.</p>
         <p>L’apertura della mappa utilizza il piano e le quote del tuo account Google. Inserire la chiave, da solo, non carica la mappa.</p>
       </section>
-      <button id="photo-open" class="photo-primary" disabled>Apri Napoli fotografica</button>
-      <label class="photo-label" for="photo-district">Scegli un quartiere</label>
-      <select id="photo-district" disabled><option value="">Tutti i quartieri</option></select>
-      <button id="photo-go" class="photo-secondary" disabled>Esplora il quartiere →</button>
+      <button id="photo-open" class="photo-primary" disabled>Gioca a Napoli</button>
+      <button id="photo-mode" class="photo-secondary" hidden>Vista libera</button><button id="photo-pause" class="photo-secondary" hidden>Pausa</button><label class="photo-label" for="photo-district">Viaggio rapido · quartieri</label>
+      <select id="photo-district" disabled><option value="">Scegli una destinazione</option></select>
+      <button id="photo-go" class="photo-secondary" disabled>Vai nel quartiere →</button>
       <label class="photo-label" for="photo-quality">Qualità visiva</label>
       <select id="photo-quality"><option value="FIDELITY">Dettagli</option><option value="PERFORMANCE">Prestazioni</option></select>
       <p id="photo-status" role="status" aria-live="polite">Nessuna mappa fotografica caricata.</p>
-      <p class="photo-note">Questa vista esplora fotografie e geometrie archiviate, non una ripresa in diretta. Non include guida, combattimento o collisioni del gioco.</p>
+      <p class="photo-note">La città fotografica dipende dalle riprese archiviate di Google. Movimento e collisioni usano dati cartografici indipendenti. <a href="./assets/photo-models/ATTRIBUTION.txt" target="_blank" rel="noopener">Modelli e attribuzioni</a>.</p>
     </aside>
     <section class="photo-stage" aria-label="Città fotografica di Napoli">
       <div id="photo-map" tabindex="0"></div>
       <div id="photo-empty"><span>40°49′41″ N · 14°14′55″ E</span><p>NAPOLI</p><small>Le immagini reali appariranno qui dopo il collegamento del servizio.</small></div>
-      <div id="photo-controls" hidden><span>W A S D · sposta</span><span>Q E · ruota</span><span>+ − · zoom</span><button id="photo-home">Lungomare ↗</button></div>
+      <div id="photo-game-hud" hidden><p id="photo-objective"></p><div><span id="photo-bearing" aria-hidden="true">↑</span><span id="photo-distance"></span><span id="photo-coins"></span><b id="photo-speed"></b></div><p id="photo-wanted"></p><p id="photo-health"></p><p id="photo-hint"></p></div>
+      <div id="photo-controls" hidden><div id="photo-controls-game"><span>WASD · guida / cammina</span><span>E · scendi / parla</span><span>F · colpisci</span><span>Q C · visuale</span><span>Esc · pausa</span></div><div id="photo-controls-free" hidden><span>WASD · sposta</span><span>Q C · ruota</span><span>+ − · zoom</span></div><button id="photo-home">Recupera / Lungomare ↗</button></div>
+      <div id="photo-dialogue" hidden role="dialog" aria-modal="true" aria-label="Dialogo della storia"><p id="photo-dialogue-speaker"></p><p id="photo-dialogue-text"></p><div id="photo-dialogue-choices" hidden><button id="photo-protect">Proteggi la prova</button><button id="photo-negotiate">Apri una trattativa</button></div><button id="photo-dialogue-next">Continua →</button></div>
     </section>
   </main>
   <script type="module" src="/src/photoreal-entry.ts"></script>
