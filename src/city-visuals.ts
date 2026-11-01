@@ -25,7 +25,7 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime,
   const world=createCityWorld(scene,map,city,{materials,terrain:options.terrain,visualReplacementBuildingIds:replacements});
   const opening=openingStreetData(city);
   const realFacades=addNaplesFacades(scene,map,{buildingBaseHeight:world.buildingBaseHeight}),foliage=createPhotographicFoliageMaterials(scene);
-  const santaLucia=addSantaLuciaFacade(scene,map,{photoMaterial:realFacades.material,materials:{frame:materials.trim,glass:materials.glass,iron:materials.iron},buildingBaseHeight:world.buildingBaseHeight,shadows:world.shadows});
+  const santaLucia=addSantaLuciaFacade(scene,map,{materials:{frame:materials.trim,glass:materials.glass,iron:materials.iron},buildingBaseHeight:world.buildingBaseHeight,shadows:world.shadows});
   const excludeEdges=new Map(NAPLES_PHOTO_FACES.filter(f=>realFacades.excludedBuildingIds.has(f.buildingId)).map(f=>[f.buildingId,new Set(f.edges)]));
   for(const[id,edges]of santaLucia.excludedEdges)excludeEdges.set(id,new Set(edges));
   const facades=addFacadeDetail(scene,map,{focus:[opening.scooter,city.spawn,...city.route],radius:95,quality:'alta',materials,excludeEdges,excludeBuildingIds:replacements,buildingBaseHeight:world.buildingBaseHeight,buildingRenderHeight:world.buildingRenderHeight,shadows:world.shadows});
@@ -66,7 +66,7 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime,
     const skybox=scene.createDefaultSkybox(environment,true,100000,0,false);
     if(skybox){skybox.applyFog=false;if(skybox.material){skybox.material.disableDepthWrite=true;skybox.material.fogEnabled=false;}}
   });
-  const ready=Promise.all([materials.ready,foliage.ready,realFacades.ready,environmentReady,vegetationReady,backgroundReady,greenReady,furnitureReady]).then(()=>{});
-  scene.metadata={...(scene.metadata??{}),visualDetail:{facades:facades.stats,streets:streets.stats,coast:coast.stats,realFacades:realFacades.stats,santaLucia:santaLucia.stats,photographicMaps:'CC0 surfaces, foliage and three selected real Naples hotel fronts; inferred depth, not photogrammetry'}};
+  const ready=Promise.all([materials.ready,foliage.ready,realFacades.ready,santaLucia.ready,environmentReady,vegetationReady,backgroundReady,greenReady,furnitureReady]).then(()=>{});
+  scene.metadata={...(scene.metadata??{}),visualDetail:{facades:facades.stats,streets:streets.stats,coast:coast.stats,realFacades:realFacades.stats,santaLucia:santaLucia.stats,photographicMaps:'CC0 surfaces and foliage; two CC0 and one FAL-1.3 selected real Naples hotel fronts; inferred depth, not photogrammetry'}};
   return {...world,ready,surfaceHeightAt,updateDetail(position:Point,quality:'alta'|'bassa'){facades.update(position,quality);trees?.update(position,quality);}};
 }
