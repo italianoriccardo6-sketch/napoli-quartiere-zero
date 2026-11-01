@@ -24,9 +24,10 @@ jobs:
           node-version: '22'
           cache: npm
       - name: Librerie grafiche Linux per il contesto WebGL software
+        timeout-minutes: 4
         run: |
-          sudo apt-get update
-          sudo env DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends xvfb xauth libgl1-mesa-dri libgl1-mesa-dev libxi-dev libxext-dev pkg-config
+          sudo apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20 update
+          sudo env DEBIAN_FRONTEND=noninteractive apt-get -o Acquire::Retries=0 -o Acquire::http::Timeout=30 -o Acquire::https::Timeout=30 install -y --no-install-recommends xvfb xauth libgl1-mesa-dri libgl1-mesa-dev libxi-dev libxext-dev pkg-config
       - run: npm ci --no-audit --no-fund
       - name: Binding WebGL nativo soltanto nel runner di verifica
         env:
