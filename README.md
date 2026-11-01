@@ -2,13 +2,13 @@
 
 Gioco 3D per browser, tastiera e mouse. Si apre da un sito online anche su Mac; non richiede Unreal Engine o installazione di un gioco desktop.
 
-## 0.6.0-preview.1 — partita nella città fotografica
+## 0.6.0-preview.2 — partita nella città fotografica
 
 Apri **`/photoreal.html`**, inserisci la chiave Google Maps già configurata e premi **Gioca a Napoli**. La partita parte in auto sul lungomare: guida, scendi e segui l’obiettivo della storia. Il pulsante **Vista libera** consente di esplorare e poi tornare alla partita. Entrambe le modalità e il viaggio rapido riutilizzano la stessa mappa nativa Google Maps JavaScript 3D; non viene sovrapposto un secondo renderer Babylon. La versione Babylon esistente rimane all’indirizzo principale.
 
 - **Città e quartieri:** mondo di collisione esteso al comune con **56.201 poligoni di edifici e 23.373 parti di strada**, conservando esattamente la base centrale. Sono disponibili **30 destinazioni di viaggio rapido**, inclusi Posillipo, Fuorigrotta, Bagnoli, Pianura e Ponticelli. I riferimenti provengono dai dati cartografici; gli arrivi verificano lo spazio dell’intera auto e una posizione pedonale vicina. Non sono confini amministrativi dei quartieri. Non occorre Geocoding API.
 - **Guida e cammino:** auto GLB nativa, accelerazione, frenata, retromarcia, collisioni orizzontali con terra/edifici, salita e discesa, recupero e pausa. A piedi la vista iniziale è in prima persona; **V** mostra l’avatar statico in terza persona. L’avatar viene spostato dal controller: non ha una nuova animazione di cammino nel renderer Google.
-- **Traffico e allerta:** fino a quattro auto, inclusa una pattuglia fittizia, nel reticolo locale entro 500 m dalla partenza. Urti e incidenti narrativi possono attivare ricerca, inseguimento e fermo. Non è una simulazione del traffico di tutta Napoli, di corsie, precedenze o sensi unici.
+- **Traffico e allerta:** fino a quattro auto, inclusa una pattuglia fittizia, su un reticolo stradale entro 500 m dal giocatore. Il reticolo segue il giocatore in tutto il comune: dopo un viaggio rapido o quando ci si allontana oltre 250 m dall’ultima area, viene ricostruito sul posto. Le auto ancora entro 180 m restano dove sono con un nuovo percorso, quelle nuove compaiono ad almeno 70 m (30 m dopo un viaggio rapido). Durante un’allerta il traffico non viene spostato, così la pattuglia non sparisce a metà inseguimento. Urti e incidenti narrativi possono attivare ricerca, inseguimento e fermo. Restano quattro auto alla volta: non è una simulazione del traffico di tutta Napoli, di corsie, precedenze o sensi unici. Le auto nuove possono comparire in vista, a distanza.
 - **Scontro e storia:** scontro facoltativo a piedi con salute, fiato e colpi; **F** muove una mano/avambraccio estratti dal civile installato. Non è un pugno con dita articolate. Prologo con due scelte e nove tappe successive degli atti II–IV/epilogo sul percorso centrale. Prologo e campagna usano i salvataggi locali già esistenti; posizione, traffico, salute e stato dello scontro ripartono al ricaricamento. Se lo storage non è disponibile, la storia prosegue in memoria.
 
 | Comando | Partita fotografica |

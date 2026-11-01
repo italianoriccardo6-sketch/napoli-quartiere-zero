@@ -1,3 +1,9 @@
+# Preview 0.6.0-preview.2 — traffico in tutto il comune
+
+Il traffico della partita fotografica non è più fissato alla partenza: segue il giocatore nei quartieri raggiunti guidando o con il viaggio rapido. Le auto vicine vengono conservate, quelle nuove compaiono ad almeno 70 m, e nessuno spostamento avviene durante un’allerta. I tratti di strada già validati per l’ingombro dell’auto sono riusati; il reticolo prodotto è identico a quello precedente (verificato su 34 punti della mappa centrale e comunale). Misura in Node, non nel browser: la prima ricostruzione costa circa 130 ms, le successive, ogni 250 m di guida, circa 25–55 ms. Restano quattro auto alla volta. Verifica: 259 test superati, TypeScript e build superati; resa nella mappa Google non verificata visivamente.
+
+---
+
 # Preview 0.6.0-preview.1 — partita fotografica nativa
 
 `/photoreal.html` avvia ora la partita con **Gioca a Napoli**, usando la chiave Maps JavaScript già configurata. Guida e cammino, prima persona e avatar statico in terza persona, interazioni, colpi con mano visibile, traffico locale, pattuglia e storia operano nella stessa mappa nativa Google. Vista libera e partita condividono l’istanza; non serve un server GPU né Geocoding API per i quartieri.

@@ -15,15 +15,26 @@ const absent=(v:unknown)=>v===undefined||v==='no'||v==='false'||v==='0';
 const validPoint=(p:Point)=>p.length===2&&p.every(Number.isFinite);
 
 /** Source centreline graph only. Widths without an OSM width tag remain visual estimates. */
-export function buildTrafficNetwork(city:CityRuntime,ground:GroundCheck,options:{anchor:Point;radius?:number;maxEdges?:number;carRadius?:number;carHalfLength?:number}):TrafficNetwork {
+/**
+ * `edgeCache` may be shared between builds over the same static source ground:
+ * it stores whether a source segment admits the full car capsule, so moving the
+ * network around the player never re-samples streets already validated.
+ */
+export function buildTrafficNetwork(city:CityRuntime,ground:GroundCheck,options:{anchor:Point;radius?:number;maxEdges?:number;carRadius?:number;carHalfLength?:number;edgeCache?:Map<string,boolean>}):TrafficNetwork {
   const radius=options.radius??500,maxEdges=options.maxEdges??1600,carRadius=options.carRadius??1.3085043,halfLength=options.carHalfLength??2.225;
   if(!validPoint(options.anchor)||!Number.isFinite(radius)||radius<=0||radius>1500||!Number.isInteger(maxEdges)||maxEdges<1||maxEdges>5000)throw Error('Invalid traffic network budget.');
   const nodes=new Map<string,TrafficNode>(),segments:TrafficNetwork['segments']=[];
   const graph:TrafficNetwork={nodes,segments,sourceRoads:city.roads.length,excludedRoads:0,validatedEdges:0};
+  // Each road's nearest-point distance is computed once. Roads whose every point
+  // lies beyond the radius cannot contribute a segment (see the endpoint test
+  // below), so dropping them before sorting leaves the resulting graph unchanged.
   const roads=city.roads.map(road=>road as typeof road&{nodeIds?:string[];tunnel?:string;bridge?:string;covered?:string;layer?:string;access?:string}).filter(road=>{
     const allowed=drivable.has(road.highway)&&absent(road.tunnel)&&absent(road.bridge)&&absent(road.covered)&&absent(road.layer)&&road.access!=='private'&&road.access!=='no';
     if(!allowed)graph.excludedRoads++;return allowed;
-  }).sort((a,b)=>Math.min(...a.points.map(p=>distance(p,options.anchor)))-Math.min(...b.points.map(p=>distance(p,options.anchor)))||a.id.localeCompare(b.id));
+  }).map(road=>{let nearest=Infinity;for(const p of road.points){const d=distance(p,options.anchor);if(d<nearest)nearest=d;}return {road,nearest};})
+    .filter(entry=>entry.nearest<=radius)
+    .sort((a,b)=>a.nearest-b.nearest||a.road.id.localeCompare(b.road.id)).map(entry=>entry.road);
+  const cache=options.edgeCache,cacheScope=`${carRadius}:${halfLength}:`;
   const node=(id:string,point:Point)=>{let n=nodes.get(id);if(!n){n={id,point:[...point],edges:[]};nodes.set(id,n);}return n;};
   for(const road of roads){
     const width=cityRoadWidth(road);if(width<carRadius*2+.3)continue;
@@ -32,10 +43,15 @@ export function buildTrafficNetwork(city:CityRuntime,ground:GroundCheck,options:
       const a=road.points[i-1],b=road.points[i];if(!validPoint(a)||!validPoint(b)||Math.min(distance(a,options.anchor),distance(b,options.anchor))>radius)continue;
       const span=distance(a,b);if(span<.3||span>350)continue;
       const heading=Math.atan2(b[0]-a[0],b[1]-a[1]);
-      let clear=true;
-      // Include both endpoints and the complete body, not just a centre point.
-      const count=Math.max(1,Math.ceil(span/1.25));
-      for(let k=0;k<=count;k++){const t=k/count;if(!canStandForCar({x:a[0]+(b[0]-a[0])*t,z:a[1]+(b[1]-a[1])*t},heading,ground,carRadius,halfLength)){clear=false;break;}}
+      const cacheKey=cacheScope+road.id+':'+i+':'+a.join(',')+':'+b.join(',');
+      let clear=cache?.get(cacheKey);
+      if(clear===undefined){
+        clear=true;
+        // Include both endpoints and the complete body, not just a centre point.
+        const count=Math.max(1,Math.ceil(span/1.25));
+        for(let k=0;k<=count;k++){const t=k/count;if(!canStandForCar({x:a[0]+(b[0]-a[0])*t,z:a[1]+(b[1]-a[1])*t},heading,ground,carRadius,halfLength)){clear=false;break;}}
+        cache?.set(cacheKey,clear);
+      }
       if(!clear)continue;
       const key=(index:number,p:Point)=>road.nodeIds?.[index]??`point:${p[0].toFixed(6)},${p[1].toFixed(6)}`;
       const aid=key(i-1,a),bid=key(i,b);if(aid===bid)continue;

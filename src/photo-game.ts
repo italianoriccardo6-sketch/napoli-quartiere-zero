@@ -78,7 +78,9 @@ export function createPhotoGame(city:Awaited<ReturnType<typeof createPhotorealCi
       if(event==='knocked-out'){driver.recover();tell('Sei stato messo fuori combattimento. La storia è conservata.');}
     }});
   }
-  const fleet=traffic.actors.map(actor=>({actor,car:model(CAR,actor.position,actor.heading),light:actor.role==='patrol'?model(LIGHT,actor.position,actor.heading,1.18):undefined}));
+  // One model per traffic slot, bound by index: relocating traffic replaces the
+  // actors, so slots are re-posed or hidden rather than re-created on the map.
+  const fleet=Array.from({length:traffic.maxVehicles},(_,slot)=>{const actor=traffic!.actors[slot],at=actor?.position??driver.state.car.position,heading=actor?.heading??0,item={car:model(CAR,at,heading),light:model(LIGHT,at,heading,1.18)};show(item.car,!!actor);show(item.light,actor?.role==='patrol');return item;});
   const marker=model(MARKER,map.city.pickup,0,2.2);
   function destination():Point|null{if(story.phase==='completed')return campaignStops[campaign.checkpoint]?.position??null;return story.phase==='carrying'?map.city!.delivery:map.city!.pickup;}
   function view():PhotoGameView{
@@ -109,7 +111,7 @@ export function createPhotoGame(city:Awaited<ReturnType<typeof createPhotorealCi
   function choose(choice:StoryChoice){if(!playing||paused||!dialogueLines||!dialogueChoice||dialogueIndex<dialogueLines.length)return;story=reduceStory(story,choice==='protect'?'choose-protect':'choose-negotiate');persist();dialogueLines=null;dialogueChoice=false;if(choice==='negotiate')traffic!.reportIncident('mission');}
   function sync(){
     pose(car,driver.state.car.position,driver.state.car.heading);pose(person,driver.state.player.position,driver.state.player.heading);show(person,driver.state.mode==='foot'&&footThirdPerson);
-    for(const item of fleet){pose(item.car,item.actor.position,item.actor.heading);if(item.light)pose(item.light,item.actor.position,item.actor.heading,1.18);}
+    for(const [slot,item]of fleet.entries()){const actor=traffic!.actors[slot];show(item.car,!!actor);show(item.light,actor?.role==='patrol');if(!actor)continue;pose(item.car,actor.position,actor.heading);if(actor.role==='patrol')pose(item.light,actor.position,actor.heading,1.18);}
     const target=destination();show(marker,!!target);if(target)pose(marker,target,elapsed*.8,2.2);
     if(opponent&&encounter){const fight=encounter.state;show(opponent,fight.phase!=='defeated'&&fight.phase!=='knocked-out');pose(opponent,fight.position,fight.heading);if(fight.opponentPunch>=0)opponent.orientation=nativeModelOrientation(fight.heading,Math.sin(fight.opponentPunch/.5*Math.PI)*12);}
     const fight=encounter?.state,age=fight?.playerPunch??-1,strike=age>=0&&age<=.45&&driver.state.mode==='foot';show(hand,strike);
@@ -130,11 +132,11 @@ export function createPhotoGame(city:Awaited<ReturnType<typeof createPhotorealCi
       driver.update(dt,{forward:input.forward,turn:input.turn,run:input.run,viewHeading:driver.state.mode==='foot'?driver.state.viewHeading+(input.orbit??0)*dt*1.2:undefined});
       footSpeed=driver.state.mode==='foot'?Math.hypot(driver.activePosition[0]-before[0],driver.activePosition[1]-before[1])/dt:0;
       if(driver.state.collision&&impact>3)traffic!.reportPlayerCollision(impact);
-      traffic!.update(dt);encounter?.update(dt);
+      traffic!.update(dt);traffic!.follow();encounter?.update(dt);
     }
     cameraClock+=dt;if(cameraClock>=1/30){cameraClock%=1/30;sync();}
   }
   function recover(){if(!playing||paused||dialogueLines)return;if(driver.recover()){cameraOrbit=0;sync();tell('Auto recuperata in un punto libero.');}else tell('Il punto di recupero è occupato. Attendi il traffico.');}
   sync();
-  return {driver,traffic,encounter,districts:resources.districts??[],travelTo(name:string){if(dialogueLines||traffic!.pursuit.state.level>0){tell('Concludi il dialogo o semina la pattuglia prima del viaggio rapido.');return false;}const district=resources.districts?.find(d=>d.name===name);if(!district||!driver.travelTo(district.drive.position,district.drive.heading)){tell('Non c’è spazio libero per arrivare qui.');return false;}cameraOrbit=0;sync();tell(`${district.name} · ${district.drive.roadName??'arrivo sulla strada'}`);return true;},update,interact,choose,recover,view,sync,attack(){if(playing&&!paused&&!dialogueLines&&driver.state.mode==='foot')return encounter?.attack()??false;return false;},toggleView(){footThirdPerson=!footThirdPerson;sync();},setPaused(value:boolean){paused=value;driver.state.car.speed=0;},get paused(){return paused;},setPlaying(value:boolean){playing=value;driver.state.car.speed=0;if(value)sync();},dispose(){if(disposed)return;disposed=true;for(const object of owned)object.remove();visible.clear();}};
+  return {driver,traffic,encounter,districts:resources.districts??[],travelTo(name:string){if(dialogueLines||traffic!.pursuit.state.level>0){tell('Concludi il dialogo o semina la pattuglia prima del viaggio rapido.');return false;}const district=resources.districts?.find(d=>d.name===name);if(!district||!driver.travelTo(district.drive.position,district.drive.heading)){tell('Non c’è spazio libero per arrivare qui.');return false;}traffic!.relocate(district.drive.position);cameraOrbit=0;sync();tell(`${district.name} · ${district.drive.roadName??'arrivo sulla strada'}`);return true;},update,interact,choose,recover,view,sync,attack(){if(playing&&!paused&&!dialogueLines&&driver.state.mode==='foot')return encounter?.attack()??false;return false;},toggleView(){footThirdPerson=!footThirdPerson;sync();},setPaused(value:boolean){paused=value;driver.state.car.speed=0;},get paused(){return paused;},setPlaying(value:boolean){playing=value;driver.state.car.speed=0;if(value)sync();},dispose(){if(disposed)return;disposed=true;for(const object of owned)object.remove();visible.clear();}};
 }

@@ -19,7 +19,8 @@ Q/C per la visuale, +/− per la distanza, R per recuperare, Esc per la pausa.
 Shift fa correre. Prologo e nove tappe successive conservano i salvataggi locali.
 Posizione, traffico, salute e stato dello scontro ripartono al ricaricamento.
 Fino a quattro auto, inclusa una pattuglia fittizia, usano un reticolo locale
-entro 500 m dalla partenza; non è traffico simulato in tutta la città.
+entro 500 m dal giocatore, ricostruito quando ci si sposta in un altro quartiere;
+non è traffico simulato in tutta la città.
 «Vista libera» e «Torna alla partita» riutilizzano la stessa mappa.
 
 Il mondo cartografico indipendente contiene 56.201 edifici e 23.373 parti di
