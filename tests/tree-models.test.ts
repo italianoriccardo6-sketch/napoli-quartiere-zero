@@ -174,3 +174,19 @@ test('albero GLB reale: dispose durante il caricamento rilascia anche mesh e mat
     assert.ok(scene.materials.every(material=>material===bark||material===broadleaf),'late placeholder materials are also released');assert.ok(scene.materials.includes(bark)&&scene.materials.includes(broadleaf));
   }finally{release();result.dispose();scene.dispose();e.dispose();}
 });
+
+
+test('alberi: distanza e qualità escludono istanze lontane senza spostare nodi o lasciare template fantasma',{timeout:15000},async()=>{
+  const e=engine(),scene=new Scene(e),{map,green,point,options}=fixture(),bark=new StandardMaterial('bark',scene),broadleaf=new StandardMaterial('leaves',scene);
+  const result=createTreeModels(scene,map,green,{...options,materials:{bark,broadleaf},renderDistance:{alta:300,bassa:120},loadManifest:async()=>manifest,loadModel:loadRealModel});
+  try{
+    await result.ready;const placement=JSON.stringify(result.placements);
+    result.update([point[0]+200,point[1]],'alta');assert.equal(result.stats.farTrees,1);assert.equal(result.stats.culledTrees,0);
+    result.update([point[0]+200,point[1]],'bassa');assert.equal(result.stats.farTrees,0);assert.equal(result.stats.culledTrees,1);assert.equal(result.stats.renderedModelTriangles,0);
+    for(const lod of ['near','far'])emptyLOD(result.meshes.filter(mesh=>mesh.metadata?.treeModel&&mesh.metadata.lod===lod));
+    result.update([point[0]+118,point[1]],'bassa');assert.equal(result.stats.farTrees,1);
+    result.update([point[0]+123,point[1]],'bassa');assert.equal(result.stats.farTrees,1,'hysteresis avoids churn at the boundary');
+    result.update([point[0]+126,point[1]],'bassa');assert.equal(result.stats.culledTrees,1);
+    result.update(point,'alta');assert.equal(result.stats.nearTrees,1);assert.equal(JSON.stringify(result.placements),placement);
+  }finally{result.dispose();scene.dispose();e.dispose();}
+});

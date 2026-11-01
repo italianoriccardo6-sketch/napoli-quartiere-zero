@@ -10,7 +10,9 @@
     "preview": "vite preview --host 0.0.0.0",
     "test": "node --import tsx scripts/test-all.mjs",
     "data:fetch": "node scripts/fetch-osm.mjs",
-    "data:prepare": "node --import tsx scripts/prepare-city.ts"
+    "data:prepare": "node --import tsx scripts/prepare-city.ts",
+    "city:plan": "node --import tsx scripts/acquire-city-sector.ts",
+    "city:acquire": "node --import tsx scripts/acquire-city-sector.ts --execute"
   },
   "dependencies": {
     "@babylonjs/core": "9.33.1",

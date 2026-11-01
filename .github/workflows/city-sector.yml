@@ -1,0 +1,33 @@
+name: Acquisisci un settore della Napoli estesa
+on:
+  workflow_dispatch:
+    inputs:
+      sector:
+        description: ID esatto da npm run city:plan (un solo settore, circa 1 km²)
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: napoli-bounded-city-sector
+  cancel-in-progress: false
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --no-audit --no-fund
+      - name: Acquisizione singola con limiti, provenienza e controllo topologico
+        env:
+          REQUESTED_SECTOR: ${{ inputs.sector }}
+        run: node --import tsx scripts/acquire-city-sector.ts --execute "--sector=$REQUESTED_SECTOR"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: napoli-sector-${{ github.run_id }}
+          path: data/city-sectors/
+          retention-days: 30

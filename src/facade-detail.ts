@@ -22,6 +22,8 @@ export interface FacadeOptions {
   shadows?:ShadowGenerator;
   /** Buildings with verified photo fronts can keep their original architecture visible. */
   excludeBuildingIds?:ReadonlySet<string>;
+  /** Chunk ownership only; the full map still participates in overhang clearance. */
+  includeBuildingIds?:ReadonlySet<string>;
   /** Photo fronts replace only these source edges; other sides keep their detail. */
   excludeEdges?:ReadonlyMap<string,ReadonlySet<number>>;
   /** The same inferred flat foundation used by the building volume. */
@@ -92,7 +94,7 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
   const priorityDistance=(building:Footprint)=>priority?Math.min(...building.rings[0].map((a,i)=>segmentDistance(priority,a,building.rings[0][(i+1)%building.rings[0].length]))):Infinity;
   // The whole route controls eligibility; the actual starting/player point controls
   // priority. A distant hotel beside another route vertex must not starve the first street.
-  const selected=entries.filter(e=>e.distance<=options.radius&&!options.excludeBuildingIds?.has(e.building.id)).sort((a,b)=>priorityDistance(a.building)-priorityDistance(b.building)||a.distance-b.distance||a.building.id.localeCompare(b.building.id));
+  const selected=entries.filter(e=>e.distance<=options.radius&&!options.excludeBuildingIds?.has(e.building.id)&&(!options.includeBuildingIds||options.includeBuildingIds.has(e.building.id))).sort((a,b)=>priorityDistance(a.building)-priorityDistance(b.building)||a.distance-b.distance||a.building.id.localeCompare(b.building.id));
   const parts:FacadePart[]=[],deferredLouvers:FacadePart[]=[];
   const perBuildingLimit=Math.min(maximumParts,options.quality==='alta'?4000:1400),buildingCounts=new Map<string,number>();
   let stop=false;

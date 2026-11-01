@@ -15,7 +15,7 @@ import type {MapData,Point} from './geo';
 import {photoProjection,type PixelQuad} from './naples-facades';
 // This FAL 1.3 calibration asset is also independently accessible at its public
 // URL, alongside the unchanged photograph, attribution and complete license.
-import projectionAsset from '../public/assets/santa-lucia-pitrou-2011/projection.json';
+import projectionAsset from '../assets/santa-lucia-pitrou-2011/projection.json';
 
 export const SANTA_LUCIA_PHOTO={
   path:'assets/santa-lucia-pitrou-2011/source.jpg',projectionPath:'assets/santa-lucia-pitrou-2011/projection.json',

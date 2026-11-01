@@ -4,6 +4,7 @@ import {Canvas} from '@napi-rs/canvas';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';
 import {Scene} from '@babylonjs/core/scene';
 import {createCamera} from '../src/camera';
+import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {createCityWorld,cityRoadWidth} from '../src/city-world';
 import type {MapData,Point} from '../src/geo';
 (globalThis as unknown as {OffscreenCanvas:typeof Canvas}).OffscreenCanvas=Canvas;
@@ -50,5 +51,20 @@ test('curve stradali: fascia continua senza buchi triangolari, normali verso alt
     assert.equal(covers([5,-5]),false,'larghezza stimata del miter limitata');
     for(let i=1;i<normals.length;i+=3)assert.ok(normals[i]>.99,'illuminazione sulla faccia superiore');
     assert.equal(world.canStand(2,-2),true,'la mesh decorativa non crea muri invisibili');
+  }finally{scene.dispose();engine.dispose();}
+});
+
+test('building streaming: unloading GPU geometry preserves distant collisions and source data',()=>{
+  const engine=new NullEngine({renderWidth:640,renderHeight:480,textureSize:256,deterministicLockstep:true,lockstepMaxSteps:4}),scene=new Scene(engine);
+  try{
+    const map:MapData={provenance:'osm',notice:'synthetic fixture',paths:[],land:[[[-500,-500],[4500,-500],[4500,500],[-500,500]]],buildings:[0,1000,3000].map(x=>({id:'fixture-'+x,height:10,estimated:false,rings:[[[x,0],[x+20,0],[x+20,20],[x,20]] as Point[]]}))};
+    const before=JSON.stringify(map),world=createCityWorld(scene,map,undefined,{streaming:{position:[-20,0],loadDistance:150}}),cam=createCamera(scene);
+    assert.equal(world.canStand(3010,10),false,'distant building collision is active before its GPU mesh loads');
+    assert.equal(scene.metadata.cityWorld.buildingStream.residentChunks,1);
+    cam.camera.position.set(2980,4,30);cam.camera.setTarget(new Vector3(3000,4,0));
+    scene.render();scene.render();
+    const ids=scene.meshes.flatMap(m=>m.metadata?.sourceIds??[]);
+    assert.ok(ids.includes('fixture-3000'));assert.ok(!ids.includes('fixture-0'),'far meshes released');
+    assert.equal(world.canStand(10,10),false,'unloading leaves source collisions intact');assert.equal(JSON.stringify(map),before);
   }finally{scene.dispose();engine.dispose();}
 });
