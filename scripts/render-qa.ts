@@ -170,7 +170,7 @@ const engine=new Engine(gl,false,{preserveDrawingBuffer:true,stencil:true,disabl
 if(usePBR||useCar)engine._features.forceBitmapOverHTMLImageElement=true;
 const caps=engine.getCaps(),debug=gl.getExtension('WEBGL_debug_renderer_info');
 const driver={driverRenderer:gl.getParameter(gl.RENDERER),driverVendor:gl.getParameter(gl.VENDOR),unmaskedRenderer:debug?gl.getParameter(debug.UNMASKED_RENDERER_WEBGL):null};
-const capabilities={instancedArrays:caps.instancedArrays,ANGLE_instanced_arrays:gl.getExtension('ANGLE_instanced_arrays')!==null,standardDerivatives:caps.standardDerivatives,textureFloat:caps.textureFloat,textureFloatRender:caps.textureFloatRender,textureHalfFloat:caps.textureHalfFloat,textureHalfFloatRender:caps.textureHalfFloatRender};
+const capabilities={instancedArrays:caps.instancedArrays,ANGLE_instanced_arrays:gl.getExtension('ANGLE_instanced_arrays')!==null,uintIndices:caps.uintIndices,maxTextureSize:caps.maxTextureSize,standardDerivatives:caps.standardDerivatives,textureFloat:caps.textureFloat,textureFloatRender:caps.textureFloatRender,textureHalfFloat:caps.textureHalfFloat,textureHalfFloatRender:caps.textureHalfFloatRender};
 const scene=new Scene(engine),errors:string[]=[];
 engine.onEffectErrorObservable.add(({errors:message})=>errors.push(message));
 const started=performance.now();
@@ -199,7 +199,7 @@ try{
       world=createCityWorld(scene,map,map.city,{materials,terrain});
       if(useDetail){
         const focus=[map.city.spawn,...map.city.route];
-        addFacadeDetail(scene,map,{focus,radius:95,quality:'alta',materials,buildingBaseHeight:world.buildingBaseHeight});
+        addFacadeDetail(scene,map,{focus,radius:95,quality:'alta',materials,buildingBaseHeight:world.buildingBaseHeight,buildingRenderHeight:world.buildingRenderHeight});
         const street=addStreetDetail(scene,map,map.city,{materials,groundHeight:world.groundHeightAt,groundGeometry:world.groundGeometry}),ground=world.surfaceHeightAt??(()=>0);
         world.surfaceHeightAt=(x,z)=>Math.max(ground(x,z),street.supportHeightAt(x,z)??-Infinity);
       }
@@ -343,7 +343,12 @@ try{
   const facadeMeshes=scene.meshes.filter(m=>m.metadata?.facadeDetail),active=scene.getActiveMeshes(),activeSet=new Set(active.data.slice(0,active.length));
   const facadeRendering={batches:facadeMeshes.length,enabledBatches:facadeMeshes.filter(m=>m.isEnabled()).length,activeBatches:facadeMeshes.filter(m=>activeSet.has(m)).map(m=>({name:m.name,instances:m.metadata.instances})),instances:facadeMeshes.reduce((sum,m)=>sum+(m.metadata.instances??0),0)};
   const transmissionTargetType=(scene as Scene&Partial<ITransmissionHelperHolder>)._transmissionHelper?.getOpaqueTarget()?.getInternalTexture()?.type;
-  const report={mode,view:arg('--view')??(useCar?'on-foot':'initial'),sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,...driver,capabilities,facadeRendering,transmissionTargetType,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,importedCharacter:usePBR&&useDetail,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
+  const gpuIndexBuffers=scene.meshes.filter((mesh):mesh is Mesh=>mesh instanceof Mesh&&mesh.getTotalVertices()>60000).map(mesh=>{
+    const indices=mesh.getIndices()??[];let maximumIndex=-1;for(let i=0;i<indices.length;i++)maximumIndex=Math.max(maximumIndex,indices[i]);
+    const is32Bits=mesh.geometry?.getIndexBuffer()?.is32Bits??false;
+    return {name:mesh.name,vertices:mesh.getTotalVertices(),maximumIndex,is32Bits,narrowingRisk:maximumIndex>65535&&!is32Bits};
+  });
+  const report={mode,view:arg('--view')??(useCar?'on-foot':'initial'),sourceRevision:process.env.GITHUB_SHA??null,output,width,height,webGLVersion:engine.webGLVersion,...driver,capabilities,facadeRendering,gpuIndexBuffers,transmissionTargetType,softwareRequested:process.env.LIBGL_ALWAYS_SOFTWARE==='1',features:{photographicPBR:usePBR,facadeAndStreetDetail:useDetail,importedCar:useCar,importedCharacter:usePBR&&useDetail,HDRRadiancePrefilter:usePBR&&engine._features.allowTexturePrefiltering},assetsRead:[...assetsRead].sort(),cameraPosition:scene.activeCamera?.position.asArray(),meshCount:scene.meshes.length,materialCount:scene.materials.length,frames,renderWallMs:Math.round(performance.now()-started),shaderErrors:errors,webGLErrors:glErrors,sourceSceneMetadata:scene.metadata,limitations:['Direct Node WebGL, not browser UI automation or macOS validation.','WebGL1 adapter: browser WebGL2 feature output and performance may differ.','HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.','No FPS claim; renderWallMs includes scene construction, compilation and capture.','No HTML HUD is included: this captures the actual 3D engine scene only.']};
   await writeFile(output.replace(/\.png$/i,'.json'),JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report,null,2));
 }catch(error){
   await mkdir(dirname(output),{recursive:true});

@@ -23,6 +23,7 @@ export interface World {
   groundHeightAt?:(x:number,z:number)=>number;
   surfaceHeightAt?:(x:number,z:number)=>number;
   buildingBaseHeight?:(id:string)=>number;
+  buildingRenderHeight?:(id:string)=>number;
   groundGeometry?:{positions:ArrayLike<number>;indices:ArrayLike<number>;normals?:ArrayLike<number>};
 }
 export function createWorld(scene:Scene,data:MapData):World {

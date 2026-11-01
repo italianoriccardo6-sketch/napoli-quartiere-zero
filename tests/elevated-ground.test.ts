@@ -1,20 +1,25 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';
 import {Scene} from '@babylonjs/core/scene';
 import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
 import {inside,segmentDistance,type Point} from '../src/geo';
 import {addElevatedGround,buildElevatedGroundGeometry,createElevatedGroundSampler,type ElevatedGroundGeometry} from '../src/elevated-ground';
+import {parseCityElevationGrid,sampleCityElevation} from '../src/city-elevation';
+import {createCityTerrainPolicy} from '../src/city-terrain-policy';
+import {openingStreetData} from '../src/vehicle-placement';
 
 function topology(g:ElevatedGroundGeometry){
-  const edges=new Map<string,{a:Point;b:Point;count:number}>();
+  const edges=new Map<string,{a:Point;b:Point;count:number;direction:number}>();
   for(let i=0;i<g.indices.length;i+=3)for(let j=0;j<3;j++){
     const aa=g.indices[i+j],bb=g.indices[i+(j+1)%3],k=aa<bb?aa+','+bb:bb+','+aa;
-    const edge=edges.get(k)??{a:[g.positions[aa*3],g.positions[aa*3+2]],b:[g.positions[bb*3],g.positions[bb*3+2]],count:0};edge.count++;edges.set(k,edge);
+    const edge=edges.get(k)??{a:[g.positions[aa*3],g.positions[aa*3+2]],b:[g.positions[bb*3],g.positions[bb*3+2]],count:0,direction:0};edge.count++;edge.direction+=aa<bb?1:-1;edges.set(k,edge);
   }
   return [...edges.values()];
 }
 function projectedArea(g:ElevatedGroundGeometry){let sum=0;for(let i=0;i<g.indices.length;i+=3){const [a,b,c]=g.indices.slice(i,i+3).map(v=>[g.positions[v*3],g.positions[v*3+2]]);const area=((b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]))/2;assert.ok(area>0);sum+=area;}return sum;}
+function minimumPlanarShape(g:ElevatedGroundGeometry){let minimum=Infinity;for(let i=0;i<g.indices.length;i+=3){const p=g.indices.slice(i,i+3).map(v=>[g.positions[v*3],g.positions[v*3+2]] as Point),[a,b,c]=p,area=(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]),longest=Math.max(...p.map((a,j)=>{const b=p[(j+1)%3];return Math.hypot(a[0]-b[0],a[1]-b[1]);}));minimum=Math.min(minimum,area/(longest*longest));}return minimum;}
 function hasPoint(g:ElevatedGroundGeometry,x:number,z:number){
   for(let i=0;i<g.indices.length;i+=3){const p=g.indices.slice(i,i+3).map(v=>[g.positions[v*3],g.positions[v*3+2]] as Point),cross=p.map((a,j)=>{const b=p[(j+1)%3];return(b[0]-a[0])*(z-a[1])-(b[1]-a[1])*(x-a[0]);});if(cross.every(n=>n>=-1e-9))return true;}return false;
 }
@@ -67,7 +72,62 @@ test('surface query follows rendered triangle interpolation and leaves water hol
   assert.equal(sample(4,4),undefined);assert.equal(sample(-1,4),undefined);assert.equal(sample(NaN,4),undefined);
 });
 
+test('surface query prefers a containing thin face over an earlier tolerant outside hit and shares overlay degeneracy policy',()=>{
+  const sample=createElevatedGroundSampler({positions:[0,0,0,10,0,0,0,0,10,5,1,-1e-8],indices:[0,1,2,1,0,3]});
+  assert.ok(Math.abs(sample(5,-1e-9)!-.1)<1e-12,'the outside broad face cannot hide the actual containing neighbour');
+  const degenerate=createElevatedGroundSampler({positions:[0,0,0,1,0,0,.5,100,1e-11],indices:[0,1,2]});
+  assert.equal(degenerate(.5,1e-12),undefined,'faces omitted by the terrain overlay are omitted by its support sampler');
+});
+
 test('Babylon attachment keeps caller-owned material and camera-pickable land meshes',()=>{
   const engine=new NullEngine(),scene=new Scene(engine),material=new StandardMaterial('caller-owned',scene);
   try{const ground=addElevatedGround(scene,[[[[0,0],[8,0],[8,8],[0,8]]]],(x,z)=>x*.1+z*.1,material,{maxEdge:2,tileSize:4});assert.ok(ground.meshes.length>1);assert.ok(ground.meshes.every(m=>m.material===material&&m.metadata.solid&&m.isPickable));assert.ok(Math.abs(ground.heightAt(2,2)!-.4)<1e-9);ground.dispose();assert.equal(ground.heightAt(2,2),undefined);assert.ok(scene.materials.includes(material));}finally{scene.dispose();engine.dispose();}
+});
+
+test('adaptive midpoint probes are cached separately from rendered vertices and leave a shallow plane unchanged',()=>{
+  const land:Point[][][]=[[[[0,0],[24,0],[24,24],[0,24]]]],calls=new Map<string,number>(),height=(x:number,z:number)=>x*.1+z*.05;
+  const baseline=buildElevatedGroundGeometry(land,height,{maxEdge:12});
+  const adaptive=buildElevatedGroundGeometry(land,(x,z)=>{const k=x+','+z;calls.set(k,(calls.get(k)??0)+1);return height(x,z);},{maxEdge:12,adaptiveMinEdge:3,steepGrade:.6,midpointError:.75});
+  assert.deepEqual(adaptive.positions,baseline.positions);assert.deepEqual(adaptive.indices,baseline.indices);assert.equal(adaptive.stats.adaptiveRefinementSplits,0);
+  assert.ok(adaptive.stats.adaptiveProbeEdges>0);assert.ok(adaptive.stats.heightSamples>adaptive.stats.vertices,'unused midpoint queries are not reported as mesh vertices');
+  assert.equal(adaptive.stats.heightSamples,calls.size);assert.ok([...calls.values()].every(n=>n===1));
+});
+
+test('steep adaptive refinement obeys source support and stops atomically at the triangle budget',()=>{
+  const land:Point[][][]=[[[[0,0],[16,0],[16,16],[0,16]]]],height=(x:number)=>x*2;
+  const fine=buildElevatedGroundGeometry(land,height,{maxEdge:16,adaptiveMinEdge:2,steepGrade:.6,midpointError:.75,maxTriangles:2000});
+  assert.ok(fine.stats.adaptiveRefinementSplits>0);assert.equal(fine.stats.remainingAdaptiveEdges,0);assert.equal(fine.stats.numericallyLimitedEdges,0);assert.equal(projectedArea(fine),256);
+  const blocked=buildElevatedGroundGeometry(land,height,{maxEdge:16,adaptiveMinEdge:2,adaptiveMask:()=>false});
+  assert.equal(blocked.stats.adaptiveRefinementSplits,0);assert.ok(blocked.stats.adaptiveMaskRejectedEdges>0);assert.equal(blocked.stats.adaptiveProbeEdges,0);
+  const capped=buildElevatedGroundGeometry(land,height,{maxEdge:16,adaptiveMinEdge:2,maxTriangles:12});
+  assert.ok(capped.stats.triangles<=12);assert.equal(capped.stats.budgetReached,true);assert.ok(capped.stats.remainingAdaptiveEdges>0);assert.equal(projectedArea(capped),256);
+  for(const edge of topology(capped)){assert.ok(edge.count<=2);if(edge.count===1)assert.ok([edge.a,edge.b].every(p=>p[0]===0||p[0]===16||p[1]===0||p[1]===16));}
+  assert.throws(()=>buildElevatedGroundGeometry(land,height,{maxEdge:10,adaptiveMinEdge:11}),/minimum edge/);
+  assert.throws(()=>buildElevatedGroundGeometry(land,height,{midpointError:NaN}),/midpoint error/);
+});
+
+test('actual Naples source cliffs gain fidelity without coast changes or floating-sliver overlap',()=>{
+  const map=JSON.parse(readFileSync(new URL('../public/data/map.json',import.meta.url),'utf8'));
+  const grid=parseCityElevationGrid(JSON.parse(readFileSync(new URL('../public/data/city-elevation.json',import.meta.url),'utf8')));
+  const land=map.city.landPolygons as Point[][][],terrain=createCityTerrainPolicy(grid,openingStreetData(map.city).scooter),mask=(x:number,z:number)=>sampleCityElevation(grid,x,z)!==null;
+  const options={maxEdge:20,maxTriangles:160000,tileSize:256};
+  const baseline=buildElevatedGroundGeometry(land,terrain.heightAt,options),adaptive=buildElevatedGroundGeometry(land,terrain.heightAt,{...options,adaptiveMinEdge:5,steepGrade:.6,midpointError:.75,adaptiveMask:mask});
+  const before=createElevatedGroundSampler(baseline),after=createElevatedGroundSampler(adaptive);
+  let samples=0,beforeSum=0,afterSum=0,beforeMax=0,afterMax=0;
+  for(let x=-100;x<=0;x+=2)for(let z=270;z<=390;z+=2){
+    if(!mask(x,z))continue;const a=before(x,z),b=after(x,z);if(a===undefined||b===undefined)continue;
+    const source=terrain.heightAt(x,z),aError=Math.abs(a-source),bError=Math.abs(b-source);samples++;beforeSum+=aError;afterSum+=bError;beforeMax=Math.max(beforeMax,aError);afterMax=Math.max(afterMax,bError);
+  }
+  assert.ok(samples>3000);assert.ok(afterSum<beforeSum*.3,'Monte Echia mean error improves by more than 70%');assert.ok(afterMax<beforeMax*.2,'the source cliff is no longer smoothed by a broad 20 m ramp');
+  assert.ok(Math.abs(after(-50,292)!-terrain.heightAt(-50,292))<.75);
+  assert.ok(adaptive.stats.adaptiveRefinementSplits>4000);assert.ok(adaptive.stats.adaptiveConformitySplits>1000,'longer neighbours split first to prevent arbitrarily thin fans');assert.equal(adaptive.stats.remainingLongEdges,0);assert.equal(adaptive.stats.budgetReached,false);assert.ok(adaptive.stats.triangles<160000);
+  assert.equal(adaptive.stats.numericallyLimitedEdges,0);assert.equal(adaptive.stats.remainingAdaptiveEdges,0);assert.ok(minimumPlanarShape(adaptive)>=minimumPlanarShape(baseline)*.25,'adaptive refinement retains bounded triangle shape rather than generating floating slivers');
+  assert.ok(Math.abs(projectedArea(adaptive)-projectedArea(baseline))<1e-6);assert.equal(adaptive.stats.boundaryEdges,baseline.stats.boundaryEdges);
+  for(const edge of topology(adaptive)){
+    assert.ok(edge.count===1||edge.count===2);
+    if(edge.count===2)assert.equal(edge.direction,0,'the two incident faces traverse every shared edge in opposite directions');
+    if(edge.count===1)assert.ok(land.some(p=>p.some(r=>r.some((a,i)=>segmentDistance(edge.a,a,r[(i+1)%r.length])<1e-8&&segmentDistance(edge.b,a,r[(i+1)%r.length])<1e-8))),'every boundary remains on an original coast or hole segment');
+  }
+  for(let i=0;i<adaptive.positions.length;i+=3)assert.equal(adaptive.positions[i+1],terrain.heightAt(adaptive.positions[i],adaptive.positions[i+2]),'each final vertex uses the actual height query');
+  for(let i=1;i<adaptive.normals.length;i+=3)assert.ok(adaptive.normals[i]>0);
 });

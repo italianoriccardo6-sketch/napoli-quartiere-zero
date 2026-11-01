@@ -34,6 +34,13 @@ test('actual Naples route, building foundations and vehicle poses share the rend
       }
     }
     assert.ok(samples>300&&maximum-minimum>3,'route is genuinely graded rather than a flat opening scene');
+    const estimates=ground.metadata.buildingRenderEstimates;
+    assert.ok(estimates.length>100&&estimates.length<250);assert.equal(estimates.length,ground.metadata.foundations.adjustedRenderHeights);
+    for(const row of estimates){const original=map.buildings.find(b=>b.id===row.id)!;assert.equal(original.estimated,true);assert.equal(row.sourceHeight,original.height);assert.ok(Number.isFinite(row.renderHeight)&&row.renderHeight>row.sourceHeight&&row.renderHeight<=60);}
+    for(const original of map.buildings.filter(b=>!b.estimated))assert.equal(ground.buildingRenderHeight(original.id),original.height,'source-height and source-level buildings are not raised');
+    for(const id of ['relation/4811096:0','relation/4811095:0']){
+      const original=map.buildings.find(b=>b.id===id)!;assert.equal(original.height,10);assert.ok(ground.buildingRenderHeight(id)>35,'cliff-side default volumes clear supported terrain as explicit render estimates');
+    }
     assert.ok(Number.isFinite(ground.buildingBaseHeight('relation/4779351:1')));assert.equal(ground.metadata.foundations.buildings,map.buildings.length);
     assert.equal(JSON.stringify(map),before,'source footprints, streets, coastline and collision geography remain unchanged');
     ground.dispose();assert.equal(ground.renderedHeightAt(...city.route[0]),undefined);assert.ok(scene.materials.includes(material));

@@ -121,3 +121,38 @@ test('facciate quotate: una base non finita viene respinta prima di creare mesh 
     }
   }finally{scene.dispose();engine.dispose();}
 });
+
+test('altezza visiva facciate: l’intero layout equivale alla stessa mappa con le altezze risolte, senza modificare la fonte',()=>{
+  const map=elevatedFixture();map.buildings[1].estimated=false;
+  const before=structuredClone(map),heights:Record<string,number>={house:29,'hill-house':41},oracle=structuredClone(map);
+  for(const source of oracle.buildings)source.height=heights[source.id];
+  const baseOptions={...elevatedOptions,buildingBaseHeight:(id:string)=>buildingBases[id]},baseline=planFacadeDetail(map,baseOptions);
+  const expected=planFacadeDetail(oracle,baseOptions),actual=planFacadeDetail(map,{...baseOptions,buildingRenderHeight:id=>heights[id]});
+  assert.notDeepEqual(expected.parts,baseline.parts,'le nuove altezze cambiano realmente piani, aperture e cornicioni');
+  assert.deepEqual(actual,expected,'ogni dimensione, riga, apertura, balcone e dettaglio differito usa la stessa altezza visiva');
+  for(const id of Object.keys(heights)){
+    const parts=actual.parts.filter(p=>p.buildingId===id);assert.ok(parts.length>100);
+    assert.ok(parts.some(p=>p.feature==='parapet'&&Math.abs(p.y-(buildingBases[id]+heights[id]+.26))<1e-10),'il coronamento segue l’altezza risolta di '+id);
+  }
+  assert.deepEqual(map,before,'la fonte conserva altezze, flag di stima, sagome e coordinate');
+});
+
+test('altezza visiva facciate: restituire l’altezza sorgente conserva esattamente il piano precedente',()=>{
+  const map=elevatedFixture(),before=structuredClone(map),sourceHeights=new Map(map.buildings.map(b=>[b.id,b.height]));
+  const opts={...elevatedOptions,buildingBaseHeight:(id:string)=>buildingBases[id]},baseline=planFacadeDetail(map,opts);
+  const explicitSource=planFacadeDetail(map,{...opts,buildingRenderHeight:id=>sourceHeights.get(id)!});
+  assert.deepEqual(explicitSource,baseline,'il callback identità preserva tutte le parti e statistiche, con le basi già quotate');assert.deepEqual(map,before);
+});
+
+test('altezza visiva facciate: valori non finiti o non positivi nel secondo edificio falliscono prima delle allocazioni',()=>{
+  const engine=new NullEngine(),scene=new Scene(engine),map=elevatedFixture(),before=structuredClone(map);
+  try{
+    const meshCount=scene.meshes.length,materialCount=scene.materials.length;
+    for(const invalid of [NaN,Infinity,-Infinity,0,-1]){
+      const opts={...elevatedOptions,buildingBaseHeight:(id:string)=>buildingBases[id],buildingRenderHeight:(id:string)=>id==='hill-house'?invalid:29};
+      assert.throws(()=>planFacadeDetail(map,opts),'il planner respinge l’altezza visiva non valida');
+      assert.throws(()=>addFacadeDetail(scene,map,opts),'l’attachment respinge anche una seconda altezza non valida prima di creare risorse');
+      assert.equal(scene.meshes.length,meshCount);assert.equal(scene.materials.length,materialCount);assert.deepEqual(map,before);
+    }
+  }finally{scene.dispose();engine.dispose();}
+});

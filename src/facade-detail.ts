@@ -26,6 +26,8 @@ export interface FacadeOptions {
   excludeEdges?:ReadonlyMap<string,ReadonlySet<number>>;
   /** The same inferred flat foundation used by the building volume. */
   buildingBaseHeight?:(buildingId:string)=>number;
+  /** A render-only height, resolved separately from the immutable source map. */
+  buildingRenderHeight?:(buildingId:string)=>number;
 }
 export interface FacadePart {
   buildingId:string;
@@ -58,8 +60,8 @@ function solidAt(p:Point,b:Footprint){return inside(p,b.rings[0])&&!b.rings.slic
 /**
  * An original Mediterranean facade kit placed on the measured OSM outside walls.
  * Window/door positions, floor spacing and balcony styles are inferred art, NOT
- * a survey or photographs of these individual Naples buildings. No footprint,
- * courtyard, height or gameplay collider is changed by this module.
+ * a survey or photographs of these individual Naples buildings. No source
+ * footprint, courtyard, source height or gameplay collider is changed here.
  */
 export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
   if(!Number.isFinite(options.radius)||options.radius<0||options.focus.some(p=>!p.every(Number.isFinite)))throw new RangeError('Area dettagli facciata non valida.');
@@ -96,7 +98,10 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
   let stop=false;
   for(const entry of selected){
     if(stats.selectedBuildings>=maximumBuildings||stop)break;
-    const building=entry.building;
+    const sourceBuilding=entry.building;
+    const renderHeight=options.buildingRenderHeight?options.buildingRenderHeight(sourceBuilding.id):sourceBuilding.height;
+    if(options.buildingRenderHeight&&(!Number.isFinite(renderHeight)||renderHeight<=0))throw new RangeError('Altezza di resa facciata non valida: '+sourceBuilding.id);
+    const building=options.buildingRenderHeight?{...sourceBuilding,height:renderHeight}:sourceBuilding;
     // Recognisable named monuments require their own measured/cleared assets.
     if(building.name&&/\b(castel|castello|basilica|chiesa|cattedrale|duomo|palazzo reale|san carlo)\b/i.test(building.name)){stats.skippedLandmarks++;continue;}
     if(!Number.isFinite(building.height)||building.height<3.4)continue;

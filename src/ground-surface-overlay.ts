@@ -1,3 +1,5 @@
+import {GROUND_PROJECTED_AREA_EPSILON as AREA_EPSILON} from './ground-numerics';
+
 export interface GroundOverlaySurface {positions:ArrayLike<number>;indices:ArrayLike<number>;uvs?:ArrayLike<number>}
 export interface GroundOverlayGround {positions:ArrayLike<number>;indices:ArrayLike<number>;normals?:ArrayLike<number>}
 export interface GroundOverlayOptions {
@@ -9,7 +11,7 @@ export interface GroundOverlayStats {sourceTriangles:number;groundTriangles:numb
 type Point=[number,number];
 type Vertex=[number,number,number];
 interface Face {ids:[number,number,number];points:[Point,Point,Point];ys:Vertex;denominator:number;box:[number,number,number,number];normal:Vertex}
-const AREA_EPSILON=1e-10,MAX_REFERENCES=5_000_000;
+const MAX_REFERENCES=5_000_000;
 const cross=(a:Point,b:Point,c:Point)=>(b[0]-a[0])*(c[1]-a[1])-(b[1]-a[1])*(c[0]-a[0]);
 function validate(mesh:{positions:ArrayLike<number>;indices:ArrayLike<number>}){
   const {positions,indices}=mesh;

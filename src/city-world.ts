@@ -125,9 +125,11 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   const asphalt=visuals?.asphalt??createSurface(scene,'manto stradale generico','plaster','#656b6a',43).material;
   const footway=visuals?.footway??createSurface(scene,'pavimentazione pedonale generica','paving','#828780',74).material;
   const facades=visuals?.facades??['#c5b49b','#bcb3a1','#c6bba8','#baac96'].map((c,i)=>createSurface(scene,'volume geografico '+i,'plaster',c,100+i).material);
-  const cityGround=options.terrain?addCityGround(scene,land,buildings.map(b=>b.footprint),options.terrain,terrain):undefined;
+  const cityGround=options.terrain?addCityGround(scene,land,buildings.map(b=>b.footprint),options.terrain,terrain,visuals?.quay):undefined;
   const groundHeightAt=(x:number,z:number)=>cityGround?.heightAt(x,z)??0;
   const buildingBaseHeight=(id:string)=>cityGround?.buildingBaseHeight(id)??0;
+  const sourceHeights=new Map(buildings.map(({footprint:b})=>[b.id,Number.isFinite(b.height)&&b.height>0?b.height:10]));
+  const buildingRenderHeight=(id:string)=>cityGround?.buildingRenderHeight(id)??sourceHeights.get(id)??10;
   for(const [i,polygon] of (cityGround?[]:land).entries()){
     const ground=MeshBuilder.ExtrudePolygon('terra OSM '+i,{shape:polygon[0].map(p=>new Vector3(p[0],0,p[1])),holes:polygon.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:2,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
     ground.material=terrain;ground.receiveShadows=true;ground.metadata={solid:true,geography:'land'};
@@ -138,7 +140,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   // Build original footprint rings and holes, then merge by material and local tile.
   const batches=new Map<string,Mesh[]>();
   for(const {footprint:b,bounds} of buildings){
-    const height=Number.isFinite(b.height)&&b.height>0?b.height:10;
+    const height=buildingRenderHeight(b.id);
     const volume=MeshBuilder.ExtrudePolygon('sagoma '+b.id,{shape:b.rings[0].map(p=>new Vector3(p[0],0,p[1])),holes:b.rings.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:height,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
     volume.position.y=buildingBaseHeight(b.id)+height;
     const positions=volume.getVerticesData('position')!,normals=volume.getVerticesData('normal')!,uvs=volume.getVerticesData('uv')!;
@@ -216,5 +218,5 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
     }
   });
   scene.metadata={...(scene.metadata??{}),...(cityGround?{cityTerrain:cityGround.metadata}:{}),cityWorld:{provenance:map.provenance,footprints:buildings.length,invalidFootprints,buildingChunks:batches.size,renderedRoads,maximumRoadSourceSpan,shadowMapSize,bounds:terrainBounds,terrainElevation:cityGround?'regional-relative-dtm2020':'flat-estimate',representation:'OSM footprint extrusions; foundation and facade details are visual estimates'}};
-  return {canStand,shadows,sea,beacons:[],groundHeightAt,surfaceHeightAt,buildingBaseHeight,groundGeometry:cityGround?.geometry};
+  return {canStand,shadows,sea,beacons:[],groundHeightAt,surfaceHeightAt,buildingBaseHeight,buildingRenderHeight,groundGeometry:cityGround?.geometry};
 }
