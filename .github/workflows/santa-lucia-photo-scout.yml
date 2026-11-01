@@ -1,0 +1,28 @@
+name: Inspect licensed Santa Lucia source metadata and small previews
+on:
+  workflow_dispatch:
+  push:
+    branches: [research/santa-lucia-photo-scout-20261101]
+    paths:
+      - .github/workflows/santa-lucia-photo-scout.yml
+      - scripts/research-santa-lucia-photos.mjs
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: One bounded Commons metadata query and two provider thumbnails only
+        run: node scripts/research-santa-lucia-photos.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: santa-lucia-photo-scout-${{ github.run_id }}
+          path: work/santa-lucia-photo-scout/
+          retention-days: 7
+          if-no-files-found: warn
