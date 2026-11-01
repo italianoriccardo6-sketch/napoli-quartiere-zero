@@ -10,10 +10,12 @@ const inBounds=(lon,lat)=>Number.isFinite(lon)&&Number.isFinite(lat)&&lon>=bbox[
 // Overpass may queue requests before executing the25s query. GET is supported
 // by the same interpreter and avoids a stalled POST path; total request budget
 // remains170s inside the four-minute workflow. Data limits never change.
+// Current global instance list: https://wiki.openstreetmap.org/wiki/Overpass_API
+// Private.coffee is the documented replacement for overpass.kumi.systems.
 const requests=[
+ {endpoint:'https://overpass.private.coffee/api/interpreter',method:'GET',timeout:70000},
  {endpoint:'https://overpass-api.de/api/interpreter',method:'GET',timeout:70000},
- {endpoint:'https://overpass.kumi.systems/api/interpreter',method:'GET',timeout:70000},
- {endpoint:'https://overpass-api.de/api/interpreter',method:'POST',timeout:30000}
+ {endpoint:'https://overpass.private.coffee/api/interpreter',method:'POST',timeout:30000}
 ];
 for(const {endpoint,method,timeout}of requests){
  const started=Date.now(),attempt={endpoint,method,started_at:new Date().toISOString()};attempts.push(attempt);
