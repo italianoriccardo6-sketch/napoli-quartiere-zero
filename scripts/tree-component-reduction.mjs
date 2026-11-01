@@ -42,15 +42,17 @@ export function componentPartition(indices,count){
 const sumMetrics=metrics=>metrics.reduce((sum,m)=>{for(const key of ['triangles','surfaceArea','uvArea','alphaArea','flippedAlphaArea','degenerateTriangles'])sum[key]+=m[key];return sum;},{triangles:0,surfaceArea:0,uvArea:0,alphaArea:0,flippedAlphaArea:0,degenerateTriangles:0});
 const quantiles=values=>{const sorted=values.slice().sort((a,b)=>a-b);return Object.fromEntries([0,.01,.1,.5,.9,.99,1].map(q=>[String(q),sorted[Math.min(sorted.length-1,Math.floor((sorted.length-1)*q))]]));};
 const histogram=(values,edges)=>edges.map((edge,i)=>({minimum:edge,maximumExclusive:edges[i+1]??null,count:values.filter(value=>value>=edge&&(edges[i+1]===undefined||value<edges[i+1])).length}));
-export function componentHistograms(metrics){return {count:metrics.length,totals:sumMetrics(metrics),triangleQuantiles:quantiles(metrics.map(m=>m.triangles)),triangles:histogram(metrics.map(m=>m.triangles),[0,1,2,3,4,5,9,17,33,65,129,257,1025]),surfaceAreaQuantiles:quantiles(metrics.map(m=>m.surfaceArea)),surfaceArea:histogram(metrics.map(m=>m.surfaceArea),[0,1e-10,1e-8,1e-6,1e-5,1e-4,1e-3,1e-2,.1,1]),uvAreaQuantiles:quantiles(metrics.map(m=>m.uvArea)),alphaAreaQuantiles:quantiles(metrics.map(m=>m.alphaArea))};}
+export function componentHistograms(metrics){const edges=[0,1e-10,1e-8,1e-6,1e-5,1e-4,1e-3,1e-2,.1,1];return {count:metrics.length,totals:sumMetrics(metrics),triangleQuantiles:quantiles(metrics.map(m=>m.triangles)),triangles:histogram(metrics.map(m=>m.triangles),[0,1,2,3,4,5,9,17,33,65,129,257,1025]),surfaceAreaQuantiles:quantiles(metrics.map(m=>m.surfaceArea)),surfaceArea:histogram(metrics.map(m=>m.surfaceArea),edges),uvAreaQuantiles:quantiles(metrics.map(m=>m.uvArea)),uvArea:histogram(metrics.map(m=>m.uvArea),edges),alphaAreaQuantiles:quantiles(metrics.map(m=>m.alphaArea)),alphaArea:histogram(metrics.map(m=>m.alphaArea),edges),flippedAlphaAreaQuantiles:quantiles(metrics.map(m=>m.flippedAlphaArea)),flippedAlphaArea:histogram(metrics.map(m=>m.flippedAlphaArea),edges)};}
 function localGeometry(source,indices){const remap=new Map(),globalVertices=[],localIndices=new Uint32Array(indices.length);for(let i=0;i<indices.length;i++){const global=indices[i];if(!remap.has(global)){remap.set(global,remap.size);globalVertices.push(global);}localIndices[i]=remap.get(global);}const positions=new Float32Array(globalVertices.length*3),attributes=new Float32Array(globalVertices.length*5);for(let v=0;v<globalVertices.length;v++){const old=globalVertices[v];positions.set(source.positions.subarray(old*3,old*3+3),v*3);attributes.set(source.attributes.subarray(old*5,old*5+5),v*5);}return {positions,attributes,indices:localIndices,globalVertices};}
-function conservation(candidate,original){const ratio=(a,b)=>b>1e-12?Math.min(a/b,1):1;return .5*ratio(candidate.alphaArea,original.alphaArea)+.25*ratio(candidate.flippedAlphaArea,original.flippedAlphaArea)+.25*ratio(candidate.surfaceArea,original.surfaceArea);}
+function conservation(candidate,original){const importance=original.alphaArea+.1*original.surfaceArea;return importance>0?(Math.min(candidate.alphaArea,original.alphaArea)+.1*Math.min(candidate.surfaceArea,original.surfaceArea))/importance:1;}
 const areaKeys=['surfaceArea','uvArea','alphaArea','flippedAlphaArea'];
 const candidateLimits={maximumSurfaceAreaRatio:1.05,maximumUVAreaRatio:1.10,maximumAlphaAreaRelativeGrowth:.20,alphaAreaAbsoluteGrowthTolerance:'original component surfaceArea / 64 (one sample quantum)',minimumSurfaceAreaRatio:.20,minimumAlphaAreaRatio:.10};
 const areaRatio=(value,original)=>original>1e-12?value/original:value<=1e-12?1:null;
 function geometryAcceptable(candidate,original){return areaKeys.every(key=>Number.isFinite(candidate[key]))&&candidate.triangles>0&&candidate.degenerateTriangles<candidate.triangles&&candidate.surfaceArea>=original.surfaceArea*candidateLimits.minimumSurfaceAreaRatio&&candidate.surfaceArea<=original.surfaceArea*candidateLimits.maximumSurfaceAreaRatio+1e-14&&candidate.uvArea<=original.uvArea*candidateLimits.maximumUVAreaRatio+1e-14;}
 function alphaAcceptable(candidate,original){
-  for(const key of ['alphaArea','flippedAlphaArea']){
+  // Only the verified, unchanged runtime orientation guides selection and
+  // rejection. Flipped alpha coverage remains a recorded diagnostic.
+  for(const key of ['alphaArea']){
     if(original[key]>1e-12&&candidate[key]<original[key]*candidateLimits.minimumAlphaAreaRatio)return false;
     const allowedGrowth=Math.max(original[key]*candidateLimits.maximumAlphaAreaRelativeGrowth,original.surfaceArea/64);
     if(!Number.isFinite(candidate[key])||candidate[key]>original[key]+allowedGrowth+1e-14)return false;
@@ -66,7 +68,7 @@ export function prepareLeafComponents(source,mask,simplifier,inspection=inspectL
   if(sourceMetrics.length!==source.components.groups.length)throw Error('Leaf inspection/component partition mismatch.');
   for(let id=0;id<source.components.groups.length;id++){
     const originalIndices=source.components.groups[id],original=sourceMetrics[id],local=localGeometry(source,originalIndices),options=[{indices:originalIndices,metrics:original,targetTriangles:original.triangles,error:0,errorLimit:0,score:1}],evaluated=new Map();
-    if(original.surfaceArea>1e-12){for(const target of [2,4,6,8,12]){if(original.triangles<=target)continue;let best;
+    if(original.surfaceArea>1e-12){for(const target of [2,4,6,8,12,16,24,32,48,64,96]){if(original.triangles<=target)continue;let best;
       // Rank cheap simplifier attempts first; do not alpha-sample a 48-face
       // intermediate if a later attempt reaches the requested two faces.
       const attempts=new Map();
@@ -98,13 +100,34 @@ export function prepareLeafComponents(source,mask,simplifier,inspection=inspectL
   }
   return {entries,sourceMetrics,histogram,rejectedCandidates,candidateLimits};
 }
-export function chooseLeafLOD(prepared,preferredFaces,budget){
-  const selected=prepared.entries.map(entry=>{const preferred=entry.options.filter(option=>option.metrics.triangles<=preferredFaces);return preferred.length?preferred.reduce((a,b)=>a.score>b.score?a:b):entry.options[0];});
+export function chooseLeafLOD(prepared,preferredFaces,budget,options={}){
+  const desiredAggregateRetention=options.desiredAggregateRetention??(preferredFaces>=4?.90:.70);
+  if(!Number.isFinite(desiredAggregateRetention)||desiredAggregateRetention<0||desiredAggregateRetention>1)throw Error('Invalid desired aggregate leaf retention.');
+  // Candidate lists are ordered by triangle count, then descending score.
+  // Spend no budget on a preferred face count before comparing absolute area.
+  const selected=prepared.entries.map(entry=>entry.options[0]);
   let triangles=selected.reduce((sum,option)=>sum+option.metrics.triangles,0);
   if(triangles>budget)throw Error('Component-preserving seed exceeds leaf budget; no components were pruned: '+JSON.stringify({triangles,budget,preferredFaces}));
-  const upgrades=[];for(const entry of prepared.entries){const current=selected[entry.id];for(const option of entry.options){const extra=option.metrics.triangles-current.metrics.triangles;if(extra>0&&option.score>current.score){const importance=entry.original.alphaArea+.5*entry.original.flippedAlphaArea+.5*entry.original.surfaceArea;upgrades.push({id:entry.id,option,priority:(option.score-current.score)*importance/extra});}}}
-  upgrades.sort((a,b)=>b.priority-a.priority||a.id-b.id);
-  for(const upgrade of upgrades){const current=selected[upgrade.id],extra=upgrade.option.metrics.triangles-current.metrics.triangles;if(extra>0&&triangles+extra<=budget&&upgrade.option.score>current.score){selected[upgrade.id]=upgrade.option;triangles+=extra;}}
+  const heap=[],higher=(a,b)=>a.priority>b.priority||(a.priority===b.priority&&(a.id<b.id||(a.id===b.id&&a.extra<b.extra)));
+  function push(upgrade){if(!upgrade)return;let index=heap.length;heap.push(upgrade);while(index){const parent=(index-1)>>1;if(!higher(heap[index],heap[parent]))break;[heap[index],heap[parent]]=[heap[parent],heap[index]];index=parent;}}
+  function pop(){const result=heap[0],last=heap.pop();if(heap.length){heap[0]=last;let index=0;while(true){const left=index*2+1,right=left+1;let best=index;if(left<heap.length&&higher(heap[left],heap[best]))best=left;if(right<heap.length&&higher(heap[right],heap[best]))best=right;if(best===index)break;[heap[index],heap[best]]=[heap[best],heap[index]];index=best;}}return result;}
+  function bestUpgrade(entry,remaining){
+    const current=selected[entry.id],importance=entry.original.alphaArea+.1*entry.original.surfaceArea;let best;
+    for(const option of entry.options){const extra=option.metrics.triangles-current.metrics.triangles,gain=(option.score-current.score)*importance;if(extra<=0||extra>remaining||gain<=0)continue;const upgrade={id:entry.id,option,extra,gain,priority:gain/extra};if(!best||higher(upgrade,best))best=upgrade;}
+    return best;
+  }
+  for(const entry of prepared.entries)push(bestUpgrade(entry,budget-triangles));
+  let appliedUpgrades=0;
+  while(heap.length){
+    const upgrade=pop(),entry=prepared.entries[upgrade.id],remaining=budget-triangles;
+    // Another component may have consumed the room for this proposal. Select
+    // its best smaller fitting option rather than dropping the component.
+    if(upgrade.extra>remaining){push(bestUpgrade(entry,remaining));continue;}
+    selected[upgrade.id]=upgrade.option;triangles+=upgrade.extra;appliedUpgrades++;
+    // Recompute this component's actual marginal gain after every upgrade;
+    // seed-relative priorities must not consume the remaining area budget.
+    push(bestUpgrade(entry,budget-triangles));
+  }
   const indices=new Uint32Array(triangles*3);let offset=0;for(const option of selected){indices.set(option.indices,offset);offset+=option.indices.length;}
   const totals=sumMetrics(selected.map(option=>option.metrics)),original=prepared.histogram.totals,ratios=Object.fromEntries(areaKeys.map(key=>[key,areaRatio(totals[key],original[key])])),retention={},componentAreaRatioQuantiles={},componentRetainedAreaRatioQuantiles={};
   for(const key of areaKeys){
@@ -115,6 +138,5 @@ export function chooseLeafLOD(prepared,preferredFaces,budget){
     retention[key]={retainedArea,retainedRatio:areaRatio(retainedArea,original[key]),lossArea,lossRatio:original[key]>1e-12?lossArea/original[key]:0,growthArea,growthRatio:original[key]>1e-12?growthArea/original[key]:growthArea>1e-12?null:0};
     componentAreaRatioQuantiles[key]=quantiles(componentRatios);componentRetainedAreaRatioQuantiles[key]=quantiles(componentRatios.map(ratio=>Math.max(0,Math.min(1,ratio))));
   }
-  const desiredAggregateRetention=preferredFaces>=4?.90:.80;
-  return {indices,metrics:{algorithm:'independent-connected-index-components, source-vertex-subset, no prune/permissive, area-prioritized upgrades',preferredFacesPerComponent:preferredFaces,budget,sourceComponents:prepared.entries.length,retainedSourceComponents:selected.filter(option=>option.indices.length).length,sourceAreas:original,areas:totals,retainedAreaRatios:ratios,clampedComponentRetention:retention,componentAreaRatioQuantiles,componentRetainedAreaRatioQuantiles,desiredAggregateRetention:{ratio:desiredAggregateRetention,diagnosticOnly:true,metBy:Object.fromEntries(areaKeys.map(key=>[key,retention[key].retainedRatio>=desiredAggregateRetention]))},candidateLimits:prepared.candidateLimits,rejectedCandidates:prepared.rejectedCandidates,selectedTriangleHistogram:histogram(selected.map(option=>option.metrics.triangles),[0,1,2,3,4,5,7,9,13,17,33,65,129]),originalComponentsRetainedUnreduced:selected.filter((option,id)=>option.metrics.triangles===prepared.entries[id].original.triangles).length,maximumReportedError:selected.reduce((maximum,option)=>Math.max(maximum,option.error),0),sampleMethod:'64 uniform-area Hammersley samples per triangle; raw 16-bit mask /65535, bilinear repeat, cutoff .55; image(v) uses top-down PNG row v*H; image(1-v) is recorded separately'}};
+  return {indices,metrics:{algorithm:'independent-connected-index-components, source-vertex-subset, no prune/permissive, dynamic actual-alpha-area-prioritized upgrades',seedStrategy:'minimum valid triangle count per original component; preferredFaces is a diagnostic LOD hint only',score:'(clamped actual alphaArea + .1 * clamped surfaceArea) / (original alphaArea + .1 * original surfaceArea)',appliedUpgrades,preferredFacesPerComponent:preferredFaces,budget,sourceComponents:prepared.entries.length,retainedSourceComponents:selected.filter(option=>option.indices.length).length,sourceAreas:original,areas:totals,retainedAreaRatios:ratios,clampedComponentRetention:retention,componentAreaRatioQuantiles,componentRetainedAreaRatioQuantiles,desiredAggregateRetention:{ratio:desiredAggregateRetention,diagnosticOnly:true,optimizationOrientation:'image(v), verified unchanged runtime UV0 orientation',metBy:Object.fromEntries(areaKeys.map(key=>[key,retention[key].retainedRatio>=desiredAggregateRetention]))},candidateLimits:prepared.candidateLimits,rejectedCandidates:prepared.rejectedCandidates,selectedTriangleHistogram:histogram(selected.map(option=>option.metrics.triangles),[0,1,2,3,4,5,7,9,13,17,25,33,49,65,97,129,193,257]),originalComponentsRetainedUnreduced:selected.filter((option,id)=>option.metrics.triangles===prepared.entries[id].original.triangles).length,maximumReportedError:selected.reduce((maximum,option)=>Math.max(maximum,option.error),0),sampleMethod:'64 uniform-area Hammersley samples per triangle; raw 16-bit mask /65535, bilinear repeat, cutoff .55; verified image(v) uses top-down PNG row v*H and guides optimization; image(1-v) is diagnostic only'}};
 }
