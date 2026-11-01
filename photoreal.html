@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="it"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#071c22"><title>Napoli — Città fotografica</title></head>
+<body>
+  <main class="photo-layout">
+    <aside class="photo-sidebar">
+      <a class="photo-back" href="./">← Quartiere Zero</a>
+      <p class="photo-eyebrow">NAPOLI · ESPLORAZIONE 3D</p>
+      <h1>La città<br>fotografica.</h1>
+      <p class="photo-description">Esplora la città dall’alto con le immagini 3D di Google Maps, dove disponibili.</p>
+      <section id="photo-setup" class="photo-card"><h2>Collega Google Maps</h2><p id="photo-setup-text">Il servizio fotografico non è ancora collegato. Il gioco esistente resta disponibile.</p><p><a href="./PHOTOREAL-SETUP.txt" target="_blank" rel="noopener">Costi e configurazione →</a></p></section>
+      <section id="photo-key-config" class="photo-card">
+        <label class="photo-label" for="photo-api-key">Chiave API Google Maps</label>
+        <input id="photo-api-key" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Incolla qui la chiave creata in Google Cloud" aria-describedby="photo-key-help">
+        <p id="photo-key-help">Usa una chiave Maps JavaScript limitata a questo sito. Rimane nella memoria di questa scheda: non viene salvata nel sito, nella chat o nel repository. Va reinserita quando ricarichi.</p>
+        <p>L’apertura della mappa utilizza il piano e le quote del tuo account Google. Inserire la chiave, da solo, non carica la mappa.</p>
+      </section>
+      <button id="photo-open" class="photo-primary" disabled>Apri Napoli fotografica</button>
+      <label class="photo-label" for="photo-district">Scegli un quartiere</label>
+      <select id="photo-district" disabled><option value="">Tutti i quartieri</option></select>
+      <button id="photo-go" class="photo-secondary" disabled>Esplora il quartiere →</button>
+      <label class="photo-label" for="photo-quality">Qualità visiva</label>
+      <select id="photo-quality"><option value="FIDELITY">Dettagli</option><option value="PERFORMANCE">Prestazioni</option></select>
+      <p id="photo-status" role="status" aria-live="polite">Nessuna mappa fotografica caricata.</p>
+      <p class="photo-note">Questa vista esplora fotografie e geometrie archiviate, non una ripresa in diretta. Non include guida, combattimento o collisioni del gioco.</p>
+    </aside>
+    <section class="photo-stage" aria-label="Città fotografica di Napoli">
+      <div id="photo-map" tabindex="0"></div>
+      <div id="photo-empty"><span>40°49′41″ N · 14°14′55″ E</span><p>NAPOLI</p><small>Le immagini reali appariranno qui dopo il collegamento del servizio.</small></div>
+      <div id="photo-controls" hidden><span>W A S D · sposta</span><span>Q E · ruota</span><span>+ − · zoom</span><button id="photo-home">Lungomare ↗</button></div>
+    </section>
+  </main>
+  <script type="module" src="/src/photoreal-entry.ts"></script>
+</body></html>

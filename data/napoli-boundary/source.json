@@ -1,0 +1,36 @@
+{
+  "version": 1,
+  "feature": "Napoli",
+  "istatCode": "063049",
+  "referenceDate": "2026-01-01",
+  "sourceDbfExportDate": "2026-02-18",
+  "source": "Istat, confini amministrativi non generalizzati",
+  "distributor": "l1n00/confini-comuni-istat",
+  "distributorCommit": "bdbd0301e9f8441aa7e762941e7377179c8ce657",
+  "downloadUrl": "https://raw.githubusercontent.com/l1n00/confini-comuni-istat/bdbd0301e9f8441aa7e762941e7377179c8ce657/dist/2026/comuni/063049.geojson",
+  "retrievedAt": "2026-11-01T18:47:31.010362+00:00",
+  "sourceSHA256": "28f527001c196895a38d0e6e4d10ee3149711acaed8fe0ea68fe204236823168",
+  "sourceBytes": 236524,
+  "derivedSHA256": "142aaad32ec34f8b0786f363f75d42e1059d0613ce1a739b7940e5cdc1dbca03",
+  "derivedBytes": 235786,
+  "bbox": [
+    14.132018643326,
+    40.79115314150703,
+    14.353767483110769,
+    40.91606928527081
+  ],
+  "polygons": 4,
+  "verticesIncludingClosures": 6035,
+  "license": "CC-BY-4.0",
+  "licenseEvidence": "https://www.istat.it/dati/open-data/",
+  "primarySourcePage": "https://www.istat.it/notizia/confini-delle-unita-amministrative-a-fini-statistici-al-1-gennaio-2018-2",
+  "upstreamArchiveUrl": "https://www.istat.it/storage/cartografia/confini_amministrativi/non_generalizzati/2026/Limiti01012026.zip",
+  "upstreamManifestSHA256": "70ac8256c4785dc6ed2814c32b6965ae76f9161b51abaa1660059e1c6cbd8ca6",
+  "attribution": "Fonte: Istat, confini amministrativi non generalizzati al 1 gennaio 2026; conversione CRS e distribuzione l1n00/confini-comuni-istat; estrazione della sola feature Napoli senza modifiche alle coordinate.",
+  "modifications": [
+    "Converted from WGS 84 / UTM zone 32N (EPSG:32632) to RFC 7946 WGS 84 geographic coordinates.",
+    "Converted from shapefile to per-municipality GeoJSON without geometry simplification.",
+    "Selected the unique Napoli/063049 feature from its per-municipality FeatureCollection; no geometry coordinates changed."
+  ],
+  "limits": "Statistical boundary, not cadastral/legal, not a building/street/terrain dataset and not a surveyed live coastline."
+}

@@ -1,3 +1,11 @@
+# Estensione amministrativa e dati a zone — preview 0.5
+
+Installato il confine ISTAT non generalizzato Napoli/063049 al 1 gennaio 2026, distribuito dal mirror `l1n00/confini-comuni-istat` con commit e checksum fissati. Originale e provenienza: `data/napoli-boundary/`; derivato pubblico: `public/data/napoli-boundary.json`; licenza CC BY 4.0. La suddivisione restituisce 162 settori e circa 118,94 km² di territorio amministrativo. Questo dato non certifica costa, suolo o copertura giocabile.
+
+Il nuovo packaging unisce estratti OSM conservando identità e provenienza, produce geometrie e manifest con checksum; il loader limita concorrenza, dimensione, tempo e cache. L'estratto centrale esistente produce nove tile di prova in work/. Non sono stati acquisiti gli edifici o le strade dei quartieri esterni e la mappa attiva non è stata rigenerata. Il servizio fotografico opzionale è distinto da questi dati ed è ancora privo di configurazione.
+
+---
+
 # Stato corrente dei dati
 
 I conteggi geografici del resoconto 0.3 qui sotto restano riferiti all'estratto centrale originale. Nella base 0.4.2 il terreno attivo usa il raster DTM2020 relativo in `public/data/city-elevation.json`, separato dai punti quotati ArcGIS non attivati. Sono presenti tre fronti alberghieri fotografici; gli altri edifici restano in prevalenza inferiti. La descrizione storica di terreno piano non è lo stato corrente.
