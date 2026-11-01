@@ -42,6 +42,8 @@ jobs:
           for(const q of ['DBT','CTR2020'])await get(base+'/portal/sharing/rest/search?f=json&num=50&q='+encodeURIComponent(q));
           const params=new URLSearchParams({f:'json',where:"COMUNE LIKE '%Napoli%' OR COMUNE LIKE '%NAPOLI%'",outFields:'COMUNE,ctr_dbt,LINK_DIR',returnGeometry:'false',resultRecordCount:'5'});
           await get(base+'/federated/rest/services/DG5009/Mappa_CTR2020___Link_Download_Comuni_MIL1/MapServer/0/query?'+params);
+          const procurementUrl='https://pgt.regione.campania.it/portalegare/index.php/bandi?RicQ=NO&VisQ=SI&bando=143263&getdettaglio=yes&tipoDoc=BANDO_GARA_PORTALE&tipobando=Esito&xslt=XSLT_BANDO_GARA_PORTALE';
+          try{const r=await fetch(procurementUrl,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('HTTP '+r.status);const html=await r.text();if(html.length>1024*1024)throw Error('HTML exceeds 1MiB');await writeFile('work/ctr-building/procurement.html',html);console.log('CTR_PROCUREMENT_ATTACHMENTS='+JSON.stringify(html.split(/\\r?\\n/).filter(line=>/Allegato 3|Attach\\.asp|onclick/i.test(line)).map(line=>line.slice(0,5000)).join('\\n').slice(0,30000)));}catch(error){console.log('CTR_PROCUREMENT_ATTACHMENTS='+JSON.stringify({error:error.message}));}
           await writeFile('work/ctr-building/summary.json',JSON.stringify(records,null,2));
           NODE
       - uses: actions/upload-artifact@v4
