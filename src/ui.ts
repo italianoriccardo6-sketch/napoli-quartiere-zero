@@ -32,7 +32,7 @@ export function updateHUD(save:Save,x:number,z:number,heading:number,riding:bool
   const angle=Math.atan2(t[0]-x,t[1]-z)-heading;const arrow=Math.abs(Math.sin(angle))<.3?(Math.cos(angle)>0?'↑':'↓'):Math.sin(angle)>0?'→':'←';
   el('direction').textContent=completed?(story?.choice==='negotiate'?'TRATTATIVA APERTA':'PROVA AL SICURO'):`${story?.phase==='carrying'?'BANCHINA':'TERESA'} ${arrow}`;
   el('speed').textContent=riding?`${Math.round(Math.abs(speed)*3.6)} km/h`:'A PIEDI';
-  el('mode-info').textContent=riding?'E SCENDI · S FRENA / RETROMARCIA':'SHIFT PER CORRERE';
+  el('mode-info').textContent=riding?'WASD GUIDA · E SCENDI':'SHIFT PER CORRERE';
   show('hint',!!hint);el('hint').innerHTML=hint?`<kbd>E</kbd> ${hint}`:'';
   const c=el<HTMLCanvasElement>('minimap').getContext('2d')!;c.clearRect(0,0,210,210);c.save();c.translate(105,105);
   const city=(data as CityMapData).city;
