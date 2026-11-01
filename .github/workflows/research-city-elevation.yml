@@ -27,12 +27,12 @@ jobs:
               const r=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('HTTP '+r.status);const parts=[];let bytes=0;
               for await(const part of r.body){bytes+=part.length;if(bytes>2*1024*1024)throw Error('Response exceeds 2MiB');parts.push(part);}
               const data=JSON.parse(Buffer.concat(parts).toString('utf8'));await writeFile('work/ctr-building/'+count+'.json',JSON.stringify({url,data},null,2));
-              const summary={url,name:data.name,geometryType:data.geometryType,hasZ:data.hasZ,description:data.description,fields:data.fields,layers:data.layers,services:data.services,spatialReference:data.sourceSpatialReference??data.spatialReference,features:data.features?.map(f=>{const z=elevations(f.geometry??{});return {attributes:f.attributes,zCount:z.length,minZ:z.length?Math.min(...z):null,maxZ:z.length?Math.max(...z):null,firstZ:z.slice(0,12)};}),items:data.results?.map(x=>({id:x.id,title:x.title,type:x.type,url:x.url})),error:data.error};
+              const summary={url,name:data.name,geometryType:data.geometryType,hasZ:data.hasZ,description:data.description,fields:data.fields?.map(f=>({name:f.name,alias:f.alias,type:f.type})),layers:data.layers,services:data.services,spatialReference:data.sourceSpatialReference??data.spatialReference,features:data.features?.map(f=>{const z=elevations(f.geometry??{});return {attributes:f.attributes,zCount:z.length,minZ:z.length?Math.min(...z):null,maxZ:z.length?Math.max(...z):null,firstZ:z.slice(0,12)};}),items:data.results?.map(x=>({id:x.id,title:x.title,type:x.type,url:x.url})),error:data.error};
               records.push(summary);console.log('CTR_BUILDING_METADATA='+JSON.stringify(summary));return data;
             }catch(error){const summary={url,error:error.message};records.push(summary);console.log('CTR_BUILDING_METADATA='+JSON.stringify(summary));return null;}
           }
           const root=await get(service+'?f=pjson');
-          for(const layer of (root?.layers??[]).slice(0,4)){
+          for(const layer of (root?.layers??[]).filter(layer=>layer.type==='Feature Layer').slice(0,3)){
             const metadata=await get(service+'/'+layer.id+'?f=pjson');
             if(/Polygon|Polyline/.test(metadata?.geometryType??'')){
               const params=new URLSearchParams({f:'json',where:'1=1',geometry:'14.246,40.829,14.250,40.832',geometryType:'esriGeometryEnvelope',inSR:'4326',spatialRel:'esriSpatialRelIntersects',outFields:'*',outSR:'4326',returnGeometry:'true',returnZ:'true',resultRecordCount:'20'});
@@ -42,6 +42,9 @@ jobs:
           for(const q of ['DBT','CTR2020'])await get(base+'/portal/sharing/rest/search?f=json&num=50&q='+encodeURIComponent(q));
           const params=new URLSearchParams({f:'json',where:"COMUNE LIKE '%Napoli%' OR COMUNE LIKE '%NAPOLI%'",outFields:'COMUNE,ctr_dbt,LINK_DIR',returnGeometry:'false',resultRecordCount:'5'});
           await get(base+'/federated/rest/services/DG5009/Mappa_CTR2020___Link_Download_Comuni_MIL1/MapServer/0/query?'+params);
+          await get(base+'/portal/sharing/rest/content/items/e07b1f4b43944c8aa8a31d9074e6b76c?f=pjson');
+          const dbtDownload='https://regionecampania.sharepoint.com/:u:/s/50-09-92-CTR2020/EamLA3QPET5Ou7M3hhPLbEABybtBctLnehddJ_tSGW4iaw?download=1';
+          try{const response=await fetch(dbtDownload,{method:'HEAD',signal:AbortSignal.timeout(20000)});const head={status:response.status,url:response.url,headers:Object.fromEntries([...response.headers].filter(([k])=>/content-type|content-length|content-disposition|location/i.test(k)))};await writeFile('work/ctr-building/napoli-dbt-download-head.json',JSON.stringify(head,null,2));console.log('CTR_DBT_DOWNLOAD_HEAD='+JSON.stringify(head));}catch(error){console.log('CTR_DBT_DOWNLOAD_HEAD='+JSON.stringify({error:error.message}));}
           const procurementUrl='https://pgt.regione.campania.it/portalegare/index.php/bandi?RicQ=NO&VisQ=SI&bando=143263&getdettaglio=yes&tipoDoc=BANDO_GARA_PORTALE&tipobando=Esito&xslt=XSLT_BANDO_GARA_PORTALE';
           try{const r=await fetch(procurementUrl,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('HTTP '+r.status);const html=await r.text();if(html.length>1024*1024)throw Error('HTML exceeds 1MiB');await writeFile('work/ctr-building/procurement.html',html);console.log('CTR_PROCUREMENT_ATTACHMENTS='+JSON.stringify(html.split(/\\r?\\n/).filter(line=>/Allegato 3|Attach\\.asp|onclick/i.test(line)).map(line=>line.slice(0,5000)).join('\\n').slice(0,30000)));}catch(error){console.log('CTR_PROCUREMENT_ATTACHMENTS='+JSON.stringify({error:error.message}));}
           await writeFile('work/ctr-building/summary.json',JSON.stringify(records,null,2));
