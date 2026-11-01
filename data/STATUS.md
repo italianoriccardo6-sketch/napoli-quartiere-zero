@@ -1,3 +1,11 @@
+# Stato corrente dei dati
+
+I conteggi geografici del resoconto 0.3 qui sotto restano riferiti all'estratto centrale originale. Nella base 0.4.2 il terreno attivo usa il raster DTM2020 relativo in `public/data/city-elevation.json`, separato dai punti quotati ArcGIS non attivati. Sono presenti tre fronti alberghieri fotografici; gli altri edifici restano in prevalenza inferiti. La descrizione storica di terreno piano non è lo stato corrente.
+
+La procedura `npm run city:plan` pianifica settori per l'estensione; i file acquisiti eventualmente in `data/city-sectors/` sono staging, non copertura giocabile. Non sono stati installati nuovi dati per Posillipo, Fuorigrotta o gli altri quartieri esterni in questa revisione. La mappa centrale esistente non è stata rigenerata o sostituita.
+
+---
+
 # Stato geografico 0.3
 
 Estratto OpenStreetMap acquisito tramite il workflow GitHub «Estrai geografia reale di Napoli», run 41247515350, il 31 ottobre 2026 alle 22:18:11 UTC, endpoint overpass-api.de. Originale: `napoli-centro.osm.json`; provenienza: `source.json`; licenza: `OSM-LICENSE.md`.

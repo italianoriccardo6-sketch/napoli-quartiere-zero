@@ -108,3 +108,7 @@ test('Santa Lucia: ready waits for the owned original photo and cleanup preserve
     const failedTexture=RawTexture.CreateRGBATexture(new Uint8Array([0,0,0,255]),1,1,scene,false,false),failed=addSantaLuciaFacade(scene,actual(),{loadPhoto:true,photoTextureLoader:()=>({texture:failedTexture,ready:Promise.reject(new Error('photo unavailable'))})});await assert.rejects(failed.ready,/photo unavailable/);failed.dispose();assert.equal(scene.meshes.length,0);assert.ok(!scene.textures.includes(failedTexture));
   }finally{scene.dispose();engine.dispose();}
 });
+
+test('projection: importable calibration and independently served FAL asset stay byte-identical',()=>{
+  assert.deepEqual(readFileSync('assets/santa-lucia-pitrou-2011/projection.json'),readFileSync('public/assets/santa-lucia-pitrou-2011/projection.json'));
+});

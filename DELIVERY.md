@@ -1,3 +1,11 @@
+# Stato corrente e documentazione storica
+
+La base integrata è la **0.4.2**: geografia OSM, terreno DTM regionale relativo, auto, prologo e tre fronti fotografici. I paragrafi 0.3/0.3.1 qui sotto sono conservati come resoconto storico e non descrivono il terreno o la grafica correnti.
+
+Il ramo `work/napoli-city-streaming` aggiunge caricamento progressivo dei volumi e dettagli delle facciate durante l'esplorazione, una procedura di acquisizione offline per singoli settori e la correzione dell'importazione della calibrazione fotografica in Vite dev. Non contiene ancora l'intera città. Nessun deploy è stato eseguito per questo lavoro. Stato e limiti aggiornati nel README.
+
+---
+
 # Revisione browser 0.3 — geografia reale
 
 Fonte e workflow: https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero . Ogni pubblicazione deriva da un commit presente su GitHub; `/build-info.json` identifica il commit effettivamente servito. GitHub Actions verifica test e build e conserva gli artifact per SHA; il deploy rimane un passaggio esplicito, non un’automazione Netlify già collegata.

@@ -17,6 +17,8 @@ interface ModelManifest {asset:'tree_small_02';license:'CC0-1.0';totalRuntimeByt
 export interface TreeModelOptions extends VegetationOptions {
   nearDistance?:number;
   lodHysteresis?:number;
+  /** Optional distance culling; source nodes and placements remain unchanged. */
+  renderDistance?:{alta:number;bassa:number};
   /** Read-only transport adapters allow the same actual GLBs to be tested without a browser. */
   loadManifest?:()=>Promise<unknown>;
   loadModel?:(url:string,scene:Scene)=>Promise<ISceneLoaderAsyncResult>;
@@ -24,7 +26,7 @@ export interface TreeModelOptions extends VegetationOptions {
 export interface TreeModelNormalization {base:[number,number,number];height:number;crownDiameter:number;reference:'near-trunk-base';handedness:'left'|'right'}
 export interface TreeModelStats {
   sourceTrees:number;treesRendered:number;modelTrees:number;proceduralTrees:number;
-  nearTrees:number;farTrees:number;meshCount:number;nearTrianglesPerTree:number;farTrianglesPerTree:number;
+  nearTrees:number;farTrees:number;culledTrees:number;meshCount:number;nearTrianglesPerTree:number;farTrianglesPerTree:number;
   renderedModelTriangles:number;lodBufferUpdates:number;
   placement:'source-tree-nodes-only';individualTreesInvented:false;measuredShapes:false;
 }
@@ -53,14 +55,15 @@ function bounds(meshes:readonly Mesh[]){
 export function createTreeModels(scene:Scene,map:MapData,data:GreenData,options:TreeModelOptions={}){
   const nearDistance=options.nearDistance??45,hysteresis=options.lodHysteresis??5;
   if(!Number.isFinite(nearDistance)||nearDistance<=0||!Number.isFinite(hysteresis)||hysteresis<0||hysteresis>=nearDistance)throw new RangeError('Distanze LOD degli alberi non valide.');
+  if(options.renderDistance&&(!Number.isFinite(options.renderDistance.alta)||!Number.isFinite(options.renderDistance.bassa)||options.renderDistance.alta<=0||options.renderDistance.bassa<=0))throw new RangeError('Invalid tree render distance.');
   const plan=buildVegetationPlan(map,data,options),placements=plan.placements,modelPlacements=placements.filter(tree=>tree.form==='broadleaf');
   const unsupported=new Set(placements.filter(tree=>tree.form!=='broadleaf').map(tree=>tree.id));
   const fallback=unsupported.size?addVegetation(scene,map,{...data,trees:data.trees.filter(tree=>unsupported.has(tree.id))},{...options,materials:{bark:options.materials?.bark,palm:options.materials?.palm},photographicLeafCards:false}):undefined;
   const meshes:Mesh[]=[...(fallback?.meshes??[])],templates:Record<LOD,Mesh[]>={near:[],far:[]},casters=new Set<Mesh>();
-  const stats:TreeModelStats={sourceTrees:data.trees.length,treesRendered:placements.length,modelTrees:modelPlacements.length,proceduralTrees:unsupported.size,nearTrees:0,farTrees:0,meshCount:meshes.length,nearTrianglesPerTree:0,farTrianglesPerTree:0,renderedModelTriangles:0,lodBufferUpdates:0,placement:'source-tree-nodes-only',individualTreesInvented:false,measuredShapes:false};
+  const stats:TreeModelStats={sourceTrees:data.trees.length,treesRendered:placements.length,modelTrees:modelPlacements.length,proceduralTrees:unsupported.size,nearTrees:0,farTrees:0,culledTrees:0,meshCount:meshes.length,nearTrianglesPerTree:0,farTrianglesPerTree:0,renderedModelTriangles:0,lodBufferUpdates:0,placement:'source-tree-nodes-only',individualTreesInvented:false,measuredShapes:false};
   let disposed=false,loaded=false,normalization:TreeModelNormalization|undefined;
   let lastPosition:Point=[...(options.focus?.[0]??modelPlacements[0]?.point??[0,0])],lastQuality=options.quality??'alta';
-  const membership=new Map<string,LOD>(),transforms=new Map<string,number[]>();
+  const membership=new Map<string,LOD|'hidden'>(),transforms=new Map<string,number[]>();
   const ownedMaterials=modelPlacements.length&&(!options.materials?.bark||!options.materials?.broadleaf)?createPhotographicFoliageMaterials(scene):undefined;
   const bark=options.materials?.bark??ownedMaterials?.bark,leaves=options.materials?.broadleaf??ownedMaterials?.leaves;
   const base=`${import.meta.env?.BASE_URL??'/'}assets/foliage/tree_small_02/`;
@@ -74,7 +77,8 @@ export function createTreeModels(scene:Scene,map:MapData,data:GreenData,options:
     let changed=membership.size!==modelPlacements.length;
     for(const tree of modelPlacements){
       const distance=Math.hypot(tree.point[0]-position[0],tree.point[1]-position[1]),previous=membership.get(tree.id);
-      const next:LOD=quality==='bassa'?'far':distance<=(previous==='near'?nearDistance+hysteresis:nearDistance)?'near':'far';
+      const renderDistance=options.renderDistance?.[quality]??Infinity;
+      const next:LOD|'hidden'=distance>renderDistance+(previous&&previous!=='hidden'?hysteresis:0)?'hidden':quality==='bassa'?'far':distance<=(previous==='near'?nearDistance+hysteresis:nearDistance)?'near':'far';
       if(previous!==next){membership.set(tree.id,next);changed=true;}
     }
     if(changed){
@@ -91,7 +95,7 @@ export function createTreeModels(scene:Scene,map:MapData,data:GreenData,options:
         stats.lodBufferUpdates++;
       }
     }
-    stats.nearTrees=modelPlacements.filter(tree=>membership.get(tree.id)==='near').length;stats.farTrees=modelPlacements.length-stats.nearTrees;
+    stats.nearTrees=modelPlacements.filter(tree=>membership.get(tree.id)==='near').length;stats.farTrees=modelPlacements.filter(tree=>membership.get(tree.id)==='far').length;stats.culledTrees=modelPlacements.length-stats.nearTrees-stats.farTrees;
     stats.renderedModelTriangles=stats.nearTrees*stats.nearTrianglesPerTree+stats.farTrees*stats.farTrianglesPerTree;
     for(const lod of ['near','far'] as const)for(const mesh of templates[lod])shadow(mesh,mesh.isEnabled()&&quality==='alta');
   }

@@ -4,6 +4,26 @@ Gioco 3D per browser, tastiera e mouse. Si apre da un sito online anche su Mac; 
 
 **Stato 0.4.2: dislivelli del DTM2020 regionale, geografia OSM e tre fronti fotografici di Napoli.** Costa, sagome e rete viaria coprono il settore Santa Lucia–lungomare–Plebiscito: 1.803 poligoni di edifici (316 con cortili), 1.531 percorsi di superficie e circa 586 m di percorso missione. Il Royal Continental e il Grand Hotel Vesuvio usano la fotografia diurna CC0 di DimiTalen del 2010; il Grand Hotel Santa Lucia usa la fotografia FAL 1.3 di Antoine Pitrou del 2011. Le immagini sono proiettate sulle rispettive pareti OSM, con profondità ricostruite artisticamente. Materiali PBR fotografici, alberi CC0 con geometria ridotta, aree verdi OSM e dettagli del lungomare completano questa revisione. La città segue il terreno regionale con quote relative alla strada iniziale: piedi, strade, auto, edifici e arredi condividono la superficie renderizzata. Le altre facciate sono generiche; le 1.620 altezze prive di tag o livelli restano stime della base dati e 159 ricevono un adattamento soltanto visivo al terreno supportato. La demo non raggiunge ancora il riferimento visivo richiesto.
 
+## Sviluppo successivo: città estesa nel browser
+
+Il ramo di lavoro `work/napoli-city-streaming` mantiene la base 0.4.2 e prepara l'estensione senza server GPU. Non è una nuova release di tutta Napoli e non amplia ancora i dati geografici attivi.
+
+I volumi degli edifici vengono costruiti progressivamente per distanza, con al massimo 160 batch GPU residenti. Le sagome originali e l'indice delle collisioni restano in memoria anche quando la mesh viene scaricata. I dettagli generici delle facciate seguono ora l'esplorazione, con un proprietario per edificio e al massimo 12 settori residenti. La qualità bassa riduce il budget delle istanze. Gli alberi fotografici oltre 300 m (alta) o 120 m (bassa), con isteresi, non vengono inviati al rendering; i nodi sorgenti restano invariati. Il limite temporale del caricatore è un budget cooperativo: una singola costruzione può superarlo; non è una garanzia di FPS. Terreno, strade e dati sorgenti sono ancora caricati integralmente. Il caricamento geografico da disco/rete a zone resta da implementare.
+
+```sh
+npm run city:plan
+npm run city:plan -- --sector=napoli-w4-n0
+npm run city:acquire -- --sector=napoli-w4-n0
+```
+
+Il primo comando mostra un piano di **368 settori**, ciascuno non superiore a circa 1 km², e un catalogo di lavoro dei 30 quartieri, inclusi Posillipo, Fuorigrotta, Bagnoli, Pianura e Ponticelli. Il rettangolo di acquisizione comprende anche mare e aree esterne: non è il confine amministrativo verificato di Napoli, né prova di copertura installata. I quartieri non sono ancora poligoni di gioco.
+
+Il secondo comando stampa la query senza eseguirla; il terzo acquisisce **un solo settore** in `data/city-sectors/`, con risposta originale, checksum, query e avviso ODbL. La procedura ha timeout, limite di 16 MiB e rifiuta risposte incomplete/ambigue; non riprova automaticamente e non sovrascrive un settore già acquisito. Non modifica `public/data/map.json`. Il workflow manuale «Acquisisci un settore della Napoli estesa» conserva il risultato come artifact e non attiva o pubblica una nuova mappa. L'acquisizione richiede accesso di rete al servizio Overpass; nessuna richiesta è fatta durante il gioco.
+
+Prima di attivare settori esterni servono un confine comunale verificato, ricomposizione/deduplicazione delle geometrie, terra e costa continue, DTM esteso, caricamento geografico a zone e prove di attraversamento fra zone. La fedeltà visiva richiede inoltre asset fotografici/architettonici appropriati: i dati OSM da soli non rendono Napoli fotorealistica. Combattimento, inseguimenti, doppiaggio e campagna estesa restano da produrre.
+
+La calibrazione FAL 1.3 del Santa Lucia ha una copia importabile in `assets/santa-lucia-pitrou-2011/` e una copia pubblica indipendente; i test ne verificano l'identità dei byte. Questo evita l'importazione JavaScript da `public/`, rifiutata dal server Vite in sviluppo. Autori, calibrazione e licenza della fotografia sono conservati.
+
 ## GitHub è la fonte del progetto
 
 Repository: https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero . Ogni revisione viene prima caricata su GitHub. `.github/workflows/verify.yml` esegue test e build per push su `main` e pull request e conserva la build come artifact associato allo SHA. La pubblicazione viene effettuata da un checkout del commit GitHub verificato; l’eventuale repository tecnico del servizio di hosting è una copia dello stesso commit, non una fonte alternativa di modifiche.
