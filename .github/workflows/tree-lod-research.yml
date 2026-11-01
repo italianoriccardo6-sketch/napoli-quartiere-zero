@@ -1,0 +1,33 @@
+name: Ricerca offline LOD albero CC0 entro 20 MiB
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: napoli-tree-lod-research
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      NODE_OPTIONS: --max-old-space-size=4096
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Installa strumenti offline con versioni fissate fuori dal progetto
+        run: npm install --prefix "$RUNNER_TEMP/napoli-tree-lod-tools" --no-audit --no-fund @gltf-transform/core@4.5.1 @gltf-transform/functions@4.5.1 meshoptimizer@1.3.0
+      - name: Smoke test prima del trasferimento e ricerca LOD sul solo input verificato
+        env:
+          TREE_LOD_TOOLS: ${{ runner.temp }}/napoli-tree-lod-tools
+        run: node scripts/research-tree-lods.mjs
+      - name: Pubblica soltanto output di ricerca ridotti e provenienza
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: napoli-tree-lod-research-${{ github.run_id }}
+          path: work/tree-lod-research/output/
+          if-no-files-found: ignore
+          retention-days: 14

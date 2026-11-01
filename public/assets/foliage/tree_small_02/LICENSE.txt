@@ -9,3 +9,5 @@ https://creativecommons.org/publicdomain/zero/1.0/
 Original map files, not preview renders or website copy.
 Generic broadleaf visual material, not measured species or geometry of Naples trees.
 API preparation terms: https://github.com/Poly-Haven/Public-API/blob/master/ToS.md
+
+Scope: this notice covers the original seven photographic map files. Reduced Tree Small 02 geometry distributed in this directory is separately documented in tree-lod-manifest.json and TREE-MODEL-LICENSE.txt, under the same CC0 license.

@@ -146,6 +146,9 @@
     "Alpha is supplied as a separate grayscale PNG mask. Normal and roughness maps use linear colour space.",
     "Leaf cards must select a valid atlas UV window; original unwrapped padding at the right edge is not a whole-card silhouette.",
     "Bark Brown 01 is a separate seamless photographic bark material with a 1m source tile.",
-    "Use OpenGL tangent-space normals and a cutout material; no Draco, KTX, external decoder, authentication or live API is needed at runtime."
-  ]
+    "Use OpenGL tangent-space normals and a cutout material; no Draco, KTX, external decoder, authentication or live API is needed at runtime.",
+    "geometryIncluded:false scopes this original seven-map manifest only; separately distributed reduced CC0 tree geometry is described by tree-lod-manifest.json and TREE-MODEL-LICENSE.txt."
+  ],
+  "bundleScope": "photographic-maps-only",
+  "geometryManifest": "tree-lod-manifest.json"
 }

@@ -1,0 +1,612 @@
+{
+  "version": 1,
+  "status": "offline-research-requires-rendered-review",
+  "retrievedAt": "2026-11-01T00:41:26.234Z",
+  "asset": "tree_small_02",
+  "author": "Rico Cilliers",
+  "license": "CC0-1.0",
+  "sourcePage": "https://polyhaven.com/a/tree_small_02",
+  "licensePage": "https://polyhaven.com/license",
+  "tools": {
+    "@gltf-transform/core": "4.5.1",
+    "@gltf-transform/functions": "4.5.1",
+    "meshoptimizer": "1.3.0"
+  },
+  "source": {
+    "gltf": {
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/1k/tree_small_02/tree_small_02_1k.gltf",
+      "bytes": 9075,
+      "md5": "63f42b19687332f7b3a5c8b531734d8e",
+      "sha256": "3062a709614c05b80fdc1e56583998bc3cb1027b0d52f956c8ecfb882ff8ca6d"
+    },
+    "binary": {
+      "url": "https://dl.polyhaven.org/file/ph-assets/Models/gltf/8k/tree_small_02/tree_small_02.bin",
+      "bytes": 95102324,
+      "md5": "7a7019a87e6fe0d7475c0fa2e08d8962",
+      "sha256": "8da6c3c389ad8748286d1b7488cd827f75ebdad9d8f59ef7dfb0916df5edc634"
+    },
+    "totalTransferredBytes": 95193741,
+    "maximumInputBytes": 314572800
+  },
+  "sourceGeometry": [
+    {
+      "role": "bark_branches",
+      "triangles": 94814,
+      "vertices": 62772,
+      "components": 751,
+      "bounds": {
+        "min": [
+          -1.095399022102356,
+          1.6240153312683105,
+          -1.2641923427581787
+        ],
+        "max": [
+          1.418749451637268,
+          4.392509460449219,
+          2.7931995391845703
+        ],
+        "span": [
+          2.514148473739624,
+          2.768494129180908,
+          4.057391881942749
+        ]
+      },
+      "bakedUV0Range": {
+        "min": [
+          0,
+          0.40000009536743164
+        ],
+        "max": [
+          3,
+          1
+        ]
+      }
+    },
+    {
+      "role": "leaves",
+      "triangles": 1939380,
+      "vertices": 1698569,
+      "components": 30250,
+      "bounds": {
+        "min": [
+          -1.3089934587478638,
+          1.4583466053009033,
+          -1.3826267719268799
+        ],
+        "max": [
+          1.6077065467834473,
+          4.532637119293213,
+          2.9098503589630127
+        ],
+        "span": [
+          2.916700005531311,
+          3.0742905139923096,
+          4.292477130889893
+        ]
+      },
+      "bakedUV0Range": {
+        "min": [
+          0.07059318572282791,
+          0.02871227264404297
+        ],
+        "max": [
+          0.9772163033485413,
+          0.9827111959457397
+        ]
+      }
+    },
+    {
+      "role": "bark_trunk",
+      "triangles": 28293,
+      "vertices": 15937,
+      "components": 70,
+      "bounds": {
+        "min": [
+          -0.7654515504837036,
+          -0.02410384640097618,
+          -0.39323970675468445
+        ],
+        "max": [
+          0.9303282499313354,
+          3.6645729541778564,
+          1.9231672286987305
+        ],
+        "span": [
+          1.695779800415039,
+          3.6886768005788326,
+          2.316406935453415
+        ]
+      },
+      "bakedUV0Range": {
+        "min": [
+          0.0038917413912713528,
+          0.00445866584777832
+        ],
+        "max": [
+          0.996068000793457,
+          0.9960360527038574
+        ]
+      }
+    }
+  ],
+  "uvPolicies": [
+    {
+      "role": "bark_branches",
+      "sourceTexCoord": 1,
+      "sourceScale": [
+        3,
+        0.5999999046325684
+      ],
+      "sourceOffset": [
+        0,
+        0.40000009536743164
+      ],
+      "bakedInto": "TEXCOORD_0",
+      "materialSubstitution": "existing seamless Bark Brown01, original used UV mapping retained"
+    },
+    {
+      "role": "leaves",
+      "sourceTexCoord": 0,
+      "sourceScale": [
+        1,
+        1
+      ],
+      "sourceOffset": [
+        0,
+        0
+      ],
+      "bakedInto": "TEXCOORD_0",
+      "materialSubstitution": "unchanged leaf atlas with separate existing PNG alpha"
+    },
+    {
+      "role": "bark_trunk",
+      "sourceTexCoord": 0,
+      "sourceScale": [
+        1,
+        1
+      ],
+      "sourceOffset": [
+        0,
+        0
+      ],
+      "bakedInto": "TEXCOORD_0",
+      "materialSubstitution": "existing seamless Bark Brown01, original used UV mapping retained"
+    }
+  ],
+  "sharedTextures": {
+    "manifestPath": "public/assets/foliage/tree_small_02/foliage-manifest.json",
+    "manifestSHA256": "642aff18eac32226aba5f565079cd8793a354b1c8c9148888033b89acee4bbd6",
+    "bytes": 3751614,
+    "files": [
+      {
+        "usage": "leaf colour",
+        "path": "/assets/foliage/tree_small_02/leaves-diff.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_diff_1k.jpg",
+        "bytes": 340003,
+        "md5": "315cbc2cebfb399e649ccd39112c109a",
+        "sha256": "261e7d7a5ac7d2e16ea8823ff8510be8f3f615999724232994039ad2885e5c36",
+        "resolution": "1k",
+        "format": "jpg",
+        "sourceAssetId": "tree_small_02",
+        "sourcePage": "https://polyhaven.com/a/tree_small_02",
+        "sourceMapKey": "leaves_diff"
+      },
+      {
+        "usage": "leaf alpha mask",
+        "path": "/assets/foliage/tree_small_02/leaves-alpha.png",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/png/1k/tree_small_02/tree_small_02_leaves_alpha_1k.png",
+        "bytes": 264711,
+        "md5": "63199ba87a9e8928424bd8c3b8017bd0",
+        "sha256": "4f143e2dda8a6a572f427ac378b92255d21761e4611de0d26e21816c01aa533b",
+        "resolution": "1k",
+        "format": "png",
+        "sourceAssetId": "tree_small_02",
+        "sourcePage": "https://polyhaven.com/a/tree_small_02",
+        "sourceMapKey": "leaves_alpha"
+      },
+      {
+        "usage": "leaf OpenGL normal",
+        "path": "/assets/foliage/tree_small_02/leaves-normal.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_nor_gl_1k.jpg",
+        "bytes": 681604,
+        "md5": "b06c87e73f54d9654f66d67e9de7aa85",
+        "sha256": "8c72e04fb23e16ae1df79c01385a638473d1dd4dede3d51e83d70153c129f09b",
+        "resolution": "1k",
+        "format": "jpg",
+        "sourceAssetId": "tree_small_02",
+        "sourcePage": "https://polyhaven.com/a/tree_small_02",
+        "sourceMapKey": "leaves_nor_gl"
+      },
+      {
+        "usage": "leaf roughness",
+        "path": "/assets/foliage/tree_small_02/leaves-rough.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Models/jpg/1k/tree_small_02/tree_small_02_leaves_rough_1k.jpg",
+        "bytes": 307562,
+        "md5": "df8afe55f9d3de3b179a41496645a4f9",
+        "sha256": "864b7d6eba1e62b242e8ffc7c99dd32092ca6c3bf0a7a3537ad29fad2d2ce39e",
+        "resolution": "1k",
+        "format": "jpg",
+        "sourceAssetId": "tree_small_02",
+        "sourcePage": "https://polyhaven.com/a/tree_small_02",
+        "sourceMapKey": "leaves_rough"
+      },
+      {
+        "usage": "seamless bark colour",
+        "path": "/assets/foliage/tree_small_02/bark-diff.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/bark_brown_01/bark_brown_01_diff_1k.jpg",
+        "bytes": 729893,
+        "md5": "b6d5dcde10b7cd1b36d70cd33a34724a",
+        "sha256": "4213441aebcb72b9911f5a860e9ce74a61a8f6ce3b9c23d1f204173e7e7f6066",
+        "resolution": "1k",
+        "format": "jpg",
+        "sourceAssetId": "bark_brown_01",
+        "sourcePage": "https://polyhaven.com/a/bark_brown_01",
+        "sourceMapKey": "Diffuse"
+      },
+      {
+        "usage": "seamless bark OpenGL normal",
+        "path": "/assets/foliage/tree_small_02/bark-normal.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/bark_brown_01/bark_brown_01_nor_gl_1k.jpg",
+        "bytes": 1226534,
+        "md5": "8ae9907be7ce562c11aab619615d30d4",
+        "sha256": "9d1537b3429579436a62890bb7c5050a0172a15ce768787eacde81c5ccefc9cc",
+        "resolution": "1k",
+        "format": "jpg",
+        "sourceAssetId": "bark_brown_01",
+        "sourcePage": "https://polyhaven.com/a/bark_brown_01",
+        "sourceMapKey": "nor_gl"
+      },
+      {
+        "usage": "seamless bark roughness",
+        "path": "/assets/foliage/tree_small_02/bark-rough.jpg",
+        "url": "https://dl.polyhaven.org/file/ph-assets/Textures/jpg/1k/bark_brown_01/bark_brown_01_rough_1k.jpg",
+        "bytes": 201307,
+        "md5": "b7a1aa42ecf0b30aba7f587769d13910",
+        "sha256": "4e7f62508cf77faebfeee15ffb571ff02c45c18d5174aa19fcb8b98506359c5c",
+        "resolution": "1k",
+        "format": "jpg",
+        "sourceAssetId": "bark_brown_01",
+        "sourcePage": "https://polyhaven.com/a/bark_brown_01",
+        "sourceMapKey": "Rough"
+      }
+    ],
+    "preparationManifestSHA256": "a750d31ccec1249b352ae59c9c4a4fb5c75e75d8222bbf5593e7f88d9499ff57"
+  },
+  "outputs": [
+    {
+      "lod": "near",
+      "path": "tree_small_02-near.glb",
+      "bytes": 3877092,
+      "sha256": "140d638d52e7e6197ea36b9259d51e96cbb52ec87500ddd5302c26212659c9ff",
+      "triangles": 79263,
+      "primitives": [
+        {
+          "role": "bark_branches",
+          "sourceTriangles": 94814,
+          "triangles": 10278,
+          "ratio": 0.10840171282721961,
+          "vertices": 10328,
+          "targetTriangles": 11000,
+          "reportedAttributeError": 0.008371102623641491,
+          "errorLimit": 0.01,
+          "flags": [],
+          "sourceBounds": {
+            "min": [
+              -1.095399022102356,
+              1.6240153312683105,
+              -1.2641923427581787
+            ],
+            "max": [
+              1.418749451637268,
+              4.392509460449219,
+              2.7931995391845703
+            ],
+            "span": [
+              2.514148473739624,
+              2.768494129180908,
+              4.057391881942749
+            ]
+          },
+          "bounds": {
+            "min": [
+              -1.095065951347351,
+              1.6735095977783203,
+              -1.2630820274353027
+            ],
+            "max": [
+              1.3930411338806152,
+              4.392509460449219,
+              2.7502939701080322
+            ],
+            "span": [
+              2.4881070852279663,
+              2.7189998626708984,
+              4.013375997543335
+            ]
+          },
+          "sourceComponents": 751,
+          "retainedSourceComponents": 740,
+          "sourceOccupiedCanopyCells": 446,
+          "retainedOccupiedCanopyCells": 388,
+          "canopyGrid": 12
+        },
+        {
+          "role": "leaves",
+          "sourceTriangles": 1939380,
+          "triangles": 64985,
+          "ratio": 0.033508131464694904,
+          "vertices": 80931,
+          "targetTriangles": 65000,
+          "reportedAttributeError": 0.0049794018268585205,
+          "errorLimit": 0.005,
+          "flags": [],
+          "sourceBounds": {
+            "min": [
+              -1.3089934587478638,
+              1.4583466053009033,
+              -1.3826267719268799
+            ],
+            "max": [
+              1.6077065467834473,
+              4.532637119293213,
+              2.9098503589630127
+            ],
+            "span": [
+              2.916700005531311,
+              3.0742905139923096,
+              4.292477130889893
+            ]
+          },
+          "bounds": {
+            "min": [
+              -1.3072476387023926,
+              1.4959819316864014,
+              -1.3679063320159912
+            ],
+            "max": [
+              1.5881683826446533,
+              4.5255818367004395,
+              2.865727424621582
+            ],
+            "span": [
+              2.895416021347046,
+              3.029599905014038,
+              4.233633756637573
+            ]
+          },
+          "sourceComponents": 30250,
+          "retainedSourceComponents": 9965,
+          "sourceOccupiedCanopyCells": 620,
+          "retainedOccupiedCanopyCells": 560,
+          "canopyGrid": 12
+        },
+        {
+          "role": "bark_trunk",
+          "sourceTriangles": 28293,
+          "triangles": 4000,
+          "ratio": 0.14137772593927828,
+          "vertices": 2761,
+          "targetTriangles": 4000,
+          "reportedAttributeError": 0.009353958070278168,
+          "errorLimit": 0.01,
+          "flags": [],
+          "sourceBounds": {
+            "min": [
+              -0.7654515504837036,
+              -0.02410384640097618,
+              -0.39323970675468445
+            ],
+            "max": [
+              0.9303282499313354,
+              3.6645729541778564,
+              1.9231672286987305
+            ],
+            "span": [
+              1.695779800415039,
+              3.6886768005788326,
+              2.316406935453415
+            ]
+          },
+          "bounds": {
+            "min": [
+              -0.7630799412727356,
+              -0.024031998589634895,
+              -0.39103877544403076
+            ],
+            "max": [
+              0.9294251799583435,
+              3.6645729541778564,
+              1.9231672286987305
+            ],
+            "span": [
+              1.692505121231079,
+              3.6886049527674913,
+              2.3142060041427612
+            ]
+          },
+          "sourceComponents": 70,
+          "retainedSourceComponents": 69,
+          "sourceOccupiedCanopyCells": 162,
+          "retainedOccupiedCanopyCells": 146,
+          "canopyGrid": 12
+        }
+      ]
+    },
+    {
+      "lod": "far",
+      "path": "tree_small_02-far.glb",
+      "bytes": 809676,
+      "sha256": "49ca6130e06a285df88632aebb42d14ed5952204c95e4e3296cdabb8cf134dea",
+      "triangles": 14503,
+      "primitives": [
+        {
+          "role": "bark_branches",
+          "sourceTriangles": 94814,
+          "triangles": 2848,
+          "ratio": 0.03003775813698399,
+          "vertices": 3540,
+          "targetTriangles": 3000,
+          "reportedAttributeError": 0.017898598685860634,
+          "errorLimit": 0.02,
+          "flags": [],
+          "sourceBounds": {
+            "min": [
+              -1.095399022102356,
+              1.6240153312683105,
+              -1.2641923427581787
+            ],
+            "max": [
+              1.418749451637268,
+              4.392509460449219,
+              2.7931995391845703
+            ],
+            "span": [
+              2.514148473739624,
+              2.768494129180908,
+              4.057391881942749
+            ]
+          },
+          "bounds": {
+            "min": [
+              -0.913867712020874,
+              1.6758993864059448,
+              -1.0914342403411865
+            ],
+            "max": [
+              1.358196496963501,
+              4.392509460449219,
+              2.5089938640594482
+            ],
+            "span": [
+              2.272064208984375,
+              2.716610074043274,
+              3.6004281044006348
+            ]
+          },
+          "sourceComponents": 751,
+          "retainedSourceComponents": 380,
+          "sourceOccupiedCanopyCells": 446,
+          "retainedOccupiedCanopyCells": 296,
+          "canopyGrid": 12
+        },
+        {
+          "role": "leaves",
+          "sourceTriangles": 1939380,
+          "triangles": 9656,
+          "ratio": 0.004978910785921274,
+          "vertices": 17431,
+          "targetTriangles": 10000,
+          "reportedAttributeError": 0.010441417805850506,
+          "errorLimit": 0.02,
+          "flags": [],
+          "sourceBounds": {
+            "min": [
+              -1.3089934587478638,
+              1.4583466053009033,
+              -1.3826267719268799
+            ],
+            "max": [
+              1.6077065467834473,
+              4.532637119293213,
+              2.9098503589630127
+            ],
+            "span": [
+              2.916700005531311,
+              3.0742905139923096,
+              4.292477130889893
+            ]
+          },
+          "bounds": {
+            "min": [
+              -1.2908966541290283,
+              1.5234293937683105,
+              -1.289897084236145
+            ],
+            "max": [
+              1.5855462551116943,
+              4.517841815948486,
+              2.7975361347198486
+            ],
+            "span": [
+              2.8764429092407227,
+              2.994412422180176,
+              4.087433218955994
+            ]
+          },
+          "sourceComponents": 30250,
+          "retainedSourceComponents": 3779,
+          "sourceOccupiedCanopyCells": 620,
+          "retainedOccupiedCanopyCells": 452,
+          "canopyGrid": 12
+        },
+        {
+          "role": "bark_trunk",
+          "sourceTriangles": 28293,
+          "triangles": 1999,
+          "ratio": 0.07065351853815431,
+          "vertices": 1520,
+          "targetTriangles": 2000,
+          "reportedAttributeError": 0.019460812211036682,
+          "errorLimit": 0.02,
+          "flags": [],
+          "sourceBounds": {
+            "min": [
+              -0.7654515504837036,
+              -0.02410384640097618,
+              -0.39323970675468445
+            ],
+            "max": [
+              0.9303282499313354,
+              3.6645729541778564,
+              1.9231672286987305
+            ],
+            "span": [
+              1.695779800415039,
+              3.6886768005788326,
+              2.316406935453415
+            ]
+          },
+          "bounds": {
+            "min": [
+              -0.7630799412727356,
+              -0.021845286712050438,
+              -0.39103877544403076
+            ],
+            "max": [
+              0.9294251799583435,
+              3.6645729541778564,
+              1.912890911102295
+            ],
+            "span": [
+              1.692505121231079,
+              3.686418240889907,
+              2.3039296865463257
+            ]
+          },
+          "sourceComponents": 70,
+          "retainedSourceComponents": 59,
+          "sourceOccupiedCanopyCells": 162,
+          "retainedOccupiedCanopyCells": 139,
+          "canopyGrid": 12
+        }
+      ]
+    }
+  ],
+  "totalRuntimeBytes": 8438382,
+  "maximumRuntimeBytes": 20971520,
+  "materialRoles": [
+    "bark_branches",
+    "leaves",
+    "bark_trunk"
+  ],
+  "notes": [
+    "Offline simplification is a lossy CC0 adaptation, not a newly measured Naples tree. Existing OSM tree-node positions are not part of, or altered by, this research.",
+    "Source branch UV1 and its exact used KHR_texture_transform are baked into UV0 before UV1 is removed. Leaf atlas UV0 and trunk UV0 are retained.",
+    "Geometry-only uncompressed GLBs require no Draco, meshopt decoder, images or external runtime fetch. Bind existing bark/leaf PBR materials by the stable role names.",
+    "The JPEG leaf diffuse has no alpha channel. Attach the unchanged separate PNG alpha through the existing Babylon material factory. No image pixels are edited or packed.",
+    "Prune/Permissive may remove leaf components or relax attribute seams; actual flags, retained component counts and coarse canopy occupancy are recorded per primitive.",
+    "Reported simplifier error, bounds and occupancy are diagnostics, not a silhouette or perceptual-quality guarantee. Near/far render review with the actual alpha material is required before runtime approval.",
+    "No claim of GTA-equivalent or photographic tree quality follows from triangle reduction alone.",
+    "The historical map manifest was annotated to distinguish its seven unchanged photographic files from this derived geometry bundle. preparationManifestSHA256 retains its exact preparation-time hash; manifestSHA256 describes the current scope-annotated map manifest."
+  ]
+}

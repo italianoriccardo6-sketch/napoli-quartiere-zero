@@ -1,0 +1,6 @@
+Derived geometry: Tree Small 02 — Rico Cilliers, Poly Haven, CC0 1.0.
+https://polyhaven.com/a/tree_small_02
+https://polyhaven.com/license
+Offline simplification performed with glTF-Transform and meshoptimizer (MIT tools, not included in runtime).
+Shared unchanged photographic maps remain credited in the existing foliage manifest (Rico Cilliers leaves; Rob Tuytel Bark Brown01).
+No original 95MB input binary, preview renders or API source code is redistributed.
