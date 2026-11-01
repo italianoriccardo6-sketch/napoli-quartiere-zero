@@ -73,18 +73,28 @@ CONFIGURAZIONE DA ESEGUIRE SOLO DOPO AVER APPROVATO I COSTI
    budget non bloccano da soli la spesa. Verificare quali limiti sono disponibili
    per ogni SKU nel progetto, mantenere il sito privato durante la prova e
    controllare gli utilizzi effettivi prima di aprirlo a più visitatori.
-6. Copiare .env.photoreal.example in .env.local (file da NON versionare), inserire
-   VITE_GOOGLE_MAPS_API_KEY con la chiave browser ristretta; mantenere
-   VITE_GOOGLE_MAPS_GEOCODING_ENABLED=false finché non si approva anche Geocoding.
-   Nel sistema di hosting impostare le stesse variabili di build. Vite le include
-   nel codice client; serve una nuova build dopo ogni modifica.
-7. Avviare npm run dev, aprire /photoreal.html. Con una chiave valida configurata
-   compare il pulsante di apertura. Senza, non vengono effettuate richieste SDK.
+6. Aprire /photoreal.html e incollare la chiave client ristretta nel campo
+   «Chiave API Google Maps». Non incollarla nella chat o nel repository.
+   La chiave rimane soltanto nella memoria della scheda, non viene salvata dal
+   sito e va reinserita dopo un ricaricamento. Inserirla non chiama Google.
+7. Premere «Apri Napoli fotografica» per caricare la mappa tramite il proprio
+   account Google. Non servono variabili d'ambiente o una nuova build per questo
+   metodo. Se il servizio rifiuta la chiave, controllare API abilitate, fatturazione
+   e restrizioni del dominio; ricaricare la pagina per cambiare progetto Google.
 8. Verificare manualmente la copertura di Napoli, Posillipo, Fuorigrotta e degli
    altri quartieri, il risultato su Safari/macOS, il consumo di memoria e i costi.
    Questa implementazione non certifica quelle prove senza un account attivo.
 9. Conservare attribuzioni Google/fornitori e i controlli nativi. Non coprirli
    con overlay del gioco. Nessun caching offline, proxy di download o estrazione.
+
+CONFIGURAZIONE AVANZATA DURANTE LA BUILD — FACOLTATIVA
+Per chi gestisce il codice, resta disponibile .env.photoreal.example da copiare
+in .env.local (non versionare) con VITE_GOOGLE_MAPS_API_KEY. Una chiave VITE viene
+inclusa nel codice client: usare esclusivamente una chiave browser ristretta.
+Le variabili runtime di un sito statico non sostituiscono automaticamente quelle
+di build: questo metodo richiede una nuova build/pubblicazione. Il campo nella
+pagina evita questo passaggio e non configura una chiave condivisa per altri utenti.
+Geocoding resta disattivato salvo VITE_GOOGLE_MAPS_GEOCODING_ENABLED=true in build.
 
 MODELLI ORIGINALI SOVRAPPOSTI
 L'adattatore espone addOriginalModel per modelli GLB locali con diritti verificati.

@@ -7,7 +7,13 @@
       <p class="photo-eyebrow">NAPOLI · ESPLORAZIONE 3D</p>
       <h1>La città<br>fotografica.</h1>
       <p class="photo-description">Esplora la città dall’alto con le immagini 3D di Google Maps, dove disponibili.</p>
-      <section id="photo-setup" class="photo-card"><h2>Anteprima da configurare</h2><p id="photo-setup-text">Il servizio fotografico non è ancora collegato. Il gioco esistente resta disponibile.</p><p><a href="./PHOTOREAL-SETUP.txt" target="_blank" rel="noopener">Costi e configurazione →</a></p></section>
+      <section id="photo-setup" class="photo-card"><h2>Collega Google Maps</h2><p id="photo-setup-text">Il servizio fotografico non è ancora collegato. Il gioco esistente resta disponibile.</p><p><a href="./PHOTOREAL-SETUP.txt" target="_blank" rel="noopener">Costi e configurazione →</a></p></section>
+      <section id="photo-key-config" class="photo-card">
+        <label class="photo-label" for="photo-api-key">Chiave API Google Maps</label>
+        <input id="photo-api-key" type="password" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Incolla qui la chiave creata in Google Cloud" aria-describedby="photo-key-help">
+        <p id="photo-key-help">Usa una chiave Maps JavaScript limitata a questo sito. Rimane nella memoria di questa scheda: non viene salvata nel sito, nella chat o nel repository. Va reinserita quando ricarichi.</p>
+        <p>L’apertura della mappa utilizza il piano e le quote del tuo account Google. Inserire la chiave, da solo, non carica la mappa.</p>
+      </section>
       <button id="photo-open" class="photo-primary" disabled>Apri Napoli fotografica</button>
       <label class="photo-label" for="photo-district">Scegli un quartiere</label>
       <select id="photo-district" disabled><option value="">Tutti i quartieri</option></select>

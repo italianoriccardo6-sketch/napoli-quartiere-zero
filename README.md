@@ -14,6 +14,8 @@ Questa revisione prosegue la base integrata 0.4.2; non è ancora un gioco fotore
 - **Dati a zone:** unione e deduplicazione per identità OSM, rifiuto di conflitti/riferimenti mancanti, pacchetti con checksum, caricatore con coda, concorrenza limitata, cache, timeout e annullamento. Il packaging dell'estratto esistente produce nove tile geografici di prova; il gioco continua a usare la mappa centrale verificata.
 - **Vista fotografica:** `/photoreal.html` contiene un esploratore aereo separato tramite SDK ufficiale Google Maps JavaScript 3D. Senza configurazione non carica SDK, fotografie o servizi a pagamento. Richiede progetto, fatturazione e chiave client ristretta per usare il servizio reale. La copertura dettagliata di tutti i quartieri e la qualità su Safari/Mac restano da verificare. Non è il gioco Babylon sovrapposto alle immagini Google e non scarica o ricostruisce Google Earth.
 
+La chiave client ristretta può essere inserita direttamente nel campo **Chiave API Google Maps** di `/photoreal.html`: resta solo nella memoria della scheda e viene usata quando si preme il pulsante di apertura. Non viene salvata dal sito e va reinserita dopo il ricaricamento. Non servono variabili d'ambiente o una nuova build per questo percorso; la configurazione VITE rimane un'alternativa avanzata.
+
 Costi e configurazione: [`public/PHOTOREAL-SETUP.txt`](public/PHOTOREAL-SETUP.txt). Al listino verificato, Immersive Maps ha 5.000 caricamenti mensili gratuiti, poi 7 USD per 1.000 nella prima fascia; Geocoding opzionale è separato. Nessun account o servizio a pagamento è stato attivato durante lo sviluppo.
 
 ```sh

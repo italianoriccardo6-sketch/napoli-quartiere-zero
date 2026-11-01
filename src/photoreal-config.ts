@@ -15,6 +15,11 @@ export function configuredPhotoKey(raw:unknown):string|null{
   if(!/^AIza[A-Za-z0-9_-]{35}$/.test(key)||/YOUR|REPLACE|EXAMPLE|PLACEHOLDER/i.test(key))return null;
   return key;
 }
+/** An explicit entered key never silently falls back to a different billing project. */
+export function selectedPhotoKey(buildKey:unknown,enteredKey:unknown):string|null{
+  const entered=typeof enteredKey==='string'?enteredKey.trim():'';
+  return entered?configuredPhotoKey(entered):configuredPhotoKey(buildKey);
+}
 export function photoSdkUrl(rawKey:string,callback:string):string{
   const key=configuredPhotoKey(rawKey);
   if(!key||!/^__napoli[A-Za-z0-9_]+$/.test(callback))throw Error('Configurazione della città fotografica non valida.');

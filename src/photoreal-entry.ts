@@ -1,25 +1,32 @@
 import './photoreal.css';
 import {NAPOLI_QUARTIERI} from './napoli-sectors';
-import {configuredPhotoKey,PHOTO_START,movePhotoCamera,photoCameraAt} from './photoreal-config';
+import {configuredPhotoKey,selectedPhotoKey,PHOTO_START,movePhotoCamera,photoCameraAt} from './photoreal-config';
 import {createPhotorealCity} from './photoreal-city';
 const get=<T extends HTMLElement>(id:string)=>document.getElementById(id) as T;
 const open=get<HTMLButtonElement>('photo-open'),district=get<HTMLSelectElement>('photo-district'),go=get<HTMLButtonElement>('photo-go'),quality=get<HTMLSelectElement>('photo-quality'),status=get('photo-status'),host=get('photo-map');
-const key=configuredPhotoKey(import.meta.env.VITE_GOOGLE_MAPS_API_KEY),geocodingEnabled=import.meta.env.VITE_GOOGLE_MAPS_GEOCODING_ENABLED==='true';
+const buildKey=configuredPhotoKey(import.meta.env.VITE_GOOGLE_MAPS_API_KEY),geocodingEnabled=import.meta.env.VITE_GOOGLE_MAPS_GEOCODING_ENABLED==='true';
 let city:Awaited<ReturnType<typeof createPhotorealCity>>|undefined;
 for(const name of NAPOLI_QUARTIERI){const option=document.createElement('option');option.value=option.textContent=name;district.append(option);}
-if(key){open.disabled=false;get('photo-setup-text').textContent='Servizio configurato. L’apertura utilizza Google Maps secondo il piano e le quote dell’account collegato.';}
-else get('photo-setup-text').textContent='Il servizio fotografico non è ancora collegato. Sono disponibili costi e istruzioni; non sono state caricate immagini o attivati servizi a pagamento.';
+const keyInput=get<HTMLInputElement>('photo-api-key');
+get('photo-key-config').hidden=!!buildKey;
+function refreshConnection(){
+  const key=selectedPhotoKey(buildKey,keyInput.value);open.disabled=!key;
+  get('photo-setup-text').textContent=key?'Chiave pronta. Premi «Apri Napoli fotografica» per collegare Google Maps usando il piano del tuo account.':'Incolla la tua chiave Google Maps nel campo qui sotto, poi premi «Apri Napoli fotografica». Non servono variabili d’ambiente o una nuova build.';
+  status.textContent=keyInput.value.trim()&&!key?'La chiave non ha il formato previsto. Controlla di averla copiata per intero.':'Nessuna mappa fotografica caricata.';
+}
+keyInput.addEventListener('input',refreshConnection);refreshConnection();
 open.onclick=async()=>{
-  if(!key||city)return;
-  open.disabled=true;status.textContent='Collegamento alla città fotografica…';
+  const key=selectedPhotoKey(buildKey,keyInput.value);if(!key||city)return;
+  open.disabled=true;keyInput.disabled=true;status.textContent='Collegamento alla città fotografica…';
   try{
     city=await createPhotorealCity(host,{apiKey:key,geocodingEnabled,onStatus:message=>status.textContent=message});
     city.map.qualityMode=quality.value as 'FIDELITY'|'PERFORMANCE';
+    keyInput.value='';get('photo-key-config').hidden=true;
     get('photo-empty').hidden=true;get('photo-controls').hidden=false;open.hidden=true;get('photo-setup').hidden=true;
     district.disabled=!geocodingEnabled;
     status.textContent=geocodingEnabled?'Esplora con il mouse oppure scegli un quartiere.':'Esplora con mouse e tastiera. La ricerca dei quartieri non è attiva in questa configurazione.';
     host.focus();
-  }catch{status.textContent='La città fotografica non si è collegata. Verifica configurazione e accesso al servizio.';open.disabled=false;}
+  }catch{status.textContent='La città fotografica non si è collegata. Verifica configurazione e accesso al servizio.';keyInput.disabled=false;open.disabled=!selectedPhotoKey(buildKey,keyInput.value);}
 };
 district.onchange=()=>go.disabled=!city||!district.value||district.disabled;
 go.onclick=async()=>{

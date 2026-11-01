@@ -1,12 +1,18 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {configuredPhotoKey,photoSdkUrl,photoCameraAt,PHOTO_START,movePhotoCamera,districtQuery,districtGeocodePosition} from '../src/photoreal-config';
+import {configuredPhotoKey,selectedPhotoKey,photoSdkUrl,photoCameraAt,PHOTO_START,movePhotoCamera,districtQuery,districtGeocodePosition} from '../src/photoreal-config';
 import {loadPhotorealSdk,createPhotorealCity,type PhotoLibrary} from '../src/photoreal-city';
 const testKey='AIza'+'a'.repeat(35);
 
 test('photo configuration: absent/placeholder credentials make no SDK request, browser key stays in official URL only',async()=>{
   for(const key of [undefined,'','YOUR_API_KEY','AIza'+ 'a'.repeat(34),'server secret','<script>'])assert.equal(configuredPhotoKey(key),null);
   assert.equal(configuredPhotoKey(testKey),testKey);
+  const anotherKey='AIza'+'b'.repeat(35);
+  assert.equal(selectedPhotoKey(undefined,testKey),testKey);
+  assert.equal(selectedPhotoKey(testKey,anotherKey),anotherKey);
+  assert.equal(selectedPhotoKey(testKey,'invalid entered key'),null,'do not charge a configured project when an explicit replacement is invalid');
+  assert.equal(selectedPhotoKey(testKey,''),testKey);
+  assert.equal(selectedPhotoKey(undefined,''),null);
   const url=new URL(photoSdkUrl(testKey,'__napoliTestReady'));
   assert.equal(url.origin,'https://maps.googleapis.com');assert.equal(url.pathname,'/maps/api/js');assert.equal(url.searchParams.get('libraries'),'maps3d');assert.equal(url.searchParams.get('key'),testKey);
   assert.throws(()=>photoSdkUrl(testKey,'evil.callback()'));
