@@ -1,0 +1,28 @@
+{
+  "bbox": [
+    40.826,
+    14.241,
+    40.842,
+    14.266
+  ],
+  "query": "[out:json][timeout:25];(node[highway=street_lamp](40.826,14.241,40.842,14.266);node[amenity=bench](40.826,14.241,40.842,14.266);node[amenity=waste_basket](40.826,14.241,40.842,14.266);node[amenity=drinking_water](40.826,14.241,40.842,14.266);node[barrier=bollard](40.826,14.241,40.842,14.266);node[traffic_sign](40.826,14.241,40.842,14.266););out body;",
+  "attempts": [
+    {
+      "endpoint": "https://overpass.private.coffee/api/interpreter",
+      "method": "GET",
+      "started_at": "2026-11-01T00:05:42.931Z",
+      "duration_ms": 70004,
+      "success": false,
+      "error": "The operation was aborted due to timeout"
+    },
+    {
+      "endpoint": "https://overpass-api.de/api/interpreter",
+      "method": "GET",
+      "started_at": "2026-11-01T00:06:52.936Z",
+      "httpStatus": 200,
+      "bytes": 27826,
+      "duration_ms": 36891,
+      "success": true
+    }
+  ]
+}

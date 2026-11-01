@@ -100,14 +100,24 @@ function barkTextures(scene:Scene){
  for(let y=0;y<height;y++)for(let x=0;x<width;x++){const i=(y*width+x)*4,h=relief(x,y),grain=Math.sin(x*5.31+y*2.13)*3,shade=clamp(.57+h*.48,.17,.92),nx=-(relief(x+1,y)-relief(x-1,y))*1.4,ny=-(relief(x,y+1)-relief(x,y-1))*.9,length=Math.hypot(nx,ny,1);color.data[i]=59+shade*54+grain;color.data[i+1]=48+shade*43+grain;color.data[i+2]=36+shade*33+grain;color.data[i+3]=255;normals.data[i]=(nx/length*.5+.5)*255;normals.data[i+1]=(ny/length*.5+.5)*255;normals.data[i+2]=(1/length*.5+.5)*255;normals.data[i+3]=255;}
  dc.putImageData(color,0,0);nc.putImageData(normals,0,0);for(const texture of[diffuse,normal]){texture.update();texture.anisotropicFilteringLevel=4;texture.uScale=2;texture.vScale=2;}normal.level=.45;return {diffuse,normal};
 }
-/** Eight original leaf quads use clean individual atlas islands, avoiding opaque UV padding. */
+/** Eight convex leaf bodies exclude the original atlas's opaque stems and UV padding. */
 function photographicLeafCluster(scene:Scene,name:string){
  const mesh=new Mesh(name,scene),positions:number[]=[],indices:number[]=[],uvs:number[]=[],normals:number[]=[];
  const regions=[[.06,.045,.215,.145],[.23,.045,.365,.132]];
+ // Body outlines measured in the unchanged 1024px source atlas. Keep the same
+ // mapping and scale as the former cards; only their unwanted border fragments
+ // are removed. Eight vertices need six triangles per leaf, 48 per cluster.
+ const outlines=[
+  [[65,69],[80,58],[114,59],[148,76],[188,124],[150,132],[112,120],[82,96]],
+  [[331,103],[315,109],[280,104],[248,91],[237,77],[253,71],[288,76],[320,89]],
+ ];
  for(let i=0;i<8;i++){
   const side=i%2?1:-1,level=Math.floor(i/2),[u0,v0,u1,v1]=regions[i%2],h=.19,w=h*(u1-u0)/(v1-v0),angle=side*(.35-level*.07),cx=side*.14,cy=-.33+level*.22,co=Math.cos(angle),si=Math.sin(angle),start=positions.length/3;
-  for(const [x,y]of[[-w/2,-h/2],[w/2,-h/2],[w/2,h/2],[-w/2,h/2]])positions.push(cx+x*co-y*si,cy+x*si+y*co,(i%3-1)*.035);
-  uvs.push(u0,v1,u1,v1,u1,v0,u0,v0);indices.push(start,start+1,start+2,start,start+2,start+3);
+  for(const [px,py]of outlines[i%2]){
+   const u=px/1024,v=py/1024,x=(u-(u0+u1)/2)/(u1-u0)*w,y=((v0+v1)/2-v)/(v1-v0)*h;
+   positions.push(cx+x*co-y*si,cy+x*si+y*co,(i%3-1)*.035);uvs.push(u,v);
+  }
+  for(let vertex=1;vertex<outlines[i%2].length-1;vertex++)indices.push(start,start+vertex+1,start+vertex);
  }
  VertexData.ComputeNormals(positions,indices,normals);const vertices=new VertexData();vertices.positions=positions;vertices.indices=indices;vertices.normals=normals;vertices.uvs=uvs;vertices.applyToMesh(mesh);return mesh;
 }

@@ -1,0 +1,1762 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-11-01T00:06:16Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 3465938982,
+  "lat": 40.8316632,
+  "lon": 14.2428438,
+  "tags": {
+    "barrier": "bollard",
+    "bollard": "fixed"
+  }
+},
+{
+  "type": "node",
+  "id": 3466045055,
+  "lat": 40.8314181,
+  "lon": 14.2437372,
+  "tags": {
+    "barrier": "bollard"
+  }
+},
+{
+  "type": "node",
+  "id": 3636018658,
+  "lat": 40.8353393,
+  "lon": 14.2425855,
+  "tags": {
+    "barrier": "bollard",
+    "bollard": "rising",
+    "material": "metal"
+  }
+},
+{
+  "type": "node",
+  "id": 4153921122,
+  "lat": 40.8351277,
+  "lon": 14.2501525,
+  "tags": {
+    "amenity": "drinking_water",
+    "bottle": "yes",
+    "capacity": "2",
+    "drinking_water": "yes",
+    "fountain": "drinking"
+  }
+},
+{
+  "type": "node",
+  "id": 4384526865,
+  "lat": 40.8283109,
+  "lon": 14.2475748,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 5115248563,
+  "lat": 40.8381143,
+  "lon": 14.2551017,
+  "tags": {
+    "amenity": "bench"
+  }
+},
+{
+  "type": "node",
+  "id": 5256314758,
+  "lat": 40.8372436,
+  "lon": 14.2484419,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-03-03",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5256314775,
+  "lat": 40.8373768,
+  "lon": 14.2486729,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5256314781,
+  "lat": 40.8374175,
+  "lon": 14.2491445,
+  "tags": {
+    "amenity": "waste_basket",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5256502112,
+  "lat": 40.8382277,
+  "lon": 14.2483432,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2024-06-24",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5256502113,
+  "lat": 40.8383103,
+  "lon": 14.2484038,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-05-31",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5256502114,
+  "lat": 40.8379566,
+  "lon": 14.2484006,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2024-06-24",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5256502118,
+  "lat": 40.8384109,
+  "lon": 14.2483454,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-03-03",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5257721033,
+  "lat": 40.8386533,
+  "lon": 14.2483500,
+  "tags": {
+    "amenity": "waste_basket",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5257721034,
+  "lat": 40.8386469,
+  "lon": 14.2484047,
+  "tags": {
+    "amenity": "waste_basket",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5257721042,
+  "lat": 40.8391266,
+  "lon": 14.2484198,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2024-06-24",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5257721050,
+  "lat": 40.8394533,
+  "lon": 14.2483842,
+  "tags": {
+    "amenity": "waste_basket",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5257721051,
+  "lat": 40.8394110,
+  "lon": 14.2484458,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2024-06-24",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5258115848,
+  "lat": 40.8391247,
+  "lon": 14.2491030,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-06-01"
+  }
+},
+{
+  "type": "node",
+  "id": 5258115850,
+  "lat": 40.8390981,
+  "lon": 14.2493384,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "check_date": "2026-06-01"
+  }
+},
+{
+  "type": "node",
+  "id": 5258115851,
+  "lat": 40.8391047,
+  "lon": 14.2493452,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-06-01"
+  }
+},
+{
+  "type": "node",
+  "id": 5258115855,
+  "lat": 40.8390921,
+  "lon": 14.2495219,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "check_date": "2026-06-01"
+  }
+},
+{
+  "type": "node",
+  "id": 5258115856,
+  "lat": 40.8391726,
+  "lon": 14.2492719,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 5258115857,
+  "lat": 40.8391433,
+  "lon": 14.2495283,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 5258115860,
+  "lat": 40.8390741,
+  "lon": 14.2497214,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-06-01"
+  }
+},
+{
+  "type": "node",
+  "id": 5259514090,
+  "lat": 40.8392002,
+  "lon": 14.2503786,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5259514091,
+  "lat": 40.8390074,
+  "lon": 14.2505609,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2025-12-01"
+  }
+},
+{
+  "type": "node",
+  "id": 5260065753,
+  "lat": 40.8389991,
+  "lon": 14.2513361,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2025-07-19"
+  }
+},
+{
+  "type": "node",
+  "id": 5260065754,
+  "lat": 40.8390096,
+  "lon": 14.2513116,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "check_date": "2025-07-19"
+  }
+},
+{
+  "type": "node",
+  "id": 5261859893,
+  "lat": 40.8377988,
+  "lon": 14.2493022,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5261859904,
+  "lat": 40.8378603,
+  "lon": 14.2495208,
+  "tags": {
+    "amenity": "waste_basket",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035633,
+  "lat": 40.8389678,
+  "lon": 14.2503337,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2025-12-01"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035634,
+  "lat": 40.8388285,
+  "lon": 14.2503214,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035635,
+  "lat": 40.8388259,
+  "lon": 14.2504116,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035639,
+  "lat": 40.8386523,
+  "lon": 14.2502889,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035653,
+  "lat": 40.8392167,
+  "lon": 14.2503816,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035656,
+  "lat": 40.8393198,
+  "lon": 14.2504146,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035657,
+  "lat": 40.8393644,
+  "lon": 14.2504234,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035658,
+  "lat": 40.8394167,
+  "lon": 14.2504326,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035674,
+  "lat": 40.8396471,
+  "lon": 14.2504646,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035677,
+  "lat": 40.8396973,
+  "lon": 14.2504725,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262035678,
+  "lat": 40.8396946,
+  "lon": 14.2505653,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-02-25"
+  }
+},
+{
+  "type": "node",
+  "id": 5262106836,
+  "lat": 40.8404194,
+  "lon": 14.2510439,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5262106837,
+  "lat": 40.8406121,
+  "lon": 14.2508598,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 5262106838,
+  "lat": 40.8399527,
+  "lon": 14.2506682,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 5263850452,
+  "lat": 40.8403752,
+  "lon": 14.2520789,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5263850454,
+  "lat": 40.8397512,
+  "lon": 14.2518501,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5268021693,
+  "lat": 40.8393194,
+  "lon": 14.2483674,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2024-06-24",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5268021694,
+  "lat": 40.8393022,
+  "lon": 14.2484318,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5268021703,
+  "lat": 40.8395544,
+  "lon": 14.2484757,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5268280156,
+  "lat": 40.8400596,
+  "lon": 14.2484890,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5268280157,
+  "lat": 40.8397124,
+  "lon": 14.2484245,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal"
+  }
+},
+{
+  "type": "node",
+  "id": 5268280158,
+  "lat": 40.8399464,
+  "lon": 14.2485394,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5268280162,
+  "lat": 40.8401599,
+  "lon": 14.2485104,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5268402241,
+  "lat": 40.8401759,
+  "lon": 14.2485712,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5268402244,
+  "lat": 40.8403698,
+  "lon": 14.2486089,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-01-29",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5270438328,
+  "lat": 40.8409951,
+  "lon": 14.2487051,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 5270438329,
+  "lat": 40.8409763,
+  "lon": 14.2486219,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2024-03-28",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5270438330,
+  "lat": 40.8410719,
+  "lon": 14.2486360,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2024-03-28",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5270438335,
+  "lat": 40.8411418,
+  "lon": 14.2487206,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2025-05-02",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5270438337,
+  "lat": 40.8412395,
+  "lon": 14.2486563,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2025-05-02",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5270438346,
+  "lat": 40.8414756,
+  "lon": 14.2486902,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 5270757655,
+  "lat": 40.8407303,
+  "lon": 14.2507512,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290464,
+  "lat": 40.8407030,
+  "lon": 14.2508662,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290465,
+  "lat": 40.8407867,
+  "lon": 14.2507733,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290466,
+  "lat": 40.8407592,
+  "lon": 14.2508875,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290467,
+  "lat": 40.8406723,
+  "lon": 14.2507167,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290468,
+  "lat": 40.8409256,
+  "lon": 14.2508295,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290470,
+  "lat": 40.8410059,
+  "lon": 14.2508561,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290471,
+  "lat": 40.8409778,
+  "lon": 14.2509747,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "check_date": "2026-06-01",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290477,
+  "lat": 40.8411263,
+  "lon": 14.2508331,
+  "tags": {
+    "amenity": "waste_basket",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290481,
+  "lat": 40.8411061,
+  "lon": 14.2508826,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290484,
+  "lat": 40.8412120,
+  "lon": 14.2508564,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "seats": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290485,
+  "lat": 40.8411724,
+  "lon": 14.2510481,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "4"
+  }
+},
+{
+  "type": "node",
+  "id": 5272290486,
+  "lat": 40.8409968,
+  "lon": 14.2509642,
+  "tags": {
+    "amenity": "waste_basket",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223171,
+  "lat": 40.8416627,
+  "lon": 14.2512290,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223172,
+  "lat": 40.8415027,
+  "lon": 14.2511700,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223173,
+  "lat": 40.8415889,
+  "lon": 14.2512005,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223174,
+  "lat": 40.8412728,
+  "lon": 14.2510745,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223175,
+  "lat": 40.8413566,
+  "lon": 14.2511060,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223177,
+  "lat": 40.8416919,
+  "lon": 14.2511070,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223178,
+  "lat": 40.8416165,
+  "lon": 14.2510796,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5284223179,
+  "lat": 40.8415328,
+  "lon": 14.2510470,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5292237462,
+  "lat": 40.8418789,
+  "lon": 14.2487421,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 5292237466,
+  "lat": 40.8419579,
+  "lon": 14.2488356,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 5310589869,
+  "lat": 40.8419046,
+  "lon": 14.2512003,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5310589870,
+  "lat": 40.8419869,
+  "lon": 14.2512251,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "source": "mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 5910006539,
+  "lat": 40.8368234,
+  "lon": 14.2488961,
+  "tags": {
+    "amenity": "bench"
+  }
+},
+{
+  "type": "node",
+  "id": 5910006540,
+  "lat": 40.8368503,
+  "lon": 14.2488961,
+  "tags": {
+    "amenity": "bench"
+  }
+},
+{
+  "type": "node",
+  "id": 5910006541,
+  "lat": 40.8368782,
+  "lon": 14.2488921,
+  "tags": {
+    "amenity": "bench"
+  }
+},
+{
+  "type": "node",
+  "id": 5910006550,
+  "lat": 40.8357245,
+  "lon": 14.2515723,
+  "tags": {
+    "amenity": "drinking_water",
+    "bottle": "yes",
+    "fountain": "drinking"
+  }
+},
+{
+  "type": "node",
+  "id": 9164625105,
+  "lat": 40.8393599,
+  "lon": 14.2555097,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 9165319322,
+  "lat": 40.8403506,
+  "lon": 14.2510747,
+  "tags": {
+    "abandoned:amenity": "drinking_water",
+    "access": "yes",
+    "amenity": "drinking_water",
+    "bottle": "no",
+    "fountain": "bubbler"
+  }
+},
+{
+  "type": "node",
+  "id": 9758070884,
+  "lat": 40.8374223,
+  "lon": 14.2503283,
+  "tags": {
+    "amenity": "drinking_water",
+    "fountain": "drinking"
+  }
+},
+{
+  "type": "node",
+  "id": 9854194484,
+  "lat": 40.8381282,
+  "lon": 14.2436557,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "material": "wood"
+  }
+},
+{
+  "type": "node",
+  "id": 9947877368,
+  "lat": 40.8412354,
+  "lon": 14.2508855,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 9947877369,
+  "lat": 40.8412712,
+  "lon": 14.2507977,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "material": "stone",
+    "seats": "4"
+  }
+},
+{
+  "type": "node",
+  "id": 9947877370,
+  "lat": 40.8412646,
+  "lon": 14.2506901,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 9947877372,
+  "lat": 40.8411995,
+  "lon": 14.2509238,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "4"
+  }
+},
+{
+  "type": "node",
+  "id": 9947877374,
+  "lat": 40.8412455,
+  "lon": 14.2507179,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "material": "stone",
+    "seats": "2"
+  }
+},
+{
+  "type": "node",
+  "id": 9948799083,
+  "lat": 40.8399129,
+  "lon": 14.2509185,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 9948799084,
+  "lat": 40.8400642,
+  "lon": 14.2508984,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 9948799085,
+  "lat": 40.8401597,
+  "lon": 14.2519672,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 9948799086,
+  "lat": 40.8403230,
+  "lon": 14.2514045,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 9948799087,
+  "lat": 40.8403679,
+  "lon": 14.2523214,
+  "tags": {
+    "amenity": "waste_basket",
+    "check_date": "2026-06-30",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 9948799088,
+  "lat": 40.8402192,
+  "lon": 14.2522704,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 10058217617,
+  "lat": 40.8277812,
+  "lon": 14.2480415,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 10147873898,
+  "lat": 40.8382491,
+  "lon": 14.2530715,
+  "tags": {
+    "amenity": "drinking_water",
+    "fixme": "Location",
+    "fountain": "bubbler"
+  }
+},
+{
+  "type": "node",
+  "id": 12269721243,
+  "lat": 40.8372952,
+  "lon": 14.2542303,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "material": "wood"
+  }
+},
+{
+  "type": "node",
+  "id": 12269789723,
+  "lat": 40.8377734,
+  "lon": 14.2546071,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "material": "wood"
+  }
+},
+{
+  "type": "node",
+  "id": 12269789757,
+  "lat": 40.8377137,
+  "lon": 14.2545059,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no",
+    "material": "wood"
+  }
+},
+{
+  "type": "node",
+  "id": 12309246469,
+  "lat": 40.8403670,
+  "lon": 14.2511979,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12309246470,
+  "lat": 40.8403259,
+  "lon": 14.2513539,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12309246471,
+  "lat": 40.8402871,
+  "lon": 14.2515079,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12309246472,
+  "lat": 40.8402452,
+  "lon": 14.2516518,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12309246473,
+  "lat": 40.8402140,
+  "lon": 14.2517696,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12836813285,
+  "lat": 40.8309599,
+  "lon": 14.2480873,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 12836813294,
+  "lat": 40.8307762,
+  "lon": 14.2479270,
+  "tags": {
+    "amenity": "waste_basket",
+    "waste": "trash"
+  }
+},
+{
+  "type": "node",
+  "id": 12837055203,
+  "lat": 40.8356812,
+  "lon": 14.2450128,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12837055205,
+  "lat": 40.8356772,
+  "lon": 14.2450480,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 12837055206,
+  "lat": 40.8355342,
+  "lon": 14.2451783,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 12837055239,
+  "lat": 40.8355959,
+  "lon": 14.2448593,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12837055240,
+  "lat": 40.8355374,
+  "lon": 14.2448879,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12837055241,
+  "lat": 40.8354833,
+  "lon": 14.2449114,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12837055242,
+  "lat": 40.8354253,
+  "lon": 14.2449362,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181174473,
+  "lat": 40.8394975,
+  "lon": 14.2544399,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181206333,
+  "lat": 40.8396968,
+  "lon": 14.2536766,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181208904,
+  "lat": 40.8396105,
+  "lon": 14.2540427,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181214050,
+  "lat": 40.8396541,
+  "lon": 14.2538403,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181219428,
+  "lat": 40.8383247,
+  "lon": 14.2541510,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181225517,
+  "lat": 40.8394441,
+  "lon": 14.2546391,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181232807,
+  "lat": 40.8395567,
+  "lon": 14.2542373,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181234925,
+  "lat": 40.8382179,
+  "lon": 14.2540919,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13181241186,
+  "lat": 40.8376435,
+  "lon": 14.2545012,
+  "tags": {
+    "amenity": "bench"
+  }
+},
+{
+  "type": "node",
+  "id": 13181293166,
+  "lat": 40.8415977,
+  "lon": 14.2545101,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13264895476,
+  "lat": 40.8351580,
+  "lon": 14.2501226,
+  "tags": {
+    "amenity": "drinking_water"
+  }
+},
+{
+  "type": "node",
+  "id": 13265197086,
+  "lat": 40.8325368,
+  "lon": 14.2413330,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13265217051,
+  "lat": 40.8326971,
+  "lon": 14.2414431,
+  "tags": {
+    "amenity": "bench",
+    "backrest": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13273550034,
+  "lat": 40.8356721,
+  "lon": 14.2518055,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 13273550035,
+  "lat": 40.8356972,
+  "lon": 14.2517330,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 13273550036,
+  "lat": 40.8357708,
+  "lon": 14.2517548,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 13273550037,
+  "lat": 40.8356123,
+  "lon": 14.2517139,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 13273550038,
+  "lat": 40.8355953,
+  "lon": 14.2517823,
+  "tags": {
+    "amenity": "bench",
+    "armrest": "no",
+    "backrest": "yes",
+    "material": "metal",
+    "seats": "3"
+  }
+},
+{
+  "type": "node",
+  "id": 13273550039,
+  "lat": 40.8357147,
+  "lon": 14.2517822,
+  "tags": {
+    "amenity": "waste_basket",
+    "material": "metal",
+    "waste": "mixed"
+  }
+},
+{
+  "type": "node",
+  "id": 13535247091,
+  "lat": 40.8327126,
+  "lon": 14.2514633,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13535247092,
+  "lat": 40.8324952,
+  "lon": 14.2513590,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13614859462,
+  "lat": 40.8384665,
+  "lon": 14.2484096,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13614910923,
+  "lat": 40.8380578,
+  "lon": 14.2484004,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13614925936,
+  "lat": 40.8373651,
+  "lon": 14.2483730,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13614966219,
+  "lat": 40.8389760,
+  "lon": 14.2483530,
+  "tags": {
+    "amenity": "waste_basket"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635161,
+  "lat": 40.8352436,
+  "lon": 14.2488640,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635162,
+  "lat": 40.8353698,
+  "lon": 14.2491691,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635163,
+  "lat": 40.8355021,
+  "lon": 14.2494466,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635164,
+  "lat": 40.8365174,
+  "lon": 14.2486379,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635165,
+  "lat": 40.8363874,
+  "lon": 14.2483515,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635166,
+  "lat": 40.8362567,
+  "lon": 14.2480642,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635167,
+  "lat": 40.8361853,
+  "lon": 14.2493159,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13621635168,
+  "lat": 40.8361013,
+  "lon": 14.2493846,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243804,
+  "lat": 40.8321674,
+  "lon": 14.2514657,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243805,
+  "lat": 40.8323387,
+  "lon": 14.2515660,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243806,
+  "lat": 40.8325159,
+  "lon": 14.2516637,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243807,
+  "lat": 40.8326917,
+  "lon": 14.2517657,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243808,
+  "lat": 40.8328685,
+  "lon": 14.2518664,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243809,
+  "lat": 40.8330430,
+  "lon": 14.2519560,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243810,
+  "lat": 40.8333713,
+  "lon": 14.2521372,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243813,
+  "lat": 40.8319925,
+  "lon": 14.2513659,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243814,
+  "lat": 40.8310203,
+  "lon": 14.2508303,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243815,
+  "lat": 40.8308402,
+  "lon": 14.2507352,
+  "tags": {
+    "highway": "street_lamp"
+  }
+},
+{
+  "type": "node",
+  "id": 13635243816,
+  "lat": 40.8306614,
+  "lon": 14.2506356,
+  "tags": {
+    "highway": "street_lamp"
+  }
+}
+
+  ]
+}

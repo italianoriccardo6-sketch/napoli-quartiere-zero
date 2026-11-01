@@ -1,0 +1,39 @@
+{
+  "provider": "OpenStreetMap contributors",
+  "endpoint": "https://overpass-api.de/api/interpreter",
+  "method": "GET",
+  "retrieved_at": "2026-11-01T00:07:29.825Z",
+  "osm_base_timestamp": "2026-11-01T00:06:16Z",
+  "bbox": [
+    40.826,
+    14.241,
+    40.842,
+    14.266
+  ],
+  "origin": {
+    "lat": 40.8281,
+    "lon": 14.2486
+  },
+  "query": "[out:json][timeout:25];(node[highway=street_lamp](40.826,14.241,40.842,14.266);node[amenity=bench](40.826,14.241,40.842,14.266);node[amenity=waste_basket](40.826,14.241,40.842,14.266);node[amenity=drinking_water](40.826,14.241,40.842,14.266);node[barrier=bollard](40.826,14.241,40.842,14.266);node[traffic_sign](40.826,14.241,40.842,14.266););out body;",
+  "license": "ODbL-1.0",
+  "copyright": "https://www.openstreetmap.org/copyright",
+  "rawSha256": "f7fe86f3145f0b59ced9b6b289c18aabf6fa00b3259522ccd1fa8560852212fc",
+  "rawElements": 169,
+  "nodeCount": 169,
+  "counts": {
+    "street_lamp": 21,
+    "bench": 65,
+    "waste_basket": 72,
+    "drinking_water": 8,
+    "bollard": 3,
+    "traffic_sign": 0
+  },
+  "placementPolicy": "Render tagged individual OSM nodes only at their source coordinates. No interpolation, repeated planting or invented furniture locations.",
+  "modelPolicy": "Dimensions, orientation and detailed appearance without explicit source tags remain original visual estimates; source positions do not prove exact surveyed models.",
+  "metadata": {
+    "provider": "OpenStreetMap contributors",
+    "license": "ODbL-1.0",
+    "placementPolicy": "Render tagged individual OSM nodes only at their source coordinates. No interpolation, repeated planting or invented furniture locations.",
+    "modelPolicy": "Dimensions, orientation and detailed appearance without explicit source tags remain original visual estimates; source positions do not prove exact surveyed models."
+  }
+}
