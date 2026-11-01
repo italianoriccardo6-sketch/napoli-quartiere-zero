@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {Canvas} from '@napi-rs/canvas';
 import {NullEngine} from '@babylonjs/core/Engines/nullEngine';
 import {Scene} from '@babylonjs/core/scene';
 import {PBRMaterial} from '@babylonjs/core/Materials/PBR/pbrMaterial';
@@ -10,9 +11,18 @@ import {Vector3,Matrix,Quaternion} from '@babylonjs/core/Maths/math.vector';
 import {inside,toLocal,segmentDistance} from '../src/geo';
 import type {CityMapData} from '../src/city-data';
 import {planFacadeDetail} from '../src/facade-detail';
+import {createCityWorld} from '../src/city-world';
 import {SANTA_LUCIA_FRONT,SANTA_LUCIA_ENTRANCE_PROXY,visualReplacementBuildingIds,planSantaLuciaFacade,addSantaLuciaFacade} from '../src/santa-lucia-facade';
 
+(globalThis as unknown as {OffscreenCanvas:typeof Canvas}).OffscreenCanvas=Canvas;
+
 const actual=()=>JSON.parse(readFileSync('public/data/map.json','utf8')) as CityMapData;
+test('Santa Lucia: replacing the generic entrance volume preserves its source collision footprint',()=>{
+  const map=actual(),before=JSON.stringify(map),ids=visualReplacementBuildingIds(map),proxy=map.buildings.find(b=>b.id===SANTA_LUCIA_ENTRANCE_PROXY.buildingId)!;
+  assert.equal(ids.size,1);const center=proxy.rings[0].reduce((p,v)=>[p[0]+v[0]/proxy.rings[0].length,p[1]+v[1]/proxy.rings[0].length],[0,0]);
+  const engine=new NullEngine(),scene=new Scene(engine);
+  try{const world=createCityWorld(scene,map,map.city!,{visualReplacementBuildingIds:ids});assert.equal(world.canStand(center[0],center[1],.1),false);assert.ok(scene.meshes.every(m=>!m.metadata?.sourceIds?.includes(proxy.id)));assert.deepEqual(scene.metadata.cityWorld.visualReplacementBuildingIds,[proxy.id]);assert.equal(JSON.stringify(map),before);}finally{scene.dispose();engine.dispose();}
+});
 test('Santa Lucia: hotel identity, source wall geometry and calibrated photo remain distinct from Excelsior',()=>{
   const map=actual(),before=JSON.stringify(map),plan=planSantaLuciaFacade(map),source=SANTA_LUCIA_FRONT,building=map.buildings.find(b=>b.id===source.buildingId)!;
   assert.ok(plan.wall);assert.equal(building.height,19.200000000000003);

@@ -6,7 +6,8 @@ import {createCityWorld} from './city-world';
 import {createVisualMaterials,loadDaylightEnvironment} from './visual-materials';
 import {addFacadeDetail} from './facade-detail';
 import {addStreetDetail} from './street-detail';
-import {addVegetation,type GreenData} from './vegetation';
+import type {GreenData} from './vegetation';
+import {createTreeModels} from './tree-models';
 import {openingStreetData} from './vehicle-placement';
 import {createBackgroundTerrain} from './background-terrain';
 import {addNaplesFacades,NAPLES_PHOTO_FACES} from './naples-facades';
@@ -15,15 +16,19 @@ import {addCoastDetail} from './coast-detail';
 import {addStreetFurniture,type FurnitureData} from './street-furniture';
 import {addGreenGround,validateGreenGround} from './green-ground';
 import type {CityTerrainPolicy} from './city-terrain-policy';
+import {addSantaLuciaFacade,visualReplacementBuildingIds} from './santa-lucia-facade';
 
 /** Shared by the playable scene and the direct engine frame capture. */
 export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime,options:{terrain?:CityTerrainPolicy}={}){
   const materials=createVisualMaterials(scene);
-  const world=createCityWorld(scene,map,city,{materials,terrain:options.terrain});
+  const replacements=visualReplacementBuildingIds(map);
+  const world=createCityWorld(scene,map,city,{materials,terrain:options.terrain,visualReplacementBuildingIds:replacements});
   const opening=openingStreetData(city);
   const realFacades=addNaplesFacades(scene,map,{buildingBaseHeight:world.buildingBaseHeight}),foliage=createPhotographicFoliageMaterials(scene);
+  const santaLucia=addSantaLuciaFacade(scene,map,{photoMaterial:realFacades.material,materials:{frame:materials.trim,glass:materials.glass,iron:materials.iron},buildingBaseHeight:world.buildingBaseHeight,shadows:world.shadows});
   const excludeEdges=new Map(NAPLES_PHOTO_FACES.filter(f=>realFacades.excludedBuildingIds.has(f.buildingId)).map(f=>[f.buildingId,new Set(f.edges)]));
-  const facades=addFacadeDetail(scene,map,{focus:[opening.scooter,city.spawn,...city.route],radius:95,quality:'alta',materials,excludeEdges,buildingBaseHeight:world.buildingBaseHeight,buildingRenderHeight:world.buildingRenderHeight,shadows:world.shadows});
+  for(const[id,edges]of santaLucia.excludedEdges)excludeEdges.set(id,new Set(edges));
+  const facades=addFacadeDetail(scene,map,{focus:[opening.scooter,city.spawn,...city.route],radius:95,quality:'alta',materials,excludeEdges,excludeBuildingIds:replacements,buildingBaseHeight:world.buildingBaseHeight,buildingRenderHeight:world.buildingRenderHeight,shadows:world.shadows});
   for(const mesh of realFacades.profileMeshes)world.shadows.addShadowCaster(mesh,false);
   const streets=addStreetDetail(scene,map,city,{materials,groundHeight:world.groundHeightAt,groundGeometry:world.groundGeometry});
   const surfaceHeightAt=(x:number,z:number)=>Math.max(world.surfaceHeightAt?.(x,z)??0,streets.supportHeightAt(x,z)??-Infinity);
@@ -41,12 +46,15 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime,
     if(!response.ok)throw Error('Gli arredi della città non sono disponibili. Ricarica la pagina.');
     return addStreetFurniture(scene,map,await response.json() as FurnitureData,{focus:[opening.scooter,...city.route],radius:100,maxItems:100,groundHeight:surfaceHeightAt,shadows:world.shadows,materials:{metal:materials.iron,stone:materials.trim,wood:materials.door,sign:materials.shop,glass:materials.glass,signRed:materials.signRed,signWhite:materials.paint,signInk:materials.iron}});
   })();
+  let trees:ReturnType<typeof createTreeModels>|undefined;
   const vegetationReady=(async()=>{
     const response=await fetch(`${import.meta.env?.BASE_URL??'/'}data/green.json`);
     if(!response.ok)throw Error('I dati degli alberi non sono disponibili. Ricarica la pagina.');
     const green=await response.json() as GreenData;
     if(green.version!==1||!Array.isArray(green.trees))throw Error('I dati della vegetazione non sono validi.');
-    return addVegetation(scene,map,green,{focus:[opening.scooter,city.spawn,...city.route],radius:180,maxTrees:140,quality:'alta',groundHeight:surfaceHeightAt,materials:{bark:foliage.bark,broadleaf:foliage.leaves},photographicLeafCards:true,shadows:world.shadows});
+    trees=createTreeModels(scene,map,green,{focus:[opening.scooter,city.spawn,...city.route],radius:180,maxTrees:140,quality:'alta',groundHeight:surfaceHeightAt,materials:{bark:foliage.bark,broadleaf:foliage.leaves},shadows:world.shadows});
+    await trees.ready;
+    return trees;
   })();
   const backgroundReady=(async()=>{
     const response=await fetch(`${import.meta.env?.BASE_URL??'/'}data/background-terrain.json`);
@@ -59,6 +67,6 @@ export function createDetailedCity(scene:Scene,map:CityMapData,city:CityRuntime,
     if(skybox){skybox.applyFog=false;if(skybox.material){skybox.material.disableDepthWrite=true;skybox.material.fogEnabled=false;}}
   });
   const ready=Promise.all([materials.ready,foliage.ready,realFacades.ready,environmentReady,vegetationReady,backgroundReady,greenReady,furnitureReady]).then(()=>{});
-  scene.metadata={...(scene.metadata??{}),visualDetail:{facades:facades.stats,streets:streets.stats,coast:coast.stats,realFacades:realFacades.stats,photographicMaps:'CC0 surfaces, foliage and selected real Naples hotel fronts; inferred depth, not photogrammetry'}};
-  return {...world,ready,surfaceHeightAt,updateDetail(position:Point,quality:'alta'|'bassa'){facades.update(position,quality);}};
+  scene.metadata={...(scene.metadata??{}),visualDetail:{facades:facades.stats,streets:streets.stats,coast:coast.stats,realFacades:realFacades.stats,santaLucia:santaLucia.stats,photographicMaps:'CC0 surfaces, foliage and three selected real Naples hotel fronts; inferred depth, not photogrammetry'}};
+  return {...world,ready,surfaceHeightAt,updateDetail(position:Point,quality:'alta'|'bassa'){facades.update(position,quality);trees?.update(position,quality);}};
 }

@@ -16,15 +16,18 @@ These are generic materials, not photogrammetric evidence of the actual building
 Street material upgrade (same CC0 license):
 stone_tiles_02: Charlotte Baglioni — https://polyhaven.com/a/stone_tiles_02
 
-Foliage and green ground upgrade 0.4.1 (same CC0 license):
+Foliage and green ground upgrade 0.4.1–0.4.2 (same CC0 license):
 tree_small_02: Rico Cilliers — https://polyhaven.com/a/tree_small_02
 bark_brown_01: Rob Tuytel — https://polyhaven.com/a/bark_brown_01
 leafy_grass: Charlotte Baglioni — https://polyhaven.com/a/leafy_grass
-Only the original photographic leaf atlas and material maps are included; the full Tree Small 02 model is not distributed. Tree shapes are original inferred geometry at selected OSM positions. The textures are generic, not a survey of Naples vegetation.
+Tree Small 02 is distributed as two reduced, derived geometry-only GLBs: near 79,263 triangles / 3,877,092 bytes and far 14,503 triangles / 809,676 bytes. Geometry plus the seven unchanged shared maps totals 8,438,382 bytes, excluding small manifests and licenses. The original 95,102,324-byte tree_small_02.bin is not distributed; its SHA256 is 8da6c3c389ad8748286d1b7488cd827f75ebdad9d8f59ef7dfb0916df5edc634.
+Offline adaptation uses glTF-Transform 4.5.1 vertex welding and meshoptimizer 1.3.0 attribute-aware simplification. Reduction is lossy and can change components, detail and silhouette. Used source UV transforms are baked into the exported UVs. No runtime compression codec is required.
+The original leaf atlas and separate PNG alpha mask are unchanged. Generic seamless Bark Brown 01 replaces the source branch/trunk bark artistically. The model is scaled to 25 selected real OSM tree positions; its shape and species are not a survey of Naples vegetation. Provenance and adaptation details: foliage/tree_small_02/tree-lod-manifest.json and TREE-MODEL-LICENSE.txt.
 
 Selected real Naples facade photograph:
 View of Via Partenope and the marina from Castel dell'Ovo, Naples, 2010.jpg
 DimiTalen, captured 2010-07-08 — CC0 1.0 Universal.
 https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg
-Original bytes unchanged. Two selected regions are projected on the confirmed Royal Continental and Grand Hotel Vesuvio OSM fronts. Three-dimensional recesses, frames and balconies are inferred artwork, not photogrammetry. Other building fronts use generic materials.
+Original bytes unchanged. Three selected regions of the same daylight photograph are projected on the confirmed Royal Continental, Grand Hotel Vesuvio and Grand Hotel Santa Lucia OSM fronts (relation/4779351:1, way/337012555:0, relation/1191265:0). Three-dimensional recesses, frames and balconies are inferred artwork, not photogrammetry. Other building fronts use generic materials.
+The Santa Lucia four-arch portico is original inferred geometry, replacing only the rendering of the exact untagged 10 m proxy way/338157976:0. Inferred slab top 3.84 m and balustrade cap 4.416 m are relative to the building base, not measured architectural heights. Source footprint, source height and collision geometry are unchanged.
 Source metadata, checksums and detailed attribution: naples-facade-research/manifest.json and naples-facade-research/ATTRIBUTION.txt.

@@ -74,7 +74,7 @@ export function cityRoadWidth(road:Pick<CityRoad,'highway'|'width'>):number {
  * Material detail, road widths without a tag and flat roofs are visual estimates.
  * No invented landmark model, island, street layout, or map tile is added here.
  */
-export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,options:{materials?:VisualMaterials;terrain?:CityTerrainPolicy}={}):World {
+export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,options:{materials?:VisualMaterials;terrain?:CityTerrainPolicy;visualReplacementBuildingIds?:ReadonlySet<string>}={}):World {
   const land=(detail?.landPolygons??map.land.map(r=>[r])).map(p=>p.map(cleanRing)).filter(p=>p[0]?.length>=3).map(p=>[p[0],...p.slice(1).filter(r=>r.length>=3)]);
   if(!land.length)throw Error('La superficie di terra della mappa reale non è disponibile.');
   const landBounds=land.map(p=>boundsOf(p[0])),landGrid=new Grid<number>(),boundaries=new Grid<Boundary>();
@@ -140,6 +140,9 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   // Build original footprint rings and holes, then merge by material and local tile.
   const batches=new Map<string,Mesh[]>();
   for(const {footprint:b,bounds} of buildings){
+    // A confirmed custom entrance replaces only the generic visual extrusion.
+    // The original footprint remains in the collision and foundation indexes.
+    if(options.visualReplacementBuildingIds?.has(b.id))continue;
     const height=buildingRenderHeight(b.id);
     const volume=MeshBuilder.ExtrudePolygon('sagoma '+b.id,{shape:b.rings[0].map(p=>new Vector3(p[0],0,p[1])),holes:b.rings.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:height,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
     volume.position.y=buildingBaseHeight(b.id)+height;
@@ -217,6 +220,6 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
       else if(!nearby&&activeShadows.has(chunk.mesh)){shadows.removeShadowCaster(chunk.mesh,false);activeShadows.delete(chunk.mesh);}
     }
   });
-  scene.metadata={...(scene.metadata??{}),...(cityGround?{cityTerrain:cityGround.metadata}:{}),cityWorld:{provenance:map.provenance,footprints:buildings.length,invalidFootprints,buildingChunks:batches.size,renderedRoads,maximumRoadSourceSpan,shadowMapSize,bounds:terrainBounds,terrainElevation:cityGround?'regional-relative-dtm2020':'flat-estimate',representation:'OSM footprint extrusions; foundation and facade details are visual estimates'}};
+  scene.metadata={...(scene.metadata??{}),...(cityGround?{cityTerrain:cityGround.metadata}:{}),cityWorld:{provenance:map.provenance,footprints:buildings.length,invalidFootprints,buildingChunks:batches.size,visualReplacementBuildingIds:[...(options.visualReplacementBuildingIds??[])],renderedRoads,maximumRoadSourceSpan,shadowMapSize,bounds:terrainBounds,terrainElevation:cityGround?'regional-relative-dtm2020':'flat-estimate',representation:'OSM footprint extrusions; foundation and facade details are visual estimates'}};
   return {canStand,shadows,sea,beacons:[],groundHeightAt,surfaceHeightAt,buildingBaseHeight,buildingRenderHeight,groundGeometry:cityGround?.geometry};
 }

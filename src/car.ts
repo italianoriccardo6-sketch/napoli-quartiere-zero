@@ -4,10 +4,12 @@ import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {ImportMeshAsync} from '@babylonjs/core/Loading/sceneLoader';
 import {registerBuiltInLoaders} from '@babylonjs/loaders/dynamic';
 import {TransmissionHelper,type ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
+import {KHR_materials_variants} from '@babylonjs/loaders/glTF/2.0/Extensions/KHR_materials_variants.pure';
 import type {AbstractMesh} from '@babylonjs/core/Meshes/abstractMesh';
 import type {GroundCheck,GroundPoint} from './movement';
 
 export interface CarDimensions {radius:number;halfLength:number;width:number;length:number;height:number}
+export type CarVariant='Pearly Swirly'|'Torched Graphite'|'Carmine Candy';
 export interface Car {
   root:TransformNode;
   /** Identity-rotation wrappers around the source wheel pivots; spin around local X. */
@@ -82,7 +84,7 @@ export function createWheelSpinPivot(wheel:TransformNode):TransformNode {
 }
 
 /** Load the verified local PBR asset. Failure rejects ready; no primitive substitute is shown. */
-export function createCar(scene:Scene):Car {
+export function createCar(scene:Scene,options:{variant?:CarVariant}={}):Car {
   const root=new TransformNode('auto di Luca',scene);root.setEnabled(false);
   const pivot=new TransformNode('CarConcept normalizzato',scene);pivot.setEnabled(false);
   const car:Car={root,wheels:[],velocity:0,heading:Math.PI,spawn:new Vector3(0,0,0),ready:Promise.resolve(),kind:'auto',radius:.98,halfLength:2.225};
@@ -103,6 +105,9 @@ export function createCar(scene:Scene):Car {
       if(existingTransmission)existingTransmission.updateOptions(transmissionOptions);
       else new TransmissionHelper(transmissionOptions,scene);
       const result=await ImportMeshAsync(folder+'CarConcept.gltf',scene);
+      const variant=options.variant??'Pearly Swirly',sourceRoot=result.meshes[0];
+      if(!sourceRoot||!KHR_materials_variants.GetAvailableVariants(sourceRoot).includes(variant))throw new Error('La variante originale dell’auto non è disponibile.');
+      KHR_materials_variants.SelectVariant(sourceRoot,variant);
       const nodes=[...result.meshes,...result.transformNodes];
       const imported=new Set(nodes);
       for(const node of nodes)if(!node.parent||!imported.has(node.parent as AbstractMesh))node.parent=pivot;
@@ -119,7 +124,7 @@ export function createCar(scene:Scene):Car {
       car.radius=size.radius;car.halfLength=size.halfLength;
       for(const wheel of [...front,...rear])car.wheels.push(createWheelSpinPivot(wheel));
       pivot.parent=root;pivot.setEnabled(true);root.setEnabled(true);
-      root.metadata={asset:'CarConcept',kind:'auto',dimensions:size,license:'CC-BY-4.0',runtimeModification:'Uniformly scaled to4.4m, centered, oriented using wheel pivots; source trademark plate hidden.',sourceRevision:manifest.revision};
+      root.metadata={asset:'CarConcept',kind:'auto',dimensions:size,license:'CC-BY-4.0',authoredMaterialVariant:variant,runtimeModification:'Uniformly scaled to4.4m, centered, oriented using wheel pivots; source trademark plate hidden; an original authored material variant selected.',sourceRevision:manifest.revision};
     }catch(error){pivot.dispose(false,true);root.dispose(false,true);throw new Error('Impossibile caricare il modello dell’auto. Ricarica la pagina.',{cause:error});}
   })();
   return car;

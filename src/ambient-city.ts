@@ -130,8 +130,8 @@ export function createAmbientCity(scene:Scene,city:CityRuntime,world:{canStand:G
   let initialized=false,disposed=false,finished=false;
   const surface=(p:Point)=>options.surfaceHeightAt?.(p[0],p[1])??0;
   const loads:Promise<void>[]=[];
-  for(const placement of plan.cars){
-    const car=createCar(scene);roots.push(car.root);
+  for(const [index,placement]of plan.cars.entries()){
+    const car=createCar(scene,{variant:index%2?'Carmine Candy':'Torched Graphite'});roots.push(car.root);
     loads.push(car.ready.then(()=>{
       placement.size={radius:car.radius,halfLength:car.halfLength};
       const others=plan.cars.filter(c=>c.id!==placement.id);

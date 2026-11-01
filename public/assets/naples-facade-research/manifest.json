@@ -23,11 +23,12 @@
       "sha1": "02e1f7fd14e2c4bbb283349f131e57ffddd52920",
       "sha256": "63d316b36f987dbb39e0b96d0a88518d80eac76b94baa9e099ecec7f9defced6",
       "acquiredAt": "2026-10-31T23:26:49.158Z",
-      "use": "Runtime photo texture on two confirmed mapped hotel fronts; manual UV calibration and inferred 3D profiles. Original image bytes unchanged.",
+      "use": "Runtime photo texture from the same daylight photograph on three confirmed mapped hotel fronts: Royal Continental, Grand Hotel Vesuvio and Grand Hotel Santa Lucia. Manual UV calibration and inferred 3D profiles, including the Santa Lucia entrance portico; not photogrammetry. Original image bytes unchanged.",
       "photoQuads": [],
       "targets": [
         "relation/4779351:1",
-        "way/337012555:0"
+        "way/337012555:0",
+        "relation/1191265:0"
       ]
     }
   ]
