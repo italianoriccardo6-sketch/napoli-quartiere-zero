@@ -1,0 +1,2730 @@
+{
+  "schemaVersion": 1,
+  "generatorSha256": "71d3241fb602794baf76f11065a368b62e2a44aad9b03fb3df170b2273f7b83c",
+  "source": {
+    "url": "https://github.com/Maximilian284/subwaybuilder-it-maps/releases/download/1.4.0/NAP.zip",
+    "release": "1.4.0",
+    "cityVersion": "1.1.0",
+    "releaseDate": "2026-07-18",
+    "zipSha256": "57ef9036fdf84348dd7ce2a72c7c348144873f4c09a9d65e8c36a280fe0df4df",
+    "member": "NAP.pmtiles",
+    "memberSha256": "2d2ed152842145a52b16d42210a434350e43f5e014b991dd970662c4272a00b9",
+    "project": "https://github.com/Maximilian284/subwaybuilder-it-maps",
+    "manifest": "https://github.com/Maximilian284/subwaybuilder-it-maps/blob/f594a8b63ab7d989d164364e0b1ebcea0b04da04/releases/NAP.json"
+  },
+  "license": {
+    "geometry": "ODbL-1.0",
+    "attribution": "© OpenStreetMap contributors",
+    "copyright": "https://www.openstreetmap.org/copyright",
+    "openDataCommons": "https://opendatacommons.org/licenses/odbl/1-0/",
+    "packaging": "MIT, © 2026 Massimiliano Prandi",
+    "naturalEarth": "Public domain; source basemap metadata lists Natural Earth for low zoom layers. Extraction uses z15.",
+    "municipalBoundary": "CC-BY-4.0",
+    "boundaryAttribution": "Fonte: Istat, confini amministrativi non generalizzati al 1 gennaio 2026; conversione CRS e distribuzione l1n00/confini-comuni-istat; ritaglio cartografico al confine di Napoli."
+  },
+  "origin": {
+    "lat": 40.8281,
+    "lon": 14.2486
+  },
+  "zoom": 15,
+  "coordinateEncodingMetres": 0.001,
+  "snapshot": "2026-03-08T04:00:00Z",
+  "metadata": {
+    "vector_layers": [
+      {
+        "id": "boundaries",
+        "fields": {
+          "brk_a3": "String",
+          "disputed": "Boolean",
+          "kind": "String",
+          "kind_detail": "Number",
+          "sort_rank": "Number"
+        },
+        "minzoom": 0,
+        "maxzoom": 15
+      },
+      {
+        "id": "buildings",
+        "fields": {
+          "addr_housenumber": "String",
+          "height": "Number",
+          "kind": "String",
+          "kind_detail": "String",
+          "layer": "Number",
+          "min_height": "Number",
+          "sort_rank": "Number"
+        },
+        "minzoom": 11,
+        "maxzoom": 15
+      },
+      {
+        "id": "earth",
+        "fields": {
+          "kind": "String",
+          "min_zoom": "Number",
+          "name": "String",
+          "name2": "String",
+          "name3": "String",
+          "name:ar": "String",
+          "name:bg": "String",
+          "name:cs": "String",
+          "name:da": "String",
+          "name:de": "String",
+          "name:el": "String",
+          "name:en": "String",
+          "name:es": "String",
+          "name:et": "String",
+          "name:fa": "String",
+          "name:fi": "String",
+          "name:fr": "String",
+          "name:ga": "String",
+          "name:he": "String",
+          "name:hi": "String",
+          "name:hr": "String",
+          "name:hu": "String",
+          "name:id": "String",
+          "name:it": "String",
+          "name:ja": "String",
+          "name:ko": "String",
+          "name:lt": "String",
+          "name:lv": "String",
+          "name:mr": "String",
+          "name:mt": "String",
+          "name:ne": "String",
+          "name:nl": "String",
+          "name:no": "String",
+          "name:pl": "String",
+          "name:pt": "String",
+          "name:ro": "String",
+          "name:ru": "String",
+          "name:sk": "String",
+          "name:sl": "String",
+          "name:sv": "String",
+          "name:tr": "String",
+          "name:uk": "String",
+          "name:ur": "String",
+          "name:vi": "String",
+          "name:zh-Hans": "String",
+          "name:zh-Hant": "String",
+          "pgf:name2": "String",
+          "pgf:name:hi": "String",
+          "pgf:name:mr": "String",
+          "pgf:name:ne": "String",
+          "script": "String",
+          "script2": "String",
+          "script3": "String"
+        },
+        "minzoom": 0,
+        "maxzoom": 15
+      },
+      {
+        "id": "landcover",
+        "fields": {
+          "kind": "String"
+        },
+        "minzoom": 0,
+        "maxzoom": 7
+      },
+      {
+        "id": "landuse",
+        "fields": {
+          "kind": "String",
+          "sort_rank": "Number"
+        },
+        "minzoom": 2,
+        "maxzoom": 15
+      },
+      {
+        "id": "places",
+        "fields": {
+          "capital": "String",
+          "kind": "String",
+          "kind_detail": "String",
+          "min_zoom": "Number",
+          "name": "String",
+          "name2": "String",
+          "name3": "String",
+          "name:ar": "String",
+          "name:bg": "String",
+          "name:cs": "String",
+          "name:da": "String",
+          "name:de": "String",
+          "name:el": "String",
+          "name:en": "String",
+          "name:es": "String",
+          "name:et": "String",
+          "name:fa": "String",
+          "name:fi": "String",
+          "name:fr": "String",
+          "name:ga": "String",
+          "name:he": "String",
+          "name:hi": "String",
+          "name:hr": "String",
+          "name:hu": "String",
+          "name:id": "String",
+          "name:it": "String",
+          "name:ja": "String",
+          "name:ko": "String",
+          "name:lt": "String",
+          "name:lv": "String",
+          "name:mr": "String",
+          "name:mt": "String",
+          "name:ne": "String",
+          "name:nl": "String",
+          "name:no": "String",
+          "name:pl": "String",
+          "name:pt": "String",
+          "name:ro": "String",
+          "name:ru": "String",
+          "name:sk": "String",
+          "name:sl": "String",
+          "name:sv": "String",
+          "name:tr": "String",
+          "name:uk": "String",
+          "name:ur": "String",
+          "name:vi": "String",
+          "name:zh-Hans": "String",
+          "name:zh-Hant": "String",
+          "pgf:name": "String",
+          "pgf:name2": "String",
+          "pgf:name:en": "String",
+          "pgf:name:hi": "String",
+          "pgf:name:mr": "String",
+          "pgf:name:ne": "String",
+          "population": "Number",
+          "population_rank": "Number",
+          "ref": "String",
+          "ref:FR:FANTOIR": "String",
+          "ref:FR:SIREN": "String",
+          "ref:RS:nkd": "String",
+          "ref:SE:pts:postort": "String",
+          "ref:USCG": "String",
+          "ref:USPS": "String",
+          "ref:assessors_office": "String",
+          "ref:catasto": "String",
+          "ref:category": "String",
+          "ref:en": "String",
+          "ref:gdke": "String",
+          "ref:lzh": "String",
+          "ref:nan": "String",
+          "ref:nan-Hans": "String",
+          "ref:nan-Hant": "String",
+          "ref:nan-Latn-pehoeji": "String",
+          "ref:nan-Latn-tailo": "String",
+          "ref:nid": "String",
+          "ref:nuts:1": "String",
+          "ref:nuts:2": "String",
+          "ref:vi": "String",
+          "ref:whc": "String",
+          "ref:xpcc": "String",
+          "ref:zh": "String",
+          "ref:zh-Hans": "String",
+          "ref:zh-Hant": "String",
+          "script": "String",
+          "script2": "String",
+          "script3": "String",
+          "sort_key": "Number",
+          "wikidata": "String"
+        },
+        "minzoom": 1,
+        "maxzoom": 15
+      },
+      {
+        "id": "pois",
+        "fields": {
+          "elevation": "String",
+          "iata": "String",
+          "kind": "String",
+          "kind_detail": "String",
+          "min_zoom": "Number",
+          "name": "String",
+          "name2": "String",
+          "name3": "String",
+          "name:ar": "String",
+          "name:bg": "String",
+          "name:cs": "String",
+          "name:da": "String",
+          "name:de": "String",
+          "name:el": "String",
+          "name:en": "String",
+          "name:es": "String",
+          "name:et": "String",
+          "name:fa": "String",
+          "name:fi": "String",
+          "name:fr": "String",
+          "name:ga": "String",
+          "name:he": "String",
+          "name:hi": "String",
+          "name:hr": "String",
+          "name:hu": "String",
+          "name:id": "String",
+          "name:it": "String",
+          "name:ja": "String",
+          "name:ko": "String",
+          "name:lt": "String",
+          "name:lv": "String",
+          "name:mr": "String",
+          "name:mt": "String",
+          "name:ne": "String",
+          "name:nl": "String",
+          "name:no": "String",
+          "name:pl": "String",
+          "name:pt": "String",
+          "name:ro": "String",
+          "name:ru": "String",
+          "name:sk": "String",
+          "name:sl": "String",
+          "name:sv": "String",
+          "name:tr": "String",
+          "name:uk": "String",
+          "name:ur": "String",
+          "name:vi": "String",
+          "name:zh-Hans": "String",
+          "name:zh-Hant": "String",
+          "pgf:name": "String",
+          "pgf:name2": "String",
+          "pgf:name3": "String",
+          "pgf:name:en": "String",
+          "pgf:name:fa": "String",
+          "pgf:name:he": "String",
+          "pgf:name:hi": "String",
+          "pgf:name:mr": "String",
+          "pgf:name:ne": "String",
+          "script": "String",
+          "script2": "String",
+          "script3": "String"
+        },
+        "minzoom": 5,
+        "maxzoom": 15
+      },
+      {
+        "id": "roads",
+        "fields": {
+          "access": "String",
+          "is_bridge": "Boolean",
+          "is_link": "Boolean",
+          "is_tunnel": "Boolean",
+          "kind": "String",
+          "kind_detail": "String",
+          "min_zoom": "Number",
+          "name": "String",
+          "name2": "String",
+          "name3": "String",
+          "name:ar": "String",
+          "name:bg": "String",
+          "name:cs": "String",
+          "name:da": "String",
+          "name:de": "String",
+          "name:el": "String",
+          "name:en": "String",
+          "name:es": "String",
+          "name:et": "String",
+          "name:fa": "String",
+          "name:fi": "String",
+          "name:fr": "String",
+          "name:ga": "String",
+          "name:he": "String",
+          "name:hi": "String",
+          "name:hr": "String",
+          "name:hu": "String",
+          "name:id": "String",
+          "name:it": "String",
+          "name:ja": "String",
+          "name:ko": "String",
+          "name:lt": "String",
+          "name:lv": "String",
+          "name:mr": "String",
+          "name:mt": "String",
+          "name:ne": "String",
+          "name:nl": "String",
+          "name:no": "String",
+          "name:pl": "String",
+          "name:pt": "String",
+          "name:ro": "String",
+          "name:ru": "String",
+          "name:sk": "String",
+          "name:sl": "String",
+          "name:sv": "String",
+          "name:tr": "String",
+          "name:uk": "String",
+          "name:ur": "String",
+          "name:vi": "String",
+          "name:zh-Hans": "String",
+          "name:zh-Hant": "String",
+          "network": "String",
+          "oneway": "String",
+          "pgf:name": "String",
+          "pgf:name2": "String",
+          "pgf:name:en": "String",
+          "pgf:name:hi": "String",
+          "pgf:name:mr": "String",
+          "pgf:name:ne": "String",
+          "ref": "String",
+          "route": "String",
+          "script": "String",
+          "script2": "String",
+          "script3": "String",
+          "service": "String",
+          "shield_text": "String",
+          "sort_rank": "Number"
+        },
+        "minzoom": 3,
+        "maxzoom": 15
+      },
+      {
+        "id": "water",
+        "fields": {
+          "bridge": "String",
+          "kind": "String",
+          "kind_detail": "String",
+          "layer": "Number",
+          "min_zoom": "Number",
+          "name": "String",
+          "name2": "String",
+          "name3": "String",
+          "name:ar": "String",
+          "name:bg": "String",
+          "name:cs": "String",
+          "name:da": "String",
+          "name:de": "String",
+          "name:el": "String",
+          "name:en": "String",
+          "name:es": "String",
+          "name:et": "String",
+          "name:fa": "String",
+          "name:fi": "String",
+          "name:fr": "String",
+          "name:ga": "String",
+          "name:he": "String",
+          "name:hi": "String",
+          "name:hr": "String",
+          "name:hu": "String",
+          "name:id": "String",
+          "name:it": "String",
+          "name:ja": "String",
+          "name:ko": "String",
+          "name:lt": "String",
+          "name:lv": "String",
+          "name:mr": "String",
+          "name:mt": "String",
+          "name:ne": "String",
+          "name:nl": "String",
+          "name:no": "String",
+          "name:pl": "String",
+          "name:pt": "String",
+          "name:ro": "String",
+          "name:ru": "String",
+          "name:sk": "String",
+          "name:sl": "String",
+          "name:sv": "String",
+          "name:tr": "String",
+          "name:uk": "String",
+          "name:ur": "String",
+          "name:vi": "String",
+          "name:zh-Hans": "String",
+          "name:zh-Hant": "String",
+          "pgf:name": "String",
+          "pgf:name2": "String",
+          "pgf:name:en": "String",
+          "pgf:name:hi": "String",
+          "pgf:name:mr": "String",
+          "pgf:name:ne": "String",
+          "script": "String",
+          "script2": "String",
+          "script3": "String",
+          "sort_rank": "Number",
+          "tunnel": "String"
+        },
+        "minzoom": 0,
+        "maxzoom": 15
+      }
+    ],
+    "attribution": "<a href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\">&copy; OpenStreetMap</a>",
+    "description": "Basemap layers derived from OpenStreetMap and Natural Earth",
+    "name": "Protomaps Basemap",
+    "pgf:devanagari:name": "NotoSansDevanagari-Regular",
+    "pgf:devanagari:version": "1",
+    "planetiler:buildtime": "2025-05-06T00:22:16.609Z",
+    "planetiler:githash": "2c91725f6d048fd60b02d3e7c29bb88838451048",
+    "planetiler:osm:osmosisreplicationseq": "118197",
+    "planetiler:osm:osmosisreplicationtime": "2026-03-08T04:00:00Z",
+    "planetiler:osm:osmosisreplicationurl": "https://planet.osm.org/replication/hour/",
+    "planetiler:version": "0.9.0",
+    "type": "baselayer",
+    "version": "4.14.1"
+  },
+  "base": {
+    "path": "public/data/map.json",
+    "sha256": "83d41855afddaf8f22a729f3967e9f0c0c42cbb32acafb9567208c0a773399c5",
+    "bounds": [
+      -640.1679145129254,
+      -233.77093066572516,
+      1465.6475937532923,
+      1547.3409220264557
+    ]
+  },
+  "municipalBoundary": {
+    "path": "public/data/napoli-boundary.json",
+    "sha256": "142aaad32ec34f8b0786f363f75d42e1059d0613ce1a739b7940e5cdc1dbca03"
+  },
+  "supportedBbox": [
+    14.132018643326,
+    40.79115314150703,
+    14.353767483110769,
+    40.91606928527081
+  ],
+  "localBounds": [
+    -9819.953,
+    -4112.905,
+    8858.533,
+    9792.696
+  ],
+  "limitations": [
+    "Extended geometry is a derived z15 vector basemap, quantized to approximately 0.23–0.30 m in Naples, then encoded in local millimetres; source map generalization and omissions remain.",
+    "MVT feature IDs and source tile references are retained. Output IDs identify derived tile parts and are not advertised as native OSM element IDs.",
+    "Municipal border limits supported coverage; it is not treated as a coastline. Actual earth and water polygons determine land.",
+    "Roads are cartographic guidance. Bridge/tunnel/access tags are retained where present; missing tags, heights, widths and grade separation are not certified.",
+    "All extended building heights are placeholders of 10 m for schema compatibility; collision uses only the measured horizontal rings.",
+    "The reviewed central map, its original source IDs, land, mission points and route remain unchanged; extended footprints intersecting its original bounds are excluded.",
+    "This covers the municipal dataset extent, not a certification that every street or building is mapped or safe to traverse."
+  ],
+  "stats": {
+    "tilesVisited": 192,
+    "tilesRead": 192,
+    "missingTiles": [],
+    "landPatches": 219,
+    "waterPolygons": 410,
+    "buildingFeatures": 71878,
+    "buildingPolygons": 54398,
+    "buildingHoles": 1799,
+    "excludedCentralBuildings": 1978,
+    "roads": 21842,
+    "bridgeRoadParts": 557,
+    "tunnelRoadParts": 622
+  },
+  "tiles": [
+    {
+      "tile": "15/17670/12301",
+      "sha256": "b51e85e1d9f74b42b6b63d2fae247143db8cf7b45c06853da1cb0e791d688c64"
+    },
+    {
+      "tile": "15/17670/12302",
+      "sha256": "146cb68d92ce29a217eea06a80713cae0eac4bb1dc1aeb5d4980a63ecf7c66d6"
+    },
+    {
+      "tile": "15/17670/12303",
+      "sha256": "963aa2b914c1833ad9680fce405e4bace4785b2c433947a6e17dda62f01f45dc"
+    },
+    {
+      "tile": "15/17671/12301",
+      "sha256": "f5f326ea666d35503555f347640e6b14ecc2ef4e9a43bd76134bdbead0bbdc75"
+    },
+    {
+      "tile": "15/17671/12302",
+      "sha256": "0478430cd258b2e87eea608f7b1759b01c92c17cfeda8e29df3923a688501f2c"
+    },
+    {
+      "tile": "15/17671/12303",
+      "sha256": "d81f556055f0c69748edf9480ed1d6c9420158e5771ee6302f8e695527ab4149"
+    },
+    {
+      "tile": "15/17672/12301",
+      "sha256": "1e7a67c3b62f48499adaad001049dbbdb7f038bf9c61692fdfe5e61d98672eb8"
+    },
+    {
+      "tile": "15/17672/12302",
+      "sha256": "ae2dd3f88bd89cbbd1d5bb86162cdc7884159a288757c1ac753ea27ed45b034d"
+    },
+    {
+      "tile": "15/17672/12303",
+      "sha256": "f8e6094976e6bed65f10cf7b556478683f853ece5299fa52b86e35f3ebff8b28"
+    },
+    {
+      "tile": "15/17672/12304",
+      "sha256": "ed44caa29150f71e53a06e627a64a2e5933234bf8a51da377cf2c23865c29040"
+    },
+    {
+      "tile": "15/17672/12305",
+      "sha256": "8a6b8f07cc189d4be37771d497ce8208bb4834415232cd6da937ad9f74e92bd7"
+    },
+    {
+      "tile": "15/17672/12306",
+      "sha256": "efbca14a0f158c0614d03941236a64966c1d6a95104cd9c0de61654bfb016823"
+    },
+    {
+      "tile": "15/17672/12307",
+      "sha256": "29ef847a6d2caf5e284371743e222a4766566e40403100bc50d0cffba79db30d"
+    },
+    {
+      "tile": "15/17672/12308",
+      "sha256": "22519fd8350268ae3cd79c87772cab7e88552440f4f063f33712bce6809e6be1"
+    },
+    {
+      "tile": "15/17672/12309",
+      "sha256": "4d1a8f01bde54c8d326d8b6e1b5dd7a612d90ebe45754efdb5c822a552a9512a"
+    },
+    {
+      "tile": "15/17672/12310",
+      "sha256": "fe7ec1fd3fcc64c0915ccebcbcd8a2a4930d261193100dd1f636dd9840f6264e"
+    },
+    {
+      "tile": "15/17673/12300",
+      "sha256": "ce6eeebd696eaf080680da83e9cd987e12408d9fb06582063fe40f6e4fe8cac4"
+    },
+    {
+      "tile": "15/17673/12301",
+      "sha256": "2d897a6b94e5ccdba349dc49760d5535bcd73c1bc5c7baf30547d60d18c8c653"
+    },
+    {
+      "tile": "15/17673/12302",
+      "sha256": "234744c6aa64a5699daa62f1284956c15c7a9229b70cb1aef0c4a8cf3b26fe1b"
+    },
+    {
+      "tile": "15/17673/12303",
+      "sha256": "36ed042f6b9f0c4822f2cfa54d7eb9ef6e219fe2e6782e814241308a964b32bc"
+    },
+    {
+      "tile": "15/17673/12304",
+      "sha256": "9f62fc343bb7e0db92df60b191620980c3703aca5ed036a050b58f29c873c294"
+    },
+    {
+      "tile": "15/17673/12305",
+      "sha256": "485458fc59c7f10ee0eae78799ded1a75eedcad838162d42c590977fd980bff3"
+    },
+    {
+      "tile": "15/17673/12306",
+      "sha256": "a65cee7a0ba13c21e3d31b2289d10060e921831027611eb5dea4f575b743e1b0"
+    },
+    {
+      "tile": "15/17673/12307",
+      "sha256": "c8410e3e9f1e523d2c23b60f4051344ab5098a71c59144f0dad499de934ae2a5"
+    },
+    {
+      "tile": "15/17673/12308",
+      "sha256": "56a7ce9399b0f1b28b3cc4011b88e5e972120eeeb2adb4a7bfbc76682c23869d"
+    },
+    {
+      "tile": "15/17673/12309",
+      "sha256": "8df1be59122f51a6bbdc6d15908057b801191ba4bc7804d4b40af6e71533c050"
+    },
+    {
+      "tile": "15/17673/12310",
+      "sha256": "ac8bbe476a735b11a8abd26aa173a623f82f36934320a5a9d8743aab8a4a3b55"
+    },
+    {
+      "tile": "15/17674/12300",
+      "sha256": "862864285c18997fd1f39e172e77906aad759d4cfe0cc1ffd80f5dd368d885cb"
+    },
+    {
+      "tile": "15/17674/12301",
+      "sha256": "d7aeba144185f7db22acef51b51815af20f9503227503fddfaa45d5fb6e532df"
+    },
+    {
+      "tile": "15/17674/12302",
+      "sha256": "b364a5da9593c28839e0fbb0a947c1c2e342b74dffb14721d4fea7df309e5ef4"
+    },
+    {
+      "tile": "15/17674/12303",
+      "sha256": "57112b2e07d1f8010112c4535e080676e8a7895b4e135333c52ee25fd9571d79"
+    },
+    {
+      "tile": "15/17674/12304",
+      "sha256": "d2d7544156e2cb3a1ea98baf90212a7bfe8f97bcde46102f03ab67d62965162e"
+    },
+    {
+      "tile": "15/17674/12305",
+      "sha256": "0cf22c965d06b02c3a446f95253cc6c7142ecaa18da2fed53b5836de7a26f10b"
+    },
+    {
+      "tile": "15/17674/12306",
+      "sha256": "f3f22c3623009189d45a324e03aaa8cfe388442ae85c0473ce83aa36e9cb706e"
+    },
+    {
+      "tile": "15/17674/12307",
+      "sha256": "099ffc0bc1ac42137b6950d8fde337c7b3d7a5d615c3b81ed2013c4a0f85b794"
+    },
+    {
+      "tile": "15/17674/12308",
+      "sha256": "1815a1f66f07e1d8cc4739a5ccf5949656fa5c3fda69ea0dbfb7722c86c45daa"
+    },
+    {
+      "tile": "15/17674/12309",
+      "sha256": "8b69f9ce2b981ea6057215d65c9b93bdab9a3da3a2ef3e81c106b0b02a0d125b"
+    },
+    {
+      "tile": "15/17674/12310",
+      "sha256": "44d7128ed733bbf962169b2356606d6814f32aa1f9f6f396baef31a64afb7d90"
+    },
+    {
+      "tile": "15/17675/12299",
+      "sha256": "6dc2d389a206991f618b454f6461cc3a8ea0a23983e89605cbd04fc1e72f0d70"
+    },
+    {
+      "tile": "15/17675/12300",
+      "sha256": "8a9584c28cb2c4555c6a183921fc51cba99e29dc984a5e56b92f6d685f757662"
+    },
+    {
+      "tile": "15/17675/12301",
+      "sha256": "1dd86c833f83c8cfc2a9303f3415d5efeabb443aab42cf2c903e2d7b28433814"
+    },
+    {
+      "tile": "15/17675/12302",
+      "sha256": "db96ec17bfd5a83947a5c75381eb632ab3c2e30a9c80e32c247a6b409c3b68a1"
+    },
+    {
+      "tile": "15/17675/12303",
+      "sha256": "abf6cf6a4c0f1863351e9596f122b02725b438666bb74754b39df2459a8b9e47"
+    },
+    {
+      "tile": "15/17675/12304",
+      "sha256": "0956aab773f820e9d5baa917058bb3b8a35eee9f2caeb991fa910233c9f7466a"
+    },
+    {
+      "tile": "15/17675/12305",
+      "sha256": "f1eccea9ec12ef90c79e0fdfa3605a2ea92d13137ad49ca83f26d2570156624e"
+    },
+    {
+      "tile": "15/17675/12306",
+      "sha256": "931127b43d0cb03c6730d6ccbb7cf3d290baf2a3c8f0329a1e6c07446ca6c2b7"
+    },
+    {
+      "tile": "15/17675/12307",
+      "sha256": "686358bb0e8ada54287f565ce10821819a8a37a8eac77959f9ad773fc80afaaf"
+    },
+    {
+      "tile": "15/17675/12308",
+      "sha256": "81c9a727d418de69e03a5e8808a74671a900c1c1a58914f46458db39b634cae2"
+    },
+    {
+      "tile": "15/17675/12309",
+      "sha256": "bcb7b899ef384a402ac4c8ef79e63c6565647322a4cfe8f542ef8f05718f0f2d"
+    },
+    {
+      "tile": "15/17675/12310",
+      "sha256": "cbb544b64404557f152b818f3129703198b8b312890fd172920ee2195e6d71c5"
+    },
+    {
+      "tile": "15/17676/12297",
+      "sha256": "f93df2c9b68f18496ee02464c9c68e29049ac12ec17cccaca995cb32383894ed"
+    },
+    {
+      "tile": "15/17676/12298",
+      "sha256": "9801bbdbd3c70ed82beaf91298f6d058dde30426eecf1c13fdc2e8e7f8407483"
+    },
+    {
+      "tile": "15/17676/12299",
+      "sha256": "9fad2e08ecfcfeeef5da2e752ac7fdc951a489ad26ad277b8b54223910386bc6"
+    },
+    {
+      "tile": "15/17676/12300",
+      "sha256": "c50909bd7788f9d9f58bf369bae82c8a0350c5e59ba614ddc23487c71c07fe35"
+    },
+    {
+      "tile": "15/17676/12301",
+      "sha256": "66941a38632bb386b88f3fb5775a114868745855d79e4c10ca5df9db61608dce"
+    },
+    {
+      "tile": "15/17676/12302",
+      "sha256": "64d2eae796288bfb6283a4b892df3d36d6d2675dcf518dc539106f4082642993"
+    },
+    {
+      "tile": "15/17676/12303",
+      "sha256": "0a9e77b5315b189ca7a65848bd10c0fcdf18f7f4369293638bbf8c2851c41815"
+    },
+    {
+      "tile": "15/17676/12304",
+      "sha256": "49e50b54a0787d9aa8a69d362f90b932e321918cfb6fa2c835a888d872777bb1"
+    },
+    {
+      "tile": "15/17676/12305",
+      "sha256": "f1010b582ace5b3c1d66a6b7b83cfc729e3bfe0f64001fb7d99ee7859deed33e"
+    },
+    {
+      "tile": "15/17676/12306",
+      "sha256": "7c755ec7ff148e283918e41956030ca0a04080920dd3399e71ba5550990df8d4"
+    },
+    {
+      "tile": "15/17676/12307",
+      "sha256": "0c63c2a2bfbacda86d4f4315219b7c9f82f040bf43d236cd0bf4ee175a45ec5c"
+    },
+    {
+      "tile": "15/17676/12308",
+      "sha256": "18f1495da77855f004513e29af18117866e59f0af01ee0eb0e4c79eb3ea65c26"
+    },
+    {
+      "tile": "15/17676/12309",
+      "sha256": "cfdafbdad52b3cd0acaf6d84d5f95f49d2eda43a190125df78d3485deecbf7e7"
+    },
+    {
+      "tile": "15/17676/12310",
+      "sha256": "188d604211342835db7b8f750da2964dfe5734647bfa0687221c348514531006"
+    },
+    {
+      "tile": "15/17677/12297",
+      "sha256": "31b02448248470299683175a7742d3540966e38adaff9c5dae0ccab7a8931abf"
+    },
+    {
+      "tile": "15/17677/12298",
+      "sha256": "355a59137407fc5662c39804bde2c983fa9aebd29b72a91c9fbee98411dd72f6"
+    },
+    {
+      "tile": "15/17677/12299",
+      "sha256": "dc3aa7e19d70cd1dff654e5dd3e21720b9307782d2a0d5a1a77e48768a7461c0"
+    },
+    {
+      "tile": "15/17677/12300",
+      "sha256": "5539bbb604ea9047964fde4be50db45c0ebf188406451990a2dc901dca54a155"
+    },
+    {
+      "tile": "15/17677/12301",
+      "sha256": "606361b70d0a7c14e0b184cf710740e4bd0769cdf4089fc85d94df516e4917e5"
+    },
+    {
+      "tile": "15/17677/12302",
+      "sha256": "f6e1986d18abbd166a5bb5788d2e865349be2414bb2a7aee7312d6f48b7990bd"
+    },
+    {
+      "tile": "15/17677/12303",
+      "sha256": "c9c0f5ab22a248c78945a2cbf8cbbd5b7041790f2fe283ce7bc6c586e3e4bbcc"
+    },
+    {
+      "tile": "15/17677/12304",
+      "sha256": "4c43c62e8be39b90ab69462b77971f91a29bc0622a83be40f6cd718ed3120748"
+    },
+    {
+      "tile": "15/17677/12305",
+      "sha256": "455fc6ce884e6d43130c8bb7ae71ea7c6b57eba7a587d4c58e804367673ed8ff"
+    },
+    {
+      "tile": "15/17677/12306",
+      "sha256": "92c3014ae36058c342b738c8bdd017cfad652bf213712a49123b234b9b6db471"
+    },
+    {
+      "tile": "15/17677/12307",
+      "sha256": "612ec1de83a6372b9749b8ab91350f6065e1dd256741dfa064d3f0ad0aeae67b"
+    },
+    {
+      "tile": "15/17677/12308",
+      "sha256": "83c4eca375667218b666c787616d77533cc46cdcd33a40eb252cfda401230c8c"
+    },
+    {
+      "tile": "15/17677/12309",
+      "sha256": "3e6643482066fc700aadcf6d0c4e0eed392f282ac780ed812616a13d5a6828fd"
+    },
+    {
+      "tile": "15/17678/12296",
+      "sha256": "d5fb38a2f694fb539ec88e5fadcc06bd7164c12668e6fba9aecc8af3ad9df3de"
+    },
+    {
+      "tile": "15/17678/12297",
+      "sha256": "9df2244c66516e5337afba3e1bc5acd8d8445c144ea0de24cf5e5a2e7528d385"
+    },
+    {
+      "tile": "15/17678/12298",
+      "sha256": "9878a334473c41bcd0316e9f93ee3fd08387965ee7a60c3395e9a683010737e6"
+    },
+    {
+      "tile": "15/17678/12299",
+      "sha256": "45bf6af2d5d3aa13c53993627fc2d2dc8327bce47377fb6b9862b110f4f29404"
+    },
+    {
+      "tile": "15/17678/12300",
+      "sha256": "ed8454ec3721f09562143abad6f31bf0961320b5fd59401dc24231f9af2485fa"
+    },
+    {
+      "tile": "15/17678/12301",
+      "sha256": "ed40187bee7281eb3d586944951b07f0ab782202c08c92eb1a4338f678cfd846"
+    },
+    {
+      "tile": "15/17678/12302",
+      "sha256": "f6493ca0320ec8bc82af70e513936552dbf89c9e40203679e53ecb8c6668e6d1"
+    },
+    {
+      "tile": "15/17678/12303",
+      "sha256": "4e042999e45d14ebeacaecfe63de686fd6fd1580ad647aa196d11314a8385edb"
+    },
+    {
+      "tile": "15/17678/12304",
+      "sha256": "8e4814432e756a7dd3a89943ee5eb9dd32f9c8f0da3b600da8839ab7ef5222d1"
+    },
+    {
+      "tile": "15/17678/12305",
+      "sha256": "ff6f8b5c2cc3a9a586fe2c6c14c46aa9047723d6dd4ed3b751cf6a4fa0053494"
+    },
+    {
+      "tile": "15/17678/12306",
+      "sha256": "b5b7f43c5d98fc801c364048983cc10bc8e3f1e7055741c502cb3b08bdab40c2"
+    },
+    {
+      "tile": "15/17678/12307",
+      "sha256": "c1e6ebef18cef72791294a396d0fe4bc2809c8b00b769bc246ee851c17f8f5fd"
+    },
+    {
+      "tile": "15/17679/12295",
+      "sha256": "a4da04533445a50d0cef110b94dd0d41a8fa75ea35c5edcd718f5ca4c29c11fe"
+    },
+    {
+      "tile": "15/17679/12296",
+      "sha256": "effbc71c60432c5c82c04f1e79bc56a182e159c7f88b1592ee2b82ebf8f25354"
+    },
+    {
+      "tile": "15/17679/12297",
+      "sha256": "dd81e4b3ce7f5189b0bb8bacf158e3b76a6f12922f5fcee367087e0a8e2aea33"
+    },
+    {
+      "tile": "15/17679/12298",
+      "sha256": "d1a001bbb10c873342f55c5a92f6b69eb5e6dd5e63eb06a6276edc7971bf8483"
+    },
+    {
+      "tile": "15/17679/12299",
+      "sha256": "244325f9d86de0e5a59cc13112a25742fea63c0c9b3f107eb3359a8a8caa2aa6"
+    },
+    {
+      "tile": "15/17679/12300",
+      "sha256": "69c3ecfc8d9767759092dd6df62e25a8dfa394864608442d590f8d9af35862c5"
+    },
+    {
+      "tile": "15/17679/12301",
+      "sha256": "889ccd56d0b251fa65f0ec1c7af1e1732d7548bc2be5bea0286c78ed5b9f4166"
+    },
+    {
+      "tile": "15/17679/12302",
+      "sha256": "dab9ff52efc766d0941c6aab12666d5d82265999ec7f3d2d90dabdf4e23c31b4"
+    },
+    {
+      "tile": "15/17679/12303",
+      "sha256": "01db389e5103e67f833edc0d2a27ef8da058d8da4756846a0cdf633bdcf085fc"
+    },
+    {
+      "tile": "15/17679/12304",
+      "sha256": "4b39f89aadf07b693bb8b93f5d1845c2baff784c3ba859d10bb43f2c753466ba"
+    },
+    {
+      "tile": "15/17679/12305",
+      "sha256": "d7aac5c62cbde5cc80e45a1a38f72b3e896e0ab66111918f26e5b8a708e6e2ff"
+    },
+    {
+      "tile": "15/17680/12295",
+      "sha256": "9eb26526a7e053df2bb456c0123d77e1da83d9529b5d48e45d03c150d81eadf2"
+    },
+    {
+      "tile": "15/17680/12296",
+      "sha256": "c9cee5670b6d1a8adc801310fae9feb73393b305b1295d3dff536df106eb80a2"
+    },
+    {
+      "tile": "15/17680/12297",
+      "sha256": "717a359df188ebe65414b29e7c68a3416ce0324e37e4498f74b52370b8dc032a"
+    },
+    {
+      "tile": "15/17680/12298",
+      "sha256": "36b860dbdc4b81c1948799c3d172890cd436cede8ce88c98133a539685f36331"
+    },
+    {
+      "tile": "15/17680/12299",
+      "sha256": "5b5dc4f15f42e8bc0d218bb233715e265debd8936b9c407d734f4f230b1c47a2"
+    },
+    {
+      "tile": "15/17680/12300",
+      "sha256": "fc1315afa49dda8084a04c20614db5583690431178a45430c3c3975ae107a502"
+    },
+    {
+      "tile": "15/17680/12301",
+      "sha256": "a22ad4106c293f0156816cc7db28a0e7a92263e3fa75f39dcb6fd6449d51c77c"
+    },
+    {
+      "tile": "15/17680/12302",
+      "sha256": "e9666f7a264fa5d16fbd75a62135873f7d3dd5fa095243b0c4a5972f1fec058d"
+    },
+    {
+      "tile": "15/17680/12303",
+      "sha256": "212e31882b8a04c9ea160082a18d4931565cf766ef1d7e2ec7bca7bac0a070c3"
+    },
+    {
+      "tile": "15/17680/12304",
+      "sha256": "b25677213bb28a1abcd00d9c7a05746e3aca1a0627185eed1824ac4f2bc9e017"
+    },
+    {
+      "tile": "15/17680/12305",
+      "sha256": "2023aef8acfdcdb44eaf573b056947000db99fd49c3028cb082a41942e3db0ad"
+    },
+    {
+      "tile": "15/17680/12306",
+      "sha256": "c53b9f06df522c28d8ad8e2932c9e6ec1e56c08643f5afc1c8c781d630c6abe3"
+    },
+    {
+      "tile": "15/17681/12295",
+      "sha256": "027508825562b8bebc2e58788e124e14315a2472b3f45da5b317fbbdb4fa339f"
+    },
+    {
+      "tile": "15/17681/12296",
+      "sha256": "9ddca00e10dde496f47c6719572d06dab223825a4e3c74ad236c9ddbc9e63100"
+    },
+    {
+      "tile": "15/17681/12297",
+      "sha256": "af92b22816a8debc9f69fdb7a95ba12a971ed3028529cb13657de250d4468af2"
+    },
+    {
+      "tile": "15/17681/12298",
+      "sha256": "9dcba38f40f5c54b134de677f6f8de3ff51b1ee50112844d3d4839cfbaca6ae9"
+    },
+    {
+      "tile": "15/17681/12299",
+      "sha256": "4259bf63f2d082f81d805dbad8d69364caf5c0ccf9f5d51ef0deab4e428e0eda"
+    },
+    {
+      "tile": "15/17681/12300",
+      "sha256": "e29e69880e5bb10aeac9f7671a739ef2292b82a27b7d6c7fb9d4eb260bc7e5e7"
+    },
+    {
+      "tile": "15/17681/12301",
+      "sha256": "6a10d22c57e05384190c4e199a5bfff4d2cdb6249b016623c8ff701e67d886e9"
+    },
+    {
+      "tile": "15/17681/12302",
+      "sha256": "ab0ab787152ad072b34ede36c1f103ba7f61141e7a2554676d75cddb3fddeb9f"
+    },
+    {
+      "tile": "15/17681/12303",
+      "sha256": "09014db30910d046a886d169408cc6b804796acd2089f52411283768df73b59a"
+    },
+    {
+      "tile": "15/17681/12304",
+      "sha256": "ae013126e09a689cad9e87d36312ae34ce546e036b4f5f7fc44afc71e468e016"
+    },
+    {
+      "tile": "15/17681/12305",
+      "sha256": "3ff59eae58ceb2b19672964fe49f83630f0cf1d71cac4d50185418e73cbda511"
+    },
+    {
+      "tile": "15/17681/12306",
+      "sha256": "875559d61d6201811f8238176046a6012d6252822273b8f49755642ca7add24b"
+    },
+    {
+      "tile": "15/17682/12296",
+      "sha256": "507ed959a0cbb9aa011f3b2ac95970d76e164adcf6b79dcb452068fcf946544b"
+    },
+    {
+      "tile": "15/17682/12297",
+      "sha256": "bd290aa121cc5582fa88034b281bbe2a0189bf42e7c91327053553e860b32b1e"
+    },
+    {
+      "tile": "15/17682/12298",
+      "sha256": "803b56daf5b7e471f886df93a788e0351e8cdf0c3b33612452447aa4feb38f40"
+    },
+    {
+      "tile": "15/17682/12299",
+      "sha256": "bdcc934eef588263a49b6d5c77e0791f07bd7461e9272a6b39d25459ee1388f6"
+    },
+    {
+      "tile": "15/17682/12300",
+      "sha256": "6937f72cb1b0ea382903e18b02ac09188a1db079e1bf81dca21070bb886e1c98"
+    },
+    {
+      "tile": "15/17682/12301",
+      "sha256": "86be8d07be1b4a6e0bf3477acf8a4bf4d13cb7054325c89875e35a27a8456acc"
+    },
+    {
+      "tile": "15/17682/12302",
+      "sha256": "2f5f61d91970aa391baa0709feb1f828e5a9bf3d5b27e4629701bd9b806ac7b5"
+    },
+    {
+      "tile": "15/17682/12303",
+      "sha256": "13261211f9867f42aea20599931fd951f1b3655692b92405b88a8b221631371e"
+    },
+    {
+      "tile": "15/17682/12304",
+      "sha256": "58375c3020a7f2e091f2522337d220a45b8f0c5ad61334bb79d004a5d40fbcb0"
+    },
+    {
+      "tile": "15/17682/12305",
+      "sha256": "c4c72f743c4525e3eea9ddbeaa0ffd56f79b6dafdb7e57a659a7653f3f42a158"
+    },
+    {
+      "tile": "15/17683/12298",
+      "sha256": "89a37cf36beb54230cdc3b1b4ce282aa252dc6fc1f743c9e28d9dac90768ff06"
+    },
+    {
+      "tile": "15/17683/12299",
+      "sha256": "0939d6e40a2899dbfaa6ac97a7aa61d0d09aeb4f738c5c04658f580f11612b8d"
+    },
+    {
+      "tile": "15/17683/12300",
+      "sha256": "bd7de7e4a1efda35b8841a6809b42a2d6844117e1adbd1929f68993f7e91190f"
+    },
+    {
+      "tile": "15/17683/12301",
+      "sha256": "530e9395407684648e2eb3980e01b9c0ce8df34be5cfb0ecb2ca449578294e23"
+    },
+    {
+      "tile": "15/17683/12302",
+      "sha256": "4472ecc4eca4a4a8249011d5935d06c90290b93ac0f74c4eeabb09dd8be58d64"
+    },
+    {
+      "tile": "15/17683/12303",
+      "sha256": "86f60c6a39c4676a8f6293157c22fd8d47200ef5fd26aee14b71bb741335411b"
+    },
+    {
+      "tile": "15/17683/12304",
+      "sha256": "662ed11cab5dc38247167806bec949c2c7ba4bb76e8c54ab8d417922a8f70516"
+    },
+    {
+      "tile": "15/17683/12305",
+      "sha256": "0e2cb4331075f8e0da95957f48c091f46b3db4e598b6628450e8f0462abe671d"
+    },
+    {
+      "tile": "15/17683/12306",
+      "sha256": "5df85e0ccfb38023272f82a583b3c69381382623cbe9df2839462c8365813f15"
+    },
+    {
+      "tile": "15/17684/12297",
+      "sha256": "44cff7ee5dd37e1bae8b9914c40d44a8d12c6af3ef31ede98869bb9ff4081c80"
+    },
+    {
+      "tile": "15/17684/12298",
+      "sha256": "b2eed67df7c4cdcc265d894c1c3abc9a96a39a78556dc251b949f302e9ac83f5"
+    },
+    {
+      "tile": "15/17684/12299",
+      "sha256": "111435ff97421f2f6315b7481f8e7a9b4c43239ea1d0c108392ececc7c271e81"
+    },
+    {
+      "tile": "15/17684/12300",
+      "sha256": "69d9a03d8f47c4735378eae51750dea71ed8e8840e0148244fd84f666da27ce7"
+    },
+    {
+      "tile": "15/17684/12301",
+      "sha256": "11fb8af138fe6168212bf8084734a191e1e062d4031470c8db88d5e4f651b2c5"
+    },
+    {
+      "tile": "15/17684/12302",
+      "sha256": "715d2e2fa6a73ca1281a4a7e602c7909ebf4cb7e22b9ff2c2034ea002a3b97bb"
+    },
+    {
+      "tile": "15/17684/12303",
+      "sha256": "e3f5ef7d1bdaefcb6ece79a8062606ab0ad6d97bd65b69898a4ff12633bc5374"
+    },
+    {
+      "tile": "15/17684/12304",
+      "sha256": "0cfa44d530d409c7bffdafd82b653f7ef34552f6a0c4ebc3ecc9606f1487d5c4"
+    },
+    {
+      "tile": "15/17684/12305",
+      "sha256": "a943a80877a119331825d0203e9c7f451157cac8d2d369dcd3c6a93c475f99dd"
+    },
+    {
+      "tile": "15/17685/12298",
+      "sha256": "631f580600d306995abc52cf5f7bf638048df6730e3d412ec89eec2d745f1044"
+    },
+    {
+      "tile": "15/17685/12299",
+      "sha256": "b5a35fdaea87901cd57922be3b9494a364cd310d5d48774d99560bcdeacd9ce1"
+    },
+    {
+      "tile": "15/17685/12300",
+      "sha256": "376d2f658ad0380343384c64fca981aac60c3992d51a76c99901e57d0eeda2d7"
+    },
+    {
+      "tile": "15/17685/12301",
+      "sha256": "2814eb5bcf93d096fc54bd52bdbfea84bb72f93cf95761c4e2df3c056c55636a"
+    },
+    {
+      "tile": "15/17685/12302",
+      "sha256": "60f4dc07b5fb6abfe870255f043d135de4e548e203da3c80466d01c1786c2d74"
+    },
+    {
+      "tile": "15/17685/12303",
+      "sha256": "cdc3a1b17a0510316d1fac471b09ce85bf8b5314a43f9ee3650d51914a35b531"
+    },
+    {
+      "tile": "15/17685/12304",
+      "sha256": "d4c1cfb43899178bb6da68adec7338f73b384551472fab88f00c4bc5013d9958"
+    },
+    {
+      "tile": "15/17685/12305",
+      "sha256": "7cf534f6dfd8b31e837452b2e3672f95b8f4beba971abc0746431007270947af"
+    },
+    {
+      "tile": "15/17685/12306",
+      "sha256": "902742a8ebabf3bdd9aa2feb5f70e1236791fc4400cde7e39511ddc1c50091d8"
+    },
+    {
+      "tile": "15/17686/12299",
+      "sha256": "b972441df49bdcfcd83c307c41d9ffe79c93b4f3932e1ce126c3084988267ae4"
+    },
+    {
+      "tile": "15/17686/12300",
+      "sha256": "184edeb8dfe0aad3c9fa790ccc311a51a4a6e0e36b0c5422af620e90a616d5de"
+    },
+    {
+      "tile": "15/17686/12301",
+      "sha256": "b05be26d7dcf57ec363fe1da24705a362250f16870d1f0925e9b9ad544e9e2f1"
+    },
+    {
+      "tile": "15/17686/12302",
+      "sha256": "f9e6c423108067e186a57f9a9230e6ccada280e8c30ff82f144c46330541da80"
+    },
+    {
+      "tile": "15/17686/12303",
+      "sha256": "973ba22f7375e04a94ddd5c8e9d2493e3cfefe4ead5e44860770cf06b5ea041c"
+    },
+    {
+      "tile": "15/17686/12304",
+      "sha256": "aaf248185771fc5ff299b115f21bd999de798e361ca320b9cd9073629d895e9c"
+    },
+    {
+      "tile": "15/17686/12305",
+      "sha256": "38f66a5120e5bb9dca066be4006df0c144430147958d5d6b60d25cbd68cd6ab2"
+    },
+    {
+      "tile": "15/17686/12306",
+      "sha256": "4e7128b8fa47e03304e0ef3aa66b5cc075514216ff1a98f7cea840249d114e1b"
+    },
+    {
+      "tile": "15/17687/12299",
+      "sha256": "2895d06a92d63335143202911d23a5d515d30c1a11438b5d384efadcc598b901"
+    },
+    {
+      "tile": "15/17687/12300",
+      "sha256": "e5f9bf52a10c9b5f95178f2697afd2e8c9e134d80acd3bf3ddc0a10c65d2f38a"
+    },
+    {
+      "tile": "15/17687/12301",
+      "sha256": "034cd4f0b8f5a97d301667019d072c3a06e03eba98be77923af3287252c09ec6"
+    },
+    {
+      "tile": "15/17687/12302",
+      "sha256": "cf65addb8857b8d2ac94795bf5132994233868eaca9fa74a85c0d0de4f30029e"
+    },
+    {
+      "tile": "15/17687/12303",
+      "sha256": "c3bd8e2239c0494634420ede802b6a47750d61aef662d29e92d0c007768f064c"
+    },
+    {
+      "tile": "15/17687/12304",
+      "sha256": "6e169539f8b6f5e9e616e0012b534ee63337d4fb0c03f6f3247db4bb56facab7"
+    },
+    {
+      "tile": "15/17687/12305",
+      "sha256": "1d441f0598969b522ae1ba653222696061ab42848128f93f0e77650e176165f7"
+    },
+    {
+      "tile": "15/17687/12306",
+      "sha256": "b69b9e907c9c93295755847672a7d9e35a251e07133442f747e5cf319e6413bc"
+    },
+    {
+      "tile": "15/17687/12307",
+      "sha256": "2c1ac1c72cb3a0ea8f338b644ae7d3222be4116cf872e90cf976a555a50aaaec"
+    },
+    {
+      "tile": "15/17688/12300",
+      "sha256": "285e2dc27740f250fcb457b589818337fe8382a160de7dc90c055c903463051e"
+    },
+    {
+      "tile": "15/17688/12301",
+      "sha256": "713ed5967005fe58e76650f31be3b032f5e63cc1e345aa2df5db805e8b30d068"
+    },
+    {
+      "tile": "15/17688/12302",
+      "sha256": "e19fd2669e1d69350a716a7acf59ee6e4d6dea0eac83bc1fa705ea5f39027d93"
+    },
+    {
+      "tile": "15/17688/12303",
+      "sha256": "1186efe59485c7c99e79b1b7a221888d63eabb36bffb74e5712ab754401b0c77"
+    },
+    {
+      "tile": "15/17688/12304",
+      "sha256": "c501d64565de9b5a2c0ae6d2c03dfb824bd01de53544ca755ed385a19e034f4a"
+    },
+    {
+      "tile": "15/17688/12305",
+      "sha256": "baf88872799d3c8e8f68d42795deecf6dae645de33749f6edefb27e658a18aec"
+    },
+    {
+      "tile": "15/17689/12300",
+      "sha256": "c7d0caad03804b76bd03be7a410db57442fd644d85922e9c7196c369f2f5626b"
+    },
+    {
+      "tile": "15/17689/12301",
+      "sha256": "f04fc16b0db4caa21e531da3b34aeb1f451e87ed22d1dd12ddca0abc08b7e1c4"
+    },
+    {
+      "tile": "15/17689/12302",
+      "sha256": "608ca4cf0c9f0b9442c58a2bdb66226f68d22c1734ab1fe8237855ecc0d88cd8"
+    },
+    {
+      "tile": "15/17689/12303",
+      "sha256": "8282c4065f2b37e247bedd29eeab82822c0395d25bd315b0ba4b046cc89fc404"
+    },
+    {
+      "tile": "15/17689/12304",
+      "sha256": "a7e75e02dc7c7611057cfece146deaf845352d70271c762566e1c94b9ff3be96"
+    },
+    {
+      "tile": "15/17690/12301",
+      "sha256": "d7a2d359d5321835b58a69285cbd6878c9fed3b923abe7cf08719bac65f576c3"
+    },
+    {
+      "tile": "15/17690/12302",
+      "sha256": "814dfeaca3e6e67c27d17cdcf3faf9f532987ee6c696f59fdeafb23ae82feddf"
+    },
+    {
+      "tile": "15/17690/12303",
+      "sha256": "915319217dfc306579dad5dc6ac5b7936d13a60cad46df63775d5978a944bcb3"
+    }
+  ],
+  "placeLabels": [
+    {
+      "name": "Agnano",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -7103.7,
+        506.616
+      ],
+      "coordinate": [
+        14.16426569223404,
+        40.83265101170389
+      ],
+      "sourceTile": "15/17673/12305",
+      "sourceFeatureId": 17595448227857
+    },
+    {
+      "name": "Arenaccia",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1834.975,
+        3735.802
+      ],
+      "coordinate": [
+        14.27038460969925,
+        40.86165927872227
+      ],
+      "sourceTile": "15/17682/12302",
+      "sourceFeatureId": 17602279596922
+    },
+    {
+      "name": "Arenella",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -1961.996,
+        2854.393
+      ],
+      "coordinate": [
+        14.225307404994965,
+        40.85374144628645
+      ],
+      "sourceTile": "15/17678/12303",
+      "sourceFeatureId": 17596592329169
+    },
+    {
+      "name": "Astroni",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -7704.672,
+        2419.86
+      ],
+      "coordinate": [
+        14.157131016254425,
+        40.84983796977454
+      ],
+      "sourceTile": "15/17672/12303",
+      "sourceFeatureId": 17602262331644
+    },
+    {
+      "name": "Avvocata",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -499.329,
+        2669.2
+      ],
+      "coordinate": [
+        14.24267202615738,
+        40.85207783057092
+      ],
+      "sourceTile": "15/17680/12303",
+      "sourceFeatureId": 17597480500397
+    },
+    {
+      "name": "Bagnoli",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -6870.089,
+        -1200.587
+      ],
+      "coordinate": [
+        14.167039096355438,
+        40.81731494189032
+      ],
+      "sourceTile": "15/17673/12307",
+      "sourceFeatureId": 17594819715553
+    },
+    {
+      "name": "Barra",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        6002.922,
+        1319.636
+      ],
+      "coordinate": [
+        14.319866001605988,
+        40.83995449153073
+      ],
+      "sourceTile": "15/17687/12304",
+      "sourceFeatureId": 17596592329171
+    },
+    {
+      "name": "Borgo Sant'Antonio Abate",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1437.791,
+        3152.724
+      ],
+      "coordinate": [
+        14.265669286251068,
+        40.856421402774885
+      ],
+      "sourceTile": "15/17682/12302",
+      "sourceFeatureId": 17601708459286
+    },
+    {
+      "name": "Botteghelle",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        5873.239,
+        4810.152
+      ],
+      "coordinate": [
+        14.31832641363144,
+        40.8713103293085
+      ],
+      "sourceTile": "15/17687/12300",
+      "sourceFeatureId": 17601753972714
+    },
+    {
+      "name": "Calata Pollena",
+      "kind": "locality",
+      "detail": "locality",
+      "point": [
+        3414.448,
+        1221.599
+      ],
+      "coordinate": [
+        14.289135932922363,
+        40.839073814482674
+      ],
+      "sourceTile": "15/17684/12304",
+      "sourceFeatureId": 17599048966840
+    },
+    {
+      "name": "Camaldoli",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -4779.563,
+        3226.571
+      ],
+      "coordinate": [
+        14.19185757637024,
+        40.857084781774574
+      ],
+      "sourceTile": "15/17675/12302",
+      "sourceFeatureId": 17602221070018
+    },
+    {
+      "name": "Camaldolilli",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -3143.608,
+        3339.034
+      ],
+      "coordinate": [
+        14.211279451847076,
+        40.85809505262645
+      ],
+      "sourceTile": "15/17677/12302",
+      "sourceFeatureId": 17603969973031
+    },
+    {
+      "name": "Capo di Posillipo",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -4150.575,
+        -3180.317
+      ],
+      "coordinate": [
+        14.1993248462677,
+        40.799530729116015
+      ],
+      "sourceTile": "15/17676/12309",
+      "sourceFeatureId": 17604014928156
+    },
+    {
+      "name": "Capodichino",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        1848.079,
+        5994.059
+      ],
+      "coordinate": [
+        14.270540177822113,
+        40.8819455450718
+      ],
+      "sourceTile": "15/17682/12299",
+      "sourceFeatureId": 17602176097625
+    },
+    {
+      "name": "Capodimonte",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -13.58,
+        4127.129
+      ],
+      "coordinate": [
+        14.248438775539398,
+        40.86517463086784
+      ],
+      "sourceTile": "15/17680/12301",
+      "sourceFeatureId": 17602872547279
+    },
+    {
+      "name": "Cassano",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1486.591,
+        7767.757
+      ],
+      "coordinate": [
+        14.266248643398285,
+        40.89787894557804
+      ],
+      "sourceTile": "15/17682/12297",
+      "sourceFeatureId": 17605333759146
+    },
+    {
+      "name": "Chiaia",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -1712.57,
+        798.04
+      ],
+      "coordinate": [
+        14.228268563747406,
+        40.835268911658915
+      ],
+      "sourceTile": "15/17678/12305",
+      "sourceFeatureId": 17596592329176
+    },
+    {
+      "name": "Chiaiano",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -2575.395,
+        6975.085
+      ],
+      "coordinate": [
+        14.218025207519531,
+        40.89075825630508
+      ],
+      "sourceTile": "15/17678/12298",
+      "sourceFeatureId": 17596592329177
+    },
+    {
+      "name": "Colli Aminei",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -1220.722,
+        4485.921
+      ],
+      "coordinate": [
+        14.234107732772827,
+        40.86839771822201
+      ],
+      "sourceTile": "15/17679/12301",
+      "sourceFeatureId": 17602221163346
+    },
+    {
+      "name": "Coroglio",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -6176.711,
+        -2927.397
+      ],
+      "coordinate": [
+        14.175270795822144,
+        40.80180274511284
+      ],
+      "sourceTile": "15/17674/12309",
+      "sourceFeatureId": 17602871936098
+    },
+    {
+      "name": "Cupa Spinelli",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -2555.287,
+        7313.426
+      ],
+      "coordinate": [
+        14.218263924121857,
+        40.893797619195425
+      ],
+      "sourceTile": "15/17678/12298",
+      "sourceFeatureId": 17602259998353
+    },
+    {
+      "name": "Doganella",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        3031.949,
+        4623.428
+      ],
+      "coordinate": [
+        14.28459495306015,
+        40.8696329568146
+      ],
+      "sourceTile": "15/17684/12301",
+      "sourceFeatureId": 17602871917057
+    },
+    {
+      "name": "Edificio 9/C",
+      "kind": "locality",
+      "detail": "locality",
+      "point": [
+        -2523.657,
+        4457.697
+      ],
+      "coordinate": [
+        14.218639433383942,
+        40.86814417707285
+      ],
+      "sourceTile": "15/17678/12301",
+      "sourceFeatureId": 17601796293711
+    },
+    {
+      "name": "Frullone",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -1682.296,
+        6214.383
+      ],
+      "coordinate": [
+        14.228627979755402,
+        40.88392475590021
+      ],
+      "sourceTile": "15/17679/12299",
+      "sourceFeatureId": 17602175593639
+    },
+    {
+      "name": "Fuorigrotta",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -4396.838,
+        28.115
+      ],
+      "coordinate": [
+        14.196401238441467,
+        40.8283525610764
+      ],
+      "sourceTile": "15/17676/12306",
+      "sourceFeatureId": 17595326632695
+    },
+    {
+      "name": "Guantai",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -4869.031,
+        4328.543
+      ],
+      "coordinate": [
+        14.190795421600342,
+        40.86698396038912
+      ],
+      "sourceTile": "15/17675/12301",
+      "sourceFeatureId": 17596360478202
+    },
+    {
+      "name": "Madonnelle",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        7070.665,
+        4741.965
+      ],
+      "coordinate": [
+        14.33254212141037,
+        40.870697799175645
+      ],
+      "sourceTile": "15/17688/12301",
+      "sourceFeatureId": 17601756369058
+    },
+    {
+      "name": "Maranda",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        5831.216,
+        3802.191
+      ],
+      "coordinate": [
+        14.31782752275467,
+        40.86225566435766
+      ],
+      "sourceTile": "15/17687/12302",
+      "sourceFeatureId": 17605372783620
+    },
+    {
+      "name": "Marechiaro",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -4890.946,
+        -3597.8
+      ],
+      "coordinate": [
+        14.190535247325897,
+        40.79578041284256
+      ],
+      "sourceTile": "15/17675/12310",
+      "sourceFeatureId": 17602176142207
+    },
+    {
+      "name": "Marianella",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -1771.312,
+        6959.511
+      ],
+      "coordinate": [
+        14.227571189403534,
+        40.890618348981434
+      ],
+      "sourceTile": "15/17678/12298",
+      "sourceFeatureId": 17597146113866
+    },
+    {
+      "name": "Materdei",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -521.47,
+        3093.104
+      ],
+      "coordinate": [
+        14.24240916967392,
+        40.855885825891846
+      ],
+      "sourceTile": "15/17680/12302",
+      "sourceFeatureId": 17602279593685
+    },
+    {
+      "name": "Mercato",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        1965.11,
+        2254.983
+      ],
+      "coordinate": [
+        14.271929562091827,
+        40.84835686081365
+      ],
+      "sourceTile": "15/17682/12303",
+      "sourceFeatureId": 17597480500399
+    },
+    {
+      "name": "Mergellina",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -2401.881,
+        -69.487
+      ],
+      "coordinate": [
+        14.220085144042969,
+        40.827475789057075
+      ],
+      "sourceTile": "15/17678/12306",
+      "sourceFeatureId": 17602279593314
+    },
+    {
+      "name": "Mezz'arco",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1205.987,
+        7463.518
+      ],
+      "coordinate": [
+        14.262917339801788,
+        40.89514592426676
+      ],
+      "sourceTile": "15/17682/12298",
+      "sourceFeatureId": 17597453976171
+    },
+    {
+      "name": "Miano",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        429.241,
+        6621.38
+      ],
+      "coordinate": [
+        14.253695905208588,
+        40.88758086778029
+      ],
+      "sourceTile": "15/17681/12299",
+      "sourceFeatureId": 17596025252877
+    },
+    {
+      "name": "Molo Bausan",
+      "kind": "locality",
+      "detail": "locality",
+      "point": [
+        3082.106,
+        1035.462
+      ],
+      "coordinate": [
+        14.285190403461456,
+        40.837401713420434
+      ],
+      "sourceTile": "15/17684/12305",
+      "sourceFeatureId": 17594508097022
+    },
+    {
+      "name": "Molo San Vincenzo",
+      "kind": "locality",
+      "detail": "locality",
+      "point": [
+        1967.369,
+        512.716
+      ],
+      "coordinate": [
+        14.271956384181976,
+        40.83270580601794
+      ],
+      "sourceTile": "15/17682/12305",
+      "sourceFeatureId": 17600833520922
+    },
+    {
+      "name": "Molo del Progresso",
+      "kind": "locality",
+      "detail": "locality",
+      "point": [
+        3812.536,
+        620.476
+      ],
+      "coordinate": [
+        14.293861985206604,
+        40.83367383143221
+      ],
+      "sourceTile": "15/17684/12305",
+      "sourceFeatureId": 17599048966837
+    },
+    {
+      "name": "Montagna Spaccata",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -8999.474,
+        3800.61
+      ],
+      "coordinate": [
+        14.141759276390076,
+        40.86224146476209
+      ],
+      "sourceTile": "15/17671/12302",
+      "sourceFeatureId": 17603493404160
+    },
+    {
+      "name": "Montecalvario",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -187.772,
+        1895.405
+      ],
+      "coordinate": [
+        14.246370792388916,
+        40.84512671110576
+      ],
+      "sourceTile": "15/17680/12304",
+      "sourceFeatureId": 17597480500396
+    },
+    {
+      "name": "Monteleone",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        4366.515,
+        2027.087
+      ],
+      "coordinate": [
+        14.30043876171112,
+        40.84630962967893
+      ],
+      "sourceTile": "15/17685/12303",
+      "sourceFeatureId": 17603632268857
+    },
+    {
+      "name": "Napoli",
+      "kind": "locality",
+      "detail": "city",
+      "point": [
+        14.209,
+        866.489
+      ],
+      "coordinate": [
+        14.24876868724823,
+        40.83588379874956
+      ],
+      "sourceTile": "15/17680/12305",
+      "sourceFeatureId": 17592614383974
+    },
+    {
+      "name": "Paratina",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -2708.919,
+        6168.332
+      ],
+      "coordinate": [
+        14.21644002199173,
+        40.8835110732837
+      ],
+      "sourceTile": "15/17677/12299",
+      "sourceFeatureId": 17603493412986
+    },
+    {
+      "name": "Pendino",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        1105.448,
+        2175.48
+      ],
+      "coordinate": [
+        14.261723756790161,
+        40.847642670415894
+      ],
+      "sourceTile": "15/17682/12303",
+      "sourceFeatureId": 17597480500398
+    },
+    {
+      "name": "Pianura",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -6514.927,
+        3623.797
+      ],
+      "coordinate": [
+        14.17125552892685,
+        40.86065311935579
+      ],
+      "sourceTile": "15/17673/12302",
+      "sourceFeatureId": 17593769912826
+    },
+    {
+      "name": "Pietrarsa",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        6251.219,
+        -600.219
+      ],
+      "coordinate": [
+        14.322813749313354,
+        40.822708138311555
+      ],
+      "sourceTile": "15/17687/12306",
+      "sourceFeatureId": 17605079486263
+    },
+    {
+      "name": "Pisani",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -8360.545,
+        3632.378
+      ],
+      "coordinate": [
+        14.149344563484192,
+        40.860730204686604
+      ],
+      "sourceTile": "15/17671/12302",
+      "sourceFeatureId": 17602221070019
+    },
+    {
+      "name": "Piscinola",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -803.204,
+        7055.44
+      ],
+      "coordinate": [
+        14.239064455032349,
+        40.891480092288674
+      ],
+      "sourceTile": "15/17679/12298",
+      "sourceFeatureId": 17597137345185
+    },
+    {
+      "name": "Pizzofalcone",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -162.694,
+        386.881
+      ],
+      "coordinate": [
+        14.246668517589569,
+        40.831575410444685
+      ],
+      "sourceTile": "15/17680/12305",
+      "sourceFeatureId": 17602952400618
+    },
+    {
+      "name": "Poggioreale",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        3610.329,
+        4306.866
+      ],
+      "coordinate": [
+        14.291461408138275,
+        40.86678923671582
+      ],
+      "sourceTile": "15/17684/12301",
+      "sourceFeatureId": 17596592329185
+    },
+    {
+      "name": "Ponticelli",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        7063.209,
+        2877.88
+      ],
+      "coordinate": [
+        14.332453608512878,
+        40.8539524384654
+      ],
+      "sourceTile": "15/17688/12303",
+      "sourceFeatureId": 17595899794716
+    },
+    {
+      "name": "Pontile Flavio Gioia",
+      "kind": "locality",
+      "detail": "locality",
+      "point": [
+        2762.641,
+        1201.495
+      ],
+      "coordinate": [
+        14.281397759914398,
+        40.838893213365765
+      ],
+      "sourceTile": "15/17683/12304",
+      "sourceFeatureId": 17594508097023
+    },
+    {
+      "name": "Porta Capuana",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1495.177,
+        2968.668
+      ],
+      "coordinate": [
+        14.26635056734085,
+        40.85476799806929
+      ],
+      "sourceTile": "15/17682/12302",
+      "sourceFeatureId": 17603632220584
+    },
+    {
+      "name": "Porta Nolana",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1676.372,
+        2482.873
+      ],
+      "coordinate": [
+        14.268501698970795,
+        40.85040402870163
+      ],
+      "sourceTile": "15/17682/12303",
+      "sourceFeatureId": 17603632265641
+    },
+    {
+      "name": "Porto",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        569.318,
+        1819.06
+      ],
+      "coordinate": [
+        14.255358874797821,
+        40.84444089272682
+      ],
+      "sourceTile": "15/17681/12304",
+      "sourceFeatureId": 17597480500400
+    },
+    {
+      "name": "Posillipo",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -3888.497,
+        -1991.963
+      ],
+      "coordinate": [
+        14.202436208724976,
+        40.81020588894424
+      ],
+      "sourceTile": "15/17676/12308",
+      "sourceFeatureId": 17594819862978
+    },
+    {
+      "name": "Quartieri Spagnoli",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -183.479,
+        1489.728
+      ],
+      "coordinate": [
+        14.246421754360199,
+        40.841482458738994
+      ],
+      "sourceTile": "15/17680/12304",
+      "sourceFeatureId": 17597480500394
+    },
+    {
+      "name": "Rione Alto",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -2397.362,
+        3587.214
+      ],
+      "coordinate": [
+        14.220138788223267,
+        40.86032449141274
+      ],
+      "sourceTile": "15/17678/12302",
+      "sourceFeatureId": 17602279584340
+    },
+    {
+      "name": "Rione Antignano",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -1739.908,
+        2193.097
+      ],
+      "coordinate": [
+        14.227944016456604,
+        40.84780092917924
+      ],
+      "sourceTile": "15/17678/12303",
+      "sourceFeatureId": 17601762549228
+    },
+    {
+      "name": "Rione Berlingieri",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1945.002,
+        6650.273
+      ],
+      "coordinate": [
+        14.271690845489502,
+        40.887840417683464
+      ],
+      "sourceTile": "15/17682/12298",
+      "sourceFeatureId": 17599728461747
+    },
+    {
+      "name": "Rione Carità",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        177.33,
+        1523.837
+      ],
+      "coordinate": [
+        14.250705242156982,
+        40.84178885960995
+      ],
+      "sourceTile": "15/17681/12304",
+      "sourceFeatureId": 17597511493536
+    },
+    {
+      "name": "Rione Cavalleggeri Aosta",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -5223.514,
+        -853.511
+      ],
+      "coordinate": [
+        14.186587035655975,
+        40.82043277846887
+      ],
+      "sourceTile": "15/17675/12307",
+      "sourceFeatureId": 17603492288690
+    },
+    {
+      "name": "Rione Forcella",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1181.813,
+        2526.914
+      ],
+      "coordinate": [
+        14.262630343437195,
+        40.85079965841399
+      ],
+      "sourceTile": "15/17682/12303",
+      "sourceFeatureId": 17602279631878
+    },
+    {
+      "name": "Rione Lauro",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -4601.757,
+        427.094
+      ],
+      "coordinate": [
+        14.19396847486496,
+        40.831936652058886
+      ],
+      "sourceTile": "15/17675/12305",
+      "sourceFeatureId": 17603492267569
+    },
+    {
+      "name": "Rione Luzzatti",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        3626.144,
+        3332.033
+      ],
+      "coordinate": [
+        14.291649162769318,
+        40.858032164729934
+      ],
+      "sourceTile": "15/17684/12302",
+      "sourceFeatureId": 17597135675316
+    },
+    {
+      "name": "Rione Monte Rosa",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        172.36,
+        7983.063
+      ],
+      "coordinate": [
+        14.250646233558655,
+        40.8998130778883
+      ],
+      "sourceTile": "15/17681/12297",
+      "sourceFeatureId": 17597453976159
+    },
+    {
+      "name": "Rione Montesanto",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -301.189,
+        2222.911
+      ],
+      "coordinate": [
+        14.24502432346344,
+        40.84806875084081
+      ],
+      "sourceTile": "15/17680/12303",
+      "sourceFeatureId": 17602175599959
+    },
+    {
+      "name": "Rione Piave",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -3037.195,
+        1243.737
+      ],
+      "coordinate": [
+        14.21254277229309,
+        40.839272678064674
+      ],
+      "sourceTile": "15/17677/12304",
+      "sourceFeatureId": 17603492210599
+    },
+    {
+      "name": "Rione Sanità",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        283.065,
+        3288.9
+      ],
+      "coordinate": [
+        14.251960515975952,
+        40.85764469282469
+      ],
+      "sourceTile": "15/17681/12302",
+      "sourceFeatureId": 17600311079879
+    },
+    {
+      "name": "Rione Sant'Alfonso",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        3086.85,
+        4306.866
+      ],
+      "coordinate": [
+        14.285246729850769,
+        40.86678923671582
+      ],
+      "sourceTile": "15/17684/12301",
+      "sourceFeatureId": 17601774391689
+    },
+    {
+      "name": "Rione Sette Palazzi",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -990.951,
+        7664.164
+      ],
+      "coordinate": [
+        14.236835539340973,
+        40.89694835233465
+      ],
+      "sourceTile": "15/17679/12297",
+      "sourceFeatureId": 17604990973550
+    },
+    {
+      "name": "Rione Traiano",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -5028.537,
+        1431.902
+      ],
+      "coordinate": [
+        14.188901782035828,
+        40.840962994423535
+      ],
+      "sourceTile": "15/17675/12304",
+      "sourceFeatureId": 17603492280164
+    },
+    {
+      "name": "Rione Vasto",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        1924.669,
+        2921.468
+      ],
+      "coordinate": [
+        14.271449446678162,
+        40.85434398947845
+      ],
+      "sourceTile": "15/17682/12303",
+      "sourceFeatureId": 17602279604643
+    },
+    {
+      "name": "San Carlo all'Arena",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        1194.691,
+        5096.212
+      ],
+      "coordinate": [
+        14.262783229351044,
+        40.87388005456691
+      ],
+      "sourceTile": "15/17682/12300",
+      "sourceFeatureId": 17597537596248
+    },
+    {
+      "name": "San Ferdinando",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -154.786,
+        666.788
+      ],
+      "coordinate": [
+        14.24676239490509,
+        40.83408985478354
+      ],
+      "sourceTile": "15/17680/12305",
+      "sourceFeatureId": 17597480500395
+    },
+    {
+      "name": "San Giovanni a Teduccio",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        4907.616,
+        1099.165
+      ],
+      "coordinate": [
+        14.306862652301788,
+        40.83797396634685
+      ],
+      "sourceTile": "15/17686/12304",
+      "sourceFeatureId": 17596592329187
+    },
+    {
+      "name": "San Giuseppe",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        138.244,
+        1994.788
+      ],
+      "coordinate": [
+        14.250241219997406,
+        40.8460194817946
+      ],
+      "sourceTile": "15/17680/12304",
+      "sourceFeatureId": 17597480500401
+    },
+    {
+      "name": "San Lorenzo",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        1020.951,
+        2860.039
+      ],
+      "coordinate": [
+        14.260720610618591,
+        40.8537921656216
+      ],
+      "sourceTile": "15/17681/12303",
+      "sourceFeatureId": 17597537596250
+    },
+    {
+      "name": "San Pietro a Patierno",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        3285.216,
+        6964.477
+      ],
+      "coordinate": [
+        14.287601709365845,
+        40.890662957145736
+      ],
+      "sourceTile": "15/17684/12298",
+      "sourceFeatureId": 17596592329188
+    },
+    {
+      "name": "San Rocco",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -765.7,
+        5518.622
+      ],
+      "coordinate": [
+        14.23950970172882,
+        40.87767462825721
+      ],
+      "sourceTile": "15/17680/12300",
+      "sourceFeatureId": 17602175596681
+    },
+    {
+      "name": "Santa Croce",
+      "kind": "locality",
+      "detail": "village",
+      "point": [
+        -3149.934,
+        5074.087
+      ],
+      "coordinate": [
+        14.21120434999466,
+        40.87368129484619
+      ],
+      "sourceTile": "15/17677/12300",
+      "sourceFeatureId": 17602175599871
+    },
+    {
+      "name": "Santa Maria del Pozzo",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        6842.25,
+        1014.453
+      ],
+      "coordinate": [
+        14.329830408096313,
+        40.83721299062745
+      ],
+      "sourceTile": "15/17688/12305",
+      "sourceFeatureId": 17603635487411
+    },
+    {
+      "name": "Scampia",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -635.79,
+        8002.472
+      ],
+      "coordinate": [
+        14.241051971912384,
+        40.89998743085226
+      ],
+      "sourceTile": "15/17680/12297",
+      "sourceFeatureId": 17593432651482
+    },
+    {
+      "name": "Secondigliano",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        1432.594,
+        6830.851
+      ],
+      "coordinate": [
+        14.265607595443726,
+        40.88946258151361
+      ],
+      "sourceTile": "15/17682/12298",
+      "sourceFeatureId": 17596592329189
+    },
+    {
+      "name": "Soccavo",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -4438.409,
+        1430.095
+      ],
+      "coordinate": [
+        14.195907711982727,
+        40.84094676109808
+      ],
+      "sourceTile": "15/17676/12304",
+      "sourceFeatureId": 17593769912831
+    },
+    {
+      "name": "Stadera",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        4594.478,
+        5242.738
+      ],
+      "coordinate": [
+        14.303145110607147,
+        40.87519631561574
+      ],
+      "sourceTile": "15/17685/12300",
+      "sourceFeatureId": 17605078688838
+    },
+    {
+      "name": "Stella",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -296.896,
+        4100.484
+      ],
+      "coordinate": [
+        14.245075285434723,
+        40.86493527639928
+      ],
+      "sourceTile": "15/17680/12301",
+      "sourceFeatureId": 17597537596249
+    },
+    {
+      "name": "Terra di mezzo",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        2499.207,
+        6917.753
+      ],
+      "coordinate": [
+        14.278270304203033,
+        40.89024323368281
+      ],
+      "sourceTile": "15/17683/12298",
+      "sourceFeatureId": 17605334046966
+    },
+    {
+      "name": "Traccia",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        4062.188,
+        4089.194
+      ],
+      "coordinate": [
+        14.29682582616806,
+        40.86483385475336
+      ],
+      "sourceTile": "15/17685/12301",
+      "sourceFeatureId": 17602159006148
+    },
+    {
+      "name": "Vallone della Gaiola",
+      "kind": "locality",
+      "detail": "locality",
+      "point": [
+        -5310.497,
+        -3627.863
+      ],
+      "coordinate": [
+        14.185554385185242,
+        40.79551034940536
+      ],
+      "sourceTile": "15/17675/12310",
+      "sourceFeatureId": 17596141502715
+    },
+    {
+      "name": "Verdolino",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -3430.312,
+        2655.197
+      ],
+      "coordinate": [
+        14.207875728607178,
+        40.85195204329381
+      ],
+      "sourceTile": "15/17677/12303",
+      "sourceFeatureId": 17603969967522
+    },
+    {
+      "name": "Vesuvio De Meis",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        8038.095,
+        2984.928
+      ],
+      "coordinate": [
+        14.34402734041214,
+        40.854914067386005
+      ],
+      "sourceTile": "15/17689/12302",
+      "sourceFeatureId": 17602892351708
+    },
+    {
+      "name": "Vicaria",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        1723.14,
+        3335.647
+      ],
+      "coordinate": [
+        14.269056916236877,
+        40.858064623006555
+      ],
+      "sourceTile": "15/17682/12302",
+      "sourceFeatureId": 17597537596251
+    },
+    {
+      "name": "Villanova di Posillipo",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -3442.512,
+        -748.443
+      ],
+      "coordinate": [
+        14.207730889320374,
+        40.821376625879196
+      ],
+      "sourceTile": "15/17677/12306",
+      "sourceFeatureId": 17603632271912
+    },
+    {
+      "name": "Vomero",
+      "kind": "neighbourhood",
+      "detail": "suburb",
+      "point": [
+        -1947.311,
+        1752.879
+      ],
+      "coordinate": [
+        14.225481748580933,
+        40.8438463757858
+      ],
+      "sourceTile": "15/17678/12304",
+      "sourceFeatureId": 17596592329192
+    },
+    {
+      "name": "lotto W isolato K",
+      "kind": "neighbourhood",
+      "detail": "neighbourhood",
+      "point": [
+        -522.6,
+        8850.545
+      ],
+      "coordinate": [
+        14.242395758628845,
+        40.907605801072464
+      ],
+      "sourceTile": "15/17680/12296",
+      "sourceFeatureId": 17597453975425
+    }
+  ],
+  "derivation": "Decode checked PMTiles z15; select original municipal coverage; clip tile buffers; preserve polygon holes; subtract mapped water from earth; exclude central rectangle from new land and intersecting new buildings; retain central world exactly. Local coordinates use the unchanged geo.ts origin. No source geometry is synthesized.",
+  "output": {
+    "path": "public/data/photo-world.json",
+    "sha256": "3a88e5a31113dff56e7242cda3875e93cb38eb88277e81217ddaa4e06b4ab66c",
+    "bytes": 21525427
+  },
+  "districtAnchors": {
+    "path": "public/data/photo-districts.json",
+    "sha256": "e89dd192e57796b7f4b11952d56cae605a18592d58d82b713ef5973635b4ce6b",
+    "worldSha256": "3a88e5a31113dff56e7242cda3875e93cb38eb88277e81217ddaa4e06b4ab66c",
+    "generatorSha256": "ccba8fdbe15bdf73943357f19f4973bbada6af9fb82c9020ad01f418a5238a9c",
+    "count": 30
+  }
+}

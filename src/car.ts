@@ -8,7 +8,6 @@ import {KHR_materials_variants} from '@babylonjs/loaders/glTF/2.0/Extensions/KHR
 import {PBRMaterial} from '@babylonjs/core/Materials/PBR/pbrMaterial';
 import {Color3} from '@babylonjs/core/Maths/math.color';
 import type {AbstractMesh} from '@babylonjs/core/Meshes/abstractMesh';
-import type {GroundCheck,GroundPoint} from './movement';
 
 export interface CarDimensions {radius:number;halfLength:number;width:number;length:number;height:number}
 export type CarVariant='Pearly Swirly'|'Torched Graphite'|'Carmine Candy';
@@ -64,17 +63,7 @@ export function normalizeCarModel(pivot:TransformNode,front:TransformNode[],rear
   return {radius:width/2+.025,halfLength:length/2+.025,width,length,height};
 }
 
-/** A sampled capsule along the whole car body, including its front/rear overhang. */
-export function canStandForCar(position:GroundPoint,heading:number,worldCheck:GroundCheck,radius=.98,halfLength=2.225):boolean {
-  if(!finite(position.x,position.z,heading,radius,halfLength)||radius<=0||halfLength<radius)return false;
-  const extent=halfLength-radius,steps=Math.max(1,Math.ceil(extent*2/Math.min(radius*.45,.35)));
-  const dx=Math.sin(heading),dz=Math.cos(heading);
-  for(let i=0;i<=steps;i++){
-    const offset=-extent+extent*2*i/steps;
-    if(!worldCheck(position.x+dx*offset,position.z+dz*offset,radius))return false;
-  }
-  return true;
-}
+export {canStandForCar} from './vehicle-clearance';
 
 /** Preserve the authored steering/axle orientation while exposing a zero-rotation local X spinner. */
 export function createWheelSpinPivot(wheel:TransformNode):TransformNode {

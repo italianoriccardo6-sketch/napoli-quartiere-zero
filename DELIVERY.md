@@ -1,16 +1,18 @@
-# Preview 0.5.0-preview.1
+# Preview 0.6.0-preview.1 — partita fotografica nativa
 
-La revisione aggiunge traffico e pattuglia mobili, uno scontro facoltativo animato, nove tappe narrative successive al prologo, lettura facoltativa dei dialoghi, confine ISTAT completo di Napoli e trasporto dei settori geografici. Il gioco conserva la mappa centrale esistente. La pagina fotografica separata è predisposta per Maps JavaScript 3D, ma nessun account, chiave o costo Google è stato attivato: copertura reale e resa del servizio non sono state provate. Costi e configurazione in `public/PHOTOREAL-SETUP.txt`.
+`/photoreal.html` avvia ora la partita con **Gioca a Napoli**, usando la chiave Maps JavaScript già configurata. Guida e cammino, prima persona e avatar statico in terza persona, interazioni, colpi con mano visibile, traffico locale, pattuglia e storia operano nella stessa mappa nativa Google. Vista libera e partita condividono l’istanza; non serve un server GPU né Geocoding API per i quartieri.
 
-Le verifiche includono test del controller su percorso completo della nuova storia, traffico, collisioni, inseguimento, colpi sullo scheletro e mesh skinnata reali, loader e fonti geografiche; i test Google usano un adattatore locale. I resoconti precedenti sono conservati sotto come storia del progetto. Stato corrente e limiti nel README; non è la consegna finale di tutta Napoli fotorealistica.
+Il mondo indipendente di collisione copre l’estensione comunale: **56.201 edifici, 23.373 parti di strada e 30 arrivi di viaggio rapido** da fonti cartografiche. La base centrale non è sovrascritta. Archivio PMTiles fissato con hash, fonti e licenze in `data/photo-world/`; mondo, destinazioni e GLB sono preparati da `pretest`/`prebuild`. La geometria vettoriale ha quantizzazione circa 0,25 m e non certifica ogni ostacolo, strada o altezza. Traffico e pattuglia restano entro 500 m dalla partenza; la storia conserva il percorso centrale. Prologo e campagna sono salvati localmente, mentre posizione, salute e scontro ripartono al ricaricamento.
+
+Verifica della revisione: 255 test superati, controllo TypeScript e build superati. Le prove automatiche esercitano controller, collisioni, combattimento, traffico, salvataggi e confine SDK con un adattatore locale. Le fotografie Google sono archiviate, non in diretta. Resa nativa dei GLB, assi, contatto con la strada, dettaglio dei singoli quartieri e Safari/Mac non sono verificati visivamente senza la chiave dell’utente. Terreno naturale DTM e superficie fotografica DSM possono differire. Nessuna immagine o mesh Google è estratta o distribuita nel repository. Stato, controlli e limiti nel README; configurazione e costi in `public/PHOTOREAL-SETUP.txt`.
 
 ---
 
-# Stato corrente e documentazione storica
+# Base conservata e documentazione storica
 
-La base integrata è la **0.4.2**: geografia OSM, terreno DTM regionale relativo, auto, prologo e tre fronti fotografici. I paragrafi 0.3/0.3.1 qui sotto sono conservati come resoconto storico e non descrivono il terreno o la grafica correnti.
+La base Babylon conservata è la **0.4.2**: geografia OSM, terreno DTM regionale relativo, auto, prologo e tre fronti fotografici. I paragrafi 0.3/0.3.1 qui sotto sono conservati come resoconto storico e non descrivono il terreno o la grafica correnti.
 
-Il ramo `work/napoli-city-streaming` aggiunge caricamento progressivo dei volumi e dettagli delle facciate durante l'esplorazione, una procedura di acquisizione offline per singoli settori e la correzione dell'importazione della calibrazione fotografica in Vite dev. Non contiene ancora l'intera città. Nessun deploy è stato eseguito per questo lavoro. Stato e limiti aggiornati nel README.
+Resoconto storico precedente alla partita fotografica: il ramo `work/napoli-city-streaming` preparava il caricamento progressivo dei volumi e dettagli delle facciate, l’acquisizione offline per singoli settori e la correzione Vite della calibrazione fotografica. In quella fase precedente alla 0.5 non conteneva l’intera città e il relativo lavoro non era stato pubblicato. Queste note non descrivono il mondo comunale o lo stato del deploy della revisione corrente.
 
 ---
 

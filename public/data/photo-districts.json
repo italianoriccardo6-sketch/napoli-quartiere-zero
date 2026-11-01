@@ -1,0 +1,1179 @@
+{
+  "version": 1,
+  "worldSha256": "3a88e5a31113dff56e7242cda3875e93cb38eb88277e81217ddaa4e06b4ab66c",
+  "sourceSnapshot": "2026-03-08T04:00:00Z",
+  "vehicle": {
+    "radius": 1.3085043,
+    "halfLength": 2.225,
+    "footRadius": 0.5
+  },
+  "notice": "Place-label and explicit street references, not administrative district boundaries. Drive placements and adjacent foot positions are checked against the published source collision world.",
+  "districts": [
+    {
+      "name": "San Ferdinando",
+      "position": [
+        -154.786,
+        666.788
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17680/12305",
+        "id": 17597480500395,
+        "label": "San Ferdinando",
+        "coordinate": [
+          14.24676239490509,
+          40.83408985478354
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -166.5210594916685,
+          663.1288904097403
+        ],
+        "heading": -0.30225618644922114,
+        "footPosition": [
+          -164.55587273000364,
+          663.7416554094716
+        ],
+        "roadName": "Via Egiziaca a Pizzofalcone",
+        "source": {
+          "roadId": "way/338504502",
+          "layer": "roads",
+          "tile": null,
+          "id": "way/338504502",
+          "segment": 0,
+          "fraction": 0.6947227784650617
+        }
+      },
+      "distanceFromReference": 12.292302642976603
+    },
+    {
+      "name": "Chiaia",
+      "position": [
+        -1712.57,
+        798.04
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17678/12305",
+        "id": 17596592329176,
+        "label": "Chiaia",
+        "coordinate": [
+          14.228268563747406,
+          40.835268911658915
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -1720.3608528237546,
+          839.1214647791026
+        ],
+        "heading": -1.7582146433669124,
+        "footPosition": [
+          -1720.7443996117431,
+          841.1439216549202
+        ],
+        "roadName": "Via Francesco Crispi",
+        "source": {
+          "roadId": "mvt-road/35184728914055/15/17679/12305/14/0-0",
+          "layer": "roads",
+          "tile": "15/17679/12305",
+          "id": 35184728914055,
+          "segment": 4,
+          "fraction": 0.9610734850900361
+        }
+      },
+      "distanceFromReference": 41.813683599009224
+    },
+    {
+      "name": "Posillipo",
+      "position": [
+        -3888.497,
+        -1991.963
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17676/12308",
+        "id": 17594819862978,
+        "label": "Posillipo",
+        "coordinate": [
+          14.202436208724976,
+          40.81020588894424
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -3787.281,
+          -1964.393
+        ],
+        "heading": -2.393384350357008,
+        "footPosition": [
+          -3788.7896962945742,
+          -1962.9925445584183
+        ],
+        "roadName": null,
+        "source": {
+          "roadId": "mvt-road/35184929403554/15/17676/12308/24/6-0",
+          "layer": "roads",
+          "tile": "15/17676/12308",
+          "id": 35184929403554,
+          "segment": 12,
+          "fraction": 1
+        }
+      },
+      "distanceFromReference": 104.90368704673814
+    },
+    {
+      "name": "San Giuseppe",
+      "position": [
+        138.244,
+        1994.788
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17680/12304",
+        "id": 17597480500401,
+        "label": "San Giuseppe",
+        "coordinate": [
+          14.250241219997406,
+          40.8460194817946
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          134.33720938711178,
+          2006.0340527107323
+        ],
+        "heading": -1.9051460225353396,
+        "footPosition": [
+          133.6617010189788,
+          2007.9785650911765
+        ],
+        "roadName": "Via Tommaso Senise",
+        "source": {
+          "roadId": "mvt-road/35184485600992/15/17681/12304/196/0-0",
+          "layer": "roads",
+          "tile": "15/17681/12304",
+          "id": 35184485600992,
+          "segment": 0,
+          "fraction": 0.3022898115539036
+        }
+      },
+      "distanceFromReference": 11.905322946712595
+    },
+    {
+      "name": "Montecalvario",
+      "position": [
+        -187.772,
+        1895.405
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17680/12304",
+        "id": 17597480500396,
+        "label": "Montecalvario",
+        "coordinate": [
+          14.246370792388916,
+          40.84512671110576
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -202.23850820999218,
+          1882.709692016709
+        ],
+        "heading": -0.7202811595317193,
+        "footPosition": [
+          -200.2762100408144,
+          1880.4736216029603
+        ],
+        "roadName": "Vico Pergolella Morbillo",
+        "source": {
+          "roadId": "mvt-road/35184765583154/15/17680/12304/231/0-0",
+          "layer": "roads",
+          "tile": "15/17680/12304",
+          "id": 35184765583154,
+          "segment": 0,
+          "fraction": 0.5382690962114063
+        }
+      },
+      "distanceFromReference": 19.24709600382315
+    },
+    {
+      "name": "Avvocata",
+      "position": [
+        -499.329,
+        2669.2
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17680/12303",
+        "id": 17597480500397,
+        "label": "Avvocata",
+        "coordinate": [
+          14.24267202615738,
+          40.85207783057092
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -474.39620671729233,
+          2693.5473066629124
+        ],
+        "heading": -0.7735179303013273,
+        "footPosition": [
+          -472.92343483602775,
+          2694.9854940425244
+        ],
+        "roadName": "Via San Mandato",
+        "source": {
+          "roadId": "mvt-road/35184539931747/15/17680/12303/41/0-0",
+          "layer": "roads",
+          "tile": "15/17680/12303",
+          "id": 35184539931747,
+          "segment": 1,
+          "fraction": 0.0405162128169147
+        }
+      },
+      "distanceFromReference": 34.84875209553625
+    },
+    {
+      "name": "Mercato",
+      "position": [
+        1965.11,
+        2254.983
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17682/12303",
+        "id": 17597480500399,
+        "label": "Mercato",
+        "coordinate": [
+          14.271929562091827,
+          40.84835686081365
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          1997.216987978801,
+          2250.5115366600794
+        ],
+        "heading": -3.0032150996128424,
+        "footPosition": [
+          1995.1781607279117,
+          2250.7954792496116
+        ],
+        "roadName": "I Traversa Enrico Cosenz",
+        "source": {
+          "roadId": "mvt-road/35184693087779/15/17683/12303/46/0-0",
+          "layer": "roads",
+          "tile": "15/17683/12303",
+          "id": 35184693087779,
+          "segment": 0,
+          "fraction": 0.5041886551113228
+        }
+      },
+      "distanceFromReference": 32.41685767422762
+    },
+    {
+      "name": "Pendino",
+      "position": [
+        1105.448,
+        2175.48
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17682/12303",
+        "id": 17597480500398,
+        "label": "Pendino",
+        "coordinate": [
+          14.261723756790161,
+          40.847642670415894
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          1108.7302492741373,
+          2171.6172226567983
+        ],
+        "heading": -2.275123320618476,
+        "footPosition": [
+          1107.3973242775814,
+          2173.185900732974
+        ],
+        "roadName": "Piazza Nicola Amore",
+        "source": {
+          "roadId": "mvt-road/35184638763584/15/17682/12303/11/1-0",
+          "layer": "roads",
+          "tile": "15/17682/12303",
+          "id": 35184638763584,
+          "segment": 3,
+          "fraction": 0.12367213941183516
+        }
+      },
+      "distanceFromReference": 5.068945561034095
+    },
+    {
+      "name": "Porto",
+      "position": [
+        569.318,
+        1819.06
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17681/12304",
+        "id": 17597480500400,
+        "label": "Porto",
+        "coordinate": [
+          14.255358874797821,
+          40.84444089272682
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          562.719382868111,
+          1829.8419040118183
+        ],
+        "heading": -2.1199988636965954,
+        "footPosition": [
+          561.6448287900213,
+          1831.5976868817595
+        ],
+        "roadName": "Via Sedile di Porto",
+        "source": {
+          "roadId": "mvt-road/35184399268553/15/17681/12304/39/0-0",
+          "layer": "roads",
+          "tile": "15/17681/12304",
+          "id": 35184399268553,
+          "segment": 1,
+          "fraction": 0.13180452815754326
+        }
+      },
+      "distanceFromReference": 12.640854487467374
+    },
+    {
+      "name": "San Lorenzo",
+      "position": [
+        1020.951,
+        2860.039
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17681/12303",
+        "id": 17597537596250,
+        "label": "San Lorenzo",
+        "coordinate": [
+          14.260720610618591,
+          40.8537921656216
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          1035.3010468309028,
+          2866.69695023984
+        ],
+        "heading": -0.4344081062914409,
+        "footPosition": [
+          1037.16835583855,
+          2867.5633202664903
+        ],
+        "roadName": "Via Pietro Trinchera",
+        "source": {
+          "roadId": "mvt-road/35184556094432/15/17682/12303/60/0-0",
+          "layer": "roads",
+          "tile": "15/17682/12303",
+          "id": 35184556094432,
+          "segment": 2,
+          "fraction": 0.3513107309195945
+        }
+      },
+      "distanceFromReference": 15.819359830451026
+    },
+    {
+      "name": "Stella",
+      "position": [
+        -296.896,
+        4100.484
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17680/12301",
+        "id": 17597537596249,
+        "label": "Stella",
+        "coordinate": [
+          14.245075285434723,
+          40.86493527639928
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -309.3109356606137,
+          4114.6252528484665
+        ],
+        "heading": -2.2912796158471194,
+        "footPosition": [
+          -310.6690296205539,
+          4116.172192003409
+        ],
+        "roadName": "Via San Gennaro dei Poveri",
+        "source": {
+          "roadId": "mvt-road/35184786537567/15/17680/12301/40/0-0",
+          "layer": "roads",
+          "tile": "15/17680/12301",
+          "id": 35184786537567,
+          "segment": 9,
+          "fraction": 0.17500661885362498
+        }
+      },
+      "distanceFromReference": 18.81769538443615
+    },
+    {
+      "name": "San Carlo all’Arena",
+      "position": [
+        1194.691,
+        5096.212
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17682/12300",
+        "id": 17597537596248,
+        "label": "San Carlo all'Arena",
+        "coordinate": [
+          14.262783229351044,
+          40.87388005456691
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          1201.2178092277643,
+          5085.870926029141
+        ],
+        "heading": 1.0077839651468756,
+        "footPosition": [
+          1202.3165071257379,
+          5084.13014951215
+        ],
+        "roadName": null,
+        "source": {
+          "roadId": "mvt-road/35185583366516/15/17682/12300/27/1-0",
+          "layer": "roads",
+          "tile": "15/17682/12300",
+          "id": 35185583366516,
+          "segment": 0,
+          "fraction": 0.6832508630130627
+        }
+      },
+      "distanceFromReference": 12.228534236220677
+    },
+    {
+      "name": "Vomero",
+      "position": [
+        -1947.311,
+        1752.879
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17678/12304",
+        "id": 17596592329192,
+        "label": "Vomero",
+        "coordinate": [
+          14.225481748580933,
+          40.8438463757858
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -1943.47,
+          1754.686
+        ],
+        "heading": 3.0729403370065396,
+        "footPosition": [
+          -1945.5236551949245,
+          1754.5447898959771
+        ],
+        "roadName": "Via Mario de Ciccio",
+        "source": {
+          "roadId": "mvt-road/35184782159701/15/17678/12304/77/0-0",
+          "layer": "roads",
+          "tile": "15/17678/12304",
+          "id": 35184782159701,
+          "segment": 0,
+          "fraction": 1
+        }
+      },
+      "distanceFromReference": 4.244823906830441
+    },
+    {
+      "name": "Arenella",
+      "position": [
+        -1961.996,
+        2854.393
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17678/12303",
+        "id": 17596592329169,
+        "label": "Arenella",
+        "coordinate": [
+          14.225307404994965,
+          40.85374144628645
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -1950.431989007708,
+          2860.242633551341
+        ],
+        "heading": 2.6732774782987185,
+        "footPosition": [
+          -1952.2688542658686,
+          2859.313458661193
+        ],
+        "roadName": "Via Pietro Castellino",
+        "source": {
+          "roadId": "mvt-road/35184782193794/15/17678/12303/33/0-0",
+          "layer": "roads",
+          "tile": "15/17678/12303",
+          "id": 35184782193794,
+          "segment": 3,
+          "fraction": 0.0909364798933787
+        }
+      },
+      "distanceFromReference": 12.959342688378474
+    },
+    {
+      "name": "Bagnoli",
+      "position": [
+        -6870.089,
+        -1200.587
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17673/12307",
+        "id": 17594819715553,
+        "label": "Bagnoli",
+        "coordinate": [
+          14.167039096355438,
+          40.81731494189032
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -6870.24876298796,
+          -1202.731681779585
+        ],
+        "heading": 1.6451516242304065,
+        "footPosition": [
+          -6870.401682688398,
+          -1204.7844982639149
+        ],
+        "roadName": null,
+        "source": {
+          "roadId": "mvt-road/35184496102966/15/17673/12307/36/0-0",
+          "layer": "roads",
+          "tile": "15/17673/12307",
+          "id": 35184496102966,
+          "segment": 0,
+          "fraction": 0.6413917696491995
+        }
+      },
+      "distanceFromReference": 2.15062412987616
+    },
+    {
+      "name": "Fuorigrotta",
+      "position": [
+        -4396.838,
+        28.115
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17676/12306",
+        "id": 17595326632695,
+        "label": "Fuorigrotta",
+        "coordinate": [
+          14.196401238441467,
+          40.8283525610764
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -4378.712269134272,
+          70.341774700886
+        ],
+        "heading": -1.1653336486913894,
+        "footPosition": [
+          -4377.900304532637,
+          72.23337546183193
+        ],
+        "roadName": "Via Pietro Jacopo De Gennaro",
+        "source": {
+          "roadId": "mvt-road/35184376164284/15/17676/12306/24/0-0",
+          "layer": "roads",
+          "tile": "15/17676/12306",
+          "id": 35184376164284,
+          "segment": 3,
+          "fraction": 0.7559683018745219
+        }
+      },
+      "distanceFromReference": 45.952612777253286
+    },
+    {
+      "name": "Soccavo",
+      "position": [
+        -4438.409,
+        1430.095
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17676/12304",
+        "id": 17593769912831,
+        "label": "Soccavo",
+        "coordinate": [
+          14.195907711982727,
+          40.84094676109808
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -4477.721,
+          1439.808
+        ],
+        "heading": 0.6824207161160277,
+        "footPosition": [
+          -4476.123501211514,
+          1438.5097559651956
+        ],
+        "roadName": null,
+        "source": {
+          "roadId": "mvt-road/35184631167945/15/17676/12304/77/3-0",
+          "layer": "roads",
+          "tile": "15/17676/12304",
+          "id": 35184631167945,
+          "segment": 4,
+          "fraction": 1
+        }
+      },
+      "distanceFromReference": 40.494144181597306
+    },
+    {
+      "name": "Pianura",
+      "position": [
+        -6514.927,
+        3623.797
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17673/12302",
+        "id": 17593769912826,
+        "label": "Pianura",
+        "coordinate": [
+          14.17125552892685,
+          40.86065311935579
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -6493.114467580311,
+          3610.6765327147073
+        ],
+        "heading": -2.6000632315493823,
+        "footPosition": [
+          -6494.87844385912,
+          3611.7375829684256
+        ],
+        "roadName": "Via Provinciale Napoli",
+        "source": {
+          "roadId": "mvt-road/35184879068981/15/17673/12302/32/0-0",
+          "layer": "roads",
+          "tile": "15/17673/12302",
+          "id": 35184879068981,
+          "segment": 1,
+          "fraction": 0.9637987254555336
+        }
+      },
+      "distanceFromReference": 25.45453264832062
+    },
+    {
+      "name": "Chiaiano",
+      "position": [
+        -2575.395,
+        6975.085
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17678/12298",
+        "id": 17596592329177,
+        "label": "Chiaiano",
+        "coordinate": [
+          14.218025207519531,
+          40.89075825630508
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -2576.106957401436,
+          6964.751050300825
+        ],
+        "heading": 1.6395826262482343,
+        "footPosition": [
+          -2576.2484426588076,
+          6962.697414044069
+        ],
+        "roadName": null,
+        "source": {
+          "roadId": "mvt-road/35184668117021/15/17678/12298/33/2-0",
+          "layer": "roads",
+          "tile": "15/17678/12298",
+          "id": 35184668117021,
+          "segment": 1,
+          "fraction": 0.4891337392943281
+        }
+      },
+      "distanceFromReference": 10.35844581617023
+    },
+    {
+      "name": "Piscinola",
+      "position": [
+        -803.204,
+        7055.44
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17679/12298",
+        "id": 17597137345185,
+        "label": "Piscinola",
+        "coordinate": [
+          14.239064455032349,
+          40.891480092288674
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -837.545,
+          7039.414
+        ],
+        "heading": 2.1061152877902627,
+        "footPosition": [
+          -838.5950747559808,
+          7037.643468170303
+        ],
+        "roadName": "Via del Salvatore",
+        "source": {
+          "roadId": "mvt-road/35184877188629/15/17680/12298/75/0-0",
+          "layer": "roads",
+          "tile": "15/17680/12298",
+          "id": 35184877188629,
+          "segment": 1,
+          "fraction": 1
+        }
+      },
+      "distanceFromReference": 37.89639767840731
+    },
+    {
+      "name": "Vicaria",
+      "position": [
+        1723.14,
+        3335.647
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17682/12302",
+        "id": 17597537596251,
+        "label": "Vicaria",
+        "coordinate": [
+          14.269056916236877,
+          40.858064623006555
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          1734.99502656181,
+          3324.6533305977664
+        ],
+        "heading": -2.3938749541331674,
+        "footPosition": [
+          1733.4856433801008,
+          3326.0530456987394
+        ],
+        "roadName": "Via Martiri d'Otranto",
+        "source": {
+          "roadId": "mvt-road/35184701105483/15/17682/12302/97/0-0",
+          "layer": "roads",
+          "tile": "15/17682/12302",
+          "id": 35184701105483,
+          "segment": 1,
+          "fraction": 0.6025310640667579
+        }
+      },
+      "distanceFromReference": 16.167944263474645
+    },
+    {
+      "name": "Scampia",
+      "position": [
+        -635.79,
+        8002.472
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17680/12297",
+        "id": 17593432651482,
+        "label": "Scampia",
+        "coordinate": [
+          14.241051971912384,
+          40.89998743085226
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          -684.0504775768887,
+          7933.847899109348
+        ],
+        "heading": 2.1837058121477972,
+        "footPosition": [
+          -685.2346317348379,
+          7932.164088287631
+        ],
+        "roadName": "Viale della Resistenza",
+        "source": {
+          "roadId": "mvt-road/35184774151647/15/17680/12297/26/0-0",
+          "layer": "roads",
+          "tile": "15/17680/12297",
+          "id": 35184774151647,
+          "segment": 1,
+          "fraction": 0.6350681576334387
+        }
+      },
+      "distanceFromReference": 83.8948205731423
+    },
+    {
+      "name": "Miano",
+      "position": [
+        429.241,
+        6621.38
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17681/12299",
+        "id": 17596025252877,
+        "label": "Miano",
+        "coordinate": [
+          14.253695905208588,
+          40.88758086778029
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          429.95271993201146,
+          6643.49548584549
+        ],
+        "heading": 1.6029671949830517,
+        "footPosition": [
+          429.886507484149,
+          6641.438046693324
+        ],
+        "roadName": "Via Lazio",
+        "source": {
+          "roadId": "mvt-road/35184407820367/15/17681/12299/5/0-0",
+          "layer": "roads",
+          "tile": "15/17681/12299",
+          "id": 35184407820367,
+          "segment": 6,
+          "fraction": 0.3647833577345051
+        }
+      },
+      "distanceFromReference": 22.126935157036527
+    },
+    {
+      "name": "Secondigliano",
+      "position": [
+        1432.594,
+        6830.851
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17682/12298",
+        "id": 17596592329189,
+        "label": "Secondigliano",
+        "coordinate": [
+          14.265607595443726,
+          40.88946258151361
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          1436.014625009004,
+          6833.667328712992
+        ],
+        "heading": 2.452782654528008,
+        "footPosition": [
+          1434.4254536197377,
+          6832.358904374844
+        ],
+        "roadName": "Via Canonico Cosimo Stornaiuolo",
+        "source": {
+          "roadId": "mvt-road/35184507605428/15/17682/12298/22/0-0",
+          "layer": "roads",
+          "tile": "15/17682/12298",
+          "id": 35184507605428,
+          "segment": 2,
+          "fraction": 0.6479771171638886
+        }
+      },
+      "distanceFromReference": 4.430844487436449
+    },
+    {
+      "name": "San Pietro a Patierno",
+      "position": [
+        3285.216,
+        6964.477
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17684/12298",
+        "id": 17596592329188,
+        "label": "San Pietro a Patierno",
+        "coordinate": [
+          14.287601709365845,
+          40.890662957145736
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          3257.201,
+          7056.117
+        ],
+        "heading": -1.9601425377378596,
+        "footPosition": [
+          3256.419625447958,
+          7058.021440537937
+        ],
+        "roadName": "Via Principe di Napoli a San Pietro a Patierno",
+        "source": {
+          "roadId": "mvt-road/35184456142571/15/17684/12298/9/0-0",
+          "layer": "roads",
+          "tile": "15/17684/12298",
+          "id": 35184456142571,
+          "segment": 2,
+          "fraction": 1
+        }
+      },
+      "distanceFromReference": 95.8265611665161
+    },
+    {
+      "name": "Poggioreale",
+      "position": [
+        3610.329,
+        4306.866
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17684/12301",
+        "id": 17596592329185,
+        "label": "Poggioreale",
+        "coordinate": [
+          14.291461408138275,
+          40.86678923671582
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          3605.584,
+          4344.8
+        ],
+        "heading": -0.5116682477682014,
+        "footPosition": [
+          3607.378869375483,
+          4345.807910649844
+        ],
+        "roadName": null,
+        "source": {
+          "roadId": "mvt-road/35184593918380/15/17684/12301/52/0-0",
+          "layer": "roads",
+          "tile": "15/17684/12301",
+          "id": 35184593918380,
+          "segment": 0,
+          "fraction": 0
+        }
+      },
+      "distanceFromReference": 38.22961392690251
+    },
+    {
+      "name": "Zona Industriale",
+      "position": [
+        3090.239,
+        1704.993
+      ],
+      "source": {
+        "layer": "roads",
+        "tile": "15/17684/12304",
+        "id": 35184395818542,
+        "label": "Via Emanuele Gianturco",
+        "referenceKind": "Explicit street reference for Zona Industriale; not an administrative centroid"
+      },
+      "drive": {
+        "position": [
+          3090.239,
+          1704.993
+        ],
+        "heading": 0.47631481103137463,
+        "footPosition": [
+          3092.068373502757,
+          1704.0491607443373
+        ],
+        "roadName": "Via Emanuele Gianturco",
+        "source": {
+          "roadId": "mvt-road/35184395818542/15/17684/12304/8/0-0",
+          "layer": "roads",
+          "tile": "15/17684/12304",
+          "id": 35184395818542,
+          "segment": 0,
+          "fraction": 0
+        }
+      },
+      "distanceFromReference": 0
+    },
+    {
+      "name": "San Giovanni a Teduccio",
+      "position": [
+        4907.616,
+        1099.165
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17686/12304",
+        "id": 17596592329187,
+        "label": "San Giovanni a Teduccio",
+        "coordinate": [
+          14.306862652301788,
+          40.83797396634685
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          4895.19,
+          1120.173
+        ],
+        "heading": 2.221841299183934,
+        "footPosition": [
+          4893.942509421915,
+          1118.5355607764839
+        ],
+        "roadName": null,
+        "source": {
+          "roadId": "mvt-road/35184581068464/15/17686/12305/54/0-0",
+          "layer": "roads",
+          "tile": "15/17686/12305",
+          "id": 35184581068464,
+          "segment": 2,
+          "fraction": 1
+        }
+      },
+      "distanceFromReference": 24.40781719040052
+    },
+    {
+      "name": "Barra",
+      "position": [
+        6002.922,
+        1319.636
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17687/12304",
+        "id": 17596592329171,
+        "label": "Barra",
+        "coordinate": [
+          14.319866001605988,
+          40.83995449153073
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          6019.977199457232,
+          1279.59291268308
+        ],
+        "heading": 1.1681456807641362,
+        "footPosition": [
+          6020.7838416135555,
+          1277.699036133576
+        ],
+        "roadName": "Via Suor Maria della Passione Beata",
+        "source": {
+          "roadId": "mvt-road/35184583129505/15/17687/12304/50/0-0",
+          "layer": "roads",
+          "tile": "15/17687/12304",
+          "id": 35184583129505,
+          "segment": 5,
+          "fraction": 0.2689143756548507
+        }
+      },
+      "distanceFromReference": 43.523886205122636
+    },
+    {
+      "name": "Ponticelli",
+      "position": [
+        7063.209,
+        2877.88
+      ],
+      "source": {
+        "layer": "places",
+        "tile": "15/17688/12303",
+        "id": 17595899794716,
+        "label": "Ponticelli",
+        "coordinate": [
+          14.332453608512878,
+          40.8539524384654
+        ],
+        "referenceKind": "OSM place label, not district boundary or guaranteed road position"
+      },
+      "drive": {
+        "position": [
+          7037.452464447636,
+          2866.2912596970955
+        ],
+        "heading": -0.42279901444391477,
+        "footPosition": [
+          7039.329705170431,
+          2867.1358940687596
+        ],
+        "roadName": "Corso Ponticelli",
+        "source": {
+          "roadId": "mvt-road/35184947298042/15/17688/12303/42/0-0",
+          "layer": "roads",
+          "tile": "15/17688/12303",
+          "id": 35184947298042,
+          "segment": 1,
+          "fraction": 0.7092311582176605
+        }
+      },
+      "distanceFromReference": 28.243548386637777
+    }
+  ]
+}

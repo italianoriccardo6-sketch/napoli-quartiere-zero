@@ -1,0 +1,30 @@
+Extended photographic-world collision geography
+
+Contains information derived from OpenStreetMap, © OpenStreetMap contributors,
+available under the Open Database License (ODbL) 1.0:
+https://www.openstreetmap.org/copyright
+https://opendatacommons.org/licenses/odbl/1-0/
+
+This is a derived database. Source geometry, attribution, checksums, tile lineage,
+the public source download, and extraction steps are recorded in source.json.
+The source archive is publicly available at the pinned URL in source.json;
+scripts/prepare-photo-world.mjs rebuilds this derivative. The geometry's ODbL
+terms remain applicable regardless of the source project's software license.
+
+Source package: Napoli / NAP, Maximilian284/subwaybuilder-it-maps, release 1.4.0,
+city version 1.1.0, dated 2026-07-18, packaged by Massimiliano Prandi.
+The source project's MIT license is reproduced in source-project-MIT.txt.
+
+The source basemap identifies OpenStreetMap and Natural Earth. Natural Earth is
+public domain; this derivative reads zoom-15 layers, whose prepared coast/earth
+data is based on OpenStreetMap. Photography and Google meshes are not extracted,
+copied, analyzed, or included in this database.
+
+This is cartographic geometry, not surveyed terrain or an assurance of complete
+coverage, road clearance, present-day accessibility, or verified building height.
+
+The coverage clip uses the Napoli municipal statistical boundary under CC-BY-4.0:
+Fonte: Istat, confini amministrativi non generalizzati al 1 gennaio 2026;
+conversione CRS e distribuzione l1n00/confini-comuni-istat; ritaglio cartografico al
+confine di Napoli. The statistical boundary is a coverage limit, never a land or
+sea classification. See public/data/napoli-boundary-source.json for its lineage.

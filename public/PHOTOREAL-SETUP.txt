@@ -1,16 +1,41 @@
 NAPOLI — CITTÀ FOTOGRAFICA: COSTI E CONFIGURAZIONE
-Verifica documentale: 1 novembre 2026. Nessun account creato, nessuna fatturazione
-attivata, nessuna chiave ottenuta e nessuna chiamata Google Maps eseguita per
-questa implementazione. Le prove del connettore usano un adattatore locale.
+Verifica documentale: 1 novembre 2026. Le prove automatiche usano un adattatore
+locale dell’SDK: non certificano la resa fotografica o i modelli nel servizio
+Google reale. Nessun nuovo account o servizio a pagamento viene creato dal gioco.
 
-COSA È STATO PREPARATO
-photoreal.html è una vista di esplorazione dall'alto separata dal gioco Babylon.
-Usa l'SDK ufficiale Maps JavaScript 3D Maps quando viene configurato e aperto.
-Non scarica Google Earth, non estrae mesh/texture e non ricava collisioni da Google.
-Non è una ripresa in diretta, una ricostruzione autonoma di Napoli o una nuova
-versione completa del gioco. La copertura fotografica precisa di tutti i quartieri
-non è stata verificata. La pagina non mostra immagini sostitutive se il servizio
-è assente. Il gioco precedente resta disponibile all'indirizzo principale.
+AVVIO CON LA CHIAVE GIÀ CONFIGURATA
+Apri /photoreal.html, inserisci la stessa chiave client e premi «Gioca a Napoli».
+Se Maps JavaScript API, fatturazione e restrizioni del sito sono già configurate,
+non occorrono altre API o variabili d’ambiente. La partita parte in auto sul
+lungomare: WASD guida, E fa scendere; segui l’obiettivo per continuare la storia.
+La chiave inserita resta nella memoria della scheda e va reinserita al refresh.
+Inserirla, da solo, non carica il servizio.
+
+COSA È IMPLEMENTATO
+Guida e cammino nella stessa mappa nativa Google Maps JavaScript 3D, con modelli
+GLB locali. Prima persona a piedi, V per avatar statico in terza persona; E per
+salire/scendere e interagire, F per il colpo a piedi con mano/avambraccio visibile,
+Q/C per la visuale, +/− per la distanza, R per recuperare, Esc per la pausa.
+Shift fa correre. Prologo e nove tappe successive conservano i salvataggi locali.
+Posizione, traffico, salute e stato dello scontro ripartono al ricaricamento.
+Fino a quattro auto, inclusa una pattuglia fittizia, usano un reticolo locale
+entro 500 m dalla partenza; non è traffico simulato in tutta la città.
+«Vista libera» e «Torna alla partita» riutilizzano la stessa mappa.
+
+Il mondo cartografico indipendente contiene 56.201 edifici e 23.373 parti di
+strada sull’estensione comunale, mantenendo il centro precedente. I 30 quartieri
+hanno riferimenti e arrivi locali derivati dalle fonti: scegliere una destinazione
+e «Vai nel quartiere» sposta il giocatore su un punto con spazio per auto e piedi.
+Sono arrivi di gioco, non confini dei quartieri o accessi stradali certificati.
+Durante dialoghi o allerta il viaggio rapido non è disponibile.
+
+Le immagini Google sono riprese archiviate, non una diretta. Copertura dettagliata,
+assi e resa dei GLB, contatto con le strade e Safari/Mac richiedono una prova
+visiva con la chiave dell’utente. Camera e modelli seguono il terreno naturale
+DTM, che può differire dal DSM fotografico visibile. Collisioni e destinazioni
+usano dati OSM/Protomaps con quantizzazione circa 0,25 m, non un rilievo stradale.
+Nessuna mesh/texture Google viene estratta, scaricata come asset o conservata
+offline. Il gioco Babylon precedente resta disponibile all’indirizzo principale.
 
 COSTI DELLA STRADA IMPLEMENTATA — MAPS JAVASCRIPT 3D MAPS
 Il prodotto è fatturato come SKU Immersive Maps, 4816-83A2-9059 (listino globale).
@@ -20,7 +45,7 @@ La fascia gratuita è 5.000 eventi al mese; la prima fascia a pagamento costa
 dei progetti collegati allo stesso account di fatturazione. La fatturazione
 abilitata e una chiave restano necessarie anche quando si rimane nella fascia gratis.
 
-Stima del solo explorer, con fascia gratuita interamente disponibile:
+Stima dei caricamenti della mappa, con fascia gratuita interamente disponibile:
 Sessioni/mese    1 caricamento per sessione    3 caricamenti per sessione
 100              0 USD                       0 USD
 1.000            0 USD                       0 USD
@@ -32,19 +57,14 @@ caricamenti. Lo spostamento fra quartieri riutilizza la stessa istanza della map
 IVA, cambio valuta, utilizzi di altri progetti e altri servizi sono esclusi.
 Non è un preventivo o un tetto di spesa garantito.
 
-RICERCA DEI QUARTIERI — FACOLTATIVA E SEPARATA
-I nomi dei 30 quartieri sono presenti senza coordinate inventate. Per cercarli
-occorre abilitare anche Geocoding API e la relativa opzione di configurazione.
-Il listino globale Geocoding prevede 10.000 eventi gratuiti/mese, poi 5 USD per
-1.000 fino a 100.000 eventi; la fascia seguente è 4 USD per 1.000.
-Una richiesta viene fatta soltanto quando si sceglie un quartiere non ancora
-cercato nella scheda corrente. Gli esiti restano nella memoria della scheda:
-non sono esportati, salvati in localStorage o usati per fabbricare confini.
-Esempio: 10.000 sessioni x 1 ricerca = 10.000 richieste, 0 USD con fascia libera;
-10.000 sessioni x 10 ricerche = 100.000 richieste, circa 450 USD aggiuntivi.
-Questa opzione è disattivata per default. Senza, restano mouse/tastiera e il
-punto iniziale del lungomare, derivato dall'origine geografica del progetto.
-Una risposta generica di Napoli o una corrispondenza parziale viene respinta.
+QUARTIERI SENZA SERVIZI GOOGLE AGGIUNTIVI
+Le 30 destinazioni usano il catalogo locale verificato sulla mappa di collisione:
+non richiedono Geocoding API e non generano richieste di geocodifica. Anche il
+passaggio fra partita e vista libera conserva la stessa istanza della mappa.
+Un’eventuale integrazione avanzata Geocoding rimane facoltativa e disattivata per
+default: è separata dai viaggi rapidi locali. Il listino documentato prevede
+10.000 eventi gratuiti/mese, poi 5 USD per 1.000 fino a 100.000; la fascia seguente
+è 4 USD per 1.000. Non abilitarla per il normale avvio della partita.
 
 GOOGLE EARTH E ACCOUNT CON FATTURAZIONE EEA
 Non confondere Maps JavaScript 3D Maps con Map Tiles API: Photorealistic 3D Tiles.
@@ -52,7 +72,7 @@ La seconda è l'API di tile grezzi che un renderer come Cesium può consumare.
 Google documenta che i tile fotografici grezzi restituiscono 403 per i nuovi
 progetti EEA, o quelli modificati dopo l'8 luglio 2025, collegati a fatturazione EEA.
 Suggerisce Maps JavaScript 3D Maps come possibile alternativa: è la strada qui
-preparata, con il renderer e i controlli esposti dall'SDK, non accesso libero ai byte.
+implementata, con il renderer e i controlli esposti dall'SDK, non accesso libero ai byte.
 Non si presume il paese di fatturazione dell'utente dal luogo del gioco.
 Le linee guida di Google Earth non autorizzano catturarne l'output per ricostruire
 modelli 3D. Questa implementazione non usa tale procedura.
@@ -61,12 +81,12 @@ CONFIGURAZIONE DA ESEGUIRE SOLO DOPO AVER APPROVATO I COSTI
 1. Selezionare o creare un progetto Google Cloud di proprietà dell'utente,
    collegare l'account di fatturazione, leggere e accettare i termini applicabili.
    Questi passaggi non sono stati eseguiti dall'agente.
-2. Abilitare Maps JavaScript API. Geocoding API è opzionale e va abilitata soltanto
-   se si desidera la ricerca dei quartieri e se ne approvano i costi separati.
+2. Abilitare Maps JavaScript API. I 30 viaggi rapidi locali non richiedono
+   Geocoding API o altri servizi Google.
 3. Creare una chiave client dedicata. Impostare restrizioni applicazione per
    siti web / HTTP referrer: soltanto l'origine del sito autorizzato e, per prove,
    le origini localhost necessarie. Non usare wildcard generiche su tutti i siti.
-4. Applicare restrizioni API: Maps JavaScript API e, solo se usata, Geocoding API.
+4. Applicare restrizioni API: Maps JavaScript API per la normale partita.
    Una chiave client è visibile nel browser; non usare credenziali di un server
    e non inserirle nel repository o nella chat.
 5. Configurare quote basse per la prima prova e avvisi di budget. Gli avvisi di
@@ -77,9 +97,9 @@ CONFIGURAZIONE DA ESEGUIRE SOLO DOPO AVER APPROVATO I COSTI
    «Chiave API Google Maps». Non incollarla nella chat o nel repository.
    La chiave rimane soltanto nella memoria della scheda, non viene salvata dal
    sito e va reinserita dopo un ricaricamento. Inserirla non chiama Google.
-7. Premere «Apri Napoli fotografica» per caricare la mappa tramite il proprio
-   account Google. Non servono variabili d'ambiente o una nuova build per questo
-   metodo. Se il servizio rifiuta la chiave, controllare API abilitate, fatturazione
+7. Premere «Gioca a Napoli» per caricare la mappa e avviare la partita tramite
+   il proprio account Google. Non servono variabili d’ambiente o una nuova build.
+   Se il servizio rifiuta la chiave, controllare Maps JavaScript API, fatturazione
    e restrizioni del dominio; ricaricare la pagina per cambiare progetto Google.
 8. Verificare manualmente la copertura di Napoli, Posillipo, Fuorigrotta e degli
    altri quartieri, il risultato su Safari/macOS, il consumo di memoria e i costi.
@@ -96,14 +116,21 @@ di build: questo metodo richiede una nuova build/pubblicazione. Il campo nella
 pagina evita questo passaggio e non configura una chiave condivisa per altri utenti.
 Geocoding resta disattivato salvo VITE_GOOGLE_MAPS_GEOCODING_ENABLED=true in build.
 
-MODELLI ORIGINALI SOVRAPPOSTI
-L'adattatore espone addOriginalModel per modelli GLB locali con diritti verificati.
-La documentazione corrente supporta soltanto core glTF PBR senza estensioni.
-Il CarConcept.gltf del gioco usa un formato/estensioni che non sono stati
-convertiti o verificati per questo SDK; non è aggiunto automaticamente.
-Posizionare oggetti originali non produce sospensioni, collisioni, strade
-percorribili o una campagna nel mondo Google. Questi sistemi restano lavoro
-distinto, basato su dati con diritti appropriati e verifiche effettive.
+MODELLI E PREPARAZIONE DEL MONDO
+L’auto CarConcept è convertita offline in core GLB PBR senza estensioni; il civile
+ha una posa statica e la mano/avambraccio viene dallo stesso modello. Sono modelli
+con licenze indipendenti, non scansioni di persone o auto di Napoli. Attribuzioni,
+licenze, modifiche e checksum: /assets/photo-models/ATTRIBUTION.txt e manifest.json.
+Il colpo muove l’oggetto mano, non articola le dita; l’avatar in terza persona non
+ha animazioni di cammino nello SDK Google. Il contatto visivo col terreno resta
+da calibrare sul servizio reale.
+
+Il mondo indipendente deriva dall’archivio pubblico NAP/Protomaps 1.4.0, fissato
+con SHA256, e dal confine ISTAT 2026; sorgenti e condizioni ODbL/CC BY sono in
+data/photo-world/. Gli script pretest/prebuild rigenerano o verificano mondo,
+30 arrivi e GLB. Il JSON del mondo e la cache dell’archivio non sono versionati;
+al primo build servono rete, curl e unzip per acquisire la fonte pubblica.
+public/data/map.json e il percorso centrale non vengono sovrascritti.
 
 FONTI PRIMARIE
 Listino globale e fasce gratuite:
@@ -123,5 +150,7 @@ Copertura 3D da controllare (aggiornata giornalmente dal fornitore):
 https://developers.google.com/maps/documentation/javascript/3d/coverage
 Modelli supportati dall'SDK:
 https://developers.google.com/maps/documentation/javascript/3d/models
+Quote DTM e DSM:
+https://developers.google.com/maps/architecture/3d-understand-altitude-modes
 Linee guida Earth:
 https://about.google/brand-resource-center/products-and-services/geo-guidelines/

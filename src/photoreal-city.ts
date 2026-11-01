@@ -5,7 +5,7 @@ export interface PhotoMapElement extends HTMLElement {
   flyCameraTo(options:{endCamera:PhotoCamera;durationMillis:number}):void;
   stopCameraAnimation():void;
 }
-interface PhotoModel extends HTMLElement {position:PhotoCoordinate;orientation:{heading:number;tilt:number;roll:number}}
+export interface PhotoModel extends HTMLElement {position:PhotoCoordinate;orientation:{heading:number;tilt:number;roll:number}}
 export interface PhotoLibrary {
   Map3DElement:new(options:Record<string,unknown>)=>PhotoMapElement;
   Model3DElement?:new(options:Record<string,unknown>)=>PhotoModel;
@@ -43,11 +43,13 @@ export async function createPhotorealCity(container:HTMLElement,options:{apiKey:
   const camera=photoCameraAt((options.camera??PHOTO_START).center,options.camera??PHOTO_START);
   const runtime=options.loadLibrary?undefined:await loadPhotorealSdk(options.apiKey);
   const library=options.loadLibrary?await options.loadLibrary():await runtime!.importLibrary('maps3d') as PhotoLibrary;
-  const map=new library.Map3DElement({...camera,mode:'SATELLITE',qualityMode:'FIDELITY',maxMemoryMegabytes:512,description:'Napoli, esplorazione fotografica dall’alto; copertura e data delle riprese dipendono da Google Maps.'});
+  const map=new library.Map3DElement({...camera,mode:'SATELLITE',qualityMode:'FIDELITY',maxMemoryMegabytes:512,description:'Napoli: guida, cammino ed esplorazione nella città fotografica. Copertura e data delle riprese dipendono da Google Maps.'});
   map.style.width='100%';map.style.height='100%';
   let disposed=false,animating=false,geocoder:Geocoder|undefined;
-  const onError=()=>options.onStatus?.('La mappa fotografica non si è inizializzata. Verifica servizio, chiave e dominio autorizzato.');
-  const onSteady=(event:Event)=>{if((event as Event&{isSteady?:boolean}).isSteady)options.onStatus?.('Esplora Napoli con mouse e tastiera. La copertura fotografica dei singoli quartieri resta da verificare.');};
+  const readiness=new Set<(error:Error)=>void>();
+  const onError=()=>{const message='La mappa fotografica non si è inizializzata. Verifica servizio, chiave e dominio autorizzato.';for(const cancel of [...readiness])cancel(Error(message));options.onStatus?.(message);};
+  let hasBeenSteady=false,announcedSteady=false;
+  const onSteady=(event:Event)=>{hasBeenSteady=!!(event as Event&{isSteady?:boolean}).isSteady;if(hasBeenSteady&&!announcedSteady){announcedSteady=true;options.onStatus?.('La scena fotografica è pronta.');}};
   const onAnimationEnd=()=>{animating=false;};
   map.addEventListener('gmp-error',onError);map.addEventListener('gmp-steadychange',onSteady);map.addEventListener('gmp-animationend',onAnimationEnd);
   container.append(map);
@@ -56,6 +58,7 @@ export async function createPhotorealCity(container:HTMLElement,options:{apiKey:
   function setCamera(next:PhotoCamera,animate=false){
     if(disposed)return;
     const validated=photoCameraAt(next.center,next);
+    if(validated.altitudeMode==='RELATIVE_TO_GROUND'){animating=false;map.flyCameraTo({endCamera:validated,durationMillis:animate?1000:0});return;}
     if(animate){animating=true;map.flyCameraTo({endCamera:validated,durationMillis:1800});}
     else{if(animating){map.stopCameraAnimation();animating=false;}map.center=validated.center;map.heading=validated.heading;map.tilt=validated.tilt;map.range=validated.range;}
   }
@@ -78,11 +81,23 @@ export async function createPhotorealCity(container:HTMLElement,options:{apiKey:
     setCamera(photoCameraAt(position,{heading:map.heading,tilt:65,range:1400}),true);
     options.onStatus?.(`${name}: punto di ricerca, non confine amministrativo. Verifica la copertura 3D disponibile.`);
   }
-  function addOriginalModel(options:{src:string;position:PhotoCoordinate;heading?:number;scale?:number}){
+  function addOriginalModel(options:{src:string;position:PhotoCoordinate;heading?:number;orientation?:{heading?:number;tilt?:number;roll?:number};scale?:number;altitudeMode?:'CLAMP_TO_GROUND'|'RELATIVE_TO_GROUND'}){
     if(disposed||!library.Model3DElement)throw Error('Modello non disponibile.');
     const url=new URL(options.src,document.baseURI);if(url.origin!==location.origin||!url.pathname.endsWith('.glb'))throw Error('Utilizza un modello GLB locale con diritti di riuso verificati.');
-    const placement=photoCameraAt(options.position,{heading:options.heading??0});const scale=options.scale??1;if(!Number.isFinite(scale)||scale<=0||scale>100)throw Error('Scala del modello non valida.');
-    const model=new library.Model3DElement({src:url.href,position:options.position,orientation:{heading:placement.heading,tilt:0,roll:0},scale,altitudeMode:'CLAMP_TO_GROUND'});map.append(model);return model;
+    const placement=photoCameraAt(options.position,{heading:options.orientation?.heading??options.heading??0});const scale=options.scale??1;if(!Number.isFinite(scale)||scale<=0||scale>100)throw Error('Scala del modello non valida.');
+    const tilt=options.orientation?.tilt??0,roll=options.orientation?.roll??0;if(![tilt,roll].every(value=>Number.isFinite(value)&&value>=-360&&value<=360))throw Error('Orientamento del modello non valido.');
+    const model=new library.Model3DElement({src:url.href,position:options.position,orientation:{heading:placement.heading,tilt:(tilt+360)%360,roll:(roll+360)%360},scale,altitudeMode:options.altitudeMode??'CLAMP_TO_GROUND'});map.append(model);return model;
   }
-  return {map,setCamera,goToDistrict,addOriginalModel,getCamera:()=>photoCameraAt({lat:map.center.lat,lng:map.center.lng,altitude:map.center.altitude??0},{heading:map.heading,tilt:map.tilt,range:map.range}),dispose(){if(disposed)return;disposed=true;navigationGeneration++;anchors.clear();map.stopCameraAnimation();map.removeEventListener('gmp-error',onError);map.removeEventListener('gmp-steadychange',onSteady);map.removeEventListener('gmp-animationend',onAnimationEnd);map.remove();}};
+  function whenSteady(timeoutMs=30000){
+    if(disposed)return Promise.reject(Error('La scena fotografica è stata chiusa.'));
+    if(hasBeenSteady)return Promise.resolve();
+    return new Promise<void>((resolve,reject)=>{
+      const cleanup=()=>{clearTimeout(timer);map.removeEventListener('gmp-steadychange',ready);readiness.delete(cancel);};
+      const cancel=(error:Error)=>{cleanup();reject(error);};
+      const ready=(event:Event)=>{if(!(event as Event&{isSteady?:boolean}).isSteady)return;cleanup();resolve();};
+      const timer=setTimeout(()=>cancel(Error('La scena Google non è pronta. Verifica connessione, chiave e fatturazione.')),timeoutMs);
+      readiness.add(cancel);map.addEventListener('gmp-steadychange',ready);
+    });
+  }
+  return {map,setCamera,goToDistrict,addOriginalModel,whenSteady,markSceneChanging(){hasBeenSteady=false;},getCamera:()=>photoCameraAt({lat:map.center.lat,lng:map.center.lng,altitude:map.center.altitude??0},{heading:map.heading,tilt:map.tilt,range:map.range}),dispose(){if(disposed)return;disposed=true;for(const cancel of [...readiness])cancel(Error('La scena fotografica è stata chiusa.'));navigationGeneration++;anchors.clear();map.stopCameraAnimation();map.removeEventListener('gmp-error',onError);map.removeEventListener('gmp-steadychange',onSteady);map.removeEventListener('gmp-animationend',onAnimationEnd);map.remove();}};
 }

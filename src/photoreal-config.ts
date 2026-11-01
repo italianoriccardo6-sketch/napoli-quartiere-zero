@@ -2,7 +2,7 @@ import {ORIGIN} from './geo';
 import {NAPOLI_QUARTIERI,NAPOLI_ACQUISITION_BBOX} from './napoli-sectors';
 
 export interface PhotoCoordinate {lat:number;lng:number;altitude?:number}
-export interface PhotoCamera {center:PhotoCoordinate;heading:number;tilt:number;range:number}
+export interface PhotoCamera {center:PhotoCoordinate;heading:number;tilt:number;range:number;altitudeMode?:'ABSOLUTE'|'RELATIVE_TO_GROUND'}
 export const PHOTO_START:PhotoCamera={center:{lat:ORIGIN.lat,lng:ORIGIN.lon,altitude:0},heading:315,tilt:65,range:1300};
 export const PHOTO_COVERAGE_URL='https://developers.google.com/maps/documentation/javascript/3d/coverage';
 export const PHOTO_PRICING_URL='https://developers.google.com/maps/billing-and-pricing/pricing';
@@ -31,8 +31,9 @@ export function photoCameraAt(center:PhotoCoordinate,options:Partial<Omit<PhotoC
   const [south,west,north,east]=NAPOLI_ACQUISITION_BBOX;
   if(!Number.isFinite(center.lat)||!Number.isFinite(center.lng)||center.lat<south||center.lat>north||center.lng<west||center.lng>east||!Number.isFinite(center.altitude??0))throw Error('Posizione esterna all’area di esplorazione.');
   const heading=options.heading??PHOTO_START.heading,tilt=options.tilt??PHOTO_START.tilt,range=options.range??PHOTO_START.range;
-  if(!Number.isFinite(heading)||!Number.isFinite(tilt)||tilt<0||tilt>85||!Number.isFinite(range)||range<50||range>10000)throw Error('Visuale non valida.');
-  return {center:{...center},heading:((heading%360)+360)%360,tilt,range};
+  if(!Number.isFinite(heading)||!Number.isFinite(tilt)||tilt<0||tilt>85||!Number.isFinite(range)||range<2||range>10000)throw Error('Visuale non valida.');
+  if(options.altitudeMode!==undefined&&!['ABSOLUTE','RELATIVE_TO_GROUND'].includes(options.altitudeMode))throw Error('Riferimento della camera non valido.');
+  return {center:{...center},heading:((heading%360)+360)%360,tilt,range,...(options.altitudeMode?{altitudeMode:options.altitudeMode}:{})};
 }
 export function districtQuery(name:string):string{
   if(!NAPOLI_QUARTIERI.includes(name as typeof NAPOLI_QUARTIERI[number]))throw Error('Quartiere non previsto dal catalogo.');

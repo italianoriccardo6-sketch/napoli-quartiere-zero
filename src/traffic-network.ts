@@ -1,8 +1,8 @@
 import type {Point} from './geo';
 import {segmentDistance} from './geo';
 import type {CityRuntime} from './city-data';
-import {cityRoadWidth} from './city-world';
-import {canStandForCar} from './car';
+import {cityRoadWidth} from './road-width';
+import {canStandForCar} from './vehicle-clearance';
 import type {GroundCheck} from './movement';
 
 export interface TrafficNode {id:string;point:Point;edges:TrafficEdge[]}
