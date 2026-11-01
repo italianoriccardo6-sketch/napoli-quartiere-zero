@@ -1,0 +1,591 @@
+{
+  "mode": "actual-runtime-detailed-city-source",
+  "view": "on-foot",
+  "sourceRevision": "dc0d26b8762e19e0b2f13636861deef9486996e2",
+  "output": "/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-current.png",
+  "width": 1024,
+  "height": 576,
+  "webGLVersion": 1,
+  "driverRenderer": "ANGLE",
+  "driverVendor": "stack-gl",
+  "unmaskedRenderer": null,
+  "capabilities": {
+    "instancedArrays": true,
+    "ANGLE_instanced_arrays": true,
+    "standardDerivatives": true,
+    "textureFloat": true,
+    "textureFloatRender": true,
+    "textureHalfFloat": false,
+    "textureHalfFloatRender": false
+  },
+  "facadeRendering": {
+    "batches": 124,
+    "enabledBatches": 103,
+    "activeBatches": [
+      {
+        "name": "dettagli facciata 0,2,plinth,structure",
+        "instances": 36
+      },
+      {
+        "name": "dettagli facciata 0,2,trim,structure",
+        "instances": 4543
+      },
+      {
+        "name": "dettagli facciata 0,2,glass,structure",
+        "instances": 714
+      },
+      {
+        "name": "dettagli facciata 0,2,shutter,structure",
+        "instances": 1428
+      },
+      {
+        "name": "dettagli facciata 0,2,door,structure",
+        "instances": 9
+      },
+      {
+        "name": "dettagli facciata 0,2,iron,structure",
+        "instances": 1538
+      },
+      {
+        "name": "dettagli facciata 0,2,shop,structure",
+        "instances": 3
+      },
+      {
+        "name": "dettagli facciata 0,1,plinth,structure",
+        "instances": 27
+      },
+      {
+        "name": "dettagli facciata 0,1,trim,structure",
+        "instances": 1231
+      },
+      {
+        "name": "dettagli facciata 0,1,glass,structure",
+        "instances": 189
+      },
+      {
+        "name": "dettagli facciata 0,1,shutter,structure",
+        "instances": 378
+      },
+      {
+        "name": "dettagli facciata 0,1,shop,structure",
+        "instances": 3
+      },
+      {
+        "name": "dettagli facciata 0,1,iron,structure",
+        "instances": 358
+      },
+      {
+        "name": "dettagli facciata 0,1,door,structure",
+        "instances": 6
+      },
+      {
+        "name": "dettagli facciata -1,1,plinth,structure",
+        "instances": 32
+      },
+      {
+        "name": "dettagli facciata -1,1,trim,structure",
+        "instances": 846
+      },
+      {
+        "name": "dettagli facciata -1,1,glass,structure",
+        "instances": 125
+      },
+      {
+        "name": "dettagli facciata -1,1,shutter,structure",
+        "instances": 250
+      },
+      {
+        "name": "dettagli facciata -1,1,shop,structure",
+        "instances": 5
+      },
+      {
+        "name": "dettagli facciata -1,1,iron,structure",
+        "instances": 260
+      },
+      {
+        "name": "dettagli facciata -1,1,door,structure",
+        "instances": 5
+      },
+      {
+        "name": "dettagli facciata -1,2,plinth,structure",
+        "instances": 123
+      },
+      {
+        "name": "dettagli facciata -1,2,trim,structure",
+        "instances": 3443
+      },
+      {
+        "name": "dettagli facciata -1,2,glass,structure",
+        "instances": 493
+      },
+      {
+        "name": "dettagli facciata -1,2,shutter,structure",
+        "instances": 993
+      },
+      {
+        "name": "dettagli facciata -1,2,door,structure",
+        "instances": 18
+      },
+      {
+        "name": "dettagli facciata -1,2,iron,structure",
+        "instances": 1117
+      },
+      {
+        "name": "dettagli facciata -1,2,shop,structure",
+        "instances": 11
+      },
+      {
+        "name": "dettagli facciata -1,3,trim,structure",
+        "instances": 1867
+      },
+      {
+        "name": "dettagli facciata -1,3,glass,structure",
+        "instances": 271
+      },
+      {
+        "name": "dettagli facciata -1,3,shutter,structure",
+        "instances": 541
+      },
+      {
+        "name": "dettagli facciata -2,2,plinth,structure",
+        "instances": 63
+      },
+      {
+        "name": "dettagli facciata -2,2,trim,structure",
+        "instances": 3816
+      },
+      {
+        "name": "dettagli facciata -2,2,glass,structure",
+        "instances": 582
+      },
+      {
+        "name": "dettagli facciata -2,2,shutter,structure",
+        "instances": 1159
+      },
+      {
+        "name": "dettagli facciata -2,2,shop,structure",
+        "instances": 7
+      },
+      {
+        "name": "dettagli facciata -2,2,iron,structure",
+        "instances": 1272
+      },
+      {
+        "name": "dettagli facciata -2,2,door,structure",
+        "instances": 12
+      },
+      {
+        "name": "dettagli facciata -1,3,plinth,structure",
+        "instances": 87
+      },
+      {
+        "name": "dettagli facciata -1,3,shop,structure",
+        "instances": 8
+      },
+      {
+        "name": "dettagli facciata -1,3,iron,structure",
+        "instances": 544
+      },
+      {
+        "name": "dettagli facciata -1,3,door,structure",
+        "instances": 15
+      },
+      {
+        "name": "dettagli facciata -2,3,plinth,structure",
+        "instances": 126
+      },
+      {
+        "name": "dettagli facciata -2,3,trim,structure",
+        "instances": 1890
+      },
+      {
+        "name": "dettagli facciata -2,3,glass,structure",
+        "instances": 262
+      },
+      {
+        "name": "dettagli facciata -2,3,shutter,structure",
+        "instances": 521
+      },
+      {
+        "name": "dettagli facciata -2,3,shop,structure",
+        "instances": 12
+      },
+      {
+        "name": "dettagli facciata -2,3,iron,structure",
+        "instances": 557
+      },
+      {
+        "name": "dettagli facciata -2,3,door,structure",
+        "instances": 20
+      },
+      {
+        "name": "dettagli facciata -3,2,plinth,structure",
+        "instances": 53
+      },
+      {
+        "name": "dettagli facciata -3,2,trim,structure",
+        "instances": 2727
+      },
+      {
+        "name": "dettagli facciata -3,2,glass,structure",
+        "instances": 417
+      },
+      {
+        "name": "dettagli facciata -3,2,shutter,structure",
+        "instances": 830
+      },
+      {
+        "name": "dettagli facciata -3,2,iron,structure",
+        "instances": 864
+      },
+      {
+        "name": "dettagli facciata -3,2,shop,structure",
+        "instances": 5
+      },
+      {
+        "name": "dettagli facciata 0,2,iron,fine",
+        "instances": 36
+      }
+    ],
+    "instances": 60000
+  },
+  "transmissionTargetType": 0,
+  "softwareRequested": true,
+  "features": {
+    "photographicPBR": true,
+    "facadeAndStreetDetail": true,
+    "importedCar": true,
+    "importedCharacter": true,
+    "HDRRadiancePrefilter": false
+  },
+  "assetsRead": [
+    "/assets/characters/civilian/civilian.glb",
+    "/assets/characters/civilian/source-manifest.json",
+    "/assets/environment/daylight.hdr",
+    "/assets/foliage/tree_small_02/bark-diff.jpg",
+    "/assets/foliage/tree_small_02/bark-normal.jpg",
+    "/assets/foliage/tree_small_02/bark-rough.jpg",
+    "/assets/foliage/tree_small_02/leaves-alpha.png",
+    "/assets/foliage/tree_small_02/leaves-diff.jpg",
+    "/assets/foliage/tree_small_02/leaves-normal.jpg",
+    "/assets/foliage/tree_small_02/leaves-rough.jpg",
+    "/assets/materials/asphalt_02/diff.jpg",
+    "/assets/materials/asphalt_02/nor_gl.jpg",
+    "/assets/materials/asphalt_02/rough.jpg",
+    "/assets/materials/leafy_grass/diff.jpg",
+    "/assets/materials/leafy_grass/nor_gl.jpg",
+    "/assets/materials/leafy_grass/rough.jpg",
+    "/assets/materials/painted_plaster_wall/diff.jpg",
+    "/assets/materials/painted_plaster_wall/nor_gl.jpg",
+    "/assets/materials/painted_plaster_wall/rough.jpg",
+    "/assets/materials/stone_tiles_02/diff.jpg",
+    "/assets/materials/stone_tiles_02/nor_gl.jpg",
+    "/assets/materials/stone_tiles_02/rough.jpg",
+    "/assets/materials/stone_wall/diff.jpg",
+    "/assets/materials/stone_wall/nor_gl.jpg",
+    "/assets/materials/stone_wall/rough.jpg",
+    "/assets/naples-facade-research/partenope-dimitalen-2010/source.jpg",
+    "/assets/vehicles/car-concept/CarConcept.data.bin",
+    "/assets/vehicles/car-concept/CarConcept.gltf",
+    "/assets/vehicles/car-concept/Dash_E.webp",
+    "/assets/vehicles/car-concept/Dot_C.webp",
+    "/assets/vehicles/car-concept/Dot_N.webp",
+    "/assets/vehicles/car-concept/Hex_N.webp",
+    "/assets/vehicles/car-concept/Khronos_C.webp",
+    "/assets/vehicles/car-concept/Mechanical_N.webp",
+    "/assets/vehicles/car-concept/Mechanical_ORM.webp",
+    "/assets/vehicles/car-concept/Occlusion.webp",
+    "/assets/vehicles/car-concept/Powdercoat_N.webp",
+    "/assets/vehicles/car-concept/Rib_N.webp",
+    "/assets/vehicles/car-concept/Thickness.webp",
+    "/assets/vehicles/car-concept/Tireside_C.webp",
+    "/assets/vehicles/car-concept/Tireside_N.webp",
+    "/assets/vehicles/car-concept/Tiretread_N.webp",
+    "/assets/vehicles/car-concept/source-manifest.json",
+    "/data/background-terrain.json",
+    "/data/city-elevation.json",
+    "/data/furniture.json",
+    "/data/green-ground.json",
+    "/data/green.json"
+  ],
+  "cameraPosition": [
+    49.84046948857892,
+    3.0422770964379304,
+    196.75731999989418
+  ],
+  "meshCount": 973,
+  "materialCount": 125,
+  "frames": 4,
+  "renderWallMs": 53996,
+  "shaderErrors": [],
+  "webGLErrors": [],
+  "sourceSceneMetadata": {
+    "cityTerrain": {
+      "provider": "Regione Campania",
+      "dataset": "CTR2020 DTM5K",
+      "sourceYear": 2020,
+      "sourceUnits": "metres",
+      "verticalDatum": "unknown",
+      "verticalReference": "relative-to-opening-street",
+      "anchorPoint": [
+        45.16974265235783,
+        194.86476863362407
+      ],
+      "anchorSourceHeight": 4.52762125161923,
+      "waterReference": -4.52762125161923,
+      "waterReferencePolicy": "artistic-native-zero-not-certified-MSL",
+      "vertexHeightSources": {
+        "calls": 18575,
+        "bilinearSource": 16409,
+        "boundedNearest": 2136,
+        "retainedFlat": 30,
+        "maximumExtensionMetres": 10,
+        "largestUsedExtensionMetres": 9.986212419258303,
+        "verticalReference": "relative-to-opening-street",
+        "verticalDatum": "unknown",
+        "unsupportedPolicy": "retain-local-flat-baseline-not-measured"
+      },
+      "minimumHeight": -4.82762125161923,
+      "maximumHeight": 172.23237874838077,
+      "mesh": {
+        "polygons": 3,
+        "sourceVertices": 325,
+        "initialTriangles": 319,
+        "sourceConformitySplits": 0,
+        "refinementSplits": 18250,
+        "triangles": 36175,
+        "vertices": 18575,
+        "batches": 53,
+        "maxEdge": 20,
+        "largestEdge": 19.993180468803367,
+        "remainingLongEdges": 0,
+        "budgetReached": false,
+        "heightSamples": 18575,
+        "boundaryEdges": 969,
+        "internalEdges": 53778,
+        "geography": "original-land-polygons-and-holes",
+        "topology": "shared-edge-conforming"
+      },
+      "foundations": {
+        "buildings": 1803,
+        "samples": 36973,
+        "spacingMetres": 5,
+        "policy": "inferred-flat-foundation-at-lowest-rendered-outer-footprint-sample"
+      },
+      "actorHeightPolicy": "barycentric-interpolation-of-rendered-ground-and-street-triangles",
+      "limitation": "Native 5 m ground DTM is not a road, bridge, stair or building-foundation survey. Missing coastal samples are explicitly estimated or retained flat."
+    },
+    "cityWorld": {
+      "provenance": "osm",
+      "footprints": 1803,
+      "invalidFootprints": 0,
+      "buildingChunks": 360,
+      "renderedRoads": 1530,
+      "maximumRoadSourceSpan": 4.999726277529471,
+      "shadowMapSize": 4096,
+      "bounds": [
+        -640.1679145129254,
+        -209.514413621575,
+        1465.6475937532923,
+        1547.3409220264557
+      ],
+      "terrainElevation": "regional-relative-dtm2020",
+      "representation": "OSM footprint extrusions; foundation and facade details are visual estimates"
+    },
+    "streetDetail": {
+      "roadsConsidered": 14,
+      "roadsDetailed": 14,
+      "sidewalkSpans": 535,
+      "curbSpans": 535,
+      "paintStrips": 693,
+      "junctionGaps": 171,
+      "rejectedRaisedSpans": 83,
+      "meshCount": 27,
+      "vertexCount": 52386,
+      "estimatedWidths": true,
+      "inferredMarkings": true,
+      "collisionGeometryAdded": false
+    },
+    "coastDetail": {
+      "sourceCoastlines": 1,
+      "sourceVertices": 1448,
+      "spans": 503,
+      "lengthMetres": 1188.4299367354274,
+      "outsideBounds": 10183,
+      "outsideCorridor": 3326,
+      "routeConflicts": 0,
+      "buildingConflicts": 11,
+      "meshCount": 12,
+      "vertexCount": 16176,
+      "sourcePositionPolicy": "actual-coastline-only",
+      "profileDimensions": "inferred",
+      "wallExistence": "visual-assumption",
+      "collisionGeometryAdded": false
+    },
+    "visualDetail": {
+      "facades": {
+        "selectedBuildings": 60,
+        "detailedBuildings": 60,
+        "skippedLandmarks": 2,
+        "windows": 5023,
+        "balconies": 1005,
+        "shopfronts": 84,
+        "instances": 60000,
+        "batches": 124,
+        "budgetReached": true,
+        "representation": "inferred-facade-detail-not-surveyed"
+      },
+      "streets": {
+        "roadsConsidered": 14,
+        "roadsDetailed": 14,
+        "sidewalkSpans": 535,
+        "curbSpans": 535,
+        "paintStrips": 693,
+        "junctionGaps": 171,
+        "rejectedRaisedSpans": 83,
+        "meshCount": 27,
+        "vertexCount": 52386,
+        "estimatedWidths": true,
+        "inferredMarkings": true,
+        "collisionGeometryAdded": false
+      },
+      "coast": {
+        "sourceCoastlines": 1,
+        "sourceVertices": 1448,
+        "spans": 503,
+        "lengthMetres": 1188.4299367354274,
+        "outsideBounds": 10183,
+        "outsideCorridor": 3326,
+        "routeConflicts": 0,
+        "buildingConflicts": 11,
+        "meshCount": 12,
+        "vertexCount": 16176,
+        "sourcePositionPolicy": "actual-coastline-only",
+        "profileDimensions": "inferred",
+        "wallExistence": "visual-assumption",
+        "collisionGeometryAdded": false
+      },
+      "realFacades": {
+        "walls": 2,
+        "profileInstances": 1459,
+        "profileBatches": 5,
+        "skipped": [],
+        "vertices": 918,
+        "originalPhoto": {
+          "path": "assets/naples-facade-research/partenope-dimitalen-2010/source.jpg",
+          "width": 2939,
+          "height": 1954,
+          "author": "DimiTalen",
+          "license": "CC0-1.0",
+          "captured": "2010-07-08",
+          "source": "https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg",
+          "sha256": "63d316b36f987dbb39e0b96d0a88518d80eac76b94baa9e099ecec7f9defced6"
+        },
+        "calibration": "inferred manual photo alignment, not surveyed geometry or photogrammetry"
+      },
+      "photographicMaps": "CC0 surfaces, foliage and selected real Naples hotel fronts; inferred depth, not photogrammetry"
+    },
+    "streetFurniture": {
+      "sourceNodes": 169,
+      "rendered": 2,
+      "invalidSource": 0,
+      "unsupported": 0,
+      "outsideLand": 0,
+      "insideBuildings": 0,
+      "routeClearance": 0,
+      "outsideCorridor": 167,
+      "budgetClipped": 0,
+      "estimatedDimensions": 2,
+      "estimatedOrientations": 2,
+      "meshCount": 2,
+      "vertexCount": 1984,
+      "positionsInvented": false,
+      "dimensions": "tagged-or-original-visual-estimates",
+      "collisionGeometryAdded": false,
+      "sourcePositions": true,
+      "measuredShapes": false
+    },
+    "vegetation": {
+      "sourceTrees": 250,
+      "treesRendered": 25,
+      "estimatedDimensions": 25,
+      "invalidSource": 0,
+      "outsideLand": 0,
+      "insideBuildings": 0,
+      "outsideCorridor": 225,
+      "budgetClipped": 0,
+      "branchInstances": 625,
+      "leafInstances": 2800,
+      "meshCount": 18,
+      "placement": "source-tree-nodes-only",
+      "individualTreesInvented": false,
+      "measuredPositions": true,
+      "measuredShapes": false
+    },
+    "greenGround": {
+      "sourceAreas": 25,
+      "coveragePolygons": 24,
+      "sourceTriangles": 36175,
+      "testedTriangles": 3250,
+      "coveredSourceTriangles": 1777,
+      "triangles": 2421,
+      "batches": 21,
+      "vertexCount": 6003,
+      "geography": "source-area-polygons-only",
+      "surface": "original-ground-triangle-interpolation",
+      "landCover": "grass-like artistic material for mapped parks/wood/forest"
+    },
+    "cameraEffects": {
+      "fxaa": true,
+      "ssaoSupported": true,
+      "ssaoEnabled": true,
+      "ssaoRatio": 0.5,
+      "cameraMaxZ": 50000,
+      "normalizedDepthScale": 0.048,
+      "ssaoRadius": 0.00000864,
+      "ssaoArea": 0.000072,
+      "ssaoFallOff": 1.92e-7,
+      "depthRequirement": "unpacked floating point; packed-only engines use FXAA"
+    },
+    "ambientPopulation": {
+      "pedestrians": 3,
+      "parkedCars": 2,
+      "representation": "Same licensed models and shared ambient planner as runtime; no staged traffic."
+    },
+    "capturePlacement": {
+      "player": [
+        45.243416561331664,
+        196.9219540914045
+      ],
+      "playerY": 0.14227709643793032,
+      "car": [
+        45.16974265235783,
+        194.86476863362407
+      ],
+      "carPose": {
+        "height": 0.0736657737887291,
+        "pitch": 0.024657587751561356,
+        "roll": 0.03251070992288674,
+        "supportHeights": [
+          -0.026644958383310713,
+          0.06422799660340084,
+          0.08883983203605952,
+          0.16824022489876675
+        ]
+      },
+      "heading": 4.748186645410835,
+      "size": {
+        "radius": 1.3085042755765075,
+        "halfLength": 2.22500001459805
+      },
+      "sharedStreetPlacement": true
+    }
+  },
+  "limitations": [
+    "Direct Node WebGL, not browser UI automation or macOS validation.",
+    "WebGL1 adapter: browser WebGL2 feature output and performance may differ.",
+    "HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.",
+    "No FPS claim; renderWallMs includes scene construction, compilation and capture.",
+    "No HTML HUD is included: this captures the actual 3D engine scene only."
+  ]
+}
