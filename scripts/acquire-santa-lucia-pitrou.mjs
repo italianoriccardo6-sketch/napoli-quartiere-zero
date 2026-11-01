@@ -1,0 +1,37 @@
+import {mkdir,writeFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
+const directory='work/santa-lucia-pitrou-2011';
+const title='File:Napoli-1040131.jpg',licenseUrl='https://artlibre.org/licence/lal/en/';
+const headers={'User-Agent':'NapoliQuartiereZero/0.5 (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero; approved bounded licensed Santa Lucia original acquisition)'};
+const sha256=b=>createHash('sha256').update(b).digest('hex');
+await mkdir(directory,{recursive:true});
+let requests=0;
+async function get(url,limit){
+ if(++requests>3)throw Error('Acquisition request budget exceeded');
+ const response=await fetch(url,{headers,signal:AbortSignal.timeout(30000)});
+ if(!response.ok)throw Error('HTTP '+response.status+' '+url);
+ if(!response.body)throw Error('No response body');
+ const chunks=[];let count=0;for await(const chunk of response.body){count+=chunk.length;if(count>limit)throw Error('Acquisition response exceeded byte limit');chunks.push(chunk);}return Buffer.concat(chunks);
+}
+const query=new URLSearchParams({action:'query',format:'json',formatversion:'2',prop:'imageinfo',iiprop:'url|size|extmetadata|sha1|timestamp',titles:title});
+const metadataBytes=await get('https://commons.wikimedia.org/w/api.php?'+query,1024*1024);
+await writeFile(directory+'/commons-metadata.json',metadataBytes);
+const api=JSON.parse(metadataBytes.toString('utf8')),page=api.query?.pages?.[0],info=page?.imageinfo?.[0];
+if(api.error||page?.title!==title||!info||info.width!==3072||info.height!==2304||info.size!==1236557||info.extmetadata?.LicenseShortName?.value!=='FAL'||!/artlibre\.org\/licence\/lal\/en/.test(info.extmetadata?.LicenseUrl?.value??''))throw Error('Original identity/license/dimensions changed; manual review required');
+const originalUrl=new URL(info.url);if(originalUrl.protocol!=='https:'||originalUrl.hostname!=='upload.wikimedia.org'||!originalUrl.pathname.endsWith('/Napoli-1040131.jpg'))throw Error('Unexpected original host/path');
+const original=await get(originalUrl.href,2*1024*1024);
+if(original.length!==info.size||createHash('sha1').update(original).digest('hex')!==info.sha1||original[0]!==255||original[1]!==216)throw Error('Original JPEG byte count/SHA1 mismatch');
+await writeFile(directory+'/source.jpg',original);
+const licenseBytes=await get(licenseUrl,2*1024*1024);await writeFile(directory+'/license-source.html.txt',licenseBytes);
+const entities={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'",nbsp:' '};
+const plain=licenseBytes.toString('utf8').replace(/<script\b[\s\S]*?<\/script>/gi,'').replace(/<style\b[\s\S]*?<\/style>/gi,'').replace(/<\/(?:p|h[1-6]|li|div)>|<br\s*\/?\s*>/gi,'\n').replace(/<[^>]+>/g,'').replace(/&(#x[\da-f]+|#\d+|amp|lt|gt|quot|apos|nbsp);/gi,(_match,key)=>key[0]==='#'?String.fromCodePoint(key[1].toLowerCase()==='x'?parseInt(key.slice(2),16):parseInt(key.slice(1),10)):(entities[key]??' ')).replace(/[\t ]+/g,' ').replace(/ *\n */g,'\n').replace(/\n{3,}/g,'\n\n');
+const begin=plain.indexOf('Free Art License 1.3 (FAL 1.3)'),end=plain.indexOf('Copyleft Attitude, 2007.',begin);
+if(begin<0||end<0)throw Error('Official full license markers were not found');
+const licenseText=plain.slice(begin,end+'Copyleft Attitude, 2007.'.length).trim()+'\n';
+for(const marker of['2.1 FREEDOM TO COPY','2.2 FREEDOM TO DISTRIBUTE','2.3 FREEDOM TO MODIFY','4. INCORPORATION','5. COMPATIBILITY','10. SUB-LICENSING','11. LEGAL FRAMEWORK'])if(!licenseText.includes(marker))throw Error('Incomplete official license: '+marker);
+await writeFile(directory+'/LICENSE-FAL-1.3.txt',licenseText);
+const source={version:1,id:'santa-lucia-pitrou-2011',title,author:'Antoine Pitrou',captured:info.extmetadata.DateTimeOriginal?.value,license:'FAL-1.3',licenseUrl,commonsLicenseShortName:info.extmetadata.LicenseShortName.value,commonsLicenseUrl:info.extmetadata.LicenseUrl.value,sourcePage:info.descriptionurl,originalUrl:originalUrl.href,width:info.width,height:info.height,bytes:original.length,sha1:info.sha1,sha256:sha256(original),acquiredAt:new Date().toISOString(),sourceYear:2011,originalBytesUnchanged:true,licenseSourceSha256:sha256(licenseBytes),licenseTextSha256:sha256(Buffer.from(licenseText)),limitations:['Only the confirmed south Grand Hotel Santa Lucia wall may use this photograph.','About960 native pixels across the selected wall, not3072; source view is hazy and contains historic foreground occlusions.','Photo documents2011, not a current survey. No AI enhancement, retouching or contrast baking.']};
+await writeFile(directory+'/source-metadata.json',JSON.stringify(source,null,2)+'\n');
+const notice='Antoine Pitrou — Napoli-1040131.jpg — 27 September2011.\nCopyleft: Free Art License1.3 — '+licenseUrl+'\nSource: '+info.descriptionurl+'\nOriginal: '+originalUrl.href+'\nOriginal JPEG bytes are unchanged; SHA256 '+source.sha256+'.\nThe original remains independently accessible as source.jpg.\nAny accompanying projection/calibration asset must identify its modifications and be distributed separately under FAL1.3 or a compatible license, with access to this original and full license. The larger game/program code is separately licensed; do not remove access to this licensed photo asset.\n';
+await writeFile(directory+'/NOTICE.txt',notice);
+console.log(JSON.stringify(source,null,2));
