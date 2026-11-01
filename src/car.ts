@@ -5,6 +5,8 @@ import {ImportMeshAsync} from '@babylonjs/core/Loading/sceneLoader';
 import {registerBuiltInLoaders} from '@babylonjs/loaders/dynamic';
 import {TransmissionHelper,type ITransmissionHelperHolder} from '@babylonjs/loaders/glTF/2.0/Extensions/transmissionHelper';
 import {KHR_materials_variants} from '@babylonjs/loaders/glTF/2.0/Extensions/KHR_materials_variants.pure';
+import {PBRMaterial} from '@babylonjs/core/Materials/PBR/pbrMaterial';
+import {Color3} from '@babylonjs/core/Maths/math.color';
 import type {AbstractMesh} from '@babylonjs/core/Meshes/abstractMesh';
 import type {GroundCheck,GroundPoint} from './movement';
 
@@ -108,6 +110,14 @@ export function createCar(scene:Scene,options:{variant?:CarVariant}={}):Car {
       const variant=options.variant??'Pearly Swirly',sourceRoot=result.meshes[0];
       if(!sourceRoot||!KHR_materials_variants.GetAvailableVariants(sourceRoot).includes(variant))throw new Error('La variante originale dell’auto non è disponibile.');
       KHR_materials_variants.SelectVariant(sourceRoot,variant);
+      if(variant==='Pearly Swirly'){
+        const body=new Set(result.meshes.map(mesh=>mesh.material).filter((material):material is PBRMaterial=>material instanceof PBRMaterial&&material.name==='Paint 1 Pearl'));
+        if(!body.size)throw new Error('Il materiale della carrozzeria non è disponibile.');
+        for(const material of body){
+          material.albedoColor=Color3.FromHexString('#e7e5de').toLinearSpace();material.metallic=.08;material.roughness=.28;
+          material.iridescence.isEnabled=false;material.clearCoat.isEnabled=true;material.clearCoat.intensity=1;material.clearCoat.roughness=.14;
+        }
+      }
       const nodes=[...result.meshes,...result.transformNodes];
       const imported=new Set(nodes);
       for(const node of nodes)if(!node.parent||!imported.has(node.parent as AbstractMesh))node.parent=pivot;
@@ -124,7 +134,7 @@ export function createCar(scene:Scene,options:{variant?:CarVariant}={}):Car {
       car.radius=size.radius;car.halfLength=size.halfLength;
       for(const wheel of [...front,...rear])car.wheels.push(createWheelSpinPivot(wheel));
       pivot.parent=root;pivot.setEnabled(true);root.setEnabled(true);
-      root.metadata={asset:'CarConcept',kind:'auto',dimensions:size,license:'CC-BY-4.0',authoredMaterialVariant:variant,runtimeModification:'Uniformly scaled to4.4m, centered, oriented using wheel pivots; source trademark plate hidden; an original authored material variant selected.',sourceRevision:manifest.revision};
+      root.metadata={asset:'CarConcept',kind:'auto',dimensions:size,license:'CC-BY-4.0',authoredMaterialVariant:variant,runtimeFinish:variant==='Pearly Swirly'?'Artistic white paint: dielectric base, clear coat, no iridescence':'Original authored finish',runtimeModification:'Uniformly scaled to4.4m, centered, oriented using wheel pivots; source trademark plate hidden; authored variant selected.'+(variant==='Pearly Swirly'?' White finish tuned numerically at runtime.':''),sourceRevision:manifest.revision};
     }catch(error){pivot.dispose(false,true);root.dispose(false,true);throw new Error('Impossibile caricare il modello dell’auto. Ricarica la pagina.',{cause:error});}
   })();
   return car;
