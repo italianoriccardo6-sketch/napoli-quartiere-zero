@@ -3,12 +3,13 @@ import {createHash} from 'node:crypto';
 import {createRequire} from 'node:module';
 import {resolve} from 'node:path';
 import {pathToFileURL} from 'node:url';
+import {readAlphaPNG,componentPartition,inspectLeafComponents,prepareLeafComponents,chooseLeafLOD,metricIndices} from './tree-component-reduction.mjs';
 
 // Research artifact only: no runtime files, image edits, compressed geometry or
 // external decoders. Official APIs checked at glTF-Transform4.5.1/meshoptimizer1.3.
 const out='work/tree-lod-research/output',raw='work/tree-lod-research/input';
-const userAgent='NapoliQuartiereZero/0.5 (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero)';
-const maxInput=300*1024*1024,maxRuntime=20*1024*1024,maxMesh=25*1024*1024;
+const userAgent='NapoliQuartiereZero/0.5-component-trial (https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero)';
+const maxInput=300*1024*1024,maxRuntime=32*1024*1024,maxMesh=25*1024*1024;
 const binBytes=95102324,binMD5='7a7019a87e6fe0d7475c0fa2e08d8962';
 const toolRoot=resolve(process.env.TREE_LOD_TOOLS??'work/tree-lod-tools'),require=createRequire(toolRoot+'/package.json');
 const {Document,NodeIO}=await import(pathToFileURL(require.resolve('@gltf-transform/core')).href);
@@ -83,6 +84,7 @@ if(sourceJSON.skins?.length||['matrix','translation','rotation','scale','skin','
 for(const primitive of sourceJSON.meshes[0].primitives)if(primitive.mode!==undefined&&primitive.mode!==4||primitive.targets)throw Error('Unsupported source primitive.');
 for(const [i,name]of ['tree_small_02_branches','tree_small_02_leaves','tree_small_02_trunk'].entries())if(sourceJSON.materials?.[sourceJSON.meshes[0].primitives[i].material]?.name!==name)throw Error('Source primitive material order changed; inspect before fetching.');
 const binary=await verified(binaryDescriptor,binBytes);
+if(hash('sha256',binary)!=='8da6c3c389ad8748286d1b7488cd827f75ebdad9d8f59ef7dfb0916df5edc634')throw Error('Pinned source binary SHA256 mismatch.');
 await mkdir(raw,{recursive:true});await writeFile(raw+'/source.gltf',jsonBytes);await writeFile(raw+'/tree_small_02.bin',binary);
 await mkdir(out,{recursive:true});
 const sourceProvenance={gltf:{url:descriptor.url,bytes:jsonBytes.length,md5:hash('md5',jsonBytes),sha256:hash('sha256',jsonBytes)},binary:{url:binaryDescriptor.url,bytes:binary.length,md5:hash('md5',binary),sha256:hash('sha256',binary)},totalTransferredBytes:transferred,maximumInputBytes:maxInput};
@@ -101,32 +103,33 @@ for(let i=0;i<primitives.length;i++){
   primitive.setAttribute('TEXCOORD_0',doc.createAccessor(roles[i]+' baked UV0',doc.getRoot().listBuffers()[0]).setType('VEC2').setArray(baked));primitive.setAttribute('TEXCOORD_1',null);
   uvPolicies.push({role:roles[i],sourceTexCoord:texCoord,sourceScale:scale,sourceOffset:offset,bakedInto:'TEXCOORD_0',materialSubstitution:i===1?'unchanged leaf atlas with separate existing PNG alpha':'existing seamless Bark Brown01, original used UV mapping retained'});
 }
-await doc.transform(weld());
+// Partition original source index topology before any cross-component weld.
 function bounds(positions){const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];for(let i=0;i<positions.length;i++){const a=i%3;min[a]=Math.min(min[a],positions[i]);max[a]=Math.max(max[a],positions[i]);}return {min,max,span:min.map((v,a)=>max[a]-v)};}
-function topology(indices,count){
-  const parent=new Uint32Array(count);for(let i=0;i<count;i++)parent[i]=i;
-  const find=i=>{while(parent[i]!==i){parent[i]=parent[parent[i]];i=parent[i];}return i;};
-  const join=(a,b)=>{a=find(a);b=find(b);if(a!==b)parent[b]=a;};
-  for(let i=0;i<indices.length;i+=3){join(indices[i],indices[i+1]);join(indices[i],indices[i+2]);}
-  const seen=new Uint8Array(count);let components=0;for(const index of indices){const root=find(index);if(!seen[root]){seen[root]=1;components++;}}
-  return {components,retained(output){const seen=new Uint8Array(count);let value=0;for(const index of output){const root=find(index);if(!seen[root]){seen[root]=1;value++;}}return value;}};
-}
 function occupancy(positions,box){const cells=new Set();for(let i=0;i<positions.length;i+=3){const cell=[0,1,2].map(a=>Math.max(0,Math.min(11,Math.floor((positions[i+a]-box.min[a])/Math.max(box.span[a],1e-8)*12))));cells.add(cell[0]+12*cell[1]+144*cell[2]);}return cells;}
 const sources=primitives.map((primitive,i)=>{
   const positions=new Float32Array(primitive.getAttribute('POSITION').getArray()),normals=new Float32Array(primitive.getAttribute('NORMAL').getArray()),uvs=new Float32Array(primitive.getAttribute('TEXCOORD_0').getArray()),indices=new Uint32Array(primitive.getIndices().getArray());
   if(!positions.every(Number.isFinite)||!normals.every(Number.isFinite)||!uvs.every(Number.isFinite))throw Error('Nonfinite source attributes.');
   const attributes=new Float32Array(positions.length/3*5);for(let v=0;v<positions.length/3;v++)attributes.set([normals[v*3],normals[v*3+1],normals[v*3+2],uvs[v*2],uvs[v*2+1]],v*5);
-  const box=bounds(positions),components=topology(indices,positions.length/3),cells=occupancy(positions,box);
+  const box=bounds(positions),components=componentPartition(indices,positions.length/3),cells=occupancy(positions,box);
   return {role:roles[i],positions,normals,uvs,indices,attributes,box,components,cells};
 });
 const sourceGeometry=sources.map(source=>{const uvMin=[Infinity,Infinity],uvMax=[-Infinity,-Infinity];for(let i=0;i<source.uvs.length;i++){const axis=i%2;uvMin[axis]=Math.min(uvMin[axis],source.uvs[i]);uvMax[axis]=Math.max(uvMax[axis],source.uvs[i]);}return {role:source.role,triangles:source.indices.length/3,vertices:source.positions.length/3,components:source.components.components,bounds:source.box,bakedUV0Range:{min:uvMin,max:uvMax}};});
 await writeFile(out+'/source-inspection.json',JSON.stringify({tools:versions,source:sourceProvenance,uvPolicies,sourceGeometry,status:'input-and-UV-mapping-verified-awaiting-simplification'},null,2)+'\n');
+const mask=readAlphaPNG(await readFile('public/assets/foliage/tree_small_02/leaves-alpha.png'));
+const leafInspection=inspectLeafComponents(sources[1],mask);
+sourceGeometry[1].componentHistogram=leafInspection.histogram;
+await writeFile(out+'/source-inspection.json',JSON.stringify({tools:versions,source:sourceProvenance,uvPolicies,sourceGeometry,alphaSampling:{bitDepth:mask.bitDepth,normalization:mask.normalization,cutoff:.55,samplesPerTriangle:64,orientation:'source UV0 unchanged; image(v), invertY=false; image(1-v) diagnostic only'},status:'original-component-size-geometric-UV-alpha-histograms-verified-before-reduction'},null,2)+'\n');
+await writeFile(out+'/source-component-metrics.json',JSON.stringify({status:'research-metrics-only-no-source-vertex-data',components:leafInspection.sourceMetrics.map((metrics,id)=>({id,...metrics}))})+'\n');
+console.log('ORIGINAL_LEAF_COMPONENT_HISTOGRAM '+JSON.stringify(leafInspection.histogram));
+const preparedLeaves=prepareLeafComponents(sources[1],mask,MeshoptSimplifier,leafInspection);
 const results=[],writes=[];
-for(const lod of [{name:'near',budgets:[11000,65000,4000],errors:[.005,.01,.02]},{name:'far',budgets:[3000,10000,2000],errors:[.02,.04,.08]}]){
+await writeFile(out+'/LICENSE.txt',['Derived geometry: Tree Small02, Rico Cilliers, Poly Haven, CC0-1.0.','https://polyhaven.com/a/tree_small_02','https://polyhaven.com/license','Unapproved diagnostic candidate: source vertices/UV orientation retained; lossy area-first component reduction.','Original95MB source binary is excluded. Existing photographic-map licenses remain unchanged.',''].join('\n'));
+for(const lod of [{name:'near',budgets:[11000,285000,4000],leafFaces:4,desiredAlphaRetention:.90,maximumTriangles:300000,errors:[.005,.01,.02]},{name:'far',budgets:[3000,115000,2000],leafFaces:2,desiredAlphaRetention:.70,maximumTriangles:120000,errors:[.02,.04,.08]}]){
   const parts=[],metrics=[];
   for(let i=0;i<sources.length;i++){
-    const source=sources[i],budget=lod.budgets[i];let chosen;
-    for(const flags of [[],['Prune'],['Prune','Permissive']]){
+    const source=sources[i],budget=lod.budgets[i];let chosen,componentConservation;
+    if(i===1){const leaf=chooseLeafLOD(preparedLeaves,lod.leafFaces,budget,{desiredAggregateRetention:lod.desiredAlphaRetention});chosen={indices:leaf.indices,error:leaf.metrics.maximumReportedError,errorLimit:'component-local, recorded by preparation',flags:[]};componentConservation=leaf.metrics;}else{
+    for(const flags of [[]]){
       for(const errorLimit of lod.errors){
         const [indices,error]=MeshoptSimplifier.simplifyWithAttributes(source.indices,source.positions,3,source.attributes,5,[1,1,1,.5,.5],null,budget*3,errorLimit,flags);
         if(!chosen||indices.length<chosen.indices.length)chosen={indices,error,errorLimit,flags};
@@ -134,18 +137,24 @@ for(const lod of [{name:'near',budgets:[11000,65000,4000],errors:[.005,.01,.02]}
       }
       if(chosen.indices.length<=budget*3&&chosen.indices.length>0)break;
     }
+    }
     if(!chosen?.indices.length)throw Error('Simplification erased a material primitive.');
     const triangles=chosen.indices.length/3,retainedComponents=source.components.retained(chosen.indices),part=compact(chosen.indices,source.positions,source.normals,source.uvs),box=bounds(part.positions),cells=occupancy(part.positions,source.box);
     if(triangles>budget)throw Error(`Topology did not reach the requested ${lod.name}/${source.role} budget: ${triangles}>${budget}`);
-    parts.push({role:source.role,...part});metrics.push({role:source.role,sourceTriangles:source.indices.length/3,triangles,ratio:triangles/(source.indices.length/3),vertices:part.positions.length/3,targetTriangles:budget,reportedAttributeError:chosen.error,errorLimit:chosen.errorLimit,flags:chosen.flags,sourceBounds:source.box,bounds:box,sourceComponents:source.components.components,retainedSourceComponents:retainedComponents,sourceOccupiedCanopyCells:source.cells.size,retainedOccupiedCanopyCells:[...cells].filter(cell=>source.cells.has(cell)).length,canopyGrid:12});
+    parts.push({role:source.role,...part});metrics.push({componentConservation,role:source.role,sourceTriangles:source.indices.length/3,triangles,ratio:triangles/(source.indices.length/3),vertices:part.positions.length/3,targetTriangles:budget,reportedAttributeError:chosen.error,errorLimit:chosen.errorLimit,flags:chosen.flags,sourceBounds:source.box,bounds:box,sourceComponents:source.components.components,retainedSourceComponents:retainedComponents,sourceOccupiedCanopyCells:source.cells.size,retainedOccupiedCanopyCells:[...cells].filter(cell=>source.cells.has(cell)).length,canopyGrid:12});
   }
+  if(metrics.reduce((sum,metric)=>sum+metric.triangles,0)>lod.maximumTriangles)throw Error('Component-preserving total triangle bound exceeded.');
   const output=await io.writeBinary(makeDocument(parts,'tree_small_02_'+lod.name));if(output.length>maxMesh)throw Error('One model exceeds 25 MiB.');
   const check=await io.readBinary(output);if(check.getRoot().listTextures().length||check.getRoot().listExtensionsUsed().length)throw Error('Output unexpectedly needs textures or runtime extensions.');
-  const path='tree_small_02-'+lod.name+'.glb';writes.push({path,data:output});results.push({lod:lod.name,path,bytes:output.length,sha256:hash('sha256',output),triangles:metrics.reduce((sum,m)=>sum+m.triangles,0),primitives:metrics});console.log('TREE_LOD_RESULT '+JSON.stringify(results.at(-1)));
+  const path='tree_small_02-'+lod.name+'.glb';
+  const candidateRuntimeBytes=results.reduce((sum,result)=>sum+result.bytes,sharedTextureBytes)+output.length;
+  if(candidateRuntimeBytes+65536>maxRuntime){await writeFile(out+'/candidate-bound-failure.json',JSON.stringify({status:'unapproved-diagnostic-candidate',lod:lod.name,candidateRuntimeBytes,maximumRuntimeBytes:maxRuntime,retainedValidOutputs:results},null,2)+'\n');throw Error('Candidate plus existing valid LOD and unchanged maps exceeds32MiB; retained earlier diagnostic model.');}
+  await writeFile(out+'/'+path,output);writes.push({path,data:output});results.push({lod:lod.name,path,bytes:output.length,sha256:hash('sha256',output),triangles:metrics.reduce((sum,m)=>sum+m.triangles,0),primitives:metrics});await writeFile(out+'/candidate-progress.json',JSON.stringify({status:'unapproved-diagnostic-candidate',outputs:results,source:sourceProvenance,sourceGeometry,maximumRuntimeBytes:maxRuntime},null,2)+'\n');
+  console.log('TREE_LOD_RESULT '+JSON.stringify(results.at(-1)));
 }
-const runtimeBytes=results.reduce((sum,result)=>sum+result.bytes,sharedTextureBytes);if(runtimeBytes+65536>maxRuntime)throw Error('Both LODs plus shared textures and 64KiB provenance reserve exceed 20 MiB.');
+const runtimeBytes=results.reduce((sum,result)=>sum+result.bytes,sharedTextureBytes);if(runtimeBytes+65536>maxRuntime)throw Error('Both LODs plus shared textures and 64KiB provenance reserve exceed32MiB.');
 await mkdir(out,{recursive:true});for(const file of writes)await writeFile(out+'/'+file.path,file.data);
-const manifest={version:1,status:'offline-research-requires-rendered-review',retrievedAt:new Date().toISOString(),asset:'tree_small_02',author:'Rico Cilliers',license:'CC0-1.0',sourcePage:'https://polyhaven.com/a/tree_small_02',licensePage:'https://polyhaven.com/license',tools:versions,source:sourceProvenance,sourceGeometry,uvPolicies,sharedTextures:{manifestPath:textureManifestPath,manifestSHA256:hash('sha256',await readFile(textureManifestPath)),bytes:sharedTextureBytes,files:textureManifest.files},outputs:results,totalRuntimeBytes:runtimeBytes,maximumRuntimeBytes:maxRuntime,materialRoles:roles,notes:['Offline simplification is a lossy CC0 adaptation, not a newly measured Naples tree. Existing OSM tree-node positions are not part of, or altered by, this research.','Source branch UV1 and its exact used KHR_texture_transform are baked into UV0 before UV1 is removed. Leaf atlas UV0 and trunk UV0 are retained.','Geometry-only uncompressed GLBs require no Draco, meshopt decoder, images or external runtime fetch. Bind existing bark/leaf PBR materials by the stable role names.','The JPEG leaf diffuse has no alpha channel. Attach the unchanged separate PNG alpha through the existing Babylon material factory. No image pixels are edited or packed.','Prune/Permissive may remove leaf components or relax attribute seams; actual flags, retained component counts and coarse canopy occupancy are recorded per primitive.','Reported simplifier error, bounds and occupancy are diagnostics, not a silhouette or perceptual-quality guarantee. Near/far render review with the actual alpha material is required before runtime approval.','No claim of GTA-equivalent or photographic tree quality follows from triangle reduction alone.']};
+const manifest={version:2,algorithm:'component-preserving-verified-alpha-area-priority',status:'unapproved-diagnostic-candidate-requires-rendered-review',retrievedAt:new Date().toISOString(),asset:'tree_small_02',author:'Rico Cilliers',license:'CC0-1.0',sourcePage:'https://polyhaven.com/a/tree_small_02',licensePage:'https://polyhaven.com/license',tools:versions,source:sourceProvenance,sourceGeometry,uvPolicies,sharedTextures:{manifestPath:textureManifestPath,manifestSHA256:hash('sha256',await readFile(textureManifestPath)),bytes:sharedTextureBytes,files:textureManifest.files},outputs:results,totalRuntimeBytes:runtimeBytes,maximumRuntimeBytes:maxRuntime,materialRoles:roles,notes:['Offline simplification is a lossy CC0 adaptation, not a newly measured Naples tree. Existing OSM tree-node positions are not part of, or altered by, this research.','Source branch UV1 and its exact used KHR_texture_transform are baked into UV0 before UV1 is removed. Leaf atlas UV0 and trunk UV0 are retained.','Geometry-only uncompressed GLBs require no Draco, meshopt decoder, images or external runtime fetch. Bind existing bark/leaf PBR materials by the stable role names.','The JPEG leaf diffuse has no alpha channel. Attach the unchanged separate PNG alpha through the existing Babylon material factory. No image pixels are edited or packed.','Every original connected index component of the leaf primitive is retained. Bark primitives retain their recorded global simplification diagnostics. Component-local leaf simplification changes only triangle indices selecting original P/N/UV vertices; no leaf scale inflation, UV flip, image edit, Prune or Permissive is used. Components are not asserted to be individual leaves.','Exact geometric area, summed absolute UV area, and 64-sample alpha-covered area are compared with the original before reduction. Net area and per-component clamped retention are recorded; bounds and voxel occupancy alone do not demonstrate canopy density. Reported simplifier error and these metrics are diagnostics, not a silhouette or perceptual-quality guarantee. Near/far render review with the actual alpha material is required before runtime approval.','No claim of GTA-equivalent or photographic tree quality follows from triangle reduction alone.']};
 await writeFile(out+'/tree-lod-manifest.json',JSON.stringify(manifest,null,2)+'\n');
 await writeFile(out+'/LICENSE.txt',['Derived geometry: Tree Small 02 — Rico Cilliers, Poly Haven, CC0 1.0.','https://polyhaven.com/a/tree_small_02','https://polyhaven.com/license','Offline simplification performed with glTF-Transform and meshoptimizer (MIT tools, not included in runtime).','Shared unchanged photographic maps remain credited in the existing foliage manifest (Rico Cilliers leaves; Rob Tuytel Bark Brown01).','No original 95MB input binary, preview renders or API source code is redistributed.',''].join('\n'));
 console.log('VERIFIED_TREE_LODS '+JSON.stringify({runtimeBytes,sharedTextureBytes,outputs:results.map(({lod,bytes,triangles})=>({lod,bytes,triangles}))}));

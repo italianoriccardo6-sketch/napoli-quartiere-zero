@@ -1,4 +1,4 @@
-name: Ricerca offline LOD albero CC0 entro 20 MiB
+name: Ricerca componenti e superficie albero CC0 entro 32 MiB
 on:
   workflow_dispatch:
 permissions:
@@ -9,7 +9,7 @@ concurrency:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     env:
       NODE_OPTIONS: --max-old-space-size=4096
     steps:
