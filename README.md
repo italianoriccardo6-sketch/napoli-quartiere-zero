@@ -2,7 +2,7 @@
 
 Gioco 3D per browser, tastiera e mouse. Si apre da un sito online anche su Mac; non richiede Unreal Engine o installazione di un gioco desktop.
 
-**Stato 0.4.1: geografia OSM reale e primi due fronti fotografici di Napoli.** Costa, sagome e rete viaria coprono il settore Santa Lucia–lungomare–Plebiscito: 1.803 poligoni di edifici (316 con cortili), 1.531 percorsi di superficie e circa 586 m di percorso missione. I fronti selezionati del Royal Continental e del Grand Hotel Vesuvio usano una fotografia CC0 del 2010 sulle rispettive pareti OSM, con profondità ricostruite artisticamente. Materiali PBR fotografici, foglie e corteccia fotografiche, aree verdi OSM e dettagli del lungomare completano questa revisione. Le altre facciate sono generiche, 1.620 altezze sono stimate e il terreno urbano resta piano. La demo non raggiunge ancora il riferimento visivo richiesto.
+**Stato 0.4.2: dislivelli reali del DTM2020 regionale, geografia OSM e due fronti fotografici di Napoli.** Costa, sagome e rete viaria coprono il settore Santa Lucia–lungomare–Plebiscito: 1.803 poligoni di edifici (316 con cortili), 1.531 percorsi di superficie e circa 586 m di percorso missione. I fronti selezionati del Royal Continental e del Grand Hotel Vesuvio usano una fotografia CC0 del 2010 sulle rispettive pareti OSM, con profondità ricostruite artisticamente. Materiali PBR fotografici, foglie e corteccia fotografiche, aree verdi OSM e dettagli del lungomare completano questa revisione. La città segue ora il terreno regionale con quote relative alla strada iniziale: piedi, strade, auto, edifici e arredi condividono la superficie renderizzata. Le altre facciate sono generiche e 1.620 altezze sono stimate. La demo non raggiunge ancora il riferimento visivo richiesto.
 
 ## GitHub è la fonte del progetto
 
@@ -57,7 +57,7 @@ L’estrazione fa al massimo due richieste Overpass, una per endpoint, con timeo
 
 La preparazione usa `osmtogeojson` per edifici multipoligono e cortili, conserva nomi e centerline delle strade e ricompone la costa nella direzione originale (terra a sinistra). La costa completa si estende fuori viewport: viene chiusa **fuori dal perimetro visibile** e poi ritagliata con `polygon-clipping`, preservando anelli e buchi. Non vengono aggiunte rive inventate nel settore attivo. Il confine rettangolare del settore è un limite di caricamento, non una costa reale.
 
-Il processo esclude gallerie, passaggi coperti, ponti e livelli diversi da zero dalla resa di superficie, perché il modello di terreno corrente non supporta più quote. Gradini e accessi privati non sono ammessi nel percorso del motorino. Le larghezze senza tag sono stime visive; altezze da `height`, altrimenti livelli × 3,2 m, altrimenti 10 m stimati (massimo tecnico 60 m). Non vengono inventate pendenze.
+Il processo esclude gallerie, passaggi coperti, ponti e livelli diversi da zero dalla resa di superficie, perché il modello di terreno corrente non supporta più quote. Gradini e accessi privati non sono ammessi nel percorso del motorino. Le larghezze senza tag sono stime visive; altezze da `height`, altrimenti livelli × 3,2 m, altrimenti 10 m stimati (massimo tecnico 60 m). Le pendenze provengono dal DTM2020, con lacune costiere esplicitamente stimate o mantenute piatte; non sono un rilievo dei singoli gradini.
 
 La nuova missione segue un percorso libero sulle geometrie reali di **Via Santa Lucia, Via Chiatamone, Via Alessandro Dumas e Via Partenope**. Punti di interazione e personaggi sono inventati e non corrispondono a esercizi reali. Il tragitto di ritorno usa lo stesso percorso. Il terreno, i punti iniziali e oltre 2.000 campioni del percorso sono controllati per l’ingombro del mezzo prima di generare la mappa attiva. Se la topologia o il collegamento non passano i controlli, la preparazione fallisce senza attivare una nuova mappa.
 
@@ -74,11 +74,11 @@ Licenza: [© OpenStreetMap contributors](https://www.openstreetmap.org/copyright
 - `story.ts`, `mission.ts`, `save.ts`: prologo, logica legacy e impostazioni; logica missione originale mantenuta per compatibilità/test.
 - `main.ts`, `ui.ts`, `style.css`, `audio.ts`: interazioni, dialoghi, HUD e audio sintetico.
 
-Collisioni cinematiche su piano con l’intera capsula dell’auto normalizzata: raggio circa 1,3085 m e semilunghezza 2,225 m. Scorrimento a piedi e arresto del mezzo contro gli ostacoli; sottopassi massimi di 20 cm. Bordi non attraversabili e recupero se si esce dalla mappa. Ombre selettive e istanze per decorazioni; qualità alta con pixel ratio massimo 1,5, bassa massimo 1 senza ombre. Nessun benchmark FPS verificato. Vite segnala il chunk JS iniziale sopra 500 kB: avviso, non errore.
+Collisioni cinematiche nel piano orizzontale, con quota e assetto adattati alla superficie renderizzata, usando l’intera capsula dell’auto normalizzata: raggio circa 1,3085 m e semilunghezza 2,225 m. Scorrimento a piedi e arresto del mezzo contro gli ostacoli; sottopassi massimi di 20 cm. Bordi non attraversabili e recupero se si esce dalla mappa. Ombre selettive e istanze per decorazioni; qualità alta con pixel ratio massimo 1,5, bassa massimo 1 senza ombre. Nessun benchmark FPS verificato. Vite segnala il chunk JS iniziale sopra 500 kB: avviso, non errore.
 
 ## Evidenze e limiti
 
-Le suite automatiche verificano coordinate, poligoni e cortili, altezze dichiarate e stimate, collisioni e movimento, missione e salvataggi. La revisione 0.4.1 aggiunge controlli su fronti fotografici, dettagli costieri, arredi e ritaglio delle aree verdi, compresa l’interpolazione sui triangoli del terreno. Test e build sono eseguiti dal workflow GitHub sul commit della revisione.
+Le suite automatiche verificano coordinate, poligoni e cortili, altezze dichiarate e stimate, collisioni e movimento, missione e salvataggi. Le revisioni 0.4.1–0.4.2 aggiungono controlli su fronti fotografici, dettagli costieri, arredi, aree verdi e dislivelli; l’intero percorso viene percorso dal controller su quote ricavate dai triangoli renderizzati, con verifiche su assetto e movimento dell’auto. Test e build sono eseguiti dal workflow GitHub sul commit della revisione.
 
 NullEngine esegue costruzione e aggiornamenti della scena; lo script separato `scripts/render-qa.ts` produce fotogrammi effettivi con WebGL/Mesa via Node. Queste verifiche non costituiscono una prova interattiva su Safari/macOS né un benchmark sul Mac del giocatore. La corrispondenza fotografica resta limitata ai due fronti selezionati; gli altri dettagli sono ricostruzioni artistiche.
 
@@ -125,7 +125,7 @@ La ricerca riportata sopra descriveva i limiti della versione 0.2. Con la versio
 
 ### Punti quotati regionali acquisiti, separati dalla scena
 
-Il workflow di ricerca ha acquisito 69 punti dal servizio ufficiale Regione Campania (CTR 2020, CC-BY 4.0); un punto era fuori dal perimetro richiesto. Il sottoinsieme locale contiene quindi 68 punti. Originale, selezione, metadati e validazione sono conservati in `data/napoli-terrain-points/`. Il filtro non ha ampliato i limiti geografici. **Il terreno del gioco resta piano:** datum e unità verticali della risposta ArcGIS non sono stati certificati. Il [capitolato ufficiale CTR](https://www.regione.campania.it/assets/documents/capitolato-oneri-cig-z95361df5b.pdf) offre contesto sui sistemi di riferimento, ma non è stato trattato come certificazione della specifica risposta del servizio.
+Il workflow di ricerca ha acquisito 69 punti dal servizio ufficiale Regione Campania (CTR 2020, CC-BY 4.0); un punto era fuori dal perimetro richiesto. Il sottoinsieme locale contiene quindi 68 punti. Originale, selezione, metadati e validazione sono conservati in `data/napoli-terrain-points/`. Il filtro non ha ampliato i limiti geografici. Questi punti non sono attivati: datum e unità verticali di quella risposta ArcGIS non sono certificati. Il raster DTM2020 separato è ora usato solo per dislivelli relativi, come descritto sotto. Il [capitolato ufficiale CTR](https://www.regione.campania.it/assets/documents/capitolato-oneri-cig-z95361df5b.pdf) offre contesto sui sistemi di riferimento, ma non è stato trattato come certificazione della specifica risposta del servizio.
 
 
 ## Correzione 0.3.1 — blocco dopo «Gioca»
@@ -143,7 +143,7 @@ La schermata allegata dall’utente richiede una strada a scala reale con asfalt
 
 ## Dettaglio visivo 0.4
 
-La scena attiva condivide la stessa costruzione tra gioco e `scripts/render-qa.ts`: superfici PBR fotografiche Poly Haven (asfalto, intonaco, pietra, cielo HDR CC0), finestre/persiane/balconi e vetrine inferiti sulle sagome OSM, cordoli e marciapiedi lungo il percorso. Le posizioni delle aperture non sono rilievi dei singoli edifici. Il terreno resta piano e molti volumi hanno altezza stimata. Non è una ricostruzione fotogrammetrica di Napoli né una qualità equivalente a GTA V.
+La scena attiva condivide la stessa costruzione tra gioco e `scripts/render-qa.ts`: superfici PBR fotografiche Poly Haven (asfalto, intonaco, pietra, cielo HDR CC0), finestre/persiane/balconi e vetrine inferiti sulle sagome OSM, cordoli e marciapiedi lungo il percorso. Le posizioni delle aperture non sono rilievi dei singoli edifici. Nella revisione 0.4 il terreno era piano; la 0.4.2 integra il DTM2020 relativo. Molti volumi mantengono altezza stimata. Non è una ricostruzione fotogrammetrica di Napoli né una qualità equivalente a GTA V.
 
 L’auto giocabile usa il CarConcept ufficiale Khronos, ©2024 Darmstadt Graphics Group, modello e texture Eric Chadwick, CC BY4.0. Il file e tutte le texture sono locali; il modello è scalato uniformemente a4.4m e la targa originale è nascosta. La capsula di collisione deriva dalla larghezza reale del modello e include muso/coda; la partenza e la discesa separano il personaggio dalla carrozzeria. E entra/esce, R recupera, WASD guida. Il prologo resta completabile a piedi; il percorso era stato validato per il precedente motorino e non tutte le svolte sono garantite per la nuova auto larga.
 
@@ -157,7 +157,7 @@ L’aggiornamento delle superfici usa asfalto2K e lastre esterne stone_tiles_02 
 
 ### Rilievo distante del golfo
 
-`public/data/background-terrain.json` contiene il rilievo SRTM3 v2.1 N40E014 (NASA/NGA/USGS, pubblico dominio), acquisito dal mirror Kurviger quando l’URL storico USGS restituisce 404. Coordinate WGS84, quote in metri sul geoide EGM96; fonte e SHA256 in `data/background-terrain-source.json`. La griglia circa 120×133 m ricostruisce il profilo geografico distante di Vesuvio e Posillipo; colori e foschia sono artistici. Non è fotogrammetria. Tutte le celle che intersecano il rettangolo urbano, più 120 m, sono escluse: le collisioni e le quote delle strade restano quelle della demo. L’orizzonte usa la propria foschia e la camera arriva a 50 km senza avvicinare o ingrandire le montagne.
+`public/data/background-terrain.json` contiene il rilievo SRTM3 v2.1 N40E014 (NASA/NGA/USGS, pubblico dominio), acquisito dal mirror Kurviger quando l’URL storico USGS restituisce 404. Coordinate WGS84, quote in metri sul geoide EGM96; fonte e SHA256 in `data/background-terrain-source.json`. La griglia circa 120×133 m ricostruisce il profilo geografico distante di Vesuvio e Posillipo; colori e foschia sono artistici. Non è fotogrammetria. I triangoli vengono ritagliati sul rettangolo urbano esatto, conservando le parti esterne delle celle di confine. Lo SRTM mantiene le proprie differenze di quota ed è traslato nella scena sottraendo il riferimento iniziale del DTM regionale. È un allineamento artistico fra fonti separate, senza trasformazione certificata di datum; eventuali differenze al confine non sono trattate come quote stradali misurate. L’orizzonte usa la propria foschia e la camera arriva a 50 km senza avvicinare o ingrandire le montagne.
 
 ## Fronti reali e superfici 0.4.1
 
@@ -170,3 +170,14 @@ Le foglie usano l’atlante fotografico **Tree Small 02 di Rico Cilliers**, la c
 Il basso profilo in pietra del lungomare segue esclusivamente tratti della costa OSM vicini al percorso. Altezza, larghezza e presenza continua del parapetto sono stimate a fini visivi: la foto non certifica un muro su ogni segmento. Gli arredi usano posizioni OSM con modelli originali e dimensioni inferite. Le altre facciate mantengono materiali e aperture generici. Fonti, autori e limiti sono riepilogati in [ASSETS.md](ASSETS.md) e nei manifest inclusi; nessun asset Rockstar è distribuito.
 
 L’estratto degli arredi del 1 novembre 2026 conserva 169 nodi OSM: 21 lampioni, 65 panchine, 72 cestini, 8 fontanelle e 3 dissuasori. Il filtro visivo entro 100 m dal percorso iniziale seleziona soltanto due cestini: questi dati non giustificano lampioni o panchine aggiunti lungo strade senza nodi sorgenti. Estratto, query, attribuzione e checksum sono in `data/napoli-furniture/`; il JSON derivato è in `public/data/furniture.json`.
+
+
+## Dislivelli regionali 0.4.2
+
+Il raster ufficiale **Regione Campania CTR2020 DTM5K**, nativo a 5 m, è conservato con TIFF originale, checksum e metadati in [`data/napoli-dtm-2020/`](data/napoli-dtm-2020/README.md). La scala in metri è supportata dalla specifica INTESA GIS prescritta dal capitolato; il servizio non dichiara il datum verticale. Tutte le quote urbane sono differenze rispetto al campione iniziale di Via Partenope, senza affermazioni sul livello del mare. La sorgente è stata acquisita tramite [workflow GitHub](https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero/actions/runs/41254126941).
+
+La terra conserva costa e buchi OSM, con **36.175 triangoli conformi e bordo massimo 20 m**. Dei 18.575 vertici, 16.409 usano interpolazione bilineare valida, 2.136 estendono il pixel originale più vicino entro 10 m, 30 conservano il precedente piano locale e sono dichiarati non misurati. Non viene usata interpolazione a lunga distanza. Il piano dell’acqua è un riferimento artistico; non certifica una quota marina.
+
+Strade e cordoli seguono la mesh. Piedi e auto usano le altezze dei triangoli realmente disegnati; le auto hanno un adattamento statico a quattro appoggi, con beccheggio e rollio, non una simulazione delle sospensioni. I basamenti piatti degli edifici sono inferiti dal terreno lungo le sagome immutate; i due fronti fotografici ricevono lo stesso spostamento dei rispettivi volumi. Il DTM non risolve ogni scala, ponte o muro.
+
+Il percorso pedonale reale completo mantiene oltre 3 m di variazione verticale e resta libero nei test del controller. La cattura WebGL aggiunge una vista diagnostica del pendio vicino a Plebiscito, dichiarata come riposizionamento della camera/personaggio, senza presentarla come prova di traversata.

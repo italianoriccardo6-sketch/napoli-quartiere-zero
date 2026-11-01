@@ -1,0 +1,52 @@
+{
+  "reviewStatus": "documented-metre-scale-for-relative-integration",
+  "supportedHeightUnit": "metres",
+  "sourceTiffSha256": "cfd5687f75452342f00363b8aca800adeeb06e3a45c8329e7d4f32cdd22c55bb",
+  "unitEvidence": {
+    "type": "governing-specification",
+    "campaniaTender": {
+      "title": "Regione Campania, DD 106 of 1 April 2021, procedure 3248/A-T/2021, Allegato A",
+      "url": "https://burc.regione.campania.it/eBurcWeb/directServlet?ATTACH_ID=192608&DOCUMENT_ID=00128976",
+      "host": "official Regione Campania BURC",
+      "sections": [
+        "4.3",
+        "4.3.2"
+      ],
+      "printedPage": 16,
+      "pdfPageOneBased": 41,
+      "supports": "Requires the updated 5 m ground DTM to conform to Level 3 of the 29 April 2001 INTESA GIS specification, attached as Annex 2A, and requires ASCII delivery."
+    },
+    "specification": {
+      "title": "INTESA GIS, Prescrizioni Tecniche per la produzione di Modelli Digitali del Terreno, version 16I, 29 April 2001",
+      "url": "https://www.giseqgis.it/images/pdf_Normative/2001_04_29_INTESAGIS_DTM16I_Spec_Apr01_it.pdf",
+      "host": "third-party mirror of the primary specification; not an official government host",
+      "section": "1.4.2, Formato dei modelli a griglia (raster)",
+      "sectionStartsOnPrintedPage": 12,
+      "unitStatementPrintedPage": 13,
+      "unitStatementPdfPageOneBased": 12,
+      "supports": "The GRID-ASCII description states that elevation matrix values are expressed in metres, with at most two decimals. This supports metre scale through the mandated specification, independently of horizontal CRS units.",
+      "scope": "The format description is presented using a Provincia Autonoma di Trento example. It is documentary support for the governed Campania DTM scale, not a machine-readable unit declaration for the live ImageServer band."
+    }
+  },
+  "machineDeclared": {
+    "sourceUrl": "https://geomaps.regione.campania.it/server/rest/services/DG5009/CTR2020_DTM5K_tif/ImageServer",
+    "rawBandCount": 1,
+    "rawPixelType": "F32",
+    "nativePixelSize": 5,
+    "nativeHorizontalCrs": "EPSG:7792",
+    "exportHorizontalCrs": "EPSG:4326",
+    "noDataValue": 0,
+    "bandHeightUnit": null,
+    "verticalCrs": null,
+    "checked": "ImageServer service metadata and keyProperties, WCS 1.0 DescribeCoverage, and exported GeoTIFF GeoKeys. None explicitly declares the vertical height unit or vertical CRS; horizontal CRS declarations do not establish either."
+  },
+  "verticalDatum": null,
+  "verticalDatumStatus": "unknown; neither ellipsoidal nor orthometric nor EGM96 is asserted for the raw band",
+  "datumDocumentCaveat": "The 2021 tender general geodetic-reference paragraph (Allegato A printed p. 11, PDF p. 36) mentions ellipsoidal coordinates, but the live band has no vertical reference declaration. This does not certify its exported height datum.",
+  "relativeOnly": true,
+  "seaLevelConstraint": false,
+  "scaleExaggeration": 1,
+  "decision": "Integrate local relative heights by subtracting the sampled opening-street value from the same raw DTM. A common constant vertical offset cancels; this does not establish absolute sea level or certify road-surface geometry.",
+  "quality": "Native 5 m ground DTM does not resolve all road surfaces, stairs, bridges or walls. The mandated Level 3 specifies approximately 1 m vertical precision; two-decimal storage does not imply centimetre accuracy.",
+  "historicalMetadata": "Preserve source.json verticalUnits:null/research-only and validation.json verticalUnitsVerified:false as the original acquisition record. This separate review documents the later integration decision; it does not reclassify those fields as machine-certified."
+}

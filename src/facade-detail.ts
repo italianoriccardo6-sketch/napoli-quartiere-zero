@@ -21,6 +21,8 @@ export interface FacadeOptions {
   excludeBuildingIds?:ReadonlySet<string>;
   /** Photo fronts replace only these source edges; other sides keep their detail. */
   excludeEdges?:ReadonlyMap<string,ReadonlySet<number>>;
+  /** The same inferred flat foundation used by the building volume. */
+  buildingBaseHeight?:(buildingId:string)=>number;
 }
 export interface FacadePart {
   buildingId:string;
@@ -95,6 +97,8 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
     // Recognisable named monuments require their own measured/cleared assets.
     if(building.name&&/\b(castel|castello|basilica|chiesa|cattedrale|duomo|palazzo reale|san carlo)\b/i.test(building.name)){stats.skippedLandmarks++;continue;}
     if(!Number.isFinite(building.height)||building.height<3.4)continue;
+    const base=options.buildingBaseHeight?options.buildingBaseHeight(building.id):0;
+    if(!Number.isFinite(base))throw new RangeError('Quota della base facciata non finita: '+building.id);
     stats.selectedBuildings++;
     const startCount=parts.length,ring=building.rings[0],orientation=Math.sign(area(ring));if(!orientation)continue;
     let buildingStop=false;
@@ -109,7 +113,7 @@ export function planFacadeDetail(map:MapData,options:FacadeOptions):FacadePlan {
       const budget=(count:number)=>{if(parts.length+count>maximumParts){stats.budgetReached=true;stop=true;return false;}if(parts.length-startCount+count>perBuildingLimit){stats.budgetReached=true;buildingStop=true;return false;}return true;};
       const emit=(along:number,y:number,out:number,width:number,height:number,depth:number,role:FacadeRole,feature:FacadePart['feature'],defer=false)=>{
         const p=point(along,out);if(!clear(p)||!rectangleClear(p,width,depth,yaw,building.id))return;
-        (defer?deferredLouvers:parts).push({buildingId:building.id,role,feature,x:p[0],y,z:p[1],width,height,depth,yaw});
+        (defer?deferredLouvers:parts).push({buildingId:building.id,role,feature,x:p[0],y:y+base,z:p[1],width,height,depth,yaw});
       };
       // Party walls are left alone; details are only on open outer facades.
       if(!clear(point(length/2,.28)))continue;

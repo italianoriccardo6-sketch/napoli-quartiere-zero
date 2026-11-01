@@ -55,3 +55,52 @@ test('Napoli reale: entrambe le facciate iniziali ricevono finestre e i grandi e
   assert.ok([...counts.values()].every(count=>count<=4000),'nessuna facciata lunga assorbe il budget delle altre');
   assert.ok(plan.parts.length<=60000);assert.equal(JSON.stringify(map),before,'sagome, altezze e percorso originali preservati');
 });
+
+function elevatedFixture():MapData{
+  return {provenance:'osm',notice:'synthetic separated building bases',land:[[[-50,-50],[150,-50],[150,80],[-50,80]]],paths:[],buildings:[building('house',ring.map(p=>[...p] as Point)),building('hill-house',ring.map(([x,z])=>[x+60,z] as Point))]};
+}
+const elevatedOptions={focus:[[8,-8],[68,-8]] as Point[],radius:90,quality:'alta' as const,maxBuildings:2,maxInstances:16000};
+const buildingBases:Record<string,number>={house:-8.5,'hill-house':124.25};
+
+test('facciate quotate: ogni elemento, comprese lamelle differite e ingressi, segue la base del proprio edificio',()=>{
+  const map=elevatedFixture(),before=structuredClone(map),zero=planFacadeDetail(map,elevatedOptions),explicitZero=planFacadeDetail(map,{...elevatedOptions,buildingBaseHeight:()=>0});
+  const elevated=planFacadeDetail(map,{...elevatedOptions,buildingBaseHeight:id=>buildingBases[id]});
+  assert.deepEqual(explicitZero,zero,'la quota predefinita resta zero');assert.deepEqual(elevated.stats,zero.stats);assert.equal(elevated.parts.length,zero.parts.length);
+  for(const id of Object.keys(buildingBases)){
+    const parts=elevated.parts.filter(p=>p.buildingId===id);assert.ok(parts.length>100,'entrambi gli edifici hanno dettagli');
+    assert.ok(parts.some(p=>p.feature==='door'||p.feature==='shopfront'),'ingressi alla stessa quota dell’edificio');
+    assert.ok(parts.some(p=>p.feature==='balcony'),'balconi rialzati per entrambi gli edifici');
+    assert.ok(parts.some(p=>p.feature==='shutter'&&p.role==='iron'&&p.height===.037),'lamelle fini accodate dopo gli elementi strutturali');
+  }
+  for(let i=0;i<zero.parts.length;i++){
+    const base=zero.parts[i],part=elevated.parts[i];assert.ok(Math.abs(part.y-base.y-buildingBases[base.buildingId])<1e-12,'quota applicata una sola volta a '+base.buildingId+' / '+base.feature+' / '+base.role);
+    assert.deepEqual({...part,y:base.y},base,'XZ, dimensioni, stile e identità rimangono invariati');
+  }
+  assert.deepEqual(map,before,'sagome, cortili e altezza sorgente non vengono modificati');
+});
+
+test('facciate quotate: tutte le matrici thin-instance conservano la traslazione Y pianificata, anche nei gruppi fini',()=>{
+  const engine=new NullEngine(),scene=new Scene(engine),map=elevatedFixture(),opts={...elevatedOptions,buildingBaseHeight:(id:string)=>buildingBases[id]};
+  try{
+    const plan=planFacadeDetail(map,opts),detail=addFacadeDetail(scene,map,opts),actual:Array<[number,number,number]>=[];
+    assert.ok(detail.meshes.some(m=>m.metadata.fine));assert.ok(detail.meshes.some(m=>!m.metadata.fine));
+    for(const mesh of detail.meshes)for(const matrix of mesh.thinInstanceGetWorldMatrices())actual.push([matrix.m[12],matrix.m[13],matrix.m[14]]);
+    const expected=plan.parts.map(p=>[Math.fround(p.x),Math.fround(p.y),Math.fround(p.z)] as [number,number,number]);
+    const order=(a:readonly number[],b:readonly number[])=>a[0]-b[0]||a[2]-b[2]||a[1]-b[1];
+    assert.equal(actual.length,plan.parts.length);assert.deepEqual(actual.sort(order),expected.sort(order),'ogni traslazione delle istanze corrisponde alla quota del piano');
+    assert.ok(actual.some(p=>p[1]<0),'la base negativa non viene appiattita a zero');assert.ok(actual.some(p=>p[1]>124),'la base alta non viene persa nella costruzione dei buffer');detail.dispose();
+  }finally{scene.dispose();engine.dispose();}
+});
+
+test('facciate quotate: una base non finita viene respinta prima di creare mesh o materiali',()=>{
+  const engine=new NullEngine(),scene=new Scene(engine),map=elevatedFixture(),before=structuredClone(map);
+  try{
+    const meshCount=scene.meshes.length,materialCount=scene.materials.length;
+    for(const invalid of [NaN,Infinity,-Infinity]){
+      const opts={...elevatedOptions,buildingBaseHeight:(id:string)=>id==='hill-house'?invalid:buildingBases[id]};
+      assert.throws(()=>planFacadeDetail(map,opts),'il planner deve respingere la seconda base non finita');
+      assert.throws(()=>addFacadeDetail(scene,map,opts),'l’attachment deve respingere la base prima delle allocazioni');
+      assert.equal(scene.meshes.length,meshCount);assert.equal(scene.materials.length,materialCount);assert.deepEqual(map,before);
+    }
+  }finally{scene.dispose();engine.dispose();}
+});

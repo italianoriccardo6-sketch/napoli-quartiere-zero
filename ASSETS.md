@@ -1,4 +1,4 @@
-# Asset, font e attribuzioni — 0.4.1
+# Asset, font e attribuzioni — 0.4.2
 
 Le licenze degli asset e delle basi dati restano separate dalla licenza MIT del codice. File sorgente, checksum, autori e condizioni di riuso sono conservati nei manifest accanto agli asset. Il gioco carica copie locali; non richiede API esterne durante la partita.
 
@@ -17,6 +17,7 @@ Le licenze degli asset e delle basi dati restano separate dalla licenza MIT del 
 | Civile e animazioni Walk/Run | [Vibeassets](https://vibeassets.io/a/zpepqtthci), modello e movimenti generati con Meshy | CC0 1.0; pagine di modello e animazioni in `public/assets/characters/civilian/ATTRIBUTION.md`. Scala e orientamento adattati; rimosse a runtime le traslazioni orizzontali del root delle animazioni |
 | Costa, strade e sagome degli edifici | © OpenStreetMap contributors, estratto 31 ottobre 2026 | ODbL 1.0; `data/napoli-centro.osm.json`, `public/data/map.json`, `data/source.json` e `data/OSM-LICENSE.md` |
 | Posizioni degli alberi, aree verdi e arredi | © OpenStreetMap contributors, estratti con provenienza separata | ODbL 1.0; identità e coordinate OSM restano distinte dalle forme artistiche. `public/data/green-ground.json` conserva poligoni, anelli interni, fonte e hash dell’estratto |
+| Terreno urbano relativo | Regione Campania, CTR2020 DTM5K | CC BY 4.0; TIFF, checksum e revisione documentale in `data/napoli-dtm-2020/`. Differenze in metri rispetto alla strada iniziale, datum verticale ignoto; estensioni costiere entro 10 m esplicitamente stimate |
 | Profilo distante del golfo | SRTM3 v2.1 NASA/NGA/USGS, mirror Kurviger | Pubblico dominio; WGS84, metri sul geoide EGM96. Fonti e checksum in `data/background-terrain-source.json`; escluso dal terreno urbano giocabile |
 | Codice, storia, geometrie originali e fixture storica | Originali di questo progetto | MIT, vedi `LICENSE`; include profili inferiti delle facciate, forme degli alberi, arredi e parapetto costiero |
 | Audio | Oscillatore sintetico originale, `src/audio.ts` | MIT; nessun campione registrato |
@@ -34,6 +35,6 @@ Le mappe Poly Haven sono generiche. Le forme degli alberi e le loro dimensioni s
 
 Nessun asset Rockstar, screenshot del riferimento o risorsa Google Maps / Google Earth / Street View è incluso. I crediti CC0 sono forniti volontariamente e non implicano approvazione da parte degli autori. Le condizioni ODbL e CC BY restano applicabili ai rispettivi dati e asset.
 
-I punti quotati regionali in `data/napoli-terrain-points/` conservano l’attribuzione Regione Campania e la licenza CC BY 4.0 nel proprio avviso. In questa revisione 0.4.1 non sono attivati come terreno: unità e riferimento verticale non sono certificati. Il terreno urbano resta piano.
+I punti quotati regionali in `data/napoli-terrain-points/` conservano l’attribuzione Regione Campania e la licenza CC BY 4.0 nel proprio avviso. Questi punti isolati non sono attivati come terreno. La revisione 0.4.2 usa invece il raster DTM5K separato, solo per differenze relative; la scala in metri è documentata, il datum verticale resta ignoto. Il livello dell’acqua e l’allineamento al rilievo SRTM sono scelte artistiche.
 
 Le revisioni 0.2–0.3 usavano texture Canvas e personaggio procedurali originali, conservati nel codice e nella fixture storica. Le descrizioni precedenti all’acquisizione degli asset esterni si riferivano a quelle revisioni. La sagoma artistica storica del castello non è un rilievo; nessun testo o immagine della pagina Wikipedia consultata come riferimento è distribuito.

@@ -8,6 +8,7 @@ import {openingStreetData,vehicleBlocksPoint,type VehicleSize} from './vehicle-p
 import {segmentDistance,type Point} from './geo';
 import type {CityRuntime} from './city-data';
 import type {GroundCheck} from './movement';
+import {vehicleSurfacePose} from './vehicle-surface';
 
 export interface AmbientCarPlacement {
   id:string;roadId:string;segmentIndex:number;sourcePoint:Point;offset:number;position:Point;heading:number;size:VehicleSize;
@@ -135,7 +136,8 @@ export function createAmbientCity(scene:Scene,city:CityRuntime,world:{canStand:G
       placement.size={radius:car.radius,halfLength:car.halfLength};
       const others=plan.cars.filter(c=>c.id!==placement.id);
       if(!canStandForCar({x:placement.position[0],z:placement.position[1]},placement.heading,parkingGuard(city,plan.protectedPoints,world.canStand,others),car.radius,car.halfLength))throw Error('Auto parcheggiata senza spazio libero.');
-      car.root.name='auto parcheggiata '+placement.roadId;car.root.position.set(placement.position[0],surface(placement.position),placement.position[1]);car.root.rotation.y=car.heading=placement.heading;
+      const pose=vehicleSurfacePose(placement.position[0],placement.position[1],placement.heading,{halfLength:car.halfLength,halfWidth:car.radius},(x,z)=>options.surfaceHeightAt?.(x,z)??0);
+      car.root.name='auto parcheggiata '+placement.roadId;car.root.position.set(placement.position[0],pose.height,placement.position[1]);car.heading=placement.heading;car.root.rotation.set(pose.pitch,placement.heading,pose.roll);
       car.root.metadata={...(car.root.metadata??{}),ambient:true,osmRoadId:placement.roadId,placement:'Estimated roadside offset from original OSM centerline; not an OSM parking-space record.'};
     }));
   }

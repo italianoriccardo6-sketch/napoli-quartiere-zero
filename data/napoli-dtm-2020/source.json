@@ -1,0 +1,22 @@
+{
+  "provider": "Regione Campania — Sistema Informativo Territoriale",
+  "dataset": "CTR2020 — DTM5K",
+  "sourceYear": 2020,
+  "sourceUrl": "https://geomaps.regione.campania.it/server/rest/services/DG5009/CTR2020_DTM5K_tif/ImageServer",
+  "portalItem": "https://geomaps.regione.campania.it/portal/home/item.html?id=aaff40e0c82d4239bfaf2a776c735b67",
+  "license": "CC BY 4.0",
+  "licenseDeclaration": "https://sit.regione.campania.it/carta-tecnica-regionale",
+  "acquiredAt": "2026-10-31T23:49:47.166Z",
+  "nativePixelSize": 5,
+  "nativeCrs": {
+    "wkid": 7792,
+    "latestWkid": 7792
+  },
+  "exportUrl": "https://geomaps.regione.campania.it/server/rest/services/DG5009/CTR2020_DTM5K_tif/ImageServer/exportImage?f=json&bbox=14.241%2C40.826%2C14.266%2C40.842&bboxSR=4326&imageSR=4326&size=401%2C357&format=tiff&pixelType=F32&noData=0&noDataInterpretation=esriNoDataMatchAny&interpolation=RSP_NearestNeighbor&adjustAspectRatio=false&renderingRule=%7B%22rasterFunction%22%3A%22None%22%7D",
+  "exportPixelType": "F32",
+  "rasterFunction": "None",
+  "sha256": "cfd5687f75452342f00363b8aca800adeeb06e3a45c8329e7d4f32cdd22c55bb",
+  "verticalDatum": null,
+  "verticalUnits": null,
+  "activation": "research-only; vertical units not yet certified"
+}

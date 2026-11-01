@@ -2,7 +2,7 @@ import {Scene} from '@babylonjs/core/scene';import {Mesh} from '@babylonjs/core/
 import {Material} from '@babylonjs/core/Materials/material';import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';import {Color3} from '@babylonjs/core/Maths/math.color';import type {ShadowGenerator} from '@babylonjs/core/Lights/Shadows/shadowGenerator';
 import earcut from 'earcut';import {inside,segmentDistance,type MapData,type Point,type Footprint} from './geo';import type {CityRuntime} from './city-data';
 import {joinedStreetSections,offsetStreetSection,type StreetSection} from './street-sections';
-export interface CoastDetailOptions {radius?:number;height?:number;width?:number;maxSpans?:number;material?:Material;materials?:{stone?:Material};shadows?:ShadowGenerator}
+export interface CoastDetailOptions {radius?:number;height?:number;width?:number;maxSpans?:number;material?:Material;materials?:{stone?:Material};shadows?:ShadowGenerator;groundHeight?:(x:number,z:number)=>number}
 export interface CoastDetailStats {sourceCoastlines:number;sourceVertices:number;spans:number;lengthMetres:number;outsideBounds:number;outsideCorridor:number;routeConflicts:number;buildingConflicts:number;meshCount:number;vertexCount:number;sourcePositionPolicy:'actual-coastline-only';profileDimensions:'inferred';wallExistence:'visual-assumption';collisionGeometryAdded:false}
 export interface CoastBatch {key:string;positions:number[];indices:number[];uvs:number[]}
 export interface CoastSpan {a:Point;b:Point;coastlineIndex:number}
@@ -25,6 +25,8 @@ function nearBuildings(buildings:Footprint[]){
  */
 export function buildCoastDetailGeometry(map:MapData,detail:CityRuntime,options:CoastDetailOptions={}):CoastDetailGeometry {
  const radius=limit(options.radius,100,1,100),height=limit(options.height,.78,.65,.9),width=limit(options.width,.25,.2,.35),maxSpans=Math.floor(limit(options.maxSpans,800,0,1600));
+ const groundHeight=options.groundHeight??(()=>0),sectionHeights=new WeakMap<StreetSection,number>();
+ if(typeof groundHeight!=='function')throw new TypeError('Campionatore del terreno costiero non valido.');
  const coastlines=detail.coastlines??[],stats:CoastDetailStats={sourceCoastlines:coastlines.length,sourceVertices:coastlines.reduce((n,c)=>n+c.points.length,0),spans:0,lengthMetres:0,outsideBounds:0,outsideCorridor:0,routeConflicts:0,buildingConflicts:0,meshCount:0,vertexCount:0,sourcePositionPolicy:'actual-coastline-only',profileDimensions:'inferred',wallExistence:'visual-assumption',collisionGeometryAdded:false};
  const batches:CoastBatch[]=[],spans:CoastSpan[]=[],lookup=new Map<string,CoastBatch>();if(!maxSpans)return {batches,spans,stats};
  const [west,south,east,north]=detail.bounds;if(![west,south,east,north].every(Number.isFinite)||west>=east||south>=north)throw new Error('Perimetro costiero non valido.');
@@ -32,7 +34,10 @@ export function buildCoastDetailGeometry(map:MapData,detail:CityRuntime,options:
  const half=width/2,profile:Array<[number,number]>=[[-half,.025],[-half,height-.065],[-half-.025,height-.045],[-half-.025,height],[half+.025,height],[half+.025,height-.045],[half,height-.065],[half,.025]],profileDistances=[0];
  for(let i=1;i<=profile.length;i++){const a=profile[(i-1)%profile.length],b=profile[i%profile.length];profileDistances.push(profileDistances.at(-1)!+Math.hypot(b[0]-a[0],b[1]-a[1]));}
  const occupied=nearBuildings(map.buildings),inBounds=(p:Point)=>p[0]>west+.01&&p[0]<east-.01&&p[1]>south+.01&&p[1]<north-.01;
- const vertex=(section:StreetSection,p:[number,number]):V3=>{const point=offsetStreetSection(section,p[0]);return [point[0],p[1],point[1]];};
+ // Sample the real shoreline centre once per section. Every profile and cap
+ // vertex shares that base, including the width that projects over water.
+ const sectionHeight=(section:StreetSection)=>{const known=sectionHeights.get(section);if(known!==undefined)return known;const base=groundHeight(section.point[0],section.point[1]);if(!Number.isFinite(base))throw new TypeError('Quota del terreno costiero non finita.');sectionHeights.set(section,base);return base;};
+ const vertex=(section:StreetSection,p:[number,number]):V3=>{const point=offsetStreetSection(section,p[0]);return [point[0],sectionHeight(section)+p[1],point[1]];};
  function batch(mid:Point){const base=Math.floor(mid[0]/128)+','+Math.floor(mid[1]/128);let key=base,part=0;while((lookup.get(key)?.positions.length??0)>170000)key=base+':'+(++part);let result=lookup.get(key);if(!result){result={key,positions:[],indices:[],uvs:[]};lookup.set(key,result);batches.push(result);}return result;}
  function triangle(target:CoastBatch,index:number,a:V3,b:V3,c:V3,desired:V3){const u=a.map((n,i)=>n-b[i]),v=c.map((n,i)=>n-b[i]),normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];if(normal[0]*desired[0]+normal[1]*desired[1]+normal[2]*desired[2]<0)target.indices.push(index,index+2,index+1);else target.indices.push(index,index+1,index+2);}
  function quad(target:CoastBatch,vertices:V3[],uvs:number[],desired:V3){const start=target.positions.length/3;target.positions.push(...vertices.flat());target.uvs.push(...uvs);triangle(target,start,vertices[0],vertices[1],vertices[2],desired);const a=vertices[0],b=vertices[2],c=vertices[3],u=a.map((n,i)=>n-b[i]),v=c.map((n,i)=>n-b[i]),normal=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];if(normal[0]*desired[0]+normal[1]*desired[1]+normal[2]*desired[2]<0)target.indices.push(start,start+3,start+2);else target.indices.push(start,start+2,start+3);}

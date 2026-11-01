@@ -1,0 +1,25 @@
+name: Acquisisci DTM urbano ufficiale come artifact da revisionare
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  acquire:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Decodificatore TIFF soltanto per acquisizione offline
+        run: npm install --prefix work/ctr-deps --no-save --package-lock=false --ignore-scripts --no-audit --no-fund geotiff@2.1.3
+      - name: Acquisisci raster F32, metadati e provenienza con budget limitato
+        run: node scripts/fetch-city-dtm.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: napoli-city-dtm-review-${{ github.run_id }}
+          path: data/napoli-dtm-2020/
+          if-no-files-found: error
+          retention-days: 30

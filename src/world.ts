@@ -18,7 +18,12 @@ import {ShaderMaterial} from '@babylonjs/core/Materials/shaderMaterial';
 import {Effect} from '@babylonjs/core/Materials/effect';
 import earcut from 'earcut';
 import {inside,segmentDistance,type MapData,type Point} from './geo';
-export interface World { canStand:(x:number,z:number,radius?:number)=>boolean; shadows:ShadowGenerator; sea:ShaderMaterial; beacons:Mesh[]; }
+export interface World {
+  canStand:(x:number,z:number,radius?:number)=>boolean;shadows:ShadowGenerator;sea:ShaderMaterial;beacons:Mesh[];
+  groundHeightAt?:(x:number,z:number)=>number;
+  surfaceHeightAt?:(x:number,z:number)=>number;
+  buildingBaseHeight?:(id:string)=>number;
+}
 export function createWorld(scene:Scene,data:MapData):World {
   scene.clearColor.set(.69,.79,.83,1);scene.fogMode=Scene.FOGMODE_EXP2;scene.fogColor=new Color3(.69,.79,.83);scene.fogDensity=.00115;
   scene.imageProcessingConfiguration.toneMappingEnabled=true;

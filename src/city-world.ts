@@ -17,6 +17,9 @@ import {createSurface} from './surfaces';
 import type {World} from './world';
 import type {VisualMaterials} from './visual-materials';
 import {joinedStreetSections,offsetStreetSection} from './street-sections';
+import type {CityTerrainPolicy} from './city-terrain-policy';
+import {addCityGround} from './city-ground';
+import {createTriangleSurfaceSampler} from './triangle-surface';
 
 export interface CityRoad {id:string;name?:string;highway:string;points:Point[];width?:number}
 export interface CityWorldDetail {
@@ -66,11 +69,11 @@ export function cityRoadWidth(road:Pick<CityRoad,'highway'|'width'>):number {
 }
 
 /**
- * Render OSM cartographic footprint/road geometry as generic flat-terrain volumes.
+ * Render OSM cartographic footprints and roads with optional relative DTM terrain.
  * Material detail, road widths without a tag and flat roofs are visual estimates.
  * No invented landmark model, island, street layout, or map tile is added here.
  */
-export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,options:{materials?:VisualMaterials}={}):World {
+export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,options:{materials?:VisualMaterials;terrain?:CityTerrainPolicy}={}):World {
   const land=(detail?.landPolygons??map.land.map(r=>[r])).map(p=>p.map(cleanRing)).filter(p=>p[0]?.length>=3).map(p=>[p[0],...p.slice(1).filter(r=>r.length>=3)]);
   if(!land.length)throw Error('La superficie di terra della mappa reale non è disponibile.');
   const landBounds=land.map(p=>boundsOf(p[0])),landGrid=new Grid<number>(),boundaries=new Grid<Boundary>();
@@ -120,7 +123,10 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   const asphalt=visuals?.asphalt??createSurface(scene,'manto stradale generico','plaster','#656b6a',43).material;
   const footway=visuals?.footway??createSurface(scene,'pavimentazione pedonale generica','paving','#828780',74).material;
   const facades=visuals?.facades??['#c5b49b','#bcb3a1','#c6bba8','#baac96'].map((c,i)=>createSurface(scene,'volume geografico '+i,'plaster',c,100+i).material);
-  for(const [i,polygon] of land.entries()){
+  const cityGround=options.terrain?addCityGround(scene,land,buildings.map(b=>b.footprint),options.terrain,terrain):undefined;
+  const groundHeightAt=(x:number,z:number)=>cityGround?.heightAt(x,z)??0;
+  const buildingBaseHeight=(id:string)=>cityGround?.buildingBaseHeight(id)??0;
+  for(const [i,polygon] of (cityGround?[]:land).entries()){
     const ground=MeshBuilder.ExtrudePolygon('terra OSM '+i,{shape:polygon[0].map(p=>new Vector3(p[0],0,p[1])),holes:polygon.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:2,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
     ground.material=terrain;ground.receiveShadows=true;ground.metadata={solid:true,geography:'land'};
     const positions=ground.getVerticesData('position')!,uvs=ground.getVerticesData('uv')!;
@@ -132,7 +138,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   for(const {footprint:b,bounds} of buildings){
     const height=Number.isFinite(b.height)&&b.height>0?b.height:10;
     const volume=MeshBuilder.ExtrudePolygon('sagoma '+b.id,{shape:b.rings[0].map(p=>new Vector3(p[0],0,p[1])),holes:b.rings.slice(1).map(r=>r.map(p=>new Vector3(p[0],0,p[1]))),depth:height,sideOrientation:Mesh.DOUBLESIDE},scene,earcut);
-    volume.position.y=height;
+    volume.position.y=buildingBaseHeight(b.id)+height;
     const positions=volume.getVerticesData('position')!,normals=volume.getVerticesData('normal')!,uvs=volume.getVerticesData('uv')!;
     for(let v=0;v<positions.length/3;v++){const x=positions[v*3],y=positions[v*3+1],z=positions[v*3+2];uvs[v*2]=Math.abs(normals[v*3+1])>.7?x/2:(Math.abs(normals[v*3])>.7?z/2:x/2);uvs[v*2+1]=Math.abs(normals[v*3+1])>.7?z/2:y/2;}volume.setVerticesData('uv',uvs);
     let hash=0;for(const c of b.id)hash=(Math.imul(hash,31)+c.charCodeAt(0))>>>0;
@@ -141,6 +147,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
     const batch=batches.get(key)??[];batch.push(volume);batches.set(key,batch);
   }
   const chunks:Array<{mesh:Mesh;bounds:Bounds}>=[];
+  for(const mesh of cityGround?.meshes??[]){mesh.computeWorldMatrix(true);const b=mesh.getBoundingInfo().boundingBox;chunks.push({mesh,bounds:[b.minimumWorld.x,b.minimumWorld.z,b.maximumWorld.x,b.maximumWorld.z]});}
   for(const [key,meshes] of batches){
     const sourceIds=meshes.map(m=>m.metadata.sourceId as string),merged=meshes.length===1?meshes[0]:Mesh.MergeMeshes(meshes,true,true);
     if(!merged)throw Error('Impossibile assemblare i volumi geografici.');
@@ -153,7 +160,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   let renderedRoads=0;
   for(const road of detail?.roads??[]){
     // Keep the original centerline spans/land checks; only their shared edge joins change.
-    const sections=joinedStreetSections(road.points,Number.MAX_VALUE);if(sections.length<2)continue;
+    const sections=joinedStreetSections(road.points,cityGround?5:Number.MAX_VALUE);if(sections.length<2)continue;
     const pedestrian=['footway','path','steps','pedestrian','cycleway'].includes(road.highway),width=cityRoadWidth(road);
     const batch=roadBatches.get(pedestrian)??{positions:[],indices:[],uvs:[],ids:[]};let emitted=false;
     for(let j=1;j<sections.length;j++){
@@ -162,7 +169,7 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
       const index=batch.positions.length/3,vertices=[offsetStreetSection(a,width/2),offsetStreetSection(a,-width/2),offsetStreetSection(b,width/2),offsetStreetSection(b,-width/2)];
       // Walkway ribbons cross roads in OSM; separate their depth to prevent
       // coplanar asphalt/paving fragments flickering through each other.
-      for(const p of vertices){batch.positions.push(p[0],pedestrian?.025:.04,p[1]);batch.uvs.push(p[0]/(pedestrian?2:3),p[1]/(pedestrian?2:3));}
+      for(const p of vertices){batch.positions.push(p[0],groundHeightAt(...p)+(pedestrian?.025:.04),p[1]);batch.uvs.push(p[0]/(pedestrian?2:3),p[1]/(pedestrian?2:3));}
       // Babylon's left-handed normal convention needs this winding for +Y.
       // Sharp/short joined spans can reverse a triangle; orient each face upward.
       for(const triangle of [[0,1,2],[1,3,2]]){
@@ -178,6 +185,9 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
     if(!batch.indices.length)continue;
     const mesh=new Mesh(pedestrian?'percorsi pedonali OSM':'strade OSM',scene),v=new VertexData();v.positions=batch.positions;v.indices=batch.indices;v.uvs=batch.uvs;const normals:number[]=[];VertexData.ComputeNormals(batch.positions,batch.indices,normals);v.normals=normals;v.applyToMesh(mesh);mesh.material=pedestrian?footway:asphalt;mesh.material.backFaceCulling=false;mesh.receiveShadows=true;mesh.isPickable=false;mesh.metadata={sourceIds:batch.ids,estimatedWidths:true};
   }
+  const roadsSurface=createTriangleSurfaceSampler([...roadBatches.values()]);
+  const surfaceHeightAt=(x:number,z:number)=>Math.max(groundHeightAt(x,z),roadsSurface.heightAt(x,z)??-Infinity);
+  scene.onDisposeObservable.addOnce(()=>roadsSurface.dispose());
 
   // Analytic water/sky only; no photographic sky, distant fabricated buildings or landmarks.
   Effect.ShadersStore['citySkyVertexShader']=`precision highp float;attribute vec3 position;uniform mat4 worldViewProjection;varying vec3 d;void main(){d=normalize(position);gl_Position=worldViewProjection*vec4(position,1.);}`;
@@ -188,17 +198,17 @@ export function createCityWorld(scene:Scene,map:MapData,detail?:CityWorldDetail,
   Effect.ShadersStore['citySeaFragmentShader']=`precision highp float;varying vec3 p;varying vec3 worldP;uniform float time;uniform vec3 cameraPosition;void main(){float ripple=exp(-length(cameraPosition.xz-worldP.xz)*.002);float nx=cos(p.x*.075+time*.65)*.03+sin(p.x*.81+p.z*.56+time*1.2)*.08;float nz=-sin(p.z*.11-time*.48)*.035+cos(p.x*.39-p.z*.91-time*.8)*.065;vec3 n=normalize(vec3(-nx*ripple,1.,-nz*ripple));vec3 v=normalize(cameraPosition-worldP);float f=.035+.965*pow(1.-max(dot(n,v),0.),5.);vec3 reflected=reflect(-v,n);vec3 sky=mix(vec3(.68,.76,.76),vec3(.3,.5,.61),max(reflected.y,0.));vec3 c=mix(vec3(.075,.285,.32),sky,f);c+=vec3(.8,.62,.33)*pow(max(dot(reflect(-normalize(vec3(-.65,.8,-.5)),n),v),0.),100.)*.65;float fog=1.-exp(-length(cameraPosition-worldP)*.0004);gl_FragColor=vec4(mix(c,vec3(.69,.79,.83),fog),1.);}`;
   const sea=new ShaderMaterial('mare città',scene,{vertex:'citySea',fragment:'citySea'},{attributes:['position'],uniforms:['worldViewProjection','world','time','cameraPosition']});sea.setFloat('time',0);sea.setVector3('cameraPosition',new Vector3(0,3,0));sea.backFaceCulling=false;
   const span=Math.max(terrainBounds[2]-terrainBounds[0],terrainBounds[3]-terrainBounds[1]);
-  const water=MeshBuilder.CreateGround('mare attorno alla costa',{width:span+60000,height:span+60000,subdivisions:100},scene);water.position.set((terrainBounds[0]+terrainBounds[2])/2,-1.3,(terrainBounds[1]+terrainBounds[3])/2);water.material=sea;water.isPickable=false;
+  const water=MeshBuilder.CreateGround('mare attorno alla costa',{width:span+60000,height:span+60000,subdivisions:100},scene);water.position.set((terrainBounds[0]+terrainBounds[2])/2,options.terrain?.waterReference??-1.3,(terrainBounds[1]+terrainBounds[3])/2);water.material=sea;water.isPickable=false;
   const activeShadows=new Set<Mesh>();let lastShadowUpdate=-Infinity;
   scene.onBeforeRenderObservable.add(()=>{
     const camera=scene.activeCamera;if(!camera)return;
     const position=camera.globalPosition;sea.setVector3('cameraPosition',position);
-    const time=performance.now();if(time-lastShadowUpdate<700)return;lastShadowUpdate=time;sun.position.set(position.x-200*.65/.8,200,position.z-200*.5/.8);
+    const time=performance.now();if(time-lastShadowUpdate<700)return;lastShadowUpdate=time;sun.position.set(position.x-200*.65/.8,position.y+200,position.z-200*.5/.8);
     for(const chunk of chunks){const nearby=distanceToBounds(position.x,position.z,chunk.bounds)<300;
       if(nearby&&!activeShadows.has(chunk.mesh)){shadows.addShadowCaster(chunk.mesh,false);activeShadows.add(chunk.mesh);}
       else if(!nearby&&activeShadows.has(chunk.mesh)){shadows.removeShadowCaster(chunk.mesh,false);activeShadows.delete(chunk.mesh);}
     }
   });
-  scene.metadata={...(scene.metadata??{}),cityWorld:{provenance:map.provenance,footprints:buildings.length,invalidFootprints,buildingChunks:chunks.length,renderedRoads,bounds:terrainBounds,terrainElevation:'flat-estimate',representation:'OSM footprint extrusions; procedural surface detail, not photorealism'}};
-  return {canStand,shadows,sea,beacons:[]};
+  scene.metadata={...(scene.metadata??{}),...(cityGround?{cityTerrain:cityGround.metadata}:{}),cityWorld:{provenance:map.provenance,footprints:buildings.length,invalidFootprints,buildingChunks:batches.size,renderedRoads,bounds:terrainBounds,terrainElevation:cityGround?'regional-relative-dtm2020':'flat-estimate',representation:'OSM footprint extrusions; foundation and facade details are visual estimates'}};
+  return {canStand,shadows,sea,beacons:[],groundHeightAt,surfaceHeightAt,buildingBaseHeight};
 }

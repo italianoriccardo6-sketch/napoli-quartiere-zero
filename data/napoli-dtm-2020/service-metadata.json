@@ -1,0 +1,148 @@
+{
+  "currentVersion": 11.4,
+  "serviceDescription": "DG5009/CTR2020_DTM5K_tif",
+  "name": "DG5009/CTR2020_DTM5K_tif",
+  "description": "",
+  "extent": {
+    "xmin": 396265,
+    "ymin": 4426795,
+    "xmax": 568565,
+    "ymax": 4595455,
+    "spatialReference": {
+      "wkid": 7792,
+      "latestWkid": 7792
+    }
+  },
+  "initialExtent": {
+    "xmin": 396265,
+    "ymin": 4426795,
+    "xmax": 568565,
+    "ymax": 4595455,
+    "spatialReference": {
+      "wkid": 7792,
+      "latestWkid": 7792
+    }
+  },
+  "fullExtent": {
+    "xmin": 396265,
+    "ymin": 4426795,
+    "xmax": 568565,
+    "ymax": 4595455,
+    "spatialReference": {
+      "wkid": 7792,
+      "latestWkid": 7792
+    }
+  },
+  "sortableFields": "",
+  "bandCount": 1,
+  "pixelType": "F32",
+  "minValues": [
+    -304307.625
+  ],
+  "maxValues": [
+    11784.340820312
+  ],
+  "meanValues": [
+    434.49436601931
+  ],
+  "stdvValues": [
+    347.22457607646
+  ],
+  "hasMultidimensions": false,
+  "pixelSizeX": 5,
+  "pixelSizeY": 5,
+  "meanPixelSize": 5,
+  "datasetFormat": "TIFF",
+  "uncompressedSize": 4649618880,
+  "blockWidth": 34460,
+  "blockHeight": 1,
+  "compressionType": "None",
+  "bandNames": [
+    "Layer_1"
+  ],
+  "allowCopy": true,
+  "allowAnalysis": true,
+  "itemAccess": false,
+  "inspectionCapabilities": "",
+  "noDataValue": 0,
+  "noDataValues": [
+    0
+  ],
+  "minPixelSize": 0,
+  "maxPixelSize": 0,
+  "copyrightText": "",
+  "serviceDataType": "esriImageServiceDataTypeGeneric",
+  "serviceSourceType": "esriImageServiceSourceTypeDataset",
+  "objectIdField": "",
+  "fields": [],
+  "capabilities": "Image,Metadata,Pixels,Mensuration",
+  "defaultMosaicMethod": "Center",
+  "allowedMosaicMethods": "",
+  "sortField": "",
+  "sortValue": null,
+  "sortAscending": true,
+  "mosaicOperator": "First",
+  "defaultCompressionQuality": 75,
+  "defaultResamplingMethod": "Bilinear",
+  "maxImageHeight": 4100,
+  "maxImageWidth": 15000,
+  "allowRasterFunction": true,
+  "rasterFunctionInfos": [
+    {
+      "name": "CTR2020 DTM",
+      "description": "CTR2020 DTM",
+      "help": ""
+    },
+    {
+      "name": "Esposizione",
+      "description": "Esposizione",
+      "help": ""
+    },
+    {
+      "name": "Hillshade",
+      "description": "Hillshade",
+      "help": ""
+    },
+    {
+      "name": "Pendenza",
+      "description": "Pendenza",
+      "help": ""
+    },
+    {
+      "name": "None",
+      "description": "",
+      "help": ""
+    }
+  ],
+  "rasterTypeInfos": [
+    {
+      "name": "Raster Dataset",
+      "description": "Supports all ArcGIS Raster Datasets",
+      "help": ""
+    }
+  ],
+  "mensurationCapabilities": "Basic",
+  "hasHistograms": true,
+  "hasColormap": false,
+  "hasRasterAttributeTable": false,
+  "minScale": 0,
+  "maxScale": 0,
+  "exportTilesAllowed": false,
+  "supportsStatistics": false,
+  "supportsAdvancedQueries": false,
+  "editFieldsInfo": null,
+  "ownershipBasedAccessControlForRasters": null,
+  "allowComputeTiePoints": false,
+  "useStandardizedQueries": true,
+  "advancedQueryCapabilities": {
+    "useStandardizedQueries": true,
+    "supportsStatistics": false,
+    "supportsOrderBy": false,
+    "supportsDistinct": false,
+    "supportsPagination": false
+  },
+  "spatialReference": {
+    "wkid": 7792,
+    "latestWkid": 7792
+  }
+}

@@ -74,6 +74,7 @@ jobs:
           xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --view=drive --width=1024 --height=576 --output=work/render-driving.png 2>&1 | tee work/render-driving-log.txt
           xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --view=vesuvio --width=1024 --height=576 --output=work/render-vesuvio.png 2>&1 | tee work/render-vesuvio-log.txt
           xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --view=foliage --width=1024 --height=576 --output=work/render-foliage.png 2>&1 | tee work/render-foliage-log.txt
+          xvfb-run -a -s '-screen 0 1280x720x24' node --import tsx scripts/render-qa.ts --trace-gl --pbr --car --detail --view=uphill --width=1024 --height=576 --output=work/render-uphill.png 2>&1 | tee work/render-uphill-log.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:

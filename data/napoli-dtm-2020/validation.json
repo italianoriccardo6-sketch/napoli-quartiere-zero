@@ -1,0 +1,43 @@
+{
+  "sha256": "cfd5687f75452342f00363b8aca800adeeb06e3a45c8329e7d4f32cdd22c55bb",
+  "byteLength": 656274,
+  "decodedPixelType": "Float32Array",
+  "sampleFormat": {
+    "0": 3
+  },
+  "bitsPerSample": {
+    "0": 32
+  },
+  "geoKeys": {
+    "GTModelTypeGeoKey": 2,
+    "GTRasterTypeGeoKey": 1,
+    "GeographicTypeGeoKey": 4326,
+    "GeogCitationGeoKey": "GCS Name = WGS 84|Datum = WGS_1984|Ellipsoid = WGS 84|Primem = Greenwich|",
+    "GeogGeodeticDatumGeoKey": 6326,
+    "GeogPrimeMeridianGeoKey": 8901,
+    "GeogAngularUnitsGeoKey": 9102,
+    "GeogAngularUnitSizeGeoKey": 0.017453292519943295,
+    "GeogEllipsoidGeoKey": 7030,
+    "GeogSemiMajorAxisGeoKey": 6378137,
+    "GeogInvFlatteningGeoKey": 298.257223563,
+    "GeogPrimeMeridianLongGeoKey": 0,
+    "PCSCitationGeoKey": "ESRI PE String = GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"Degree\",0.0174532925199433]]"
+  },
+  "width": 401,
+  "height": 357,
+  "bounds": [
+    14.241,
+    40.826,
+    14.266,
+    40.842
+  ],
+  "noData": 0,
+  "validPixels": 63319,
+  "noDataPixels": 79838,
+  "sparseTiles": 2,
+  "min": -0.41,
+  "max": 176.76,
+  "precision": "JSON rounded to0.01 source units; original float32 TIFF retained",
+  "requests": 5,
+  "verticalUnitsVerified": false
+}

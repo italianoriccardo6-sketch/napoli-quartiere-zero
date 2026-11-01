@@ -15,6 +15,18 @@ test('posizionamento: cerca una direzione stradale compatibile e lascia il perso
   assert.equal(canStandForCar(car,placement.heading,street,dimensions.radius,dimensions.halfLength),true);assert.equal(street(player.x,player.z,.5),true);assert.equal(vehicleBlocksPoint(player,car,placement.heading,dimensions.radius,dimensions.halfLength,.5),false);
   assert.throws(()=>placeVehicleOnStreet(city,()=>false,dimensions),/punto libero/);assert.equal(findPlayerBesideVehicle(car,0,dimensions,()=>false),null);
 });
+test('discesa accanto a un’auto parcheggiata: il controllo ambientale sceglie il lato opposto libero',()=>{
+  const source={car:{x:0,z:0},parked:{x:3.6,z:0},heading:0,size:{radius:1.3,halfLength:2.225}},before=JSON.stringify(source),playerRadius=.55;
+  const world=(x:number,z:number,r:number)=>[x,z,r].every(Number.isFinite)&&r>=0&&Math.abs(x)+r<20&&Math.abs(z)+r<20;
+  const blockedByParked=(x:number,z:number,r:number)=>vehicleBlocksPoint({x,z},source.parked,source.heading,source.size.radius,source.size.halfLength,r);
+  const naive=findPlayerBesideVehicle(source.car,source.heading,source.size,world,undefined,playerRadius);
+  assert.deepEqual(naive,[2.1,0]);assert.equal(blockedByParked(naive[0],naive[1],playerRadius),true,'il solo terreno ammette una discesa dentro l’auto parcheggiata');
+  const ambientGround=(x:number,z:number,r:number)=>world(x,z,r)&&!blockedByParked(x,z,r);
+  const safe=findPlayerBesideVehicle(source.car,source.heading,source.size,ambientGround,undefined,playerRadius);
+  assert.ok(safe);assert.deepEqual(safe,[-2.1,0]);assert.ok(safe.every(Number.isFinite));assert.equal(ambientGround(safe[0],safe[1],playerRadius),true);
+  assert.equal(vehicleBlocksPoint({x:safe[0],z:safe[1]},source.car,source.heading,source.size.radius,source.size.halfLength,playerRadius),false,'la discesa resta anche fuori dall’auto giocabile');
+  assert.equal(JSON.stringify(source),before,'posizioni, orientamento e ingombri delle due auto restano immutati');
+});
 test('mappa reale: auto completa libera, personaggio separato e cammino iniziale possibile',()=>{
   const map=JSON.parse(readFileSync('public/data/map.json','utf8')) as CityMapData;
   const e=new NullEngine({renderWidth:800,renderHeight:600,textureSize:512,deterministicLockstep:true,lockstepMaxSteps:4}),scene=new Scene(e);

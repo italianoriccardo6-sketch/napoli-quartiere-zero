@@ -1,0 +1,16 @@
+{
+  "href": "https://geomaps.regione.campania.it/server/rest/directories/arcgisoutput/DG5009/CTR2020_DTM5K_tif_ImageServer/_ags_226021a1_35ce_4ae4_b565_de651f77c0c2.tif",
+  "width": 401,
+  "height": 357,
+  "extent": {
+    "xmin": 14.241,
+    "ymin": 40.826,
+    "xmax": 14.266,
+    "ymax": 40.842,
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    }
+  },
+  "scale": 0
+}

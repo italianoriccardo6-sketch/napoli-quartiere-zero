@@ -7,6 +7,7 @@ import {DirectionalLight} from '@babylonjs/core/Lights/directionalLight';
 import {Vector3} from '@babylonjs/core/Maths/math.vector';
 import {Color3} from '@babylonjs/core/Maths/math.color';
 import {toLocal} from './geo';
+import {clipTerrainTriangleOutsideBounds,type TerrainClipVertex} from './terrain-rectangle-clip';
 
 export interface BackgroundTerrainData {
   version:1;
@@ -19,9 +20,13 @@ export interface BackgroundTerrainData {
 }
 export type TerrainExclusion = readonly [number,number,number,number];
 export interface BackgroundTerrainOptions {
-  /** Local metric [west,south,east,north] of the full city; no background cell overlaps it. */
+  /** Local metric [west,south,east,north] of the full city. */
   excludeLocalBounds:TerrainExclusion;
   exclusionPaddingM?:number;
+  /** Clip source faces at the boundary instead of omitting whole intersecting cells. */
+  clipToCityBounds?:boolean;
+  /** Artistic scene translation only; this is not a certified vertical datum conversion. */
+  verticalOffsetM?:number;
   hazeColor?:readonly [number,number,number];
 }
 
@@ -39,29 +44,46 @@ export function validateBackgroundTerrain(raw:unknown):BackgroundTerrainData {
   return x;
 }
 
-/** Pure mesh preparation: sea-only/missing cells and every cell touching the city are omitted. */
+/** Pure mesh preparation: source sea-only/missing cells and the city interior are omitted. */
 export function backgroundTerrainGeometry(data:BackgroundTerrainData,options:BackgroundTerrainOptions) {
   const {columns,rows,bbox,heights_m,valid}=data;
-  const positions:number[]=[],indices:number[]=[],normals:number[]=[],colors:number[]=[];
+  const clip=options.clipToCityBounds??false,verticalOffset=options.verticalOffsetM??0,padding=options.exclusionPaddingM??(clip?0:120),b=options.excludeLocalBounds;
+  if(!Number.isFinite(verticalOffset))throw new RangeError('Offset verticale del rilievo non finito.');
+  if(!Number.isFinite(padding)||padding<0)throw new RangeError('Margine di esclusione del rilievo non valido.');
+  if(b.length!==4||!b.every(Number.isFinite)||!(b[0]<b[2]&&b[1]<b[3]))throw new RangeError('Limiti di esclusione del rilievo non validi.');
+  const exclusion:TerrainExclusion=[b[0]-padding,b[1]-padding,b[2]+padding,b[3]+padding];
+  if(!exclusion.every(Number.isFinite))throw new RangeError('Limiti di esclusione del rilievo fuori dal limite numerico.');
+  const sourcePositions:number[]=[],positions:number[]=[],indices:number[]=[],normals:number[]=[],colors:number[]=[];
+  function color(nativeHeight:number){
+    const volcanic=Math.max(0,Math.min(1,(nativeHeight-550)/500));
+    // Interpretative distant surface colors, based on native height, not imagery.
+    colors.push(.31+volcanic*.08,.35-volcanic*.03,.27-volcanic*.01,1);
+  }
   for(let r=0;r<rows;r++)for(let c=0;c<columns;c++){
     const lon=bbox.west+(bbox.east-bbox.west)*c/(columns-1),lat=bbox.north-(bbox.north-bbox.south)*r/(rows-1);
-    const [x,z]=toLocal(lon,lat);positions.push(x,heights_m[r*columns+c],z);
+    const [x,z]=toLocal(lon,lat),height=heights_m[r*columns+c];sourcePositions.push(x,height,z);
+    if(!clip){positions.push(x,height+verticalOffset,z);color(height);}
   }
-  const padding=Math.max(0,options.exclusionPaddingM??120),b=options.excludeLocalBounds;
-  const exclusion=[b[0]-padding,b[1]-padding,b[2]+padding,b[3]+padding];
+  const welded=new Map<string,number>();
+  function appendTriangle(triangle:TerrainClipVertex[]){
+    for(const p of triangle){
+      const key=p.join(','),existing=welded.get(key);
+      if(existing!==undefined){indices.push(existing);continue;}
+      const index=positions.length/3;positions.push(p[0],p[1]+verticalOffset,p[2]);color(p[1]);welded.set(key,index);indices.push(index);
+    }
+  }
   for(let r=0;r<rows-1;r++)for(let c=0;c<columns-1;c++){
     const a=r*columns+c,bb=a+1,cc=a+columns,d=cc+1;
     if([a,bb,cc,d].some(i=>valid[i]===0)||Math.max(heights_m[a],heights_m[bb],heights_m[cc],heights_m[d])<=1)continue;
-    const left=positions[a*3],right=positions[bb*3],north=positions[a*3+2],south=positions[cc*3+2];
-    if(left<=exclusion[2]&&right>=exclusion[0]&&south<=exclusion[3]&&north>=exclusion[1])continue;
-    indices.push(a,cc,bb,bb,cc,d);
+    const left=sourcePositions[a*3],right=sourcePositions[bb*3],north=sourcePositions[a*3+2],south=sourcePositions[cc*3+2];
+    const intersects=left<=exclusion[2]&&right>=exclusion[0]&&south<=exclusion[3]&&north>=exclusion[1];
+    if(!clip){if(!intersects)indices.push(a,cc,bb,bb,cc,d);continue;}
+    for(const ids of [[a,cc,bb],[bb,cc,d]]){
+      const triangle=ids.map(id=>sourcePositions.slice(id*3,id*3+3) as TerrainClipVertex);
+      for(const outside of intersects?clipTerrainTriangleOutsideBounds(triangle,exclusion):[triangle])appendTriangle(outside);
+    }
   }
   VertexData.ComputeNormals(positions,indices,normals);
-  for(let i=0;i<heights_m.length;i++){
-    const h=heights_m[i],volcanic=Math.max(0,Math.min(1,(h-550)/500));
-    // Interpretative distant surface colors, not satellite imagery.
-    colors.push(.31+volcanic*.08,.35-volcanic*.03,.27-volcanic*.01,1);
-  }
   return {positions,indices,normals,colors};
 }
 
@@ -97,6 +119,8 @@ export function createBackgroundTerrain(scene:Scene,raw:unknown,options:Backgrou
   };
   syncLighting();material.onBindObservable.add(syncLighting);
   mesh.material=material;mesh.useVertexColors=true;mesh.isPickable=false;mesh.checkCollisions=false;mesh.receiveShadows=false;
-  mesh.metadata={backgroundOnly:true,purpose:data.purpose,source:data.source,triangleCount:geometry.indices.length/3,approximateColor:true};
+  mesh.metadata={backgroundOnly:true,purpose:data.purpose,source:data.source,triangleCount:geometry.indices.length/3,approximateColor:true,
+    cityExclusion:options.clipToCityBounds?'source-triangles-clipped-at-rectangle':'whole-source-cells',
+    verticalReference:{source:'SRTM native EGM96 geoid heights',sceneOffsetMetres:options.verticalOffsetM??0,alignment:'Supplied scene offset for artistic alignment, not a certified vertical datum transformation.',certifiedDatumTransform:false}};
   return mesh;
 }

@@ -7,3 +7,22 @@ test('limiti: niente lati rettangolari del ritaglio, solo tratto di costa vicino
 test('passaggio: la geometria non attraversa il percorso né gli edifici',()=>{const {map,detail}=fixture();detail.route=[[0,-5],[0,5]];map.buildings=[{id:'palazzo',height:8,estimated:false,rings:[[[10,-2],[20,-2],[20,2],[10,2]]]}];const geometry=buildCoastDetailGeometry(map,detail);assert.ok(geometry.stats.routeConflicts>0);assert.ok(geometry.stats.buildingConflicts>0);for(const batch of geometry.batches)for(let i=0;i<batch.positions.length;i+=3){const point:Point=[batch.positions[i],batch.positions[i+2]];assert.ok(segmentDistance(point,detail.route[0],detail.route[1])>=1.099);assert.ok(point[0]<=10||point[0]>=20);}});
 test('scene: buffer raggruppati, nessun collider, materiale fornito conservato',()=>{const engine=new NullEngine({renderWidth:800,renderHeight:600,textureSize:256,deterministicLockstep:true,lockstepMaxSteps:4}),scene=new Scene(engine);try{const {map,detail}=fixture(),stone=new StandardMaterial('pietra fornita',scene),result=addCoastDetail(scene,map,detail,{material:stone});assert.ok(result.meshes.length>0&&result.meshes.length<5);for(const mesh of result.meshes){assert.equal(mesh.material,stone);assert.equal(mesh.checkCollisions,false);assert.equal(mesh.isPickable,false);assert.equal(mesh.metadata.solid,false);assert.equal(mesh.metadata.surveyedWall,false);}result.dispose();assert.equal(scene.meshes.length,0);assert.ok(scene.materials.includes(stone));}finally{scene.dispose();engine.dispose();}});
 test('Napoli: i centri delle sezioni rimangono sulla costa OSM, solo nel corridoio richiesto',()=>{const map=JSON.parse(readFileSync('public/data/map.json','utf8')) as CityMapData,detail=map.city!,before=JSON.stringify(map),geometry=buildCoastDetailGeometry(map,detail,{maxSpans:500});assert.ok(geometry.stats.spans>0);assert.ok(geometry.stats.meshCount<40);assert.ok(geometry.stats.vertexCount<20000);assert.equal(JSON.stringify(map),before);for(const span of geometry.spans){const source=detail.coastlines![span.coastlineIndex].points;for(const p of[span.a,span.b]){let distance=Infinity;for(let i=1;i<source.length;i++)distance=Math.min(distance,segmentDistance(p,source[i-1],source[i]));assert.ok(distance<1e-6);}}});
+test('quote costiere: profilo e tappi condividono la base della linea sorgente anche sotto zero',()=>{
+ const {map,detail}=fixture(),before=JSON.stringify({map,detail}),flat=buildCoastDetailGeometry(map,detail),samples:Point[]=[],height=(x:number,z:number)=>-2+x*.03+z*80;
+ const graded=buildCoastDetailGeometry(map,detail,{groundHeight:(x,z)=>{samples.push([x,z]);return height(x,z);}});
+ assert.deepEqual(graded.stats,flat.stats);assert.deepEqual(graded.spans,flat.spans);assert.equal(JSON.stringify({map,detail}),before);
+ assert.ok(samples.length>20);assert.ok(samples.every(p=>p[1]===0),'sample the source section, never the waterside profile offset');
+ assert.equal(new Set(samples.map(p=>p.join(','))).size,samples.length,'sample shared section bases only once');
+ assert.equal(graded.batches.length,flat.batches.length);
+ for(let b=0;b<flat.batches.length;b++){
+  const original=flat.batches[b],raised=graded.batches[b];assert.deepEqual(raised.indices,original.indices);assert.deepEqual(raised.uvs,original.uvs);assert.equal(raised.key,original.key);
+  for(let i=0;i<original.positions.length;i+=3){
+   assert.equal(raised.positions[i],original.positions[i]);assert.equal(raised.positions[i+2],original.positions[i+2]);
+   assert.ok(Math.abs(raised.positions[i+1]-original.positions[i+1]-height(original.positions[i],0))<1e-9,'every profile and end-cap vertex uses its source centreline base');
+  }
+ }
+ assert.ok(graded.batches.every(b=>b.positions.filter((_,i)=>i%3===1).every(y=>y<0)));
+});
+test('quote costiere: campioni non finiti interrompono la geometria',()=>{
+ const {map,detail}=fixture();for(const height of [NaN,Infinity,-Infinity])assert.throws(()=>buildCoastDetailGeometry(map,detail,{groundHeight:()=>height}),/non finita/);
+});

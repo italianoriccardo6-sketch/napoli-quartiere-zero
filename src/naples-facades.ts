@@ -44,18 +44,28 @@ export function photoProjection(quad:PixelQuad,width:number,height:number){
 }
 export interface NaplesFacadeGeometry {buildingId:string;name:string;sourceEdges:number[];positions:number[];normals:number[];indices:number[];uvs:number[];uvs2:number[];height:number;observedLayout:string;bounds:[number,number,number,number]}
 export interface NaplesFacadePart {buildingId:string;role:'glass'|'frame'|'iron';kind:'box'|'arch'|'curved-slab';x:number;y:number;z:number;width:number;height:number;depth:number;yaw:number;roll:number}
+export interface NaplesFacadeGroundOptions {
+  /** The same inferred flat foundation used by the building volume. */
+  buildingBaseHeight?:(buildingId:string)=>number;
+}
+function buildingBase(options:NaplesFacadeGroundOptions,id:string){
+  const base=options.buildingBaseHeight?options.buildingBaseHeight(id):0;
+  if(!Number.isFinite(base))throw new RangeError('Quota della base facciata non finita: '+id);
+  return base;
+}
 /** Layout follows the source image; recess/projection depths remain inferred estimates. */
-export function planNaplesFacadeProfiles(map:MapData,enabled:ReadonlySet<string>){
+export function planNaplesFacadeProfiles(map:MapData,enabled:ReadonlySet<string>,options:NaplesFacadeGroundOptions={}){
   const parts:NaplesFacadePart[]=[];
   for(const face of NAPLES_PHOTO_FACES){
     if(!enabled.has(face.buildingId))continue;
+    const base=buildingBase(options,face.buildingId);
     const building=map.buildings.find(b=>b.id===face.buildingId)!,ring=building.rings[0],orientation=Math.sign(ring.reduce((n,p,i)=>n+p[0]*ring[(i+1)%ring.length][1]-ring[(i+1)%ring.length][0]*p[1],0));
     const spans=face.edges.map(edge=>{const a=ring[edge],b=ring[(edge+1)%ring.length],length=Math.hypot(b[0]-a[0],b[1]-a[1]);return{a,b,length};}),total=spans.reduce((n,s)=>n+s.length,0),start=parts.length;
     const emit=(s:number,y:number,out:number,width:number,height:number,depth:number,role:NaplesFacadePart['role'],kind:NaplesFacadePart['kind']='box',roll=0,extraYaw=0)=>{
       if(parts.length-start>=3500)return;
       let travelled=0,span=spans.at(-1)!;for(const candidate of spans){span=candidate;if(s*total<=travelled+span.length)break;travelled+=span.length;}
       const t=(s*total-travelled)/span.length,tx=(span.b[0]-span.a[0])/span.length,tz=(span.b[1]-span.a[1])/span.length,nx=orientation*tz,nz=-orientation*tx;
-      parts.push({buildingId:face.buildingId,role,kind,x:span.a[0]+(span.b[0]-span.a[0])*t+nx*out,y,z:span.a[1]+(span.b[1]-span.a[1])*t+nz*out,width,height,depth,yaw:-Math.atan2(tz,tx)+extraYaw,roll});
+      parts.push({buildingId:face.buildingId,role,kind,x:span.a[0]+(span.b[0]-span.a[0])*t+nx*out,y:y+base,z:span.a[1]+(span.b[1]-span.a[1])*t+nz*out,width,height,depth,yaw:-Math.atan2(tz,tx)+extraYaw,roll});
     };
     if(face.buildingId==='relation/4779351:1'){
       const bays=10,pitch=total/bays,roomHeight=building.height*.087;
@@ -102,13 +112,14 @@ export function planNaplesFacadeProfiles(map:MapData,enabled:ReadonlySet<string>
   }
   return parts;
 }
-export function planNaplesFacades(map:MapData){
+export function planNaplesFacades(map:MapData,options:NaplesFacadeGroundOptions={}){
   const walls:NaplesFacadeGeometry[]=[],skipped:string[]=[];
   for(const face of NAPLES_PHOTO_FACES){
     const building=map.buildings.find(b=>b.id===face.buildingId),ring=building?.rings[0];
     // Fail closed if a future source-map revision changes the identified wall.
     if(!building||!ring||!Number.isFinite(building.height)||building.height<3||face.edges.some((edge,i)=>!ring[edge]||Math.hypot(ring[edge][0]-face.points[i][0],ring[edge][1]-face.points[i][1])>.02||Math.hypot(ring[(edge+1)%ring.length][0]-face.points[i+1][0],ring[(edge+1)%ring.length][1]-face.points[i+1][1])>.02)){skipped.push(face.buildingId);continue;}
     const area=ring.reduce((sum,p,i)=>sum+p[0]*ring[(i+1)%ring.length][1]-ring[(i+1)%ring.length][0]*p[1],0)/2,orientation=Math.sign(area);if(!orientation){skipped.push(face.buildingId);continue;}
+    const base=buildingBase(options,face.buildingId);
     const total=face.points.slice(1).reduce((sum,p,i)=>sum+Math.hypot(p[0]-face.points[i][0],p[1]-face.points[i][1]),0),project=photoProjection(face.pixels,NAPLES_FACADE_PHOTO.width,NAPLES_FACADE_PHOTO.height);
     const wall:NaplesFacadeGeometry={buildingId:face.buildingId,name:face.name,sourceEdges:[...face.edges],positions:[],normals:[],indices:[],uvs:[],uvs2:[],height:building.height,observedLayout:face.observedLayout,bounds:[Math.min(...face.points.map(p=>p[0])),Math.min(...face.points.map(p=>p[1])),Math.max(...face.points.map(p=>p[0])),Math.max(...face.points.map(p=>p[1]))]};
     let travelled=0;
@@ -119,7 +130,7 @@ export function planNaplesFacades(map:MapData){
       const bottom=1.4;
       for(let row=0;row<=rows;row++)for(let col=0;col<=columns;col++){
         const along=col/columns,y=building.height-(building.height-bottom)*row/rows,s=(travelled+along*length)/total,t=1-y/building.height,uv=project(s,t);
-        wall.positions.push(a[0]+dx*along+nx*.04,y,a[1]+dz*along+nz*.04);wall.normals.push(nx,0,nz);wall.uvs.push(...uv);wall.uvs2.push((travelled+along*length)/2,y/2);
+        wall.positions.push(a[0]+dx*along+nx*.04,y+base,a[1]+dz*along+nz*.04);wall.normals.push(nx,0,nz);wall.uvs.push(...uv);wall.uvs2.push((travelled+along*length)/2,y/2);
       }
       for(let row=0;row<rows;row++)for(let col=0;col<columns;col++){const i=start+row*(columns+1)+col;wall.indices.push(i,i+1,i+columns+1,i+1,i+columns+2,i+columns+1);}
       travelled+=length;
@@ -128,10 +139,13 @@ export function planNaplesFacades(map:MapData){
   }
   return{walls,excludedBuildingIds:new Set(walls.map(w=>w.buildingId)),skipped,calibration:'inferred manual photo alignment, not surveyed geometry or photogrammetry' as const};
 }
-export interface NaplesFacadeOptions {assetBase?:string;loadTexture?:boolean;textureLoader?:(url:string)=>BaseTexture}
+export interface NaplesFacadeOptions extends NaplesFacadeGroundOptions {assetBase?:string;loadTexture?:boolean;textureLoader?:(url:string)=>BaseTexture}
 /** Two wall surfaces only: no skyline billboard, substitute city or gameplay collider. */
 export function addNaplesFacades(scene:Scene,map:MapData,options:NaplesFacadeOptions={}){
-  const plan=planNaplesFacades(map),material=new PBRMaterial('facciate fotografiche autentiche di Napoli',scene);material.albedoColor=Color3.White();material.roughness=.95;material.metallic=0;material.environmentIntensity=.8;material.backFaceCulling=false;
+  // Sample each foundation once so photo vertices and every profile agree, even
+  // when a caller's sampler is stateful. Local photo coordinates stay unchanged.
+  const bases=new Map<string,number>(),placement:NaplesFacadeGroundOptions={buildingBaseHeight:id=>{if(!bases.has(id))bases.set(id,buildingBase(options,id));return bases.get(id)!;}};
+  const plan=planNaplesFacades(map,placement),profile=planNaplesFacadeProfiles(map,plan.excludedBuildingIds,placement),material=new PBRMaterial('facciate fotografiche autentiche di Napoli',scene);material.albedoColor=Color3.White();material.roughness=.95;material.metallic=0;material.environmentIntensity=.8;material.backFaceCulling=false;
   let texture:BaseTexture|undefined,ready=Promise.resolve();
   if(options.loadTexture??scene.getEngine().getClassName()!=='NullEngine'){
     const url=(options.assetBase??import.meta.env?.BASE_URL??'/')+NAPLES_FACADE_PHOTO.path;
@@ -142,7 +156,7 @@ export function addNaplesFacades(scene:Scene,map:MapData,options:NaplesFacadeOpt
   }
   material.metadata={photographicFacade:true,source:NAPLES_FACADE_PHOTO,calibration:plan.calibration,wallPixelsApproximately:[440,640],notPhotogrammetry:true};
   const meshes=plan.walls.map(wall=>{const mesh=new Mesh(wall.name,scene),data=new VertexData();data.positions=wall.positions;data.normals=wall.normals;data.indices=wall.indices;data.uvs=wall.uvs;data.uvs2=wall.uvs2;data.applyToMesh(mesh);mesh.material=material;mesh.isPickable=false;mesh.checkCollisions=false;mesh.receiveShadows=true;mesh.metadata={solid:false,naplesPhotoFacade:true,buildingId:wall.buildingId,sourceEdges:wall.sourceEdges,observedLayout:wall.observedLayout,calibration:plan.calibration};return mesh;});
-  const profile=planNaplesFacadeProfiles(map,plan.excludedBuildingIds),profileMaterials={glass:new PBRMaterial('vetro autentiche facciate',scene),frame:new PBRMaterial('cornici autentiche facciate',scene),iron:new PBRMaterial('ringhiere autentiche facciate',scene)};
+  const profileMaterials={glass:new PBRMaterial('vetro autentiche facciate',scene),frame:new PBRMaterial('cornici autentiche facciate',scene),iron:new PBRMaterial('ringhiere autentiche facciate',scene)};
   profileMaterials.glass.albedoColor=Color3.FromHexString('#253a40').toLinearSpace();profileMaterials.glass.roughness=.14;profileMaterials.glass.metallic=.03;profileMaterials.glass.environmentIntensity=1.3;
   profileMaterials.frame.albedoColor=Color3.FromHexString('#d8d9ce').toLinearSpace();profileMaterials.frame.roughness=.85;profileMaterials.frame.metallic=0;
   profileMaterials.iron.albedoColor=Color3.FromHexString('#293430').toLinearSpace();profileMaterials.iron.roughness=.4;profileMaterials.iron.metallic=.5;

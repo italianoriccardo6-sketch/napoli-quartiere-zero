@@ -55,3 +55,22 @@ test('dati reali: dettaglio limitato al tragitto verificato e sorgente non alter
  assert.ok(plan.stats.sidewalkSpans>0);assert.ok(plan.stats.vertexCount<150000);assert.ok(plan.stats.meshCount<100);assert.equal(JSON.stringify(map),before);
  for(const b of plan.batches.filter(b=>b.surface!=='paint'))for(let i=0;i<b.positions.length;i+=3){const p:Point=[b.positions[i],b.positions[i+2]];let minimum=Infinity;for(let j=1;j<map.city!.route.length;j++)minimum=Math.min(minimum,segmentDistance(p,map.city!.route[j-1],map.city!.route[j]));assert.ok(minimum>=1.09);}
 });
+test('piedi su pendio: marciapiedi negativi seguono i triangoli inclinati realmente emessi',()=>{
+ const engine=new NullEngine(),scene=new Scene(engine);
+ try{
+  const {map,detail}=fixture(),before=JSON.stringify({map,detail}),groundHeight=(x:number,z:number)=>-4+.09*x+.06*z;
+  const flat=buildStreetDetailGeometry(map,detail),graded=buildStreetDetailGeometry(map,detail,{groundHeight}),result=addStreetDetail(scene,map,detail,{groundHeight});
+  let count=0;
+  for(const [index,batch]of graded.batches.entries()){
+   const original=flat.batches[index];assert.deepEqual(batch.indices,original.indices);
+   for(let i=0;i<batch.positions.length;i+=3)assert.ok(Math.abs(batch.positions[i+1]-original.positions[i+1]-groundHeight(batch.positions[i],batch.positions[i+2]))<1e-8);
+   for(let i=0;i<batch.supportIndices.length;i+=3){
+    const face=batch.supportIndices.slice(i,i+3).map(id=>batch.positions.slice(id*3,id*3+3)),x=face.reduce((n,p)=>n+p[0],0)/3,z=face.reduce((n,p)=>n+p[2],0)/3,y=face.reduce((n,p)=>n+p[1],0)/3;
+    assert.ok(Math.abs(result.heightAt(x,z)-y)<1e-7);count++;
+   }
+  }
+  assert.ok(count>30);assert.ok(result.heightAt(0,3.5)<0);assert.ok(Math.abs(result.heightAt(0,3.5)-(groundHeight(0,3.5)+.125))<1e-8);
+  assert.equal(result.heightAt(0,0),groundHeight(0,0));assert.equal(result.supportHeightAt(0,3.01),undefined,'beveled curb front is not a walkable top');
+  assert.equal(JSON.stringify({map,detail}),before);result.dispose();
+ }finally{scene.dispose();engine.dispose();}
+});

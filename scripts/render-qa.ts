@@ -16,6 +16,8 @@ import {StandardMaterial} from '@babylonjs/core/Materials/standardMaterial';
 import {Color3} from '@babylonjs/core/Maths/math.color';
 import {createCityWorld} from '../src/city-world';
 import {createDetailedCity} from '../src/city-visuals';
+import {loadCityTerrain} from '../src/city-terrain';
+import {vehicleSurfacePose} from '../src/vehicle-surface';
 import {createAmbientCity} from '../src/ambient-city';
 import {createCamera} from '../src/camera';
 import {createCharacter} from '../src/character';
@@ -40,7 +42,7 @@ const width=Number(arg('--width')??1024),height=Number(arg('--height')??576),out
 const usePBR=process.argv.includes('--pbr'),useCar=process.argv.includes('--car'),useDetail=process.argv.includes('--detail'),assetsRead=new Set<string>(),bitmapSources=new WeakSet<object>();
 if(!Number.isInteger(width)||!Number.isInteger(height)||width<128||height<128||width>1920||height>1080)throw Error('Use a bounded render size between128×128 and1920×1080.');
 
-if(usePBR||useCar){
+if(usePBR||useCar||!process.argv.includes('--smoke')){
   // FileTools' actual XHR contract is adapted to Node reads, while Babylon's
   // Texture/HDRCubeTexture/glTF loaders and their shader settings remain active.
   // No HTTP server, browser process or synthetic asset is involved.
@@ -48,7 +50,7 @@ if(usePBR||useCar){
   globalThis.fetch=async(input,init)=>{
     const url=typeof input==='string'?input:input instanceof URL?input.href:input.url;
     if(url.startsWith('blob:')||url.startsWith('data:'))return nativeFetch(input,init);
-    if(!url.startsWith('/assets/')&&!['/data/green.json','/data/background-terrain.json','/data/furniture.json','/data/green-ground.json'].includes(url))throw Error('Node render accepts only repository assets and exact measured vegetation/terrain data files: '+url);
+    if(!url.startsWith('/assets/')&&!['/data/green.json','/data/background-terrain.json','/data/furniture.json','/data/green-ground.json','/data/city-elevation.json'].includes(url))throw Error('Node render accepts only repository assets and exact measured vegetation/terrain data files: '+url);
     const path=resolve(publicRoot,decodeURIComponent(url.split('?')[0]).slice(1));
     if(!path.startsWith(publicRoot+sep))throw Error('Asset path escaped public directory.');
     try{
@@ -185,17 +187,19 @@ try{
   }else{
     const map=JSON.parse(await readFile('public/data/map.json','utf8')) as CityMapData;
     if(!map.city||map.provenance!=='osm')throw Error('The active real-city source was not present; no substitute scene is permitted.');
+    const terrain=await loadCityTerrain(map.city);
     phase='city construction and photographic asset loading';
     if(usePBR&&useDetail){
-      detailedCity=createDetailedCity(scene,map,map.city);world=detailedCity;await detailedCity.ready;mode='actual-runtime-detailed-city-source';
+      detailedCity=createDetailedCity(scene,map,map.city,{terrain});world=detailedCity;await detailedCity.ready;mode='actual-runtime-detailed-city-source';
     }else{
       const materials=usePBR?createVisualMaterials(scene):undefined;
       if(materials){await materials.ready;await loadDaylightEnvironment(scene);mode='actual-city-pbr-source';}
-      world=createCityWorld(scene,map,map.city,{materials});
+      world=createCityWorld(scene,map,map.city,{materials,terrain});
       if(useDetail){
         const focus=[map.city.spawn,...map.city.route];
-        addFacadeDetail(scene,map,{focus,radius:95,quality:'alta',materials});
-        addStreetDetail(scene,map,map.city,{materials});
+        addFacadeDetail(scene,map,{focus,radius:95,quality:'alta',materials,buildingBaseHeight:world.buildingBaseHeight});
+        const street=addStreetDetail(scene,map,map.city,{materials,groundHeight:world.groundHeightAt}),ground=world.surfaceHeightAt??(()=>0);
+        world.surfaceHeightAt=(x,z)=>Math.max(ground(x,z),street.supportHeightAt(x,z)??-Infinity);
       }
     }
     phase='character and vehicle construction and glTF asset loading';
@@ -204,16 +208,17 @@ try{
     const size={radius:'radius' in vehicle?vehicle.radius:.93,halfLength:'halfLength' in vehicle?vehicle.halfLength:1.1};
     const placement=useCar?placeVehicleOnStreet(openingStreetData(map.city),world.canStand,size):undefined;
     const p=placement?.player??map.city.spawn,car=placement?.car??map.city.scooter,heading=placement?.heading??Math.atan2(map.city.pickup[0]-p[0],map.city.pickup[1]-p[1]);
-    const playerY=detailedCity?.surfaceHeightAt(p[0],p[1])??0;
+    const surfaceHeightAt=world.surfaceHeightAt??(()=>0),playerY=surfaceHeightAt(p[0],p[1]);
     player.root.position.set(p[0],playerY,p[1]);player.root.rotation.y=heading;player.animate(0,false,false);
-    vehicle.spawn.set(car[0],0,car[1]);vehicle.root.position.copyFrom(vehicle.spawn);vehicle.root.rotation.y=vehicle.heading=heading;
+    const carPose=vehicleSurfacePose(car[0],car[1],heading,{halfLength:size.halfLength,halfWidth:size.radius},surfaceHeightAt);
+    vehicle.spawn.set(car[0],carPose.height,car[1]);vehicle.root.position.copyFrom(vehicle.spawn);vehicle.root.rotation.set(carPose.pitch,heading,carPose.roll);vehicle.heading=heading;
     player.root.getChildMeshes().forEach(m=>world!.shadows.addShadowCaster(m));vehicle.root.getChildMeshes().forEach(m=>world!.shadows.addShadowCaster(m));
-    const ambient=usePBR&&useDetail&&useCar?createAmbientCity(scene,map.city,world,{anchor:car,protectedPoints:[p,car],surfaceHeightAt:detailedCity?.surfaceHeightAt,walkerCanStand:(x,z,r)=>world!.canStand(x,z,r)&&Math.hypot(x-player.root.position.x,z-player.root.position.z)>r+.5}):undefined;
+    const ambient=usePBR&&useDetail&&useCar?createAmbientCity(scene,map.city,world,{anchor:car,protectedPoints:[p,car],surfaceHeightAt,walkerCanStand:(x,z,r)=>world!.canStand(x,z,r)&&Math.hypot(x-player.root.position.x,z-player.root.position.z)>r+.5}):undefined;
     await ambient?.ready;
     scene.metadata={...(scene.metadata??{}),ambientPopulation:{pedestrians:ambient?.plan.walkers.length??0,parkedCars:ambient?.plan.cars.length??0,representation:'Same licensed models and shared ambient planner as runtime; no staged traffic.'}};
     camera.orient(heading);camera.snap(player.root.position);
     detailedCity?.updateDetail(p,'alta');
-    scene.metadata={...(scene.metadata??{}),capturePlacement:{player:p,playerY,car,heading,size,sharedStreetPlacement:useCar}};
+    scene.metadata={...(scene.metadata??{}),capturePlacement:{player:p,playerY,car,carPose,heading,size,sharedStreetPlacement:useCar}};
     if(['drive','waterfront','vesuvio'].includes(arg('--view')??'')){
       if(!useCar)throw Error('Driving view requires the actual imported car (--car).');
       player.root.setEnabled(false);player.root.position.copyFrom(vehicle.root.position);
@@ -240,7 +245,7 @@ try{
     }
     if(arg('--view')==='street'){
       // Same source geometry from a second actual road position, not a concept render.
-      const point=map.city.route[Math.min(6,map.city.route.length-1)];camera.camera.position.set(point[0],1.8,point[1]);camera.camera.setTarget(new Vector3(p[0],1.6,p[1]));
+      const point=map.city.route[Math.min(6,map.city.route.length-1)];camera.camera.position.set(point[0],surfaceHeightAt(...point)+1.8,point[1]);camera.camera.setTarget(new Vector3(p[0],playerY+1.6,p[1]));
     }
     if(arg('--view')==='foliage'){
       // Source-position diagnostic of an existing runtime tree, explicitly not
@@ -254,6 +259,25 @@ try{
       camera.camera.setTarget(new Vector3(x,tree.ground+tree.height*.6,z));
       detailedCity?.updateDetail(tree.point,'alta');
       scene.metadata={...(scene.metadata??{}),captureView:{kind:'source-tree material diagnostic camera; not player input validation',treeId:tree.id,point:tree.point}};
+    }
+    if(arg('--view')==='uphill'){
+      // Diagnostic relocation to a free point on an original source road near
+      // Plebiscito. It demonstrates relief geometry, never movement to the point.
+      const target=toLocal(14.2487,40.8356);
+      let selected:{point:[number,number];heading:number;roadId:string;roadName:string|undefined;grade:number;distance:number;score:number}|undefined;
+      for(const road of map.city.roads.filter(r=>!['steps','footway','path'].includes(r.highway)))for(let i=1;i<road.points.length;i++){
+        const a=road.points[i-1],b=road.points[i],span=Math.hypot(b[0]-a[0],b[1]-a[1]);if(span<12)continue;
+        const point:[number,number]=[(a[0]+b[0])/2,(a[1]+b[1])/2],distance=Math.hypot(point[0]-target[0],point[1]-target[1]);
+        if(distance>240||!world.canStand(...point,.55)||terrain.sampleAt(...point).kind!=='bilinear-source')continue;
+        const ay=world.groundHeightAt!(...a),by=world.groundHeightAt!(...b),grade=Math.abs(by-ay)/span,score=grade*1000-distance*.07;
+        if(surfaceHeightAt(...point)<10||grade<.04)continue;
+        const heading=by>=ay?Math.atan2(b[0]-a[0],b[1]-a[1]):Math.atan2(a[0]-b[0],a[1]-b[1]);
+        if(!selected||score>selected.score)selected={point,heading,roadId:road.id,roadName:road.name,grade,distance,score};
+      }
+      if(!selected)throw Error('No supported free uphill source-road diagnostic point near Plebiscito was found.');
+      player.root.setEnabled(true);player.root.position.set(selected.point[0],surfaceHeightAt(...selected.point),selected.point[1]);player.root.rotation.y=selected.heading;
+      camera.orient(selected.heading);camera.snap(player.root.position);camera.update(player.root.position,1,false);detailedCity?.updateDetail(selected.point,'alta');
+      scene.metadata={...(scene.metadata??{}),captureView:{kind:'diagnostic relocation to source road; not player traversal or input validation',target:'Plebiscito-area uphill terrain',...selected,groundHeight:player.root.position.y}};
     }
   }
   // Shader includes are asynchronous ESM imports. Let the actual material compile
