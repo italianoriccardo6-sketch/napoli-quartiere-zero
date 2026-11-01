@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "id": "santa-lucia-pitrou-2011",
+  "title": "File:Napoli-1040131.jpg",
+  "author": "Antoine Pitrou",
+  "captured": "2011-09-27 15:56:57",
+  "license": "FAL-1.3",
+  "licenseUrl": "https://artlibre.org/licence/lal/en/",
+  "commonsLicenseShortName": "FAL",
+  "commonsLicenseUrl": "http://artlibre.org/licence/lal/en",
+  "sourcePage": "https://commons.wikimedia.org/wiki/File:Napoli-1040131.jpg",
+  "originalUrl": "https://upload.wikimedia.org/wikipedia/commons/2/29/Napoli-1040131.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original",
+  "width": 3072,
+  "height": 2304,
+  "bytes": 1236557,
+  "sha1": "4b4dac7c407b7dc54e052195dc560a6123c756fa",
+  "sha256": "5d4b8d3c457a367ad81b336d34f3ebbd45e51d53ba50e97971e86926d7ccd9c0",
+  "acquiredAt": "2026-11-01T01:26:13.818Z",
+  "sourceYear": 2011,
+  "originalBytesUnchanged": true,
+  "licenseSourceSha256": "d8a546969611ddc82b37ee7ee4fae6ae0c4a9eccc5f2babfc477890391413f93",
+  "licenseTextSha256": "f40ed571720fa62917e2d234911535114eb17b4c1797b1b90a7edbfb998d4010",
+  "limitations": [
+    "Only the confirmed south Grand Hotel Santa Lucia wall uses this photograph.",
+    "About 910 native pixels across the calibrated wall, not 3072; the source view is hazy and contains historic foreground occlusions.",
+    "The photo documents 2011, not a current survey. No AI enhancement, retouching or contrast baking."
+  ],
+  "licenseTextFormatting": "HTML entities decoded for readable plain text; original official HTML bytes are retained unchanged in license-source.html.txt.",
+  "acquisitionRun": "https://github.com/italianoriccardo6-sketch/napoli-quartiere-zero/actions/runs/41261073615"
+}

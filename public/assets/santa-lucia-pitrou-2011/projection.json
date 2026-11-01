@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "license": "FAL-1.3",
+  "licenseUrl": "https://artlibre.org/licence/lal/en/",
+  "authors": [
+    "Antoine Pitrou (original photograph)",
+    "Napoli — Quartiere Zero contributors (manual projection asset)"
+  ],
+  "modifiedAt": "2026-11-01",
+  "changes": "Manual projective placement on the confirmed source wall; original photo bytes unchanged. Lowest 1.4 m of the photo-mapped wall is omitted where foreground traffic occludes it.",
+  "photo": {
+    "path": "assets/santa-lucia-pitrou-2011/source.jpg",
+    "width": 3072,
+    "height": 2304,
+    "sha256": "5d4b8d3c457a367ad81b336d34f3ebbd45e51d53ba50e97971e86926d7ccd9c0",
+    "sourcePage": "https://commons.wikimedia.org/wiki/File:Napoli-1040131.jpg",
+    "sourceYear": 2011
+  },
+  "wall": {
+    "buildingId": "relation/1191265:0",
+    "sourceEdges": [
+      1,
+      2,
+      3
+    ],
+    "sourcePoints": [
+      [
+        19.82835882592767,
+        208.50140625617365
+      ],
+      [
+        38.64592620774627,
+        207.9336768528212
+      ],
+      [
+        46.89229973812468,
+        207.80009346389016
+      ],
+      [
+        65.17077834981164,
+        207.23236406053772
+      ]
+    ],
+    "pixelQuad": [
+      [
+        1043,
+        841
+      ],
+      [
+        1951,
+        885
+      ],
+      [
+        1955,
+        1517
+      ],
+      [
+        1049,
+        1480
+      ]
+    ],
+    "bottomMaskedMetres": 1.4
+  },
+  "calibration": "Manual native-pixel calibration, approximately 910 pixels across this wall; not a measured facade or photogrammetric reconstruction.",
+  "independentOriginal": "source.jpg",
+  "fullLicense": "LICENSE-FAL-1.3.txt",
+  "notice": "NOTICE.txt"
+}
