@@ -1,0 +1,1 @@
+[out:json][timeout:25];(node[highway=street_lamp](40.826,14.241,40.842,14.266);node[amenity=bench](40.826,14.241,40.842,14.266);node[amenity=waste_basket](40.826,14.241,40.842,14.266);node[amenity=drinking_water](40.826,14.241,40.842,14.266);node[barrier=bollard](40.826,14.241,40.842,14.266);node[traffic_sign](40.826,14.241,40.842,14.266););out body;
