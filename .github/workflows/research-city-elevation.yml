@@ -1,9 +1,9 @@
-name: Research official city elevation metadata
+name: Research official building height metadata
 on:
   workflow_dispatch:
   push:
     branches: [research/ctr-vertical-reference-20261031]
-    paths: [.github/workflows/research-city-elevation.yml, scripts/fetch-city-dtm.mjs]
+    paths: [.github/workflows/research-city-elevation.yml]
 permissions:
   contents: read
 jobs:
@@ -11,17 +11,42 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install pinned isolated GeoTIFF parser
-        run: npm install --prefix work/ctr-deps --ignore-scripts --no-audit --no-fund geotiff@2.1.3
-      - name: Acquire bounded official raw float32 DTM crop
-        run: node scripts/fetch-city-dtm.mjs
+      - name: Bounded public Campania building metadata and sample queries
+        run: |
+          mkdir -p work/ctr-building
+          node --input-type=module <<'NODE'
+          import {writeFile} from 'node:fs/promises';
+          const base='https://geomaps.regione.campania.it',service=base+'/federated/rest/services/DG5009/CTR2020_v2/MapServer';let count=0;const records=[];
+          function elevations(value,out=[]){if(Array.isArray(value)){if(value.length>=3&&value.every(x=>typeof x==='number'))out.push(value[2]);else for(const item of value)elevations(item,out);}else if(value&&typeof value==='object')for(const [key,item]of Object.entries(value)){if(key==='z'&&typeof item==='number')out.push(item);else if(key!=='spatialReference')elevations(item,out);}return out;}
+          async function get(url){
+            if(++count>12)throw Error('Request budget exceeded');
+            try{
+              const r=await fetch(url,{signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('HTTP '+r.status);const parts=[];let bytes=0;
+              for await(const part of r.body){bytes+=part.length;if(bytes>2*1024*1024)throw Error('Response exceeds 2MiB');parts.push(part);}
+              const data=JSON.parse(Buffer.concat(parts).toString('utf8'));await writeFile('work/ctr-building/'+count+'.json',JSON.stringify({url,data},null,2));
+              const summary={url,name:data.name,geometryType:data.geometryType,hasZ:data.hasZ,description:data.description,fields:data.fields,layers:data.layers,services:data.services,spatialReference:data.sourceSpatialReference??data.spatialReference,features:data.features?.map(f=>{const z=elevations(f.geometry??{});return {attributes:f.attributes,zCount:z.length,minZ:z.length?Math.min(...z):null,maxZ:z.length?Math.max(...z):null,firstZ:z.slice(0,12)};}),items:data.results?.map(x=>({id:x.id,title:x.title,type:x.type,url:x.url})),error:data.error};
+              records.push(summary);console.log('CTR_BUILDING_METADATA='+JSON.stringify(summary));return data;
+            }catch(error){const summary={url,error:error.message};records.push(summary);console.log('CTR_BUILDING_METADATA='+JSON.stringify(summary));return null;}
+          }
+          const root=await get(service+'?f=pjson');
+          for(const layer of (root?.layers??[]).slice(0,4)){
+            const metadata=await get(service+'/'+layer.id+'?f=pjson');
+            if(/Polygon|Polyline/.test(metadata?.geometryType??'')){
+              const params=new URLSearchParams({f:'json',where:'1=1',geometry:'14.246,40.829,14.250,40.832',geometryType:'esriGeometryEnvelope',inSR:'4326',spatialRel:'esriSpatialRelIntersects',outFields:'*',outSR:'4326',returnGeometry:'true',returnZ:'true',resultRecordCount:'20'});
+              await get(service+'/'+layer.id+'/query?'+params);
+            }
+          }
+          for(const q of ['DBT','CTR2020'])await get(base+'/portal/sharing/rest/search?f=json&num=50&q='+encodeURIComponent(q));
+          const params=new URLSearchParams({f:'json',where:"COMUNE LIKE '%Napoli%' OR COMUNE LIKE '%NAPOLI%'",outFields:'COMUNE,ctr_dbt,LINK_DIR',returnGeometry:'false',resultRecordCount:'5'});
+          await get(base+'/federated/rest/services/DG5009/Mappa_CTR2020___Link_Download_Comuni_MIL1/MapServer/0/query?'+params);
+          await writeFile('work/ctr-building/summary.json',JSON.stringify(records,null,2));
+          NODE
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: ctr-dtm-raw-crop
-          path: data/napoli-dtm-2020/
+          name: ctr-building-height-metadata
+          path: work/ctr-building/
           retention-days: 7
