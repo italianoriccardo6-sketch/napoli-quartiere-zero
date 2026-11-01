@@ -1,0 +1,1822 @@
+{
+  "mode": "actual-runtime-detailed-city-source",
+  "view": "drive",
+  "sourceRevision": "63ccdb6488a2579a0c7a655f7ad368214db2d6f2",
+  "output": "/home/runner/work/napoli-quartiere-zero/napoli-quartiere-zero/work/render-driving.png",
+  "width": 1024,
+  "height": 576,
+  "webGLVersion": 1,
+  "driverRenderer": "ANGLE",
+  "driverVendor": "stack-gl",
+  "unmaskedRenderer": null,
+  "capabilities": {
+    "instancedArrays": true,
+    "ANGLE_instanced_arrays": true,
+    "uintIndices": true,
+    "maxTextureSize": 16384,
+    "standardDerivatives": true,
+    "textureFloat": true,
+    "textureFloatRender": true,
+    "textureHalfFloat": false,
+    "textureHalfFloatRender": false
+  },
+  "facadeRendering": {
+    "batches": 83,
+    "enabledBatches": 83,
+    "activeBatches": [
+      {
+        "name": "dettagli facciata 0,2,plinth,structure",
+        "instances": 15
+      },
+      {
+        "name": "dettagli facciata 0,2,trim,structure",
+        "instances": 2479
+      },
+      {
+        "name": "dettagli facciata 0,2,glass,structure",
+        "instances": 391
+      },
+      {
+        "name": "dettagli facciata 0,2,shutter,structure",
+        "instances": 782
+      },
+      {
+        "name": "dettagli facciata 0,2,door,structure",
+        "instances": 3
+      },
+      {
+        "name": "dettagli facciata 0,2,iron,structure",
+        "instances": 840
+      },
+      {
+        "name": "dettagli facciata 0,2,shop,structure",
+        "instances": 2
+      },
+      {
+        "name": "dettagli facciata 0,1,plinth,structure",
+        "instances": 24
+      },
+      {
+        "name": "dettagli facciata 0,1,trim,structure",
+        "instances": 970
+      },
+      {
+        "name": "dettagli facciata 0,1,glass,structure",
+        "instances": 148
+      },
+      {
+        "name": "dettagli facciata 0,1,shutter,structure",
+        "instances": 296
+      },
+      {
+        "name": "dettagli facciata 0,1,shop,structure",
+        "instances": 3
+      },
+      {
+        "name": "dettagli facciata 0,1,iron,structure",
+        "instances": 276
+      },
+      {
+        "name": "dettagli facciata 0,1,iron,fine",
+        "instances": 499
+      },
+      {
+        "name": "dettagli facciata 0,2,iron,fine",
+        "instances": 408
+      },
+      {
+        "name": "dettagli facciata 0,1,plinth,structure",
+        "instances": 3
+      },
+      {
+        "name": "dettagli facciata 0,1,trim,structure",
+        "instances": 261
+      },
+      {
+        "name": "dettagli facciata 0,1,glass,structure",
+        "instances": 41
+      },
+      {
+        "name": "dettagli facciata 0,1,shutter,structure",
+        "instances": 82
+      },
+      {
+        "name": "dettagli facciata 0,1,door,structure",
+        "instances": 1
+      },
+      {
+        "name": "dettagli facciata 0,1,iron,structure",
+        "instances": 82
+      },
+      {
+        "name": "dettagli facciata -1,1,plinth,structure",
+        "instances": 64
+      },
+      {
+        "name": "dettagli facciata -1,1,trim,structure",
+        "instances": 1273
+      },
+      {
+        "name": "dettagli facciata -1,1,glass,structure",
+        "instances": 183
+      },
+      {
+        "name": "dettagli facciata -1,1,shutter,structure",
+        "instances": 366
+      },
+      {
+        "name": "dettagli facciata -1,1,shop,structure",
+        "instances": 5
+      },
+      {
+        "name": "dettagli facciata -1,1,iron,structure",
+        "instances": 386
+      },
+      {
+        "name": "dettagli facciata -1,1,door,structure",
+        "instances": 13
+      },
+      {
+        "name": "dettagli facciata -1,2,plinth,structure",
+        "instances": 80
+      },
+      {
+        "name": "dettagli facciata -1,2,trim,structure",
+        "instances": 2751
+      },
+      {
+        "name": "dettagli facciata -1,2,glass,structure",
+        "instances": 396
+      },
+      {
+        "name": "dettagli facciata -1,2,shutter,structure",
+        "instances": 801
+      },
+      {
+        "name": "dettagli facciata -1,2,door,structure",
+        "instances": 10
+      },
+      {
+        "name": "dettagli facciata -1,2,iron,structure",
+        "instances": 908
+      },
+      {
+        "name": "dettagli facciata -1,2,shop,structure",
+        "instances": 6
+      },
+      {
+        "name": "dettagli facciata -2,2,plinth,structure",
+        "instances": 13
+      },
+      {
+        "name": "dettagli facciata -2,2,trim,structure",
+        "instances": 702
+      },
+      {
+        "name": "dettagli facciata -2,2,glass,structure",
+        "instances": 105
+      },
+      {
+        "name": "dettagli facciata -2,2,shutter,structure",
+        "instances": 201
+      },
+      {
+        "name": "dettagli facciata -2,2,shop,structure",
+        "instances": 1
+      },
+      {
+        "name": "dettagli facciata -2,2,iron,structure",
+        "instances": 230
+      },
+      {
+        "name": "dettagli facciata -2,2,door,structure",
+        "instances": 2
+      },
+      {
+        "name": "dettagli facciata 0,1,iron,fine",
+        "instances": 34
+      }
+    ],
+    "instances": 26979
+  },
+  "gpuIndexBuffers": [
+    {
+      "name": "strade OSM",
+      "vertices": 346662,
+      "maximumIndex": 346661,
+      "is32Bits": true,
+      "narrowingRisk": false
+    },
+    {
+      "name": "percorsi pedonali OSM",
+      "vertices": 354519,
+      "maximumIndex": 354518,
+      "is32Bits": true,
+      "narrowingRisk": false
+    },
+    {
+      "name": "albero CC0 far leaves",
+      "vertices": 174169,
+      "maximumIndex": 174168,
+      "is32Bits": true,
+      "narrowingRisk": false
+    },
+    {
+      "name": "albero CC0 near leaves",
+      "vertices": 336667,
+      "maximumIndex": 336666,
+      "is32Bits": true,
+      "narrowingRisk": false
+    }
+  ],
+  "transmissionTargetType": 0,
+  "softwareRequested": true,
+  "features": {
+    "photographicPBR": true,
+    "facadeAndStreetDetail": true,
+    "importedCar": true,
+    "importedCharacter": true,
+    "HDRRadiancePrefilter": false
+  },
+  "assetsRead": [
+    "/assets/characters/civilian/civilian.glb",
+    "/assets/characters/civilian/source-manifest.json",
+    "/assets/environment/daylight.hdr",
+    "/assets/foliage/tree_small_02/bark-diff.jpg",
+    "/assets/foliage/tree_small_02/bark-normal.jpg",
+    "/assets/foliage/tree_small_02/bark-rough.jpg",
+    "/assets/foliage/tree_small_02/leaves-alpha.png",
+    "/assets/foliage/tree_small_02/leaves-diff.jpg",
+    "/assets/foliage/tree_small_02/leaves-normal.jpg",
+    "/assets/foliage/tree_small_02/leaves-rough.jpg",
+    "/assets/foliage/tree_small_02/tree-lod-manifest.json",
+    "/assets/foliage/tree_small_02/tree_small_02-far.glb",
+    "/assets/foliage/tree_small_02/tree_small_02-near.glb",
+    "/assets/materials/asphalt_02/diff.jpg",
+    "/assets/materials/asphalt_02/nor_gl.jpg",
+    "/assets/materials/asphalt_02/rough.jpg",
+    "/assets/materials/leafy_grass/diff.jpg",
+    "/assets/materials/leafy_grass/nor_gl.jpg",
+    "/assets/materials/leafy_grass/rough.jpg",
+    "/assets/materials/painted_plaster_wall/diff.jpg",
+    "/assets/materials/painted_plaster_wall/nor_gl.jpg",
+    "/assets/materials/painted_plaster_wall/rough.jpg",
+    "/assets/materials/stone_tiles_02/diff.jpg",
+    "/assets/materials/stone_tiles_02/nor_gl.jpg",
+    "/assets/materials/stone_tiles_02/rough.jpg",
+    "/assets/materials/stone_wall/diff.jpg",
+    "/assets/materials/stone_wall/nor_gl.jpg",
+    "/assets/materials/stone_wall/rough.jpg",
+    "/assets/naples-facade-research/partenope-dimitalen-2010/source.jpg",
+    "/assets/santa-lucia-pitrou-2011/source.jpg",
+    "/assets/vehicles/car-concept/CarConcept.data.bin",
+    "/assets/vehicles/car-concept/CarConcept.gltf",
+    "/assets/vehicles/car-concept/Dash_E.webp",
+    "/assets/vehicles/car-concept/Dot_C.webp",
+    "/assets/vehicles/car-concept/Dot_N.webp",
+    "/assets/vehicles/car-concept/Hex_N.webp",
+    "/assets/vehicles/car-concept/Khronos_C.webp",
+    "/assets/vehicles/car-concept/Mechanical_N.webp",
+    "/assets/vehicles/car-concept/Mechanical_ORM.webp",
+    "/assets/vehicles/car-concept/Occlusion.webp",
+    "/assets/vehicles/car-concept/Powdercoat_N.webp",
+    "/assets/vehicles/car-concept/Rib_N.webp",
+    "/assets/vehicles/car-concept/Thickness.webp",
+    "/assets/vehicles/car-concept/Tireside_C.webp",
+    "/assets/vehicles/car-concept/Tireside_N.webp",
+    "/assets/vehicles/car-concept/Tiretread_N.webp",
+    "/assets/vehicles/car-concept/source-manifest.json",
+    "/data/background-terrain.json",
+    "/data/city-elevation.json",
+    "/data/furniture.json",
+    "/data/green-ground.json",
+    "/data/green.json"
+  ],
+  "cameraPosition": [
+    53.36448917484207,
+    2.9456692292632436,
+    194.571290470497
+  ],
+  "meshCount": 634,
+  "materialCount": 126,
+  "frames": 4,
+  "renderWallMs": 41760,
+  "shaderErrors": [],
+  "webGLErrors": [],
+  "sourceSceneMetadata": {
+    "cityTerrain": {
+      "provider": "Regione Campania",
+      "dataset": "CTR2020 DTM5K",
+      "sourceYear": 2020,
+      "sourceUnits": "metres",
+      "verticalDatum": "unknown",
+      "verticalReference": "relative-to-opening-street",
+      "anchorPoint": [
+        45.16974265235783,
+        194.86476863362407
+      ],
+      "anchorSourceHeight": 4.52762125161923,
+      "waterReference": -4.52762125161923,
+      "waterReferencePolicy": "artistic-native-zero-not-certified-MSL",
+      "vertexHeightSources": {
+        "calls": 24970,
+        "bilinearSource": 22789,
+        "boundedNearest": 2151,
+        "retainedFlat": 30,
+        "maximumExtensionMetres": 10,
+        "largestUsedExtensionMetres": 9.986212419258303,
+        "verticalReference": "relative-to-opening-street",
+        "verticalDatum": "unknown",
+        "unsupportedPolicy": "retain-local-flat-baseline-not-measured"
+      },
+      "minimumHeight": -4.82762125161923,
+      "maximumHeight": 172.23237874838077,
+      "mesh": {
+        "polygons": 3,
+        "sourceVertices": 325,
+        "initialTriangles": 319,
+        "sourceConformitySplits": 0,
+        "refinementSplits": 24645,
+        "triangles": 48965,
+        "vertices": 24970,
+        "batches": 53,
+        "maxEdge": 20,
+        "largestEdge": 19.993180468803367,
+        "remainingLongEdges": 0,
+        "budgetReached": false,
+        "adaptiveEnabled": true,
+        "adaptiveMinEdge": 5,
+        "adaptiveSteepGrade": 0.6,
+        "adaptiveMidpointError": 0.75,
+        "adaptiveRefinementSplits": 4746,
+        "adaptiveConformitySplits": 1649,
+        "adaptiveProbeEdges": 52038,
+        "adaptiveMaskRejectedEdges": 5807,
+        "remainingAdaptiveEdges": 0,
+        "numericallyLimitedEdges": 0,
+        "heightSamples": 70649,
+        "boundaryEdges": 969,
+        "internalEdges": 72963,
+        "geography": "original-land-polygons-and-holes",
+        "topology": "shared-edge-conforming"
+      },
+      "foundations": {
+        "buildings": 1803,
+        "samples": 36973,
+        "spacingMetres": 5,
+        "policy": "inferred-flat-foundation-at-lowest-rendered-outer-footprint-sample",
+        "adjustedRenderHeights": 159,
+        "unsupportedEstimates": 92,
+        "unsupportedHeightAdjustments": 37,
+        "rejectedHeightLimit": 0,
+        "roofClearanceMetres": 3.2,
+        "maximumRenderHeightMetres": 60,
+        "renderHeightPolicy": "artistic-terrain-clearance-for-fully-supported-estimated-buildings-only",
+        "sourceHeightsModified": false
+      },
+      "buildingRenderEstimates": [
+        {
+          "id": "relation/62237:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.94099954008021,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/2440709:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.998388143724458,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/4811094:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.536026384054193,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/4811095:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 41.13052496622101,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/4811096:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 40.380578014998086,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/4869916:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.051474759263375,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/4869957:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 26.58662709090458,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/4873137:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.211304333283536,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5340246:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.355050765877191,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5340770:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 33.39536350403755,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5340975:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 18.761677505748413,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5341076:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 18.494037482015248,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5341094:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.33987984113747,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5396659:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.895413965187327,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5396660:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 32.305790954046266,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5776811:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.435266905533556,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5848099:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 19.052452276587136,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5848100:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 26.210922418115242,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5848101:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.663127133491045,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5848102:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.775339417788082,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5848103:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.901146715894242,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/5848104:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.839567201316722,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6012563:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.213643679927735,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6152080:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.131769082097335,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6175633:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.632896579463168,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6179907:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.911952474511498,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6365872:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.269894139098422,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6365876:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.133827769484956,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6379067:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.289514850546848,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6437880:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.617728640736896,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6612634:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.82239182769456,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6813718:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.673982841185406,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/6813719:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.640366635710667,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/7085978:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.218645522359274,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/7474429:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.566882432192156,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/7474446:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.619150101568206,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/7474447:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 31.849608541681274,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/8548414:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.491367055696028,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "relation/12898115:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.786835595777845,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/27182810:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.591808446256238,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/113735503:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.402620083684791,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/183334572:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.845491924520534,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/183710784:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.896930455230066,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/339405624:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 24.056154635836652,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/339409417:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.71875263224316,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/339409423:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.733740450701447,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/339626145:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.697655029245777,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/339626146:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.44685338821039,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/343265709:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 20.788568059179735,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/343276322:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 18.4481124575251,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358620804:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 18.289401911217972,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358634882:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.09260701491979,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358702495:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 37.111558047712236,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358702588:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.207705941845507,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358711258:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.249186450565187,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358713717:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.55269059828563,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358713720:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.920397122495118,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358713725:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 17.36809193639589,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358715052:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.143764453599925,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358715054:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.911636171536038,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358715056:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.11719988561655,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358715059:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.020818044030491,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358715063:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.629161056156388,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358715068:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.091927728076566,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358716541:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.412508474013059,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/358716544:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.086597951758808,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/361767555:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 18.554658823751076,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/361767560:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.122156328548474,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/361767565:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.656379967662438,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362619341:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 20.18651504237277,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362619344:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.14519986799112,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362619346:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.970642624442132,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362619785:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 26.282415557987537,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362622772:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 22.727652427252043,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362726738:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.22925373657988,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362726739:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.53008580064018,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362727482:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 31.3302208884171,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/362920660:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 38.48599996158036,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387753298:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.63237964882789,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387753299:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.642892758564724,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387753303:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.936128777334414,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387753304:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.330172452576942,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387753978:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.932959396954455,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387754364:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.703546436756472,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387754365:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.881923325853062,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/387754367:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.026752505821928,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/390659256:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 17.55271599804153,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/390659262:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.746847268567723,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/390659263:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.10312907917352,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/390659674:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 17.067346869316484,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/390659675:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 19.817109110440125,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/405706885:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.52992336806243,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411024582:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 23.958378865627918,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411355085:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.789323704883987,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411366007:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 18.78301589739428,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411366151:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.843162491077887,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411366740:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.9018574836313,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411367140:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.997424838390472,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411368638:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.024154007542275,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411368778:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.466212577207042,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411369882:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.985341433870566,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411369977:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.577190361586688,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411370308:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.079621637401107,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411370851:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.031374569891284,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411371524:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.41040743799022,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411371525:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.586764426314957,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411371548:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 18.31373408763516,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411371876:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.023587422216877,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411374549:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.614298904594037,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411375099:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.27865623590844,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411377821:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 31.450604614613997,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411378194:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.28367954882069,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411386326:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 19.913844269682315,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411423890:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.143022373965021,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411607129:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 17.34665155439875,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411611764:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.125820362223582,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411612468:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.84015359128027,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411612965:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.930181059158652,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411654832:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.400242017976161,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/411656859:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.059094617463288,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414244094:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.163472119246673,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414503584:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.593338173252423,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414503841:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.431245907410041,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414505457:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.127302886497436,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414505933:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.942406155103416,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414506847:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 20.486870424346453,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414507413:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 20.49108338829649,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414812354:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 16.87962897645289,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/414828079:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.036198819605584,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/421616375:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.688733651575124,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/427995219:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.183066491037703,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/427995248:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.479785918443461,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/428878384:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.734965069533427,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/433374736:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.741688349468244,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/461206901:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 25.6656354593399,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/461206902:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.995055644975412,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/461206903:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 37.02898057785472,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/481369968:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.568765843895807,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/481369973:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.885853605254184,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/481369977:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.573537830637477,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/481369980:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.318994474912746,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/512373923:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.80155564707368,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776413:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.813089611155345,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776414:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.205849746796925,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776417:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 12.408694519923213,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776418:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.278412060586728,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776419:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.05483916479643,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776425:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 15.093238492478715,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776428:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.849472324643667,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/515776439:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.973874781247385,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/618305960:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.773242491194846,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/618305963:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 19.16429261322254,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/618305967:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 13.086705789622155,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/618305974:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 30.28731079241994,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/618305975:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 27.296726907950283,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/618305977:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 10.782853802173332,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/618305979:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.716106414159693,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/1444481195:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 11.748949033815872,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        },
+        {
+          "id": "way/1462150421:0",
+          "sourceHeight": 10,
+          "sourceEstimated": true,
+          "renderHeight": 14.617728640736896,
+          "policy": "artistic-terrain-clearance-not-measured-height"
+        }
+      ],
+      "surfaces": {
+        "steepTriangles": 5179,
+        "pavingTriangles": 43786,
+        "batches": 100,
+        "steepSlopeDegrees": 45,
+        "classification": "artistic-slope-based-stone-not-measured-geology",
+        "steepUVs": "vertical-dominant-axis-projection"
+      },
+      "actorHeightPolicy": "barycentric-interpolation-of-rendered-ground-and-street-triangles",
+      "limitation": "Native 5 m ground DTM is not a road, bridge, stair or building-foundation survey. Missing coastal samples are explicitly estimated or retained flat."
+    },
+    "cityWorld": {
+      "provenance": "osm",
+      "footprints": 1803,
+      "invalidFootprints": 0,
+      "buildingChunks": 360,
+      "buildingStream": {
+        "sourceChunks": 360,
+        "residentChunks": 20,
+        "pendingChunks": 140,
+        "loadedChunks": 20,
+        "unloadedChunks": 0
+      },
+      "visualReplacementBuildingIds": [
+        "way/338157976:0"
+      ],
+      "renderedRoads": 1530,
+      "maximumRoadSourceSpan": 4.999726277529471,
+      "shadowMapSize": 4096,
+      "bounds": [
+        -640.1679145129254,
+        -209.514413621575,
+        1465.6475937532923,
+        1547.3409220264557
+      ],
+      "terrainElevation": "regional-relative-dtm2020",
+      "representation": "OSM footprint extrusions; foundation and facade details are visual estimates"
+    },
+    "streetDetail": {
+      "roadsConsidered": 14,
+      "roadsDetailed": 14,
+      "sidewalkSpans": 535,
+      "curbSpans": 535,
+      "paintStrips": 693,
+      "junctionGaps": 171,
+      "rejectedRaisedSpans": 83,
+      "meshCount": 27,
+      "vertexCount": 54237,
+      "estimatedWidths": true,
+      "inferredMarkings": true,
+      "collisionGeometryAdded": false
+    },
+    "coastDetail": {
+      "sourceCoastlines": 1,
+      "sourceVertices": 1448,
+      "spans": 503,
+      "lengthMetres": 1188.4299367354274,
+      "outsideBounds": 10183,
+      "outsideCorridor": 3326,
+      "routeConflicts": 0,
+      "buildingConflicts": 11,
+      "meshCount": 12,
+      "vertexCount": 16176,
+      "sourcePositionPolicy": "actual-coastline-only",
+      "profileDimensions": "inferred",
+      "wallExistence": "visual-assumption",
+      "collisionGeometryAdded": false
+    },
+    "visualDetail": {
+      "facades": {
+        "sourceChunks": 119,
+        "residentChunks": 3,
+        "pendingChunks": 7,
+        "loadedChunks": 3,
+        "unloadedChunks": 0,
+        "regeneratedChunks": 0
+      },
+      "streets": {
+        "roadsConsidered": 14,
+        "roadsDetailed": 14,
+        "sidewalkSpans": 535,
+        "curbSpans": 535,
+        "paintStrips": 693,
+        "junctionGaps": 171,
+        "rejectedRaisedSpans": 83,
+        "meshCount": 27,
+        "vertexCount": 54237,
+        "estimatedWidths": true,
+        "inferredMarkings": true,
+        "collisionGeometryAdded": false
+      },
+      "coast": {
+        "sourceCoastlines": 1,
+        "sourceVertices": 1448,
+        "spans": 503,
+        "lengthMetres": 1188.4299367354274,
+        "outsideBounds": 10183,
+        "outsideCorridor": 3326,
+        "routeConflicts": 0,
+        "buildingConflicts": 11,
+        "meshCount": 12,
+        "vertexCount": 16176,
+        "sourcePositionPolicy": "actual-coastline-only",
+        "profileDimensions": "inferred",
+        "wallExistence": "visual-assumption",
+        "collisionGeometryAdded": false
+      },
+      "realFacades": {
+        "walls": 2,
+        "profileInstances": 1459,
+        "profileBatches": 5,
+        "skipped": [],
+        "vertices": 918,
+        "originalPhoto": {
+          "path": "assets/naples-facade-research/partenope-dimitalen-2010/source.jpg",
+          "width": 2939,
+          "height": 1954,
+          "author": "DimiTalen",
+          "license": "CC0-1.0",
+          "captured": "2010-07-08",
+          "source": "https://commons.wikimedia.org/wiki/File:View_of_Via_Partenope_and_the_marina_from_Castel_dell%27Ovo,_Naples,_2010.jpg",
+          "sha256": "63d316b36f987dbb39e0b96d0a88518d80eac76b94baa9e099ecec7f9defced6"
+        },
+        "calibration": "inferred manual photo alignment, not surveyed geometry or photogrammetry"
+      },
+      "santaLucia": {
+        "walls": 1,
+        "profileInstances": 1164,
+        "profileBatches": 6,
+        "source": {
+          "buildingId": "relation/1191265:0",
+          "name": "Grand Hotel Santa Lucia · fronte su Via Partenope",
+          "edges": [
+            1,
+            2,
+            3
+          ],
+          "points": [
+            [
+              19.82835882592767,
+              208.50140625617365
+            ],
+            [
+              38.64592620774627,
+              207.9336768528212
+            ],
+            [
+              46.89229973812468,
+              207.80009346389016
+            ],
+            [
+              65.17077834981164,
+              207.23236406053772
+            ]
+          ],
+          "identitySource": "https://www.santalucia.it/location-e-contatti/ — Via Partenope 46; SANTA LUCIA nameplate in the original 2010 CC0 photograph.",
+          "corroboratingLocation": {
+            "latitude": 40.83017085,
+            "longitude": 14.249301312737819,
+            "source": "https://www.travelprofy.com/napoli-centrale-station/grand-hotel-santa-lucia-naples",
+            "primary": false
+          },
+          "observedLayout": "Ten architectural bays, with twin openings in each outer wing: twelve glazed openings per upper register. Five upper glazed registers include the shorter attic; two rusticated base registers remain below. Upper balcony guards are dark iron; the long lower terrace guard is pale stone. These observed registers are not a replacement for the source OSM six-level tag. Dimensions and depth are inferred, not a measured architectural survey.",
+          "photo": {
+            "path": "assets/santa-lucia-pitrou-2011/source.jpg",
+            "projectionPath": "assets/santa-lucia-pitrou-2011/projection.json",
+            "width": 3072,
+            "height": 2304,
+            "author": "Antoine Pitrou",
+            "captured": "2011-09-27 15:56:57",
+            "sourceYear": 2011,
+            "license": "FAL-1.3",
+            "licenseUrl": "https://artlibre.org/licence/lal/en/",
+            "source": "https://commons.wikimedia.org/wiki/File:Napoli-1040131.jpg",
+            "sha256": "5d4b8d3c457a367ad81b336d34f3ebbd45e51d53ba50e97971e86926d7ccd9c0"
+          }
+        },
+        "ownedOriginalPhoto": true,
+        "entranceProxy": {
+          "source": {
+            "buildingId": "way/338157976:0",
+            "points": [
+              [
+                46.85860668989793,
+                205.7963426299244
+              ],
+              [
+                46.89229973812468,
+                207.80009346389016
+              ],
+              [
+                38.64592620774627,
+                207.9336768528212
+              ],
+              [
+                38.612233159519526,
+                205.92992601885544
+              ]
+            ],
+            "slabTopRatio": 0.2,
+            "modelPolicy": "Four arched openings are confirmed in the 2011 photograph: two outer glazed openings and two central wooden door openings. The flat canopy interpretation is constrained to the unchanged source proxy footprint; no unsupported stone guard is added on its roof. The source 10 m proxy height is only an untagged OSM fallback. Inferred slab height and depth are not measured. Source and collision geometry remain unchanged."
+          },
+          "slabTop": 3.185757141260016,
+          "cap": 3.185757141260016
+        },
+        "calibration": "original photo and source walls; inferred manual alignment and profile depths, not photogrammetry"
+      },
+      "photographicMaps": "CC0 surfaces and foliage; two CC0 and one FAL-1.3 selected real Naples hotel fronts; inferred depth, not photogrammetry"
+    },
+    "greenGround": {
+      "sourceAreas": 25,
+      "coveragePolygons": 24,
+      "sourceTriangles": 48965,
+      "testedTriangles": 6168,
+      "coveredSourceTriangles": 3212,
+      "triangles": 4019,
+      "batches": 21,
+      "vertexCount": 10481,
+      "geography": "source-area-polygons-only",
+      "surface": "original-ground-triangle-interpolation",
+      "landCover": "grass-like artistic material for mapped parks/wood/forest"
+    },
+    "streetFurniture": {
+      "sourceNodes": 169,
+      "rendered": 2,
+      "invalidSource": 0,
+      "unsupported": 0,
+      "outsideLand": 0,
+      "insideBuildings": 0,
+      "routeClearance": 0,
+      "outsideCorridor": 167,
+      "budgetClipped": 0,
+      "estimatedDimensions": 2,
+      "estimatedOrientations": 2,
+      "meshCount": 2,
+      "vertexCount": 1984,
+      "positionsInvented": false,
+      "dimensions": "tagged-or-original-visual-estimates",
+      "collisionGeometryAdded": false,
+      "sourcePositions": true,
+      "measuredShapes": false
+    },
+    "treeModels": {
+      "sourceTrees": 250,
+      "treesRendered": 25,
+      "modelTrees": 25,
+      "proceduralTrees": 0,
+      "nearTrees": 0,
+      "farTrees": 21,
+      "culledTrees": 4,
+      "meshCount": 6,
+      "nearTrianglesPerTree": 299060,
+      "farTrianglesPerTree": 119846,
+      "renderedModelTriangles": 2516766,
+      "lodBufferUpdates": 2,
+      "placement": "source-tree-nodes-only",
+      "individualTreesInvented": false,
+      "measuredShapes": false
+    },
+    "vegetation": {
+      "sourceTrees": 250,
+      "treesRendered": 25,
+      "estimatedDimensions": 25,
+      "invalidSource": 0,
+      "outsideLand": 0,
+      "insideBuildings": 0,
+      "outsideCorridor": 225,
+      "budgetClipped": 0,
+      "branchInstances": 0,
+      "leafInstances": 0,
+      "meshCount": 6,
+      "placement": "source-tree-nodes-only",
+      "individualTreesInvented": false,
+      "measuredPositions": true,
+      "measuredShapes": false,
+      "representation": "licensed model broadleaf; explicit procedural forms otherwise"
+    },
+    "cameraEffects": {
+      "fxaa": true,
+      "ssaoSupported": true,
+      "ssaoEnabled": true,
+      "ssaoRatio": 0.5,
+      "cameraMaxZ": 50000,
+      "normalizedDepthScale": 0.048,
+      "ssaoRadius": 0.00000864,
+      "ssaoArea": 0.000072,
+      "ssaoFallOff": 1.92e-7,
+      "depthRequirement": "unpacked floating point; packed-only engines use FXAA"
+    },
+    "ambientPopulation": {
+      "pedestrians": 3,
+      "parkedCars": 2,
+      "representation": "Same licensed models and shared ambient planner as runtime; no staged traffic."
+    },
+    "capturePlacement": {
+      "player": [
+        45.243416561331664,
+        196.9219540914045
+      ],
+      "playerY": 0.14227709643793032,
+      "car": [
+        45.16974265235783,
+        194.86476863362407
+      ],
+      "carPose": {
+        "height": 0.0736657737887291,
+        "pitch": 0.024657587751561356,
+        "roll": 0.032510709922886745,
+        "supportHeights": [
+          -0.026644958383310713,
+          0.06422799660340084,
+          0.08883983203605951,
+          0.16824022489876678
+        ]
+      },
+      "heading": 4.748186645410835,
+      "size": {
+        "radius": 1.3085042755765075,
+        "halfLength": 2.22500001459805
+      },
+      "sharedStreetPlacement": true
+    }
+  },
+  "limitations": [
+    "Direct Node WebGL, not browser UI automation or macOS validation.",
+    "WebGL1 adapter: browser WebGL2 feature output and performance may differ.",
+    "HDR loader uses spherical harmonics and ordinary mipmaps when WebGL1 cannot prefilter radiance.",
+    "No FPS claim; renderWallMs includes scene construction, compilation and capture.",
+    "No HTML HUD is included: this captures the actual 3D engine scene only."
+  ]
+}
