@@ -1,6 +1,12 @@
-name: Ricerca offline LOD albero CC0 entro 20 MiB
+name: Ricerca componenti e superficie albero CC0 entro 20 MiB
 on:
   workflow_dispatch:
+  push:
+    branches: [research/tree-components-20261101]
+    paths:
+      - scripts/research-tree-lods.mjs
+      - scripts/tree-component-reduction.mjs
+      - .github/workflows/tree-lod-research.yml
 permissions:
   contents: read
 concurrency:
@@ -9,7 +15,7 @@ concurrency:
 jobs:
   prepare:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     env:
       NODE_OPTIONS: --max-old-space-size=4096
     steps:
