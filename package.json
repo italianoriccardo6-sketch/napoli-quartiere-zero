@@ -1,6 +1,6 @@
 {
   "name": "napoli-quartiere-zero",
-  "version": "0.4.2",
+  "version": "0.5.0-preview.1",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,7 +12,9 @@
     "data:fetch": "node scripts/fetch-osm.mjs",
     "data:prepare": "node --import tsx scripts/prepare-city.ts",
     "city:plan": "node --import tsx scripts/acquire-city-sector.ts",
-    "city:acquire": "node --import tsx scripts/acquire-city-sector.ts --execute"
+    "city:acquire": "node --import tsx scripts/acquire-city-sector.ts --execute",
+    "city:pack": "node --import tsx scripts/prepare-city-sectors.ts",
+    "city:municipal-plan": "node --import tsx scripts/prepare-municipal-sectors.ts"
   },
   "dependencies": {
     "@babylonjs/core": "9.33.1",

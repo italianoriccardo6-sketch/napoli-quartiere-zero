@@ -32,3 +32,20 @@ test('HUD: cambio strada, guida e tutti gli stati del prologo mantengono l’int
     assert.equal(f.elements.get('mission-phase')!.textContent,'PROLOGO COMPLETATO');assert.equal(f.elements.get('coins')!.textContent,'25');assert.equal(f.elements.get('speed')!.textContent,'18 km/h');assert.match(f.elements.get('hint')!.innerHTML,/Scendi/);
   });
 });
+
+test('HUD campaign override: completed prologue shows the new objective, target marker and cumulative coins',()=>{
+  const f=fixture();withDocument(f.document,()=>{
+    let story=initialStory();for(const event of ['interact-bar','interact-quay','choose-protect','interact-bar'] as const)story=reduceStory(story,event);
+    const [x,z]=map.city!.pickup,save={...defaults(),coins:187};
+    updateHUD(save,x,z,0,false,0,'Continua la storia',map,story,{title:'ATTO II · LA COPIA',objective:'Raggiungi il punto di controllo.',target:[x+30,z+40],label:'TRACCIA'});
+    assert.equal(f.elements.get('mission-phase')!.textContent,'ATTO II · LA COPIA');
+    assert.equal(f.elements.get('objective')!.textContent,'Raggiungi il punto di controllo.');
+    assert.equal(f.elements.get('distance')!.textContent,'50 m');assert.equal(f.elements.get('direction')!.textContent,'TRACCIA →');
+    assert.equal(f.elements.get('coins')!.textContent,'212','base, campaign and prologue rewards are presented cumulatively');
+    const context=f.elements.get('minimap')!.getContext(),pixel=context.getImageData(116,90,1,1).data;
+    assert.deepEqual(Array.from(pixel),[246,196,123,255],'an active campaign target is painted even though the prologue is completed');
+    updateHUD(save,x,z,0,false,0,'',map,story);
+    assert.equal(f.elements.get('mission-phase')!.textContent,'PROLOGO COMPLETATO','callers without a campaign override preserve the existing HUD contract');
+    assert.equal(f.elements.get('distance')!.textContent,'+25 ✧');assert.equal(f.elements.get('coins')!.textContent,'212');
+  });
+});

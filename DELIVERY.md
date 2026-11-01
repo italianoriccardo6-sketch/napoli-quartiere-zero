@@ -1,3 +1,11 @@
+# Preview 0.5.0-preview.1
+
+La revisione aggiunge traffico e pattuglia mobili, uno scontro facoltativo animato, nove tappe narrative successive al prologo, lettura facoltativa dei dialoghi, confine ISTAT completo di Napoli e trasporto dei settori geografici. Il gioco conserva la mappa centrale esistente. La pagina fotografica separata è predisposta per Maps JavaScript 3D, ma nessun account, chiave o costo Google è stato attivato: copertura reale e resa del servizio non sono state provate. Costi e configurazione in `public/PHOTOREAL-SETUP.txt`.
+
+Le verifiche includono test del controller su percorso completo della nuova storia, traffico, collisioni, inseguimento, colpi sullo scheletro e mesh skinnata reali, loader e fonti geografiche; i test Google usano un adattatore locale. I resoconti precedenti sono conservati sotto come storia del progetto. Stato corrente e limiti nel README; non è la consegna finale di tutta Napoli fotorealistica.
+
+---
+
 # Stato corrente e documentazione storica
 
 La base integrata è la **0.4.2**: geografia OSM, terreno DTM regionale relativo, auto, prologo e tre fronti fotografici. I paragrafi 0.3/0.3.1 qui sotto sono conservati come resoconto storico e non descrivono il terreno o la grafica correnti.

@@ -4,3 +4,6 @@ work/
 .netlify/
 playwright-report/
 test-results/
+
+.env.local
+.env.*.local

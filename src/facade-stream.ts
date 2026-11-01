@@ -1,7 +1,7 @@
 import type {Scene} from '@babylonjs/core/scene';
 import type {MapData,Point} from './geo';
 import {addFacadeDetail,type FacadeOptions} from './facade-detail';
-import {createSpatialStream,type SpatialChunk} from './spatial-stream';
+import {boundsDistance,createSpatialStream,type SpatialChunk} from './spatial-stream';
 const CELL=128;
 /** One owner per measured building, including buildings which cross tile borders. */
 export function facadeChunks(map:MapData):SpatialChunk<ReadonlySet<string>>[]{
@@ -19,18 +19,36 @@ export function facadeChunks(map:MapData):SpatialChunk<ReadonlySet<string>>[]{
 /** Generate nearby facades as exploration moves, instead of decorating only the original mission. */
 export function createFacadeStream(scene:Scene,map:MapData,options:FacadeOptions){
   let quality=options.quality,position:Point=options.focus[0]??[0,0];
-  const makeStream=()=>createSpatialStream({chunks:facadeChunks(map),loadDistance:160,unloadDistance:300,maxResident:12,rescheduleDistance:12,
-    load(chunk){return addFacadeDetail(scene,map,{...options,focus:[position],radius:300,quality,includeBuildingIds:chunk.value,maxInstances:quality==='alta'?9000:3000,maxBuildings:32});},
-    unload(resource){resource.dispose();}});
+  const chunks=facadeChunks(map);
+  const stats={regeneratedChunks:0};
+  function detail(chunk:SpatialChunk<ReadonlySet<string>>){return addFacadeDetail(scene,map,{...options,focus:[position],radius:300,quality,includeBuildingIds:chunk.value,maxInstances:quality==='alta'?9000:3000,maxBuildings:32});}
+  const makeStream=()=>createSpatialStream({chunks,loadDistance:160,unloadDistance:300,maxResident:12,rescheduleDistance:12,
+    load(chunk){return {chunk,detail:detail(chunk),focus:[...position] as Point};},
+    unload(resource){resource.detail.dispose();}});
   let stream=makeStream();
   // Initial street before the start screen. Further chunks get one frame at a time.
   stream.update(position,{maxLoads:3,milliseconds:12});
   function update(next:Point,nextQuality:'alta'|'bassa'){
     position=next;
     if(nextQuality!==quality){quality=nextQuality;stream.dispose();stream=makeStream();}
-    stream.update(position,{maxLoads:1,milliseconds:4});
-    for(const resource of stream.resources)resource.update(position,quality);
+    // A source building can be much longer than its ownership cell. Likewise,
+    // a dense cell can exhaust its instance budget. In either case the detail
+    // generated near the old view does not cover every later approach. Refresh
+    // one nearby resource after movement, without allocating an additional cell
+    // in that frame. The source footprint/collision index never changes.
+    const stale=stream.resources.filter(resource=>{
+      const b=resource.chunk.bounds;
+      return (b[2]-b[0]>CELL*2||b[3]-b[1]>CELL*2||resource.detail.stats.budgetReached)
+        &&boundsDistance(position,b)<=160&&Math.hypot(position[0]-resource.focus[0],position[1]-resource.focus[1])>=48;
+    }).sort((a,b)=>boundsDistance(position,a.chunk.bounds)-boundsDistance(position,b.chunk.bounds)||a.chunk.id.localeCompare(b.chunk.id))[0];
+    // Evict first; a teleported view should not rebuild a resource it is about
+    // to discard. Its identity is checked again after the scheduler update.
+    stream.update(position,{maxLoads:stale?0:1,milliseconds:4});
+    if(stale&&stream.resources.includes(stale)){
+      const replacement=detail(stale.chunk);stale.detail.dispose();stale.detail=replacement;stale.focus=[...position];stats.regeneratedChunks++;
+    }
+    for(const resource of stream.resources)resource.detail.update(position,quality);
     return true;
   }
-  return {update,dispose(){stream.dispose();},get stats(){return stream.stats;}};
+  return {update,dispose(){stream.dispose();},get stats(){return {...stream.stats,...stats};}};
 }

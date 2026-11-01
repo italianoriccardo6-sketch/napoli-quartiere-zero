@@ -8,7 +8,7 @@ export const GAME_UI_IDS=[
   'game','loading','error','error-text','start','play','hud','pause-button','credits-button',
   'mission-phase','objective','distance','direction','coins','speed','mode-info','hint','toast','minimap','world-note',
   'pause','resume','volume','quality','reset','credits','close-credits','dialogue','dialogue-speaker','dialogue-text',
-  'dialogue-choices','choose-protect','choose-negotiate','dialogue-next',
+  'traffic-alert','encounter-status','narration','dialogue-choices','choose-protect','choose-negotiate','dialogue-next',
 ] as const;
 export function validateGameUI(root:Pick<Document,'getElementById'>=document){
   const missing=GAME_UI_IDS.filter(id=>!root.getElementById(id));
@@ -22,15 +22,16 @@ export function el<T extends HTMLElement=HTMLElement>(id:string):T {
 export function show(id:string,value:boolean){el(id).classList.toggle('hidden',!value);}
 let toastTimer:ReturnType<typeof setTimeout>;
 export function toast(message:string){el('toast').textContent=message;show('toast',true);clearTimeout(toastTimer);toastTimer=setTimeout(()=>show('toast',false),4500);}
-export function updateHUD(save:Save,x:number,z:number,heading:number,riding:boolean,speed:number,hint:string,data:MapData,story?:StoryState){
-  const t=story?(storyDestination(story)??[27,59]):target(save),dist=Math.hypot(t[0]-x,t[1]-z);
+export interface HUDMission {title:string;objective:string;target:[number,number];label:string}
+export function updateHUD(save:Save,x:number,z:number,heading:number,riding:boolean,speed:number,hint:string,data:MapData,story?:StoryState,mission?:HUDMission){
+  const t=mission?.target??(story?(storyDestination(story)??[27,59]):target(save)),dist=Math.hypot(t[0]-x,t[1]-z);
   el('coins').textContent=String(save.coins+(story?.coins??0));
-  const completed=story?story.phase==='completed':save.mission==='completed';
-  el('mission-phase').textContent=completed?'PROLOGO COMPLETATO':story?.phase==='return'?'LA TUA DECISIONE':'PROLOGO 01';
-  el('objective').textContent=story?storyObjective(story):'Raggiungi Teresa al bar.';
+  const completed=!mission&&(story?story.phase==='completed':save.mission==='completed');
+  el('mission-phase').textContent=mission?.title??(completed?'PROLOGO COMPLETATO':story?.phase==='return'?'LA TUA DECISIONE':'PROLOGO 01');
+  el('objective').textContent=mission?.objective??(story?storyObjective(story):'Raggiungi Teresa al bar.');
   el('distance').textContent=completed?`+${story?.coins??25} ✧`:`${Math.round(dist)} m`;
   const angle=Math.atan2(t[0]-x,t[1]-z)-heading;const arrow=Math.abs(Math.sin(angle))<.3?(Math.cos(angle)>0?'↑':'↓'):Math.sin(angle)>0?'→':'←';
-  el('direction').textContent=completed?(story?.choice==='negotiate'?'TRATTATIVA APERTA':'PROVA AL SICURO'):`${story?.phase==='carrying'?'BANCHINA':'TERESA'} ${arrow}`;
+  el('direction').textContent=completed?(story?.choice==='negotiate'?'TRATTATIVA APERTA':'PROVA AL SICURO'):`${mission?.label??(story?.phase==='carrying'?'BANCHINA':'TERESA')} ${arrow}`;
   el('speed').textContent=riding?`${Math.round(Math.abs(speed)*3.6)} km/h`:'A PIEDI';
   el('mode-info').textContent=riding?'WASD GUIDA · E SCENDI':'SHIFT PER CORRERE';
   show('hint',!!hint);el('hint').innerHTML=hint?`<kbd>E</kbd> ${hint}`:'';

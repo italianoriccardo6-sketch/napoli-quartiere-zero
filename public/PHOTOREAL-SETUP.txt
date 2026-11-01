@@ -1,0 +1,117 @@
+NAPOLI — CITTÀ FOTOGRAFICA: COSTI E CONFIGURAZIONE
+Verifica documentale: 1 novembre 2026. Nessun account creato, nessuna fatturazione
+attivata, nessuna chiave ottenuta e nessuna chiamata Google Maps eseguita per
+questa implementazione. Le prove del connettore usano un adattatore locale.
+
+COSA È STATO PREPARATO
+photoreal.html è una vista di esplorazione dall'alto separata dal gioco Babylon.
+Usa l'SDK ufficiale Maps JavaScript 3D Maps quando viene configurato e aperto.
+Non scarica Google Earth, non estrae mesh/texture e non ricava collisioni da Google.
+Non è una ripresa in diretta, una ricostruzione autonoma di Napoli o una nuova
+versione completa del gioco. La copertura fotografica precisa di tutti i quartieri
+non è stata verificata. La pagina non mostra immagini sostitutive se il servizio
+è assente. Il gioco precedente resta disponibile all'indirizzo principale.
+
+COSTI DELLA STRADA IMPLEMENTATA — MAPS JAVASCRIPT 3D MAPS
+Il prodotto è fatturato come SKU Immersive Maps, 4816-83A2-9059 (listino globale).
+L'evento è il caricamento riuscito della mappa, non ogni frame o tile disegnato.
+La fascia gratuita è 5.000 eventi al mese; la prima fascia a pagamento costa
+7 USD per 1.000 eventi, fino a 100.000 eventi mensili. Il mese somma gli utilizzi
+dei progetti collegati allo stesso account di fatturazione. La fatturazione
+abilitata e una chiave restano necessarie anche quando si rimane nella fascia gratis.
+
+Stima del solo explorer, con fascia gratuita interamente disponibile:
+Sessioni/mese    1 caricamento per sessione    3 caricamenti per sessione
+100              0 USD                       0 USD
+1.000            0 USD                       0 USD
+10.000           35 USD                      175 USD
+
+Una sessione qui è soltanto un'ipotesi di utilizzo, non un'unità di fatturazione
+Google. Refresh, nuove schede e ricreazioni della vista possono aumentare i
+caricamenti. Lo spostamento fra quartieri riutilizza la stessa istanza della mappa.
+IVA, cambio valuta, utilizzi di altri progetti e altri servizi sono esclusi.
+Non è un preventivo o un tetto di spesa garantito.
+
+RICERCA DEI QUARTIERI — FACOLTATIVA E SEPARATA
+I nomi dei 30 quartieri sono presenti senza coordinate inventate. Per cercarli
+occorre abilitare anche Geocoding API e la relativa opzione di configurazione.
+Il listino globale Geocoding prevede 10.000 eventi gratuiti/mese, poi 5 USD per
+1.000 fino a 100.000 eventi; la fascia seguente è 4 USD per 1.000.
+Una richiesta viene fatta soltanto quando si sceglie un quartiere non ancora
+cercato nella scheda corrente. Gli esiti restano nella memoria della scheda:
+non sono esportati, salvati in localStorage o usati per fabbricare confini.
+Esempio: 10.000 sessioni x 1 ricerca = 10.000 richieste, 0 USD con fascia libera;
+10.000 sessioni x 10 ricerche = 100.000 richieste, circa 450 USD aggiuntivi.
+Questa opzione è disattivata per default. Senza, restano mouse/tastiera e il
+punto iniziale del lungomare, derivato dall'origine geografica del progetto.
+Una risposta generica di Napoli o una corrispondenza parziale viene respinta.
+
+GOOGLE EARTH E ACCOUNT CON FATTURAZIONE EEA
+Non confondere Maps JavaScript 3D Maps con Map Tiles API: Photorealistic 3D Tiles.
+La seconda è l'API di tile grezzi che un renderer come Cesium può consumare.
+Google documenta che i tile fotografici grezzi restituiscono 403 per i nuovi
+progetti EEA, o quelli modificati dopo l'8 luglio 2025, collegati a fatturazione EEA.
+Suggerisce Maps JavaScript 3D Maps come possibile alternativa: è la strada qui
+preparata, con il renderer e i controlli esposti dall'SDK, non accesso libero ai byte.
+Non si presume il paese di fatturazione dell'utente dal luogo del gioco.
+Le linee guida di Google Earth non autorizzano catturarne l'output per ricostruire
+modelli 3D. Questa implementazione non usa tale procedura.
+
+CONFIGURAZIONE DA ESEGUIRE SOLO DOPO AVER APPROVATO I COSTI
+1. Selezionare o creare un progetto Google Cloud di proprietà dell'utente,
+   collegare l'account di fatturazione, leggere e accettare i termini applicabili.
+   Questi passaggi non sono stati eseguiti dall'agente.
+2. Abilitare Maps JavaScript API. Geocoding API è opzionale e va abilitata soltanto
+   se si desidera la ricerca dei quartieri e se ne approvano i costi separati.
+3. Creare una chiave client dedicata. Impostare restrizioni applicazione per
+   siti web / HTTP referrer: soltanto l'origine del sito autorizzato e, per prove,
+   le origini localhost necessarie. Non usare wildcard generiche su tutti i siti.
+4. Applicare restrizioni API: Maps JavaScript API e, solo se usata, Geocoding API.
+   Una chiave client è visibile nel browser; non usare credenziali di un server
+   e non inserirle nel repository o nella chat.
+5. Configurare quote basse per la prima prova e avvisi di budget. Gli avvisi di
+   budget non bloccano da soli la spesa. Verificare quali limiti sono disponibili
+   per ogni SKU nel progetto, mantenere il sito privato durante la prova e
+   controllare gli utilizzi effettivi prima di aprirlo a più visitatori.
+6. Copiare .env.photoreal.example in .env.local (file da NON versionare), inserire
+   VITE_GOOGLE_MAPS_API_KEY con la chiave browser ristretta; mantenere
+   VITE_GOOGLE_MAPS_GEOCODING_ENABLED=false finché non si approva anche Geocoding.
+   Nel sistema di hosting impostare le stesse variabili di build. Vite le include
+   nel codice client; serve una nuova build dopo ogni modifica.
+7. Avviare npm run dev, aprire /photoreal.html. Con una chiave valida configurata
+   compare il pulsante di apertura. Senza, non vengono effettuate richieste SDK.
+8. Verificare manualmente la copertura di Napoli, Posillipo, Fuorigrotta e degli
+   altri quartieri, il risultato su Safari/macOS, il consumo di memoria e i costi.
+   Questa implementazione non certifica quelle prove senza un account attivo.
+9. Conservare attribuzioni Google/fornitori e i controlli nativi. Non coprirli
+   con overlay del gioco. Nessun caching offline, proxy di download o estrazione.
+
+MODELLI ORIGINALI SOVRAPPOSTI
+L'adattatore espone addOriginalModel per modelli GLB locali con diritti verificati.
+La documentazione corrente supporta soltanto core glTF PBR senza estensioni.
+Il CarConcept.gltf del gioco usa un formato/estensioni che non sono stati
+convertiti o verificati per questo SDK; non è aggiunto automaticamente.
+Posizionare oggetti originali non produce sospensioni, collisioni, strade
+percorribili o una campagna nel mondo Google. Questi sistemi restano lavoro
+distinto, basato su dati con diritti appropriati e verifiche effettive.
+
+FONTI PRIMARIE
+Listino globale e fasce gratuite:
+https://developers.google.com/maps/billing-and-pricing/pricing
+SKU Immersive Maps e definizione dell'evento:
+https://developers.google.com/maps/billing-and-pricing/sku-details/maps
+Utilizzo, API e quote JavaScript:
+https://developers.google.com/maps/documentation/javascript/usage-and-billing
+Configurazione, mappa e autenticazione:
+https://developers.google.com/maps/documentation/javascript/3d/get-started
+https://developers.google.com/maps/api-security-best-practices
+Geocoding JavaScript:
+https://developers.google.com/maps/documentation/javascript/geocoding
+Variazioni EEA per Map Tiles:
+https://developers.google.com/maps/comms/eea/map-tiles
+Copertura 3D da controllare (aggiornata giornalmente dal fornitore):
+https://developers.google.com/maps/documentation/javascript/3d/coverage
+Modelli supportati dall'SDK:
+https://developers.google.com/maps/documentation/javascript/3d/models
+Linee guida Earth:
+https://about.google/brand-resource-center/products-and-services/geo-guidelines/
